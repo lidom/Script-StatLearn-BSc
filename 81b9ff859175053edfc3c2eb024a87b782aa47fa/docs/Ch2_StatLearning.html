@@ -1,0 +1,1835 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>2&nbsp; Statistical Learning – Computer-Aided Statistical Analysis (B.Sc.)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./Ch3_MatrixAlgebra.html" rel="next">
+<link href="./Ch1_Intro2R.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+</head>
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Ch2_StatLearning.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Statistical Learning</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./images/Uni_Bonn_Logo.jpeg" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Computer-Aided Statistical Analysis (B.Sc.)</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Organization of the Course</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch1_Intro2R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title"><code>R</code>-Lab: Introduction to <code>R</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch2_StatLearning.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Statistical Learning</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch3_MatrixAlgebra.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Matrix Algebra</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch4_LinearRegression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Linear Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch5_Classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch6_ResamplingMethods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Resampling Methods</span></span></a>
+  </div>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+<li><a href="#what-is-statistical-learning" id="toc-what-is-statistical-learning" class="nav-link active" data-scroll-target="#what-is-statistical-learning"><span class="header-section-number">2.1</span> What is Statistical Learning?</a></li>
+  <li><a href="#inference" id="toc-inference" class="nav-link" data-scroll-target="#inference">Inference</a></li>
+  <li>
+<a href="#how-do-we-estimate-f" id="toc-how-do-we-estimate-f" class="nav-link" data-scroll-target="#how-do-we-estimate-f"><span class="header-section-number">2.2</span> How Do We Estimate <span class="math inline">\(f\)</span>?</a>
+  <ul class="collapse">
+<li><a href="#parametric-methods" id="toc-parametric-methods" class="nav-link" data-scroll-target="#parametric-methods">Parametric Methods</a></li>
+  <li><a href="#non-parametric-methods" id="toc-non-parametric-methods" class="nav-link" data-scroll-target="#non-parametric-methods">Non-Parametric Methods</a></li>
+  <li><a href="#trade-off-between-prediction-accuracy-and-model-interpretability" id="toc-trade-off-between-prediction-accuracy-and-model-interpretability" class="nav-link" data-scroll-target="#trade-off-between-prediction-accuracy-and-model-interpretability"><span class="header-section-number">2.2.1</span> Trade-Off Between Prediction Accuracy and Model Interpretability</a></li>
+  <li><a href="#supervised-versus-unsupervised-learning" id="toc-supervised-versus-unsupervised-learning" class="nav-link" data-scroll-target="#supervised-versus-unsupervised-learning"><span class="header-section-number">2.2.2</span> Supervised versus Unsupervised Learning</a></li>
+  <li><a href="#regression-versus-classification-problems" id="toc-regression-versus-classification-problems" class="nav-link" data-scroll-target="#regression-versus-classification-problems"><span class="header-section-number">2.2.3</span> Regression Versus Classification Problems</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#assessing-model-accuracy" id="toc-assessing-model-accuracy" class="nav-link" data-scroll-target="#assessing-model-accuracy"><span class="header-section-number">2.3</span> Assessing Model Accuracy</a>
+  <ul class="collapse">
+<li><a href="#sec-mqfit" id="toc-sec-mqfit" class="nav-link" data-scroll-target="#sec-mqfit"><span class="header-section-number">2.3.1</span> Measuring the Quality of Fit</a></li>
+  <li><a href="#local-test-mse" id="toc-local-test-mse" class="nav-link" data-scroll-target="#local-test-mse">Local Test MSE</a></li>
+  <li><a href="#global-test-mse" id="toc-global-test-mse" class="nav-link" data-scroll-target="#global-test-mse">Global Test MSE</a></li>
+  <li><a href="#global-training-and-test-mse-in-nonparametric-smoothing-spline-regression" id="toc-global-training-and-test-mse-in-nonparametric-smoothing-spline-regression" class="nav-link" data-scroll-target="#global-training-and-test-mse-in-nonparametric-smoothing-spline-regression">Global Training and Test MSE in Nonparametric Smoothing Spline Regression</a></li>
+  <li><a href="#the-bias-variance-trade-off" id="toc-the-bias-variance-trade-off" class="nav-link" data-scroll-target="#the-bias-variance-trade-off"><span class="header-section-number">2.3.2</span> The Bias-Variance Trade-Off</a></li>
+  </ul>
+</li>
+  <li><a href="#assignment" id="toc-assignment" class="nav-link" data-scroll-target="#assignment"><span class="header-section-number">2.4</span> Assignment</a></li>
+  <li>
+<a href="#self-study-exercises" id="toc-self-study-exercises" class="nav-link" data-scroll-target="#self-study-exercises"><span class="header-section-number">2.5</span> Self-Study: Exercises</a>
+  <ul class="collapse">
+<li><a href="#solutions" id="toc-solutions" class="nav-link" data-scroll-target="#solutions"><span class="header-section-number">2.5.1</span> Solutions</a></li>
+  </ul>
+</li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title"><span id="sec-SL" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Statistical Learning</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header><blockquote class="blockquote">
+<p>Reading: Chapter 2 of our course textbook <a href="https://www.statlearning.com/">An Introduction to Statistical Learning</a></p>
+</blockquote>
+<!-- 
+#### `R`-Codes for this Chapter {-}
+
+* Introduction to `R`: [Ch1_0_Rcodes.R](https://www.dropbox.com/scl/fi/blo6pct6sxbb70jv5iss0/Ch1_0_Rcodes.R?rlkey=ipkll1fy8tyuubhb646mmy6r5&dl=0)
+* `R`-codes for Coding Challenge Nr 1 (replicating Fig. 2.9): [Ch1_1_Rcodes.R](https://www.dropbox.com/scl/fi/8dtu5kje5am70l2dh6w9b/Ch1_1_Rcodes.R?rlkey=o6ucjdql0f88d9wcopj0q0esa&dl=0)
+* `R`-codes for Coding Challenge Nr 2 (KNN-classification): [Ch1_2_Rcodes.R](https://www.dropbox.com/scl/fi/p7rm2ziytfl68s2h6i4gf/Ch1_2_Rcodes.R?rlkey=5rgl4y9xbxejafi32oe1baoza&dl=0)  
+-->
+<section id="what-is-statistical-learning" class="level2" data-number="2.1"><h2 data-number="2.1" class="anchored" data-anchor-id="what-is-statistical-learning">
+<span class="header-section-number">2.1</span> What is Statistical Learning?</h2>
+<p>Suppose that we observe a quantitative response <span class="math inline">\(Y\in\mathbb{R}\)</span> and <span class="math inline">\(p\)</span> different predictors, <span class="math inline">\(X_1\in\mathbb{R}, X_2\in\mathbb{R}, \dots, X_p\in\mathbb{R}.\)</span></p>
+<p>We assume that there is some relationship between <span class="math inline">\(Y\)</span> and <span class="math display">\[
+X = (X_1, X_2, \dots, X_p),
+\]</span> which can be written in the very general form <span class="math display">\[
+Y = f(X) + \epsilon.
+\]</span></p>
+<ul>
+<li>
+<span class="math inline">\(f\)</span> is some fixed but unknown function of <span class="math inline">\(X = (X_1, X_2, \dots, X_p):\)</span>
+</li>
+<li>
+<span class="math inline">\(\epsilon\)</span> a random error term fulfilling the following two assumptions:
+<ul>
+<li>
+<span class="math inline">\(\epsilon\)</span> and <span class="math inline">\(X\)</span> are independent of each other (this can be relaxed for linear models; see Chapter 4)</li>
+<li>
+<span class="math inline">\(\epsilon\)</span> has mean zero <span class="math inline">\(E(\epsilon)=0\)</span> and variance <span class="math inline">\(Var(\epsilon)=\sigma^2&gt;0.\)</span>
+</li>
+</ul>
+</li>
+</ul>
+<p>In this formulation, <span class="math inline">\(f\)</span> represents the <em>systematic</em> information that <span class="math inline">\(X\)</span> provides about <span class="math inline">\(Y.\)</span></p>
+<p>In essence, <strong>statistical learning</strong> refers to a set of approaches for estimating the unknown function <span class="math inline">\(f.\)</span></p>
+<p>In this chapter we outline some of the key theoretical concepts that arise in estimating <span class="math inline">\(f,\)</span> as well as tools for evaluating the estimates obtained.</p>
+<section id="why-estimate-f" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="why-estimate-f"><strong>Why Estimate <span class="math inline">\(f\)</span>?</strong></h4>
+<p>There are <strong>two main reasons</strong> that we may wish to estimate <span class="math inline">\(f\)</span>:</p>
+<ul>
+<li>prediction and</li>
+<li>inference.</li>
+</ul>
+<p>In the following, we discuss each in turn.</p>
+</section><section id="prediction" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="prediction"><strong>Prediction</strong></h4>
+<p>In many situations, a set of inputs <span class="math inline">\(X\)</span> are readily available, but the output <span class="math inline">\(Y\)</span> cannot be easily obtained. In this setting, since the error term averages to zero, we can predict <span class="math inline">\(Y\)</span> using <span class="math display">\[
+\hat{Y} = \hat{f}(X),
+\]</span></p>
+<ul>
+<li>
+<span class="math inline">\(\hat{f}\)</span> represents our estimate for <span class="math inline">\(f\)</span>
+</li>
+<li>
+<span class="math inline">\(\hat{Y}\)</span> represents the resulting prediction for <span class="math inline">\(Y\)</span>
+</li>
+</ul>
+<p>In this setting, <span class="math inline">\(\hat{f}\)</span> is often treated as a <strong>black box</strong>, in the sense that one is not typically concerned with the exact form of <span class="math inline">\(\hat{f},\)</span> provided that it yields accurate predictions for <span class="math inline">\(Y.\)</span></p>
+<p><strong>Example:</strong> As an example, suppose that <span class="math inline">\((X_1, X_2, \dots, X_p)\)</span> are characteristics of a patient’s blood sample that can be easily measured in a lab, and <span class="math inline">\(Y\)</span> is a variable encoding the patient’s risk for a severe adverse reaction to a particular drug. It is natural to seek to predict <span class="math inline">\(Y\)</span> using <span class="math inline">\(X,\)</span> since we can then avoid giving the drug in question to patients who are at high risk of an adverse reaction–that is, patients for whom the estimate of <span class="math inline">\(Y\)</span> is high.</p>
+</section><section id="accuracy-of-a-prediction" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="accuracy-of-a-prediction"><strong>Accuracy of a Prediction</strong></h4>
+<p>The accuracy of <span class="math inline">\(\hat{Y}\)</span> as a prediction for <span class="math inline">\(Y\)</span> depends on two quantities:</p>
+<ul>
+<li>the <strong>reducible error</strong>, i.e.&nbsp;the difference between <span class="math inline">\(\hat{f}\)</span> and <span class="math inline">\(f\)</span> and</li>
+<li>the <strong>irreducible error</strong>, i.e.&nbsp;the error term <span class="math inline">\(\epsilon.\)</span>
+</li>
+</ul>
+<p>In general, <span class="math inline">\(\hat{f}\)</span> will not be a perfect estimate for <span class="math inline">\(f,\)</span> and this inaccuracy will introduce some error. This error is <strong>reducible</strong>, because we can potentially improve the accuracy of <span class="math inline">\(\hat{f}\)</span> by using the most appropriate statistical learning technique to estimate <span class="math inline">\(f.\)</span></p>
+<p>However, even if it were possible to form a perfect estimate for <span class="math inline">\(f,\)</span> so that our estimated response took the form <span class="math display">\[
+\hat{Y} = f (X),
+\]</span> our prediction would still have some error in it! This is because <span class="math inline">\(Y\)</span> is also a function of <span class="math inline">\(\epsilon\)</span> which, by definition, cannot be predicted using <span class="math inline">\(X.\)</span> Therefore, variability associated with <span class="math inline">\(\epsilon\)</span> also affects the accuracy of our predictions. This is known as the <strong>irreducible error</strong>, because no matter how well we estimate <span class="math inline">\(f,\)</span> we cannot reduce the error introduced by <span class="math inline">\(\epsilon.\)</span></p>
+<p>Consider a <strong>given</strong> estimate <span class="math inline">\(\hat{f}\)</span> and a <strong>given</strong> set of predictors <span class="math inline">\(X,\)</span> which yields the prediction <span class="math inline">\(\hat{Y} = \hat{f}(X).\)</span> That is, assume for a moment that both <span class="math inline">\(\hat{f}\)</span> and <span class="math inline">\(X\)</span> are <strong>fixed</strong>, so that the only variability comes from <span class="math inline">\(\epsilon.\)</span> Then, it is easy to show that <span id="eq-MSEDecompFixed"><span class="math display">\[
+\begin{align*}
+\overbrace{E\left[(Y - \hat{Y})^2\right]}^{\text{Mean Squared (Prediction) Error}}
+=\underbrace{\left(f(X) -\hat{f}(X)\right)^2}_{\text{reducable}} + \underbrace{Var\left(\epsilon\right)}_{\text{irreducable}},
+\end{align*}
+\qquad(2.1)\]</span></span> where</p>
+<ul>
+<li>
+<span class="math inline">\(E\left[(Y - \hat{Y})^2\right]\)</span> represents the expected value, of the squared difference between the predicted <span class="math inline">\(\hat{Y}=\hat{f}(X)\)</span> and actual value of <span class="math inline">\(Y,\)</span>
+</li>
+<li>and <span class="math inline">\(Var(\epsilon)\)</span> represents the variance associated with the error term <span class="math inline">\(\epsilon.\)</span>
+</li>
+</ul>
+<p>Derivation of <a href="#eq-MSEDecompFixed" class="quarto-xref">Equation&nbsp;<span>2.1</span></a> for a <strong>given</strong> <span class="math inline">\(\hat{f}\)</span> and a <strong>given</strong> <span class="math inline">\(X;\)</span> i.e.&nbsp;only <span class="math inline">\(\epsilon\)</span> is random: <span class="math display">\[
+\begin{align*}
+&amp;E\left[(Y - \hat{Y})^2\right]\\[2ex]
+&amp;\text{[using $Y=f(X)+\epsilon$]}\\[2ex]
+&amp;=E\left[(f(X) + \epsilon - \hat{f}(X))^2\right]\\[2ex]
+&amp;=E\left[((f(X)- \hat{f}(X)) + \epsilon )^2\right]\\[2ex]
+&amp;\text{[binomial formula]}\\[2ex]
+&amp;=E\left[\left(f(X) -\hat{f}(X)\right)^2 + 2\left(f(X) -\hat{f}(X)\right)\epsilon + \epsilon^2\right]\\[2ex]
+&amp;\text{[using that $X$ and $\hat{f}$ are fixed]}\\[2ex]
+% &amp;=E\left[\left(f(X) -\hat{f}(X)\right)^2\right] - 2E\left[\left(f(X) -\hat{f}(X)\right)\epsilon\right] + E\left[\epsilon^2\right] \\[2ex]
+&amp;=\left(f(X) -\hat{f}(X)\right)^2 + 2\left(f(X) -\hat{f}(X)\right) E\left[\epsilon\right] + E\left[\epsilon^2\right] \\[2ex]
+&amp;\text{[using that $E(\epsilon)=0$ and $E(\epsilon^2)=Var(\epsilon)=\sigma^2$]}\\[2ex]
+&amp;=\left(f(X) -\hat{f}(X)\right)^2 + 2\left(f(X) -\hat{f}(X)\right) \cdot 0 + Var\left(\epsilon\right) \\[2ex]
+&amp;=\underbrace{\left(f(X) -\hat{f}(X)\right)^2}_{\text{reducable}} + \underbrace{Var\left(\epsilon\right)}_{\text{irreducable}}
+\end{align*}
+\]</span></p>
+<p>Variance of the irreducible prediction error equals the lowest possible value of the mean squared (prediction) error, i.e.&nbsp; <span class="math display">\[
+Var\left(\epsilon\right)\leq E\left[(Y - \hat{Y})^2\right].
+\]</span></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The focus of this course is on techniques for estimating <span class="math inline">\(f\)</span> with the aim of <strong>minimizing the reducible error</strong>.</p>
+</div>
+</div>
+</section></section><section id="inference" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="inference">Inference</h2>
+<p>We are often interested in <em>understanding</em> the association between <span class="math inline">\(Y\)</span> and <span class="math inline">\(X_1,\dots,X_p.\)</span> In this situation we wish to estimate <span class="math inline">\(f,\)</span> but our goal is not necessarily to make predictions for <span class="math inline">\(Y.\)</span> Now <span class="math inline">\(\hat{f}\)</span> cannot be treated as a black box, because we need to know its exact form. In this setting, one may be interested in answering the following questions:</p>
+<ul>
+<li>Which predictors are associated with the response?</li>
+<li>What is the relationship between the response and each predictor?</li>
+<li>Can the relationship between <span class="math inline">\(Y\)</span> and each predictor be adequately summarized using a <em>linear equation</em>, or is the relationship more complicated?</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>Inference</em> typically means inference about <strong>model parameters</strong>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In this course, we will see a number of examples that fall into the <strong>prediction setting</strong> (Classification), the <strong>inference setting</strong> (Linear Regression), or a <strong>combination</strong> of the two.</p>
+</div>
+</div>
+</section><section id="how-do-we-estimate-f" class="level2" data-number="2.2"><h2 data-number="2.2" class="anchored" data-anchor-id="how-do-we-estimate-f">
+<span class="header-section-number">2.2</span> How Do We Estimate <span class="math inline">\(f\)</span>?</h2>
+<p><strong>Setup:</strong> Consider the general regression model <span id="eq-GRegMod"><span class="math display">\[
+Y=f(X)+\epsilon,
+\qquad(2.2)\]</span></span> where <span class="math display">\[
+X=(X_{1}, \dots,X_{p})
+\]</span> is a multivariate (<span class="math inline">\(p\)</span>-dimensional) predictor.</p>
+<p>Let <span id="eq-randomsample"><span class="math display">\[
+\{(X_1,Y_1),(X_2,Y_2),\dots,(X_n,Y_n)\},
+\qquad(2.3)\]</span></span> be a <strong>random sample</strong> from <a href="#eq-GRegMod" class="quarto-xref">Equation&nbsp;<span>2.2</span></a>, i.e.</p>
+<div class="callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Random Sample:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><br></p>
+<p>The set of random variables <span class="math display">\[
+\{(X_1,Y_1),(X_2,Y_2),\dots,(X_n,Y_n)\},
+\]</span> is called a <strong>random sample</strong> if</p>
+<ol type="1">
+<li>The multivariate, <span class="math inline">\(p+1\)</span> dimensional, random vectors <span class="math display">\[
+(X_i,Y_i)\in\mathbb{R}^{p+1}\quad\text{and}\quad (X_j,Y_j)\in\mathbb{R}^{p+1}
+\]</span> are <strong>independent</strong> of each other for all <span class="math inline">\(i=1,\dots,n\)</span> and <span class="math inline">\(j=1,\dots,n\)</span> with <span class="math inline">\(i\neq j.\)</span><br><br>
+</li>
+<li>The multivariate, <span class="math inline">\(p+1\)</span> dimensional, random vectors <span class="math inline">\((X_i,Y_i)\in\mathbb{R}^{p+1},\)</span> <span class="math inline">\(i=1,\dots,n,\)</span> have all the <strong>same distribution</strong> as <span class="math inline">\((X,Y),\)</span> i.e. <span class="math display">\[
+(X_i,Y_i)\sim(X,Y)
+\]</span> for all <span class="math inline">\(i=1,\dots,n.\)</span> <br>
+</li>
+</ol>
+</div>
+</div>
+<p>The random sample <a href="#eq-randomsample" class="quarto-xref">Equation&nbsp;<span>2.3</span></a> is thus a set of <span class="math inline">\(n\)</span> many <strong>independent and identically distributed (iid)</strong> multivariate random variables <span class="math display">\[
+\{(X_1,Y_1),(X_2,Y_2),\dots,(X_n,Y_n)\}
+\]</span> with <span class="math display">\[
+(X_i,Y_i)\overset{\text{iid}}{\sim} (X,Y),\quad i=1,\dots,n.
+\]</span></p>
+<p>An observed <strong>realization</strong> of the random sample will be denoted using lowercase letters <span class="math display">\[
+\{(x_1,y_1),(x_2,y_2),\dots,(x_n,y_n)\}.
+\]</span> These <span class="math inline">\(n\)</span> observations are called <strong>training data</strong> because we will use these observations to train/learn <span class="math inline">\(\hat{f}\)</span>, i.e., to compute the estimate <span class="math inline">\(\hat{f}\)</span> of the unknown <span class="math inline">\(f.\)</span></p>
+<!-- Besides the training data, we may also have access to **testing data**
+$$
+\{(x_{01},y_{01}),(x_{02},y_{02})\dots,(x_{0m},y_{0m})\}.
+$$
+-->
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Goal of Statistical Learning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Our goal is to find (i.e.&nbsp;learn from training data) a function <span class="math inline">\(\hat{f}\)</span> such that <span class="math display">\[
+Y \approx \hat{f}(X)
+\]</span> for <strong><em>any</em></strong> observed realization of <span class="math inline">\((X, Y).\)</span></p>
+<p>That is, the estimate <span class="math inline">\(\hat{f}\)</span> needs to provide good approximations <span class="math display">\[
+y_{i} \approx \hat{f}(x_{i})
+\]</span> <strong>not only</strong> for the observed training data points <span class="math display">\[
+(x_i,y_i),\quad i=1,\dots,n,
+\]</span> <strong>but also</strong> for any possible <em>new</em> realization <span class="math inline">\((x_{new},y_{new})\)</span> of <span class="math inline">\((X,Y)\)</span> <span class="math display">\[
+y_{new} \approx \hat{f}(x_{new}).
+\]</span></p>
+<p>Fitting the noise (irreducible component) in the training data will typically lead to bad approximations of new observations of a test data set.</p>
+<img src="images/Traintest.png" class="img-fluid"><br><center>
+<img src="images/test_vs_train.jpeg" class="img-fluid">
+</center>
+</div>
+</div>
+<p>Broadly speaking, most statistical learning methods for this task can be characterized as either</p>
+<ul>
+<li>
+<strong>parametric</strong> or</li>
+<li>
+<strong>non-parametric</strong>.</li>
+</ul>
+<p>In the following, we discuss each in turn.</p>
+<section id="parametric-methods" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="parametric-methods">Parametric Methods</h3>
+<p>Parametric methods involve a <strong>two-step model-based estimation approach:</strong></p>
+<ol type="1">
+<li><p>First, we make an assumption about the functional form, or shape, of <span class="math inline">\(f.\)</span> For example, a very simple, but often used assumption is that <span class="math inline">\(f\)</span> is a linear function, i.e. <span id="eq-linmodeq"><span class="math display">\[
+f(X) = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p.
+\qquad(2.4)\]</span></span></p></li>
+<li><p>After a model has been selected, we need a procedure that uses the training data to fit or train the model. For example, in the case of the linear model <a href="#eq-linmodeq" class="quarto-xref">Equation&nbsp;<span>2.4</span></a>, we need to estimate the parameters <span class="math inline">\(\beta_0,\beta_1,\dots,\beta_p\)</span> such that <span class="math display">\[
+Y \approx \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p
+\]</span></p></li>
+</ol>
+<p>Most common estimation technique: <strong>(Ordinary) Least Squares (OLS)</strong></p>
+<p>The parametric model-based approach reduces the problem of estimating <span class="math inline">\(f\)</span> down to one of estimating a <em>finite</em> set of parameters <span class="math inline">\(\beta_0,\beta_1,\dots,\beta_p.\)</span></p>
+<ul>
+<li>
+<strong>Pro:</strong> Simple to estimate</li>
+<li>
+<strong>Con:</strong> Possible model misspecification (Why should we know the true shape/form of <span class="math inline">\(f\)</span>?)</li>
+</ul>
+<p>We can try to address the problem of model misspecification by choosing flexible models that can fit many different possible functional forms for <span class="math inline">\(f.\)</span></p>
+<p><strong>But:</strong> Fitting a more flexible model requires estimating a greater number of parameters (large <span class="math inline">\(p\)</span>). These more complex models can lead to a phenomenon known as <strong>overfitting</strong> the data, which essentially means they follow the errors/noise too closely.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>These issues (model-flexibility and overfitting) are discussed through-out this course.</p>
+</div>
+</div>
+<p>Examples:</p>
+<ul>
+<li>Simple linear regression model</li>
+<li>Multiple linear regression model</li>
+</ul></section><section id="non-parametric-methods" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="non-parametric-methods">Non-Parametric Methods</h3>
+<p>Non-parametric methods (e.g.&nbsp;<span class="math inline">\(K\)</span> nearest neighbor regression) do not make explicit assumptions about the functional form of <span class="math inline">\(f.\)</span> Instead, they make qualitative assumptions on <span class="math inline">\(f\)</span> such as, for instance, requiring that <span class="math inline">\(f\)</span> is a <em>smooth</em> (e.g.&nbsp;two times continuously differentiable) function.</p>
+<ul>
+<li><p><strong>Pro:</strong> By avoiding the assumption of a particular parametric functional form for <span class="math inline">\(f,\)</span> non-parametric methods have the potential to accurately fit a wider range of possible shapes for <span class="math inline">\(f.\)</span></p></li>
+<li><p><strong>Con:</strong> Non-parametric methods require a large number of observations to obtain an accurate estimate for <span class="math inline">\(f;\)</span> far more observations than is typically needed for a parametric approach if the parametric model assumption is correct. (Non-parametric methods are “data-hungry”.)</p></li>
+</ul>
+<p>Examples:</p>
+<ul>
+<li>Spline regression methods (smoothing splines or regression splines)</li>
+<li>
+<span class="math inline">\(K\)</span> nearest neighbor regression</li>
+</ul></section><section id="trade-off-between-prediction-accuracy-and-model-interpretability" class="level3" data-number="2.2.1"><h3 data-number="2.2.1" class="anchored" data-anchor-id="trade-off-between-prediction-accuracy-and-model-interpretability">
+<span class="header-section-number">2.2.1</span> Trade-Off Between Prediction Accuracy and Model Interpretability</h3>
+<p>One might reasonably ask the following question:</p>
+<blockquote class="blockquote">
+<p>Why would we ever choose to use a more restrictive method instead of a very flexible approach?</p>
+</blockquote>
+<p>If we are mainly <strong>interested in inference</strong>, then <strong>restrictive models</strong> are much more interpretable. For instance, when inference is the goal, the linear model may be a good choice since it will be quite easy to understand the relationship between <span class="math inline">\(Y\)</span> and <span class="math inline">\(X_1,\dots,X_p.\)</span> <br> By contrast, very flexible approaches, such as purely non-parametric methods, can lead to such complicated estimates of <span class="math inline">\(f\)</span> that it is difficult to understand how any individual predictor <span class="math inline">\(X_j\)</span> is associated with the response <span class="math inline">\(Y.\)</span></p>
+<p>In some settings, we are only <strong>interested in prediction</strong>, and the interpretability of the predictive model is simply not of interest. For instance, if we seek to develop an algorithm to predict the price of a stock, our sole requirement for the algorithm is that it predict accurately. In such settings, we might expect that it will be best to use the most flexible model available. Right?<br> Surprisingly, this is not always the case! We will often obtain more accurate predictions using a less flexible method. This phenomenon, which may seem counterintuitive at first glance, has to do with the potential for <strong>overfitting</strong> in highly flexible methods.</p>
+</section><section id="supervised-versus-unsupervised-learning" class="level3" data-number="2.2.2"><h3 data-number="2.2.2" class="anchored" data-anchor-id="supervised-versus-unsupervised-learning">
+<span class="header-section-number">2.2.2</span> Supervised versus Unsupervised Learning</h3>
+<p>Most statistical learning problems fall into one of two categories:</p>
+<ul>
+<li>supervised</li>
+<li>unsupervised</li>
+</ul>
+<p>In supervised learning problems, we observe for each predictor <span class="math inline">\(x_i,\)</span> <span class="math inline">\(i=1,\dots,n,\)</span> also a response <span class="math inline">\(y_i.\)</span></p>
+<p>In unsupervised learning problems, we only observe the predictor <span class="math inline">\(x_i,\)</span> <span class="math inline">\(i=1,\dots,n,\)</span> but not the associated responses <span class="math inline">\(y_i.\)</span></p>
+<p>Supervised learning methods:</p>
+<ul>
+<li>regression analysis</li>
+<li>logistic regression</li>
+<li>lasso</li>
+<li>ridge regression</li>
+</ul>
+<p>Unsupervised learning methods:</p>
+<ul>
+<li>cluster analysis (clustering); for instance, using the <span class="math inline">\(K\)</span>-means algorithm</li>
+</ul></section><section id="regression-versus-classification-problems" class="level3" data-number="2.2.3"><h3 data-number="2.2.3" class="anchored" data-anchor-id="regression-versus-classification-problems">
+<span class="header-section-number">2.2.3</span> Regression Versus Classification Problems</h3>
+<p>Variables can be characterized as either <em>quantitative</em> or <em>qualitative</em> (also known as categorical).</p>
+<p><strong>Quantitative:</strong> Quantitative variables take on numerical values. Examples include a person’s age, height, or income, the value of a house, and categorical the price of a stock.</p>
+<p><strong>Qualitative/Categorial:</strong> Examples of qualitative variables include a person’s marital status (married or not), the brand of product purchased (brand A, B, or C), whether a person defaults on a debt (yes or no), or a cancer diagnosis (Acute Myelogenous Leukemia, Acute Lymphoblastic Leukemia, or No Leukemia).</p>
+<p>We tend to refer to problems with a <em>quantitative response</em> as <strong>regression problems</strong>, while those involving a <em>qualitative response</em> are often referred to as <strong>classification problems</strong>.</p>
+<p>However, the distinction (regression vs.&nbsp;classification) is not always that crisp. Least squares linear regression is used with a quantitative response, whereas logistic regression is typically used with a qualitative (two-class, or binary). Thus, despite its name, logistic regression is a classification method. But since it estimates class probabilities, it can be thought of as a regression method as well. Some statistical methods, such as K-nearest neighbors can be used in the case of either quantitative or qualitative responses.</p>
+</section></section><section id="assessing-model-accuracy" class="level2" data-number="2.3"><h2 data-number="2.3" class="anchored" data-anchor-id="assessing-model-accuracy">
+<span class="header-section-number">2.3</span> Assessing Model Accuracy</h2>
+<p>It is an important task to decide for any given set of data which method produces the best results. Selecting the best approach can be one of the most challenging parts of performing statistical learning in practice.</p>
+<p>Let <span id="eq-trainingsample"><span class="math display">\[
+\{(X_{01},Y_{01}),(X_{02},Y_{02}),\dots,(X_{0m},Y_{0m})\},
+\qquad(2.5)\]</span></span> denote the <strong>test data random sample</strong>, where <span class="math display">\[
+(X_{0i},Y_{0i})\overset{\text{iid}}{\sim}(X,Y),\quad i=1,\dots,m.
+\]</span> with <span class="math inline">\((X,Y)\)</span> being defined by the general regression model <span class="math display">\[
+Y=f(X)+\epsilon
+\]</span> as in <a href="#eq-GRegMod" class="quarto-xref">Equation&nbsp;<span>2.2</span></a>.</p>
+<p>That is, the new test data is <strong>random sample</strong>, which …</p>
+<ol type="1">
+<li>is independent of the training data random sample <a href="#eq-randomsample" class="quarto-xref">Equation&nbsp;<span>2.3</span></a>
+</li>
+<li>has the same distribution as the training data random sample <a href="#eq-randomsample" class="quarto-xref">Equation&nbsp;<span>2.3</span></a>
+</li>
+</ol>
+<p>The observed realization <span class="math display">\[
+\{(x_{01},y_{01}),(x_{02},y_{02}),\dots,(x_{0m},y_{0m})\},
+\]</span> of the test data random sample is used to check the accuracy of the estimate <span class="math inline">\(\hat{f}.\)</span></p>
+<section id="sec-mqfit" class="level3" data-number="2.3.1"><h3 data-number="2.3.1" class="anchored" data-anchor-id="sec-mqfit">
+<span class="header-section-number">2.3.1</span> Measuring the Quality of Fit</h3>
+<p>In the regression setting, the most commonly-used measure is the mean squared (prediction) error (MSE).</p>
+<p>The global training data MSE is given by <span class="math display">\[\begin{align*}
+\widehat{\operatorname{MSE}}_{\text{train}}=\frac{1}{n}\sum_{i=1}^n\left(y_i - \hat{f}(x_i)\right)^2,
+\end{align*}\]</span> where</p>
+<ul>
+<li>
+<span class="math inline">\(\hat{f}\)</span> is computed from the training data</li>
+<li>
+<span class="math inline">\(\hat{f}(x_i)\)</span> is the prediction that <span class="math inline">\(\hat{f}\)</span> gives for the <span class="math inline">\(i\)</span>th training data observation.</li>
+</ul>
+<p>In general, however, we do not really care how well the method works on the training data. We are interested in the accuracy of the predictions that we obtain when we apply our method to <strong>previously unseen test data</strong>.</p>
+<!-- In fact, a very flexible (e.g. non-parametric) estimation method will tend to overfit the training data such that $y_i\approx \hat{f}(x_i)$ for all $i=1,\dots,n$ resulting in a training MSE that is close to zero since $\hat{f}(x_i)$ fits also the errors $\epsilon_i.$ -->
+<!-- **Example:** Suppose that we are interested in developing an algorithm to predict a stock’s price based on previous stock returns. We can train the method using stock returns from the past 6 months. But we don't really care how well our method predicts last week's stock price. We instead care about how well it will predict tomorrow's price
+or next month's price.  -->
+<!-- **Example:** Suppose that we have clinical measurements (e.g. weight, blood pressure, height, age, family history of disease) for a number of patients, as well as information about whether each patient has diabetes. We can use these patients to train a statistical learning method to predict risk of diabetes based on clinical measurements. In practice, we want this method to accurately predict diabetes risk for future patients based on their clinical measurements.  -->
+<p>Thus, we want to choose the method that gives the <strong>lowest <em>test</em> MSE</strong>, as opposed to the lowest <em>training</em> MSE.</p>
+</section><section id="local-test-mse" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="local-test-mse">Local Test MSE</h3>
+<p>Let <span class="math inline">\(\hat{f}\)</span> be computed from the training data <span class="math inline">\(\{(x_1,y_1),\dots,(x_n,y_n)\}.\)</span> And let <span class="math display">\[
+\{(x_{0},y_{01}),(x_{0},y_{02})\dots,(x_{0},y_{0m})\}
+\]</span> denote the set of <span class="math inline">\(m\)</span> <strong>test data points</strong> <span class="math inline">\(y_{01},\dots,y_{0m}\)</span> for <strong>one given predictor value</strong> <span class="math inline">\(x_0.\)</span></p>
+<p>This type of <span class="math inline">\(x_0\)</span>-specific test data is a realization of a <strong>conditional random sample</strong> given <span class="math inline">\(X=x_0,\)</span> <span class="math display">\[
+(x_{0},Y_{0i})\overset{\text{iid}}{\sim}(X,Y)|X=x_0,\quad i=1,\dots,m.
+\]</span> This test data random sample is independent of the training data random sample whose realization was used to compute <span class="math inline">\(\hat{f}.\)</span></p>
+<p>Then, the <strong>point-wise test MSE</strong> at <span class="math inline">\(X=x_0\)</span> is given by, <span class="math display">\[\begin{align*}
+\widehat{\operatorname{MSE}}_{\text{test}}(x_0)= \frac{1}{m}\sum_{i=1}^m\left(y_{0i} - \hat{f}(x_{0})\right)^2.
+\end{align*}\]</span></p>
+</section><section id="global-test-mse" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="global-test-mse">Global Test MSE</h3>
+<p>Typically, however, we want that a method has <strong>globally</strong>, i.e.&nbsp;for all predictor values in the range of <span class="math inline">\(X\)</span>, a low test MSE (not only at a certain given value <span class="math inline">\(x_0\)</span>). Let <span class="math display">\[
+\{(x_{01},y_{01}),(x_{02},y_{02})\dots,(x_{0m},y_{0m})\}
+\]</span> denote the set of <span class="math inline">\(m\)</span> test data points with different predictor values <span class="math inline">\(x_{01},\dots,x_{0m}\)</span> in the range of <span class="math inline">\(X\)</span>. This type of test data is a realization of a random sample <span class="math display">\[
+(X_{0i},Y_{0i})\overset{\text{iid}}{\sim}(X,Y),\quad i=1,\dots,m.
+\]</span> This test data random sample is independent of the training data random sample whose realization was used to compute <span class="math inline">\(\hat{f}.\)</span></p>
+<p>Then, the <strong>global test MSE</strong> is given by, <span class="math display">\[
+\begin{align*}
+\widehat{\operatorname{MSE}}_{\text{test}}=\frac{1}{m}\sum_{i=1}^m\left(y_{0i} - \hat{f}(x_{0i})\right)^2.
+\end{align*}
+\]</span></p>
+<p>Note that if <span class="math inline">\(\hat{f}\)</span> is a really good estimate of <span class="math inline">\(f,\)</span> i.e.&nbsp;if <span class="math inline">\(\hat{f}\approx f,\)</span> then <span class="math display">\[
+\begin{align*}
+\widehat{\operatorname{MSE}}_{\text{test}}
+&amp;=\frac{1}{m}\sum_{i=1}^m\left(y_{0i} - \hat{f}(x_{0i})\right)^2\\
+&amp;\approx\frac{1}{m}\sum_{i=1}^m\left(y_{0i} - f(x_{0i})\right)^2\\
+&amp;=\frac{1}{m}\sum_{i=1}^m\epsilon_{0i}^2\\
+&amp;=\hat{\sigma}^2\\
+&amp;\approx \sigma^2
+\end{align*}
+\]</span> estimates the variance of the error term <span class="math inline">\(Var(\epsilon)=\sigma^2,\)</span> i.e., the <strong>irreducible error component</strong>.</p>
+<p><br></p>
+</section><section id="global-training-and-test-mse-in-nonparametric-smoothing-spline-regression" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="global-training-and-test-mse-in-nonparametric-smoothing-spline-regression">Global Training and Test MSE in Nonparametric Smoothing Spline Regression</h3>
+<p>Figure 2.9 shows training and test MSEs for smoothing spline (<code>R</code> command <code><a href="https://rdrr.io/r/stats/smooth.spline.html">smooth.spline()</a></code>) estimates <span class="math inline">\(\hat{f}\)</span> in the case of</p>
+<ul>
+<li>a moderately complex <span class="math inline">\(f\)</span>
+</li>
+<li>a moderate signal-to-noise ratio <span class="math inline">\(\frac{Var(f(X))}{Var(\epsilon)}\)</span>
+</li>
+</ul>
+<p><img src="images/Fig_2_9.png" class="img-fluid"></p>
+<p><br></p>
+<p>Figure 2.10 shows training and test MSEs for smoothing spline estimates <span class="math inline">\(\hat{f}\)</span> in the case of</p>
+<ul>
+<li>a very simple <span class="math inline">\(f\)</span>
+</li>
+<li>a moderate signal-to-noise ratio <span class="math inline">\(\frac{Var(f(X))}{Var(\epsilon)}\)</span>
+</li>
+</ul>
+<p><img src="images/Fig_2_10.png" class="img-fluid"></p>
+<p><br></p>
+<p>Figure 2.11 shows training and test MSEs for smoothing spline estimates <span class="math inline">\(\hat{f}\)</span> in the case of</p>
+<ul>
+<li>a moderately complex <span class="math inline">\(f\)</span>
+</li>
+<li>a very large signal-to-noise ratio <span class="math inline">\(\frac{Var(f(X))}{Var(\epsilon)}\)</span>
+</li>
+</ul>
+<p><img src="images/Fig_2_11.png" class="img-fluid"></p>
+<p><br></p>
+<p>In practice, one can usually compute the training MSE with relative ease, but estimating the test MSE is considerably more difficult because usually no test data are available.</p>
+<p>As the three examples in Figures 2.9, 2.10, and 2.11 of our textbook illustrate, the flexibility level corresponding to the model with the minimal test MSE can vary considerably.</p>
+<p>Throughout this book, we discuss a variety of approaches that can be used in practice to estimate the minimum point of the test MSE.</p>
+<p>One important method is <strong>cross-validation</strong>, which is a method for estimating the test MSE using the training data.</p>
+</section><section id="the-bias-variance-trade-off" class="level3" data-number="2.3.2"><h3 data-number="2.3.2" class="anchored" data-anchor-id="the-bias-variance-trade-off">
+<span class="header-section-number">2.3.2</span> The Bias-Variance Trade-Off</h3>
+<p>The U-shape observed in the test MSE curves (Figures 2.9-2.11) turns out to be the result of two competing properties of statistical learning methods: <strong>bias</strong> and <strong>variance</strong>.</p>
+<ul>
+<li><p>Let <span class="math inline">\(\hat{f}\)</span> be estimated from the training data random sample <span class="math display">\[
+\{(X_1,Y_1),\dots,(X_n,Y_n)\},
+\]</span> <span class="math display">\[
+(X_i,Y_i)\overset{\text{iid}}{\sim}(X,Y),\quad i=1,\dots,n.
+\]</span> I.e., since <span class="math inline">\(\hat{f}\)</span> is based on the random variables in the random sample, <span class="math inline">\(\hat{f}\)</span> is it self a random variable. (A realized observation of the training data random sample yields a realized observation of <span class="math inline">\(\hat{f}\)</span>.)</p></li>
+<li><p>Let <span class="math inline">\(x_0\)</span> denote a given value of the predictor <span class="math inline">\(X\)</span></p></li>
+<li><p>Let <span class="math display">\[
+\{(x_{0},Y_{01}),\dots,(x_0,Y_{0m})\}
+\]</span> <span class="math display">\[
+(x_{0},Y_{0i})\overset{\text{iid}}{\sim}(X,Y)|X=x_0,\quad i=1,\dots,m.
+\]</span> be the conditional <strong>test data</strong> random sample given <span class="math inline">\(X=x_0.\)</span></p></li>
+</ul>
+<!-- * Let 
+$$
+Y_0=f(x_0)+\epsilon
+$$ 
+be the response random variable defined for the given predictor value $x_0.$ 
+* Let $Y_{01},\dots,Y_{0m}$ be all independently and identically distributed as $Y_0;$ shortly
+$$
+Y_{01},\dots,Y_{0m}\overset{\text{iid}}{\sim}Y_0.
+$$  
+* Realizations of $Y_{01},\dots,Y_{0m}$ generate the test data at the predictor value $x_0.$ --><p>One can show that the expected test MSE at a given predictor value <span class="math inline">\(x_0\)</span> can be decomposed as following:</p>
+<p>One can show that <span class="math inline">\(\widehat{\operatorname{MSE}}_{test}(x_0)\)</span> is an <strong>unbiased estimator</strong> of the true (unknown) Mean Squared (Prediction) Error of <span class="math inline">\(\hat{f}(x_0)\)</span> <span class="math display">\[
+\operatorname{MSE}(x_0)=\underbrace{E\left[\left(f(x_0)-\hat{f}(x_0)\right)^2\right]+\sigma^2}_{\text{Mean Squared Prediction Error of $\hat{f}(x_0)$}},
+\]</span> i.e., that <span id="eq-MSEUnbiased"><span class="math display">\[
+E\left[\widehat{\operatorname{MSE}}_{test}(x_0)\right]=\underbrace{E\left[\left(f(x_0)-\hat{f}(x_0)\right)^2\right]+\sigma^2}_{=\operatorname{MSE}(x_0)}
+\qquad(2.6)\]</span></span></p>
+<div class="callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Proof of <a href="#eq-MSEUnbiased" class="quarto-xref">Equation&nbsp;<span>2.6</span></a>:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math display">\[
+\begin{align*}
+E\left[\widehat{\operatorname{MSE}}_{test}(x_0)\right]
+&amp; =E\left[\frac{1}{m}\sum_{i=1}^m\left(Y_{0i}- \hat{f}(x_0)\right)^2\right]\\[2ex]
+&amp; \text{By the linearity of $E()$:}\\[2ex]
+&amp; =\frac{1}{m}\sum_{i=1}^mE\left[\left(Y_{0i}- \hat{f}(x_0)\right)^2\right]\\[2ex]
+&amp; =\frac{1}{m}\,\sum_{i=1}^m\,E\left[\left(Y_{01}- \hat{f}(x_0)\right)^2\right]\\[2ex]
+&amp; \text{Using that $Y_{0i}$ and $\hat{f}$ are iid across $i=1,\dots,m$:}\\[2ex]
+&amp; =\frac{1}{m}\,E\left[\left(Y_{01}- \hat{f}(x_0)\right)^2\right]\,\sum_{i=1}^m 1\\[2ex]
+&amp; =\frac{1}{m}\,m\,E\left[\left(Y_{01}- \hat{f}(x_0)\right)^2\right]\\[2ex]
+&amp; =E\left[\left(Y_{01}- \hat{f}(x_0)\right)^2\right]\\[2ex]
+&amp; \text{Using that}\;Y_{01}=f(x_0)+\epsilon_{01}\\[2ex]
+&amp; =E\left[\left(f(x_0) + \epsilon_{01} - \hat{f}(x_0)\right)^2\right]\\[2ex]
+&amp; =E\left[\left(f(x_0)- \hat{f}(x_0)\right)^2 +2\left(f(x_0)- \hat{f}(x_0)\right)\epsilon_{01} + \epsilon_{01}^2 \right]\\[2ex]
+&amp; =E\left[\left(f(x_0)- \hat{f}(x_0)\right)^2\right]\\[2ex]
+&amp;+ \underbrace{2E\left[\left(f(x_0)- \hat{f}(x_0)\right)\right]\overbrace{E\left[\epsilon_{01}\right]}^{=0}}_{\text{using independence between training (in $\hat{f}$) and testing data}}\\[2ex]
+&amp;+ \underbrace{E\left[\epsilon_{01}^2 \right]}_{=Var(\epsilon_{01})}\\[2ex]
+&amp; =\underbrace{E\left[\left(f(x_0)- \hat{f}(x_0)\right)^2\right]}_{\text{Mean Squared Estimation Error of $\hat{f}(x_0)$}}+0+Var(\epsilon_{01})\\[2ex]
+&amp; =\underbrace{E\left[\left(f(x_0)- \hat{f}(x_0)\right)^2\right]}_{\text{reducable}}+\overbrace{\underbrace{Var(\epsilon_{01})}_{\text{irreducable}}}^{=\sigma^2}\\[2ex]
+\end{align*}
+\]</span></p>
+</div>
+</div>
+<!-- The **expected MSE** at $x_0,$ 
+$$
+E\left[\operatorname{MSE}_{test}(x_0)\right],
+$$ 
+refers to the average test MSE that we would obtain if we repeatedly estimated $f$ using training data set, and evaluated each at $x_0.$  
+-->
+<!-- 
+::: {.callout-note}
+A computed value of $\operatorname{MSE}_{test}(x_0)$ (as done in the coding challenge) is not able to consistently approximate $E\left[\operatorname{MSE}_{test}(x_0)\right].$
+
+However, to get information about Bias and Variance of a method, we need to approximate $E\left[\operatorname{MSE}_{test}(x_0)\right].$ This will be (among others) the topic of  @sec-resamplingmethods.
+::: 
+-->
+<p>The mean squared estimation error of <span class="math inline">\(\hat{f}(x_0)\)</span> can be further decomposed into a variance component and a squared bias component, i.e. <span id="eq-MSEBiasVar"><span class="math display">\[
+E\left[\left(f(x_0) - \hat{f}(x_0)\right)^2\right] =
+Var\left(\hat{f}(x_0)\right) + \left[\operatorname{Bias}\left(\hat{f}(x_0)\right)\right]^2
+\qquad(2.7)\]</span></span></p>
+<section id="variance-of-hatf-at-x_0" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="variance-of-hatf-at-x_0">Variance of <span class="math inline">\(\hat{f}\)</span> at <span class="math inline">\(x_0\)</span>
+</h4>
+<p><span class="math display">\[
+Var(\hat{f}(x_0))=E\left[\left(\hat{f}(x_0) - E\left[\hat{f}(x_0)\right]\right)^2\right]
+\]</span> <strong>Variance</strong> refers to the amount by which <span class="math inline">\(\hat{f}\)</span> would change if we estimated it using a different training data set. Since the training data are used to fit the statistical learning method, different training data sets will result in a different <span class="math inline">\(\hat{f}.\)</span> Ideally the estimate for <span class="math inline">\(f\)</span> should not vary too much between training sets. However, if a method has high variance then small changes in the training data can result in large changes in <span class="math inline">\(\hat{f}.\)</span> In general, more flexible statistical methods have higher variance.</p>
+</section><section id="bias-of-hatf-at-x_0" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="bias-of-hatf-at-x_0">Bias of <span class="math inline">\(\hat{f}\)</span> at <span class="math inline">\(x_0\)</span>
+</h4>
+<p><span class="math display">\[
+\operatorname{Bias}(\hat{f}(x_0))=E\left[\hat{f}(x_0)\right] - f(x_0)
+\]</span> <strong>Bias</strong> refers to the error that is introduced by approximating a real-life problem, which may be extremely complicated, by a much simpler model. Generally, more flexible methods result in less bias. As a general rule, as we use more flexible methods, the variance will increase and the bias will decrease—and vice versa.</p>
+<div class="callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Proof of <a href="#eq-MSEBiasVar" class="quarto-xref">Equation&nbsp;<span>2.7</span></a>:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><br></p>
+<p><span class="math display">\[
+\begin{align*}
+&amp;   E\left[\left(f(x_0) - \hat{f}(x_0)\right)^2\right]\\[2ex]
+&amp; = E\left[\left(\hat{f}(x_0) - f(x_0)\right)^2\right]\\[2ex]
+&amp;\text{Adding $0=E[\hat{f}(x_0)] - E[\hat{f}(x_0)]$ yields}\\[2ex]
+&amp; = E\left[\left(\left\{\hat{f}(x_0) - E[\hat{f}(x_0)]\right\} - \left\{ f(x_0)- E[\hat{f}(x_0)]\right\}\right)^2\right]\\[2ex]
+&amp; = \overbrace{E\left[\left\{\hat{f}(x_0) - E[\hat{f}(x_0)]\right\}^2\right]}^{=Var\left(\hat{f}(x_0)\right)} + \overbrace{E\left[\left\{ f(x_0)- E[\hat{f}(x_0)]\right\}^2\right]}^{=\left\{E[\hat{f}(x_0)] - f(x_0) \right\}^2}\\[2ex]
+&amp; \;\; -2\;\; \underbrace{E\left[\left\{\hat{f}(x_0) - E[\hat{f}(x_0)]\right\} \cdot
+                 \left\{ f(x_0)- E[\hat{f}(x_0)]\right\}\right]}_{=E\left[\hat{f}(x_0)f(x_0)
+                                                                         -\hat{f}(x_0)E\left[\hat{f}(x_0)\right]
+                                                                         -     f(x_0) E\left[\hat{f}(x_0)\right]
+                                                                         +\left(E\left[\hat{f}(x_0)\right]\right)^2\right]}\\[2ex]
+&amp; = Var\left(\hat{f}(x_0)\right) + \Big\{\;\overbrace{E[\hat{f}(x_0)] - f(x_0)}^{=\operatorname{Bias}\left(\hat{f}(x_0)\right)}\; \Big\}^2\\[2ex]
+&amp; \;\; -2\;\; \underbrace{E\left[\hat{f}(x_0)f(x_0) -\hat{f}(x_0)E\left[\hat{f}(x_0)\right]
+                                                                         -     f(x_0) E\left[\hat{f}(x_0)\right]
+                                                                         +\left(E\left[\hat{f}(x_0)\right]\right)^2\right]}_{= 0
+                                                                         }\\[2ex]                  
+% = E\left[\hat{f}(x_0)\right]f(x_0) - \left(E\left[\hat{f}(x_0)\right]\right)^2 - f(x_0) E\left[\hat{f}(x_0)\right]+\left(E\left[\hat{f}(x_0)\right]\right)^2                                                                          
+&amp; = \underbrace{Var\left(\hat{f}(x_0)\right) + \left[\operatorname{Bias}\left(\hat{f}(x_0)\right)\right]^2}_{\text{reducible}}
+\end{align*}
+\]</span></p>
+</div>
+</div>
+<p>Thus, to minimize the expected test MSE, we need to select a statistical learning method that <em>simultaneously</em> achieves <strong>low variance</strong> and <strong>low bias</strong>.</p>
+<p>Note that <span class="math display">\[
+Var\left(\hat{f}(x_0)\right)\geq 0
+\]</span> and that <span class="math display">\[
+\left[\operatorname{Bias}\left(\hat{f}(x_0)\right)\right]^2\geq 0.
+\]</span> Thus, the expected test MSE can never lie below of <span class="math inline">\(Var(\epsilon),\)</span> i.e. <span class="math display">\[
+\begin{align*}
+E\left[\widehat{\operatorname{MSE}}_{test}(x_0)\right]
+=\operatorname{MSE}(x_0)
+%&amp; =E\left[\left(Y_0- \hat{f}(x_0)\right)^2\right]
+\geq Var\left(\epsilon\right)=\sigma^2.
+\end{align*}
+\]</span></p>
+<div class="callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>The overall, i.e., <strong>global</strong> MSE can be computed by averaging the local <span class="math inline">\(\operatorname{MSE}(x_0)\)</span> over all possible values of <span class="math inline">\(x_0,\)</span> i.e. <span class="math display">\[
+E(\operatorname{MSE}(X)) = \int f_X(x)\operatorname{MSE}(x) dx.
+\]</span></p>
+<p>We can estimate the global MSE using <span class="math display">\[
+\widehat{\operatorname{MSE}}_{test} = \frac{1}{m}\sum_{i=1}^m\left(y_{0i}-\hat{f}(x_{0i})\right)^2.
+\]</span></p>
+</div>
+</div>
+</div>
+<!-- $$
+E\left[E[(Y_0- \hat{f}(X))^2|X]\right]
+$$ -->
+<p><img src="images/Fig_2_12.png" class="img-fluid"></p>
+</section></section></section><section id="assignment" class="level2" data-number="2.4"><h2 data-number="2.4" class="anchored" data-anchor-id="assignment">
+<span class="header-section-number">2.4</span> Assignment</h2>
+<!-- Task: Generate artificial training and test data to replicate both plots of Figure 2.9.    -->
+<p>Task: Generate artificial training and test data to <strong>compute</strong> <em>and</em> <strong>visualize</strong> global training/test MSE results similar to those shown in Figure 2.9. (i.e.&nbsp;moderately complex <span class="math inline">\(f\)</span> and moderate signal-to-noise ratio).</p>
+<p>Hints:</p>
+<ol type="1">
+<li>Use the following true function <span class="math inline">\(f\)</span>:</li>
+</ol>
+<p><code>true_f &lt;- function(x){4 + 0.025 * x + 2* sin(10 + x * 2 * pi / 110)}</code></p>
+<ol start="2" type="1">
+<li>Use a Gaussian error term <span class="math inline">\(\epsilon\sim\mathcal{N}(0,1)\)</span>:</li>
+</ol>
+<p><code>e_vec  &lt;- rnorm(n) # sample size n</code></p>
+<ol start="3" type="1">
+<li>Use a uniform predictor <span class="math inline">\(X\sim\mathcal{U}[0,100]\)</span>:</li>
+</ol>
+<p><code>x_vec  &lt;- runif(n, min = 0, max = 100) # sample size n</code></p>
+<ol start="4" type="1">
+<li>
+<p>For fitting <span class="math inline">\(f\)</span> use:</p>
+<ol type="1">
+<li>Simple linear regression (two parameters, i.e.&nbsp;<code>df=2</code>)</li>
+<li>Nonparametric spline regression (<code><a href="https://rdrr.io/r/stats/smooth.spline.html">smooth.spline()</a></code>) with a small degree of freedom parameter around <code>df = 5</code>
+</li>
+<li>Nonparametric spline regression (<code><a href="https://rdrr.io/r/stats/smooth.spline.html">smooth.spline()</a></code>) with a large degree of freedom parameter around <code>df = 20</code>
+</li>
+</ol>
+</li>
+<li><p>To produce a plot similar to the right plot in Figure 2.9. it is sufficient to visualize the values corresponding to the six square-shaped points and the value corresponding to the dashed line.</p></li>
+</ol>
+<p><strong>Link to your personal assignment repository:</strong> <a href="https://classroom.github.com/a/Oc5oS4l-">https://classroom.github.com/a/Oc5oS4l-</a></p>
+<p>Write up everything in <strong>one</strong> PDF document, e.g.&nbsp;using quarto and the provided <code>Template.qmd</code> file.</p>
+<p>Upload your PDF file to your assignment repository. Make sure that your PDF file names your (first, and last) name and the name of your GitHub account.</p>
+</section><section id="self-study-exercises" class="level2" data-number="2.5"><h2 data-number="2.5" class="anchored" data-anchor-id="self-study-exercises">
+<span class="header-section-number">2.5</span> Self-Study: Exercises</h2>
+<p>Prepare the following exercises of <strong>Chapter 2</strong> in our course textbook <code>ISLR</code>:</p>
+<ul>
+<li>Exercise 8</li>
+<li>Exercise 9</li>
+</ul>
+<section id="solutions" class="level3" data-number="2.5.1"><h3 data-number="2.5.1" class="anchored" data-anchor-id="solutions">
+<span class="header-section-number">2.5.1</span> Solutions</h3>
+<section id="exercise-8" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="exercise-8">Exercise 8:</h4>
+<p>This exercise relates to the College data set, which can be found in the file <code>College.csv</code> (<a href="https://www.statlearning.com/s/College.csv">LINK-TO-DATA</a>). It contains a number of variables for <span class="math inline">\(777\)</span> different universities and colleges in the US. The variables are:</p>
+<ul>
+<li>
+<strong>Private</strong> : Public/private indicator</li>
+<li>
+<strong>Apps</strong> : Number of applications received</li>
+<li>
+<strong>Accept</strong> : Number of applicants accepted</li>
+<li>
+<strong>Enroll</strong> : Number of new students enrolled</li>
+<li>
+<strong>Top10perc</strong> : New students from top 10% of high school class</li>
+<li>
+<strong>Top25perc</strong> : New students from top 25% of high school class</li>
+<li>
+<strong>F.Undergrad</strong> : Number of full-time undergraduates</li>
+<li>
+<strong>P.Undergrad</strong> : Number of part-time undergraduates</li>
+<li>
+<strong>Outstate</strong> : Out-of-state tuition</li>
+<li>
+<strong>Room.Board</strong> : Room and board costs</li>
+<li>
+<strong>Books</strong> : Estimated book costs</li>
+<li>
+<strong>Personal</strong> : Estimated personal spending</li>
+<li>
+<strong>PhD</strong> : Percent of faculty with Ph.D.’s</li>
+<li>
+<strong>Terminal</strong> : Percent of faculty with terminal degree</li>
+<li>
+<strong>S.F.Ratio</strong> : Student/faculty ratio</li>
+<li>
+<strong>perc.alumni</strong> : Percent of alumni who donate</li>
+<li>
+<strong>Expend</strong> : Instructional expenditure per student</li>
+<li>
+<strong>Grad.Rate</strong> : Graduation rate</li>
+</ul>
+<p><strong>8. a)</strong> Use the <code><a href="https://rdrr.io/r/utils/read.table.html">read.csv()</a></code> function to read the data into <code>R</code>. Call the loaded data college. Make sure that you have the directory set to the correct location for the data.</p>
+<p><strong>Answer:</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Store data into dataframe college</span></span>
+<span><span class="va">college</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"DATA/College.csv"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Print first 10 rows and first 5 collumns of the data</span></span>
+<span><span class="va">college</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                              X Private Apps Accept Enroll
+1  Abilene Christian University     Yes 1660   1232    721
+2            Adelphi University     Yes 2186   1924    512
+3                Adrian College     Yes 1428   1097    336
+4           Agnes Scott College     Yes  417    349    137
+5     Alaska Pacific University     Yes  193    146     55
+6             Albertson College     Yes  587    479    158
+7       Albertus Magnus College     Yes  353    340    103
+8                Albion College     Yes 1899   1720    489
+9              Albright College     Yes 1038    839    227
+10    Alderson-Broaddus College     Yes  582    498    172</code></pre>
+</div>
+</div>
+<p><strong>8. b)</strong> Look at the data using the <code><a href="https://rdrr.io/r/utils/fix.html">fix()</a></code> function.</p>
+<p><strong>Answer:</strong></p>
+<p>The <code><a href="https://rdrr.io/r/utils/fix.html">fix()</a></code> command allows you to look at the data and change values in the data in a spread-sheet like format.</p>
+<p>We can do some additional data-wrangling:<br> You should notice that the first column is just the name of each university. We don’t really want <code>R</code> to treat this as data. However, it may be handy to have these names for later. Try the following commands:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Store row names</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">college</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">college</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># pops up a window for data visualization</span></span>
+<span><span class="co"># fix(college)</span></span>
+<span></span>
+<span><span class="co"># Alteratively you can use: </span></span>
+<span><span class="co"># View(college)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You should see that there is now a row.names column with the name of each university recorded. This means that <code>R</code> has given each row a name corresponding to the appropriate university. <code>R</code> will not try to perform calculations on the row names. However, we still need to eliminate the first column in the data where the names are stored. Try:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Eliminates first column (containing the row names)</span></span>
+<span><span class="va">college</span> <span class="op">&lt;-</span> <span class="va">college</span><span class="op">[</span>,<span class="op">-</span><span class="fl">1</span><span class="op">]</span></span>
+<span><span class="co"># fix(college)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now you should see that the first data column is <code>Private</code>. Note that another column labeled row.names now appears before the Private column. However, this is not a data column but rather the name that R is giving to each row.</p>
+<p><strong>8. c.&nbsp;i)</strong> Use the <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> function to produce a numerical summary of the variables in the data set.</p>
+<p><strong>Answer:</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">college</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Private               Apps           Accept          Enroll    
+ Length:777         Min.   :   81   Min.   :   72   Min.   :  35  
+ Class :character   1st Qu.:  776   1st Qu.:  604   1st Qu.: 242  
+ Mode  :character   Median : 1558   Median : 1110   Median : 434  
+                    Mean   : 3002   Mean   : 2019   Mean   : 780  
+                    3rd Qu.: 3624   3rd Qu.: 2424   3rd Qu.: 902  
+                    Max.   :48094   Max.   :26330   Max.   :6392  
+   Top10perc    
+ Min.   : 1.00  
+ 1st Qu.:15.00  
+ Median :23.00  
+ Mean   :27.56  
+ 3rd Qu.:35.00  
+ Max.   :96.00  </code></pre>
+</div>
+</div>
+<p><strong>8. c.&nbsp;ii)</strong> Use the <code><a href="https://rdrr.io/r/graphics/pairs.html">pairs()</a></code> function to produce a scatterplot matrix of the 2nd to 10th column or variables of the data. Recall that you can reference the 2nd to 10th column of a matrix <code>A</code> using <code>A[,2:10]</code>.</p>
+<p><strong>Answer:</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/pairs.html">pairs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">college</span><span class="op">[</span>,<span class="fl">2</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="Ch2_StatLearning_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>8. c.&nbsp;iii)</strong> Use the <code><a href="https://rdrr.io/r/graphics/boxplot.html">boxplot()</a></code> function to produce side-by-side boxplots of <code>Outstate</code> versus <code>Private</code>.</p>
+<p><strong>Answer:</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html">boxplot</a></span><span class="op">(</span><span class="va">Outstate</span><span class="op">~</span><span class="va">Private</span>, </span>
+<span>        data <span class="op">=</span> <span class="va">college</span>, </span>
+<span>        xlab <span class="op">=</span> <span class="st">"Private"</span>, </span>
+<span>        ylab <span class="op">=</span> <span class="st">"Outstate"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="Ch2_StatLearning_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><code>Outstate</code>-Variable explained: The <code>Outstate</code>-variable is the tuition fee charged from non-resident students. (Many US colleges charge high tuition fees from non-resident students.)</p>
+</blockquote>
+<p><strong>8. c.&nbsp;iv)</strong> Create a new qualitative variable, called <code>Elite</code>, by binning the <code>Top10perc</code> variable. We are going to divide universities into two groups based on whether or not the proportion of students coming from the top 10% of their high school classes exceeds 50%.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Creating a vector called ELite with only "No" entrances amounting the number of college rows</span></span>
+<span><span class="va">Elite</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"No"</span>,<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">college</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Replacing "No" with "Yes" if the proportion of students coming from the top 10% of their HS classes exceeds 50%.</span></span>
+<span><span class="va">Elite</span><span class="op">[</span><span class="va">college</span><span class="op">$</span><span class="va">Top10perc</span> <span class="op">&gt;</span> <span class="fl">50</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"Yes"</span></span>
+<span></span>
+<span><span class="co"># Encode a vector as a factor</span></span>
+<span><span class="va">Elite</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">Elite</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Add Elite variable to our current dataset "college"</span></span>
+<span><span class="va">college</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">college</span>, <span class="va">Elite</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Use the <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> function to see how many elite universities there are. Now use the <code><a href="https://rdrr.io/r/graphics/boxplot.html">boxplot()</a></code> function to produce side-by-side boxplots of Outstate versus Elite.</p>
+<p><strong>Answer:</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">college</span><span class="op">$</span><span class="va">Elite</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> No Yes 
+699  78 </code></pre>
+</div>
+</div>
+<p>There are <span class="math inline">\(78\)</span> elite Universities. The boxplots of <code>Outstate</code> versus Elite-Status are generated as following:</p>
+<div class="cell" data-layout-align="center" data-scrolled="false">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html">boxplot</a></span><span class="op">(</span><span class="va">Outstate</span> <span class="op">~</span> <span class="va">Elite</span>, </span>
+<span>        data <span class="op">=</span> <span class="va">college</span>, xlab<span class="op">=</span><span class="st">"Elite"</span>, ylab<span class="op">=</span><span class="st">"Outstate"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="Ch2_StatLearning_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>8. c.&nbsp;v)</strong> Use the <code><a href="https://rdrr.io/r/graphics/hist.html">hist()</a></code> function to produce some histograms with differing numbers of bins for a few of the quantitative variables. You may find the command <code>par(mfrow=c(2,2))</code> useful: it will divide the print window into four regions so that four plots can be made simultaneously. Modifying the arguments to this function will divide the screen in other ways.</p>
+<p><strong>Answer:</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">college</span><span class="op">$</span><span class="va">Apps</span>,     breaks<span class="op">=</span><span class="fl">50</span>, xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">25000</span><span class="op">)</span>, </span>
+<span>     xlab <span class="op">=</span> <span class="st">""</span>, main<span class="op">=</span><span class="st">"Apps"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">college</span><span class="op">$</span><span class="va">Enroll</span>,   breaks<span class="op">=</span><span class="fl">25</span>, xlab <span class="op">=</span> <span class="st">""</span>, main<span class="op">=</span><span class="st">"Enroll"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">college</span><span class="op">$</span><span class="va">Expend</span>,   breaks<span class="op">=</span><span class="fl">25</span>, xlab <span class="op">=</span> <span class="st">""</span>, main<span class="op">=</span><span class="st">"Expend"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">college</span><span class="op">$</span><span class="va">Outstate</span>,            xlab <span class="op">=</span> <span class="st">""</span>, main<span class="op">=</span><span class="st">"Outstate"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="Ch2_StatLearning_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Remember:</p>
+<ul>
+<li>
+<strong>Enroll:</strong> Number of new students enrolled</li>
+<li>
+<strong>Expend:</strong> Instructional expenditure per student</li>
+<li>
+<strong>Outstate:</strong> Out-of-state tuition</li>
+</ul></section><section id="exercise-9" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="exercise-9">Exercise 9:</h4>
+<p>This exercise involves the Auto data set. Make sure that the missing values have been removed from the data.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Store data into dataframe college</span></span>
+<span><span class="va">Auto</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"DATA/Auto.csv"</span>, header<span class="op">=</span><span class="cn">T</span>, na.strings<span class="op">=</span><span class="st">"?"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Remove missing values from the data</span></span>
+<span><span class="va">Auto</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="va">Auto</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Print first 10 rows of the data</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">Auto</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span>,<span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   mpg cylinders displacement horsepower weight acceleration year origin
+1   18         8          307        130   3504         12.0   70      1
+2   15         8          350        165   3693         11.5   70      1
+3   18         8          318        150   3436         11.0   70      1
+4   16         8          304        150   3433         12.0   70      1
+5   17         8          302        140   3449         10.5   70      1
+6   15         8          429        198   4341         10.0   70      1
+7   14         8          454        220   4354          9.0   70      1
+8   14         8          440        215   4312          8.5   70      1
+9   14         8          455        225   4425         10.0   70      1
+10  15         8          390        190   3850          8.5   70      1
+                        name
+1  chevrolet chevelle malibu
+2          buick skylark 320
+3         plymouth satellite
+4              amc rebel sst
+5                ford torino
+6           ford galaxie 500
+7           chevrolet impala
+8          plymouth fury iii
+9           pontiac catalina
+10        amc ambassador dpl</code></pre>
+</div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Find more info on the variables here:</span></span>
+<span><span class="co"># library(ISLR2)</span></span>
+<span><span class="co"># ?Auto</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>
+<strong>mpg:</strong> miles per gallon</li>
+<li>
+<strong>cylinders:</strong> Number of cylinders between 4 and 8</li>
+<li>
+<strong>displacement:</strong> Engine displacement (cu. inches)</li>
+<li>
+<strong>horsepower:</strong> Engine horsepower</li>
+<li>
+<strong>weight:</strong> Vehicle weight (lbs.)</li>
+<li>
+<strong>acceleration:</strong> Time to accelerate from 0 to 60 mph (sec.)</li>
+<li>
+<strong>year:</strong> Model year (modulo 100)</li>
+<li>
+<strong>origin:</strong> Origin of car (1. American, 2. European, 3. Japanese)</li>
+<li>
+<strong>name:</strong> Vehicle name</li>
+</ul>
+<p><strong>9. a)</strong> Which of the predictors are quantitative, and which are qualitative?</p>
+<p><strong>Answer:</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Summarize dataset</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">Auto</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      mpg          cylinders      displacement     horsepower        weight    
+ Min.   : 9.00   Min.   :3.000   Min.   : 68.0   Min.   : 46.0   Min.   :1613  
+ 1st Qu.:17.00   1st Qu.:4.000   1st Qu.:105.0   1st Qu.: 75.0   1st Qu.:2225  
+ Median :22.75   Median :4.000   Median :151.0   Median : 93.5   Median :2804  
+ Mean   :23.45   Mean   :5.472   Mean   :194.4   Mean   :104.5   Mean   :2978  
+ 3rd Qu.:29.00   3rd Qu.:8.000   3rd Qu.:275.8   3rd Qu.:126.0   3rd Qu.:3615  
+ Max.   :46.60   Max.   :8.000   Max.   :455.0   Max.   :230.0   Max.   :5140  
+  acceleration        year           origin          name          
+ Min.   : 8.00   Min.   :70.00   Min.   :1.000   Length:392        
+ 1st Qu.:13.78   1st Qu.:73.00   1st Qu.:1.000   Class :character  
+ Median :15.50   Median :76.00   Median :1.000   Mode  :character  
+ Mean   :15.54   Mean   :75.98   Mean   :1.577                     
+ 3rd Qu.:17.02   3rd Qu.:79.00   3rd Qu.:2.000                     
+ Max.   :24.80   Max.   :82.00   Max.   :3.000                     </code></pre>
+</div>
+</div>
+<ul>
+<li>
+<strong>Quantitative predictors:</strong> <code>mpg</code>, <code>cylinders</code>, <code>displacement</code>, <code>horsepower</code>, <code>weight</code>, <code>acceleration</code>, <code>year</code>
+</li>
+<li>
+<strong>Qualitative predictors:</strong> <code>name</code>, <code>origin</code>
+</li>
+</ul>
+<p><strong>9. b)</strong> What is the range of each quantitative predictor? You can answer this using the <code><a href="https://rdrr.io/r/base/range.html">range()</a></code> function.</p>
+<p><strong>Answer:</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># apply the range function to the first seven columns of Auto</span></span>
+<span><span class="va">ranges</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">Auto</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span>, <span class="va">range</span><span class="op">)</span></span>
+<span><span class="co"># print to console</span></span>
+<span><span class="va">ranges</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      mpg cylinders displacement horsepower weight acceleration year
+[1,]  9.0         3           68         46   1613          8.0   70
+[2,] 46.6         8          455        230   5140         24.8   82</code></pre>
+</div>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># adding row names:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span><span class="op">(</span><span class="va">ranges</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"min"</span>, <span class="st">"max"</span><span class="op">)</span></span>
+<span><span class="va">ranges</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     mpg cylinders displacement horsepower weight acceleration year
+min  9.0         3           68         46   1613          8.0   70
+max 46.6         8          455        230   5140         24.8   82</code></pre>
+</div>
+</div>
+<p><strong>9. c)</strong> What is the mean and standard deviation of each quantitative predictor?</p>
+<p><strong>Answer:</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># compute the means and round to 2 decimal places </span></span>
+<span><span class="va">mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">Auto</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span>, <span class="va">mean</span><span class="op">)</span></span>
+<span><span class="va">mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">mean</span>, <span class="va">round</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># compute the standard deviations (sd) and round to 2 decimal places </span></span>
+<span><span class="va">sd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">Auto</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span>, <span class="va">sd</span><span class="op">)</span></span>
+<span><span class="va">sd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">sd</span>,<span class="va">round</span>,<span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># print mean values </span></span>
+<span><span class="va">mean</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         mpg    cylinders displacement   horsepower       weight acceleration 
+       23.45         5.47       194.41       104.47      2977.58        15.54 
+        year 
+       75.98 </code></pre>
+</div>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># print sd values </span></span>
+<span><span class="va">sd</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         mpg    cylinders displacement   horsepower       weight acceleration 
+        7.81         1.71       104.64        38.49       849.40         2.76 
+        year 
+        3.68 </code></pre>
+</div>
+</div>
+<p><strong>9.d)</strong> Now remove the 10th through 85th observations. What is the range, mean, and standard deviation of each predictor in the subset of the data that remains?</p>
+<p><strong>Answer:</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># remove observations and store them </span></span>
+<span><span class="va">newAuto</span> <span class="op">=</span> <span class="va">Auto</span><span class="op">[</span><span class="op">-</span><span class="op">(</span><span class="fl">10</span><span class="op">:</span><span class="fl">85</span><span class="op">)</span>,<span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Re-do exercises 9. b) and 9.c)</span></span>
+<span><span class="co"># This time, create an empty Matrix "Results" to store the results</span></span>
+<span><span class="va">Results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="cn">NA</span>, nrow <span class="op">=</span> <span class="fl">4</span>, ncol <span class="op">=</span> <span class="fl">7</span>, </span>
+<span>                  dimnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Mean"</span>, <span class="st">"SD"</span>, <span class="st">"Min"</span>, <span class="st">"Max"</span><span class="op">)</span>,<span class="co"># row names </span></span>
+<span>                                  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">newAuto</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="co"># column names</span></span>
+<span></span>
+<span><span class="co"># Compute and store the results</span></span>
+<span><span class="va">Results</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">newAuto</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span>, <span class="va">mean</span><span class="op">)</span></span>
+<span><span class="va">Results</span><span class="op">[</span><span class="fl">2</span>,<span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">newAuto</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span>, <span class="va">sd</span><span class="op">)</span>  </span>
+<span><span class="va">Results</span><span class="op">[</span><span class="fl">3</span>,<span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">newAuto</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span>, <span class="va">min</span><span class="op">)</span></span>
+<span><span class="va">Results</span><span class="op">[</span><span class="fl">4</span>,<span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">newAuto</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span>, <span class="va">max</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Round to 0 decimal and print</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">Results</span>, digits <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     mpg cylinders displacement horsepower weight acceleration year
+Mean  24         5          187        101   2936           16   77
+SD     8         2          100         36    811            3    3
+Min   11         3           68         46   1649            8   70
+Max   47         8          455        230   4997           25   82</code></pre>
+</div>
+</div>
+<p><strong>9. e)</strong> Using the full data set, investigate the predictors graphically, using scatterplots or other tools of your choice. Create some plots highlighting the relationships among the predictors. Comment on your findings.</p>
+<p><strong>Answer:</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/pairs.html">pairs</a></span><span class="op">(</span><span class="va">Auto</span><span class="op">[</span>, <span class="op">-</span><span class="fl">9</span><span class="op">]</span><span class="op">)</span> <span class="co"># remove the character-variable 'name'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="Ch2_StatLearning_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Findings:</p>
+<ul>
+<li>higher <code>weight</code> is related with lower <code>mpg</code>
+</li>
+<li>higher <code>weight</code> is related with higher <code>displacement</code>
+</li>
+<li>higher <code>weight</code> is related with higher <code>horsepower</code>
+</li>
+<li>higher <code>horsepower</code> is related with lower <code>acceleration</code>
+</li>
+<li>higher model <code>years</code> are related with higher <code>mpg</code>
+</li>
+</ul>
+<p><strong>9. f)</strong> Suppose that we wish to predict gas mileage (<code>mpg</code>) on the basis of the other variables. Do your plots suggest that any of the other variables might be useful in predicting <code>mpg</code>? Justify your answer.</p>
+<p><strong>Answer:</strong></p>
+<p>Yes, there are multiple potentially useful predictor variables.</p>
+<p>All of the <em>quantitative</em> variables show some sort of relation (either linear or non-linear) with <code>mpg</code> and hence, they might be useful in predicting <code>mpg</code>.</p>
+<p>Moreover, the qualitative variable <code>origin</code> might also be useful in predicting <code>mpg</code>: cars originated from region 1, 2, and 3 are associated with lower, intermediate, higher <code>mpg</code> values.</p>
+
+
+</section></section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="./Ch1_Intro2R.html" class="pagination-link" aria-label="`R`-Lab: Introduction to `R`">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title"><code>R</code>-Lab: Introduction to <code>R</code></span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./Ch3_MatrixAlgebra.html" class="pagination-link" aria-label="Matrix Algebra">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Matrix Algebra</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

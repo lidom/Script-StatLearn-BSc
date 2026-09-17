@@ -1,0 +1,1958 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>1&nbsp; R-Lab: Introduction to R – Computer-Aided Statistical Analysis (B.Sc.)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./Ch1_StatLearning.html" rel="next">
+<link href="./index.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+</head>
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Ch0_Intro2R.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title"><code>R</code>-Lab: Introduction to <code>R</code></span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./images/Uni_Bonn_Logo.jpeg" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Computer-Aided Statistical Analysis (B.Sc.)</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Organization of the Course</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch0_Intro2R.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title"><code>R</code>-Lab: Introduction to <code>R</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch1_StatLearning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Statistical Learning</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch2_LinearRegression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Linear Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch3_Classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch4_ResamplingMethods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Resampling Methods</span></span></a>
+  </div>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+<li><a href="#short-glossary" id="toc-short-glossary" class="nav-link active" data-scroll-target="#short-glossary"><span class="header-section-number">1.0.1</span> Short Glossary</a></li>
+  <li><a href="#first-steps" id="toc-first-steps" class="nav-link" data-scroll-target="#first-steps"><span class="header-section-number">1.0.2</span> First Steps</a></li>
+  <li><a href="#further-data-objects" id="toc-further-data-objects" class="nav-link" data-scroll-target="#further-data-objects"><span class="header-section-number">1.0.3</span> Further Data Objects</a></li>
+  <li><a href="#programming-in-r" id="toc-programming-in-r" class="nav-link" data-scroll-target="#programming-in-r"><span class="header-section-number">1.0.4</span> Programming in <code>R</code></a></li>
+  <li><a href="#r-packages" id="toc-r-packages" class="nav-link" data-scroll-target="#r-packages"><span class="header-section-number">1.0.5</span> R-packages</a></li>
+  <li><a href="#tidyverse" id="toc-tidyverse" class="nav-link" data-scroll-target="#tidyverse"><span class="header-section-number">1.0.6</span> Tidyverse</a></li>
+  <li><a href="#further-links" id="toc-further-links" class="nav-link" data-scroll-target="#further-links"><span class="header-section-number">1.0.7</span> Further Links</a></li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">
+<span class="chapter-number">1</span>&nbsp; <span class="chapter-title"><code>R</code>-Lab: Introduction to <code>R</code></span>
+</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header><p>This tutorial aims to serve as an introduction to the software package <code>R</code>. Other very good and much more exhaustive tutorials and useful reference-cards can be found at the following links:</p>
+<ul>
+<li>
+<a href="http://cran.r-project.org/doc/contrib/refcard.pdf">Reference card for R commands</a> (always useful)</li>
+<li>
+<a href="https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf">The official Introduction to R</a> (very detailed)</li>
+<li>And many more at <a href="https://www.r-project.org/other-docs.html">www.r-project.org</a> (see “Documents”) <!-- *  An interactive introduction can be done online at: [www.datacamp.com](https://www.datacamp.com/) -->
+</li>
+<li>An R-package for learning R: <a href="https://swirlstats.com/">www.swirl.com</a>
+</li>
+<li>An excellent book project which covers also advanced issues such as “writing performant code” and “package development”: <a href="http://adv-r.had.co.nz/">adv-r.had.co.nz</a><br>
+</li>
+<li>Another excellent book: <a href="https://r4ds.had.co.nz/">R for Data Science</a>
+</li>
+</ul>
+<p>Some other tutorials:</p>
+<ul>
+<li><a href="https://idc9.github.io/stor390/">Introduction to data science</a></li>
+<li><a href="https://gganimate.com/">Creating dynamic graphics</a></li>
+</ul>
+<p>Why <code>R</code>?</p>
+<ul>
+<li>
+<code>R</code> is <strong>free</strong> of charge from: <a href="https://www.r-project.org/">www.r-project.org</a>
+</li>
+<li>The celebrated IDE <strong>RStudio</strong> for R is also <strong>free</strong> of charge: <a href="http://www.rstudio.com/">www.rstudio.com</a>
+</li>
+<li>R is equipped with one of the most flexible and powerful graphics routines available anywhere. For instance, check out one of the following repositories:
+<ul>
+<li><a href="http://shinyapps.org/apps/RGraphCompendium/index.php">Clean Graphs</a></li>
+<li><a href="http://www.sthda.com/english/rpkgs/ggpubr/">Publication Ready Plots</a></li>
+</ul>
+</li>
+<li>Today, R is the de-facto standard for statistical science.</li>
+</ul>
+<section id="short-glossary" class="level3" data-number="1.0.1"><h3 data-number="1.0.1" class="anchored" data-anchor-id="short-glossary">
+<span class="header-section-number">1.0.1</span> Short Glossary</h3>
+<p>Lets start the tutorial with a (very) short glossary:</p>
+<ul>
+<li>
+<strong>Console</strong>: The thing with the <code>&gt;</code> sign at the beginning.</li>
+<li>
+<strong>Script file</strong>: An ordinary text file with suffix <code>.R</code>. For instance, <code>yourFavoritFileName.R</code>.</li>
+<li>
+<strong>Working directory</strong>: The file-directory you are working in. Useful commands: with <code><a href="https://rdrr.io/r/base/getwd.html">getwd()</a></code> you get the location of your current working directory and <code><a href="https://rdrr.io/r/base/getwd.html">setwd()</a></code> allows you to set a new location for it.</li>
+<li>
+<strong>Workspace</strong>: This is a hidden file (stored in the working directory), where all objects you use (e.g., data, matrices, vectors, variables, functions, etc.) are stored. Useful commands: <code><a href="https://rdrr.io/r/base/ls.html">ls()</a></code> shows all elements in our current workspace and <code>rm(list=ls())</code> deletes all elements in our current workspace.</li>
+</ul></section><section id="first-steps" class="level3" data-number="1.0.2"><h3 data-number="1.0.2" class="anchored" data-anchor-id="first-steps">
+<span class="header-section-number">1.0.2</span> First Steps</h3>
+<p>A good idea is to use a script file such as <code>yourFavoritFileName.R</code> in order to store your <code>R</code> commands. You can send single lines or marked regions of your R-code to the console by pressing the keys <strong>STRG+ENTER</strong>.</p>
+<p>To begin with baby steps, do some simple computations:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fl">2</span><span class="op">+</span><span class="fl">2</span> <span class="co"># and all the others: *,/,-,^2,^3,... </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+</div>
+<p>Note: Everything that is written after the <code>#</code>-sign is ignored by <code>R</code>, which is very useful to comment your code.</p>
+<p>The <strong>assignment operator</strong> <code>&lt;-</code> or <code>=</code> will be your most often used tool. Here an example to create a <strong>scalar</strong> variable:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">4</span> </span>
+<span><span class="va">x</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fl">4</span> <span class="op">-&gt;</span> <span class="va">x</span> <span class="co"># possible but unusual</span></span>
+<span><span class="va">x</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+</div>
+<p>Note: The <code>R</code> community loves the <code>&lt;-</code> assignment operator, which is a very unusual syntax. Alternatively, you can use the more common <code>=</code> operator which is also used in languages like python or matlab.</p>
+<p>And now a more interesting object - a <strong>vector</strong>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">7</span>,<span class="fl">4</span>,<span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">y</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2 7 4 1</code></pre>
+</div>
+</div>
+<p>The command <code><a href="https://rdrr.io/r/base/ls.html">ls()</a></code> shows the total content of your current workspace, and the command <code>rm(list=ls())</code> deletes all elements of your current workspace:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "pandoc_dir"      "quarto_bin_path" "x"               "y"              </code></pre>
+</div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span>list<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>character(0)</code></pre>
+</div>
+</div>
+<p>Note: RStudio’s <strong>Environment</strong> pane also lists all the elements in your current workspace. That is, the command <code><a href="https://rdrr.io/r/base/ls.html">ls()</a></code> becomes a bit obsolete when working with RStudio.</p>
+<p>Let’s try how we can compute with vectors and scalars in R.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">4</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">7</span>,<span class="fl">4</span>,<span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">x</span><span class="op">*</span><span class="va">y</span> <span class="co"># each element in the vector, y, is multiplied by the scalar, x.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  8 28 16  4</code></pre>
+</div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">y</span><span class="op">*</span><span class="va">y</span> <span class="co"># this is a term by term product of the elements in y</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  4 49 16  1</code></pre>
+</div>
+</div>
+<p>Performing vector multiplications as you might expect from your last math-course, e.g., an outer product: <span class="math inline">\(y\,y^\top\)</span>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">y</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3] [,4]
+[1,]    4   14    8    2
+[2,]   14   49   28    7
+[3,]    8   28   16    4
+[4,]    2    7    4    1</code></pre>
+</div>
+</div>
+<p>Or an inner product <span class="math inline">\(y^\top y\)</span>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="va">y</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1]
+[1,]   70</code></pre>
+</div>
+</div>
+<p>Note: Sometimes, R’s treatment of vectors can be annoying. The product <code>y %*% y</code> is treated as the product <code>t(y) %*% y</code>.</p>
+<p>The term-by-term execution as in the above example, <code>y*y</code>, is actually a central strength of R. We can conduct many operations <strong>vector-wisely</strong>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">y</span><span class="op">^</span><span class="fl">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  4 49 16  1</code></pre>
+</div>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6931472 1.9459101 1.3862944 0.0000000</code></pre>
+</div>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]    7.389056 1096.633158   54.598150    2.718282</code></pre>
+</div>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">y</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -1.5  3.5  0.5 -2.5</code></pre>
+</div>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="op">(</span><span class="va">y</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="co"># standardization </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.5669467  1.3228757  0.1889822 -0.9449112</code></pre>
+</div>
+</div>
+<p>This is a central characteristic of so called matrix based languages like R (or Matlab). Other programming languages often have to use <strong>loops</strong> instead:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">N</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span>
+<span><span class="fl">1</span><span class="op">:</span><span class="va">N</span></span>
+<span></span>
+<span><span class="va">y.sq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">numeric</a></span><span class="op">(</span><span class="va">N</span><span class="op">)</span></span>
+<span><span class="va">y.sq</span></span>
+<span></span>
+<span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">N</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">y.sq</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">y</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">^</span><span class="fl">2</span></span>
+<span>  <span class="kw">if</span><span class="op">(</span><span class="va">i</span> <span class="op">==</span> <span class="va">N</span><span class="op">)</span><span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">y.sq</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <code>for()</code>-loop is the most common loop. But there is also a <code>while()</code>-loop and a <code>repeat()</code>-loop. However, loops in R can be rather slow, therefore, try to avoid them!</p>
+<!-- Try to write your own loop, which computes the element-wise logarithms of a vector `y` and finally prints these values as well as their mean!  -->
+<p>Useful commands to produce <strong>sequences</strong> of numbers:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span></span>
+<span><span class="op">-</span><span class="fl">10</span><span class="op">:</span><span class="fl">10</span></span>
+<span><span class="op">?</span><span class="va">seq</span> <span class="co"># Help for the seq()-function</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>from<span class="op">=</span><span class="fl">1</span>, to<span class="op">=</span><span class="fl">100</span>, by<span class="op">=</span><span class="fl">7</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Using the sequence command <code>1:16</code>, we can go for our first <strong>matrix</strong>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="op">?</span><span class="va">matrix</span></span>
+<span><span class="va">A</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span>data<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">16</span>, nrow<span class="op">=</span><span class="fl">4</span>, ncol<span class="op">=</span><span class="fl">4</span><span class="op">)</span></span>
+<span><span class="va">A</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3] [,4]
+[1,]    1    5    9   13
+[2,]    2    6   10   14
+[3,]    3    7   11   15
+[4,]    4    8   12   16</code></pre>
+</div>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">A</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">16</span>, <span class="fl">4</span>, <span class="fl">4</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that a matrix has always two <strong>dimensions</strong>, but a vector has only one dimension:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span>    <span class="co"># Dimension of matrix A?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4 4</code></pre>
+</div>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>    <span class="co"># dim() does not operate on vectors.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>NULL</code></pre>
+</div>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span> <span class="co"># Length of vector y?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+</div>
+<p>Lets play a bit with the matrix <code>A</code> and the vector <code>y</code>. As we have seen in the loop above, the <code>[]</code>-operator <strong>selects elements</strong> of vectors and matrices:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">A</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span></span>
+<span><span class="va">A</span><span class="op">[</span><span class="fl">4</span>,<span class="fl">4</span><span class="op">]</span></span>
+<span><span class="va">y</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">4</span><span class="op">)</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This can be done on a more <strong>logical</strong> basis, too. For example, if you want to know which elements in the first column of matrix <code>A</code> are strictly greater than 2:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">A</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">[</span><span class="va">A</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">&gt;</span><span class="fl">2</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3 4</code></pre>
+</div>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Note that this give you a boolean vector:</span></span>
+<span><span class="va">A</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">&gt;</span><span class="fl">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE FALSE  TRUE  TRUE</code></pre>
+</div>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># And you can use it in a non-sense relation, too:</span></span>
+<span><span class="va">y</span><span class="op">[</span><span class="va">A</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">&gt;</span><span class="fl">2</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4 1</code></pre>
+</div>
+</div>
+<p>Note: Logical operations return so-called <strong>boolean</strong> objects, i.e., either a <code>TRUE</code> or a <code>FALSE</code>. For instance, if we ask R whether <code>1&gt;2</code> we get the answer <code>FALSE</code>.</p>
+</section><section id="further-data-objects" class="level3" data-number="1.0.3"><h3 data-number="1.0.3" class="anchored" data-anchor-id="further-data-objects">
+<span class="header-section-number">1.0.3</span> Further Data Objects</h3>
+<p>Besides classical data objects such as scalars, vectors, and matrices there are three further data objects in R:</p>
+<ol type="1">
+<li>The <strong>array</strong>: As a matrix but with more dimensions. Here is an example of a <span class="math inline">\(2\times 2\times 2\)</span>-dimensional <code>array</code>:</li>
+</ol>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">myFirst.Array</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span><span class="op">)</span>, dim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="co"># Take a look at it!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="2" type="1">
+<li>The <strong>list</strong>: In <code>lists</code> you can organize different kinds of data. E.g., consider the following example:</li>
+</ol>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">myFirst.List</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"Some_Numbers"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">66</span>, <span class="fl">76</span>, <span class="fl">55</span>, <span class="fl">12</span>, <span class="fl">4</span>, <span class="fl">66</span>, <span class="fl">8</span>, <span class="fl">99</span><span class="op">)</span>, </span>
+<span>                     <span class="st">"Animals"</span>      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Rabbit"</span>, <span class="st">"Cat"</span>, <span class="st">"Elefant"</span><span class="op">)</span>,</span>
+<span>                     <span class="st">"My_Series"</span>    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">30</span><span class="op">:</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A very useful function to find specific values and entries within lists is the <code><a href="https://rdrr.io/r/utils/str.html">str()</a></code>-function:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">myFirst.List</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>List of 3
+ $ Some_Numbers: num [1:8] 66 76 55 12 4 66 8 99
+ $ Animals     : chr [1:3] "Rabbit" "Cat" "Elefant"
+ $ My_Series   : int [1:30] 30 29 28 27 26 25 24 23 22 21 ...</code></pre>
+</div>
+</div>
+<ol start="3" type="1">
+<li>The <strong>data frame</strong>: A <code>data.frame</code> is a <code>list</code>-object but with some more formal restrictions (e.g., equal number of rows for all columns). As indicated by its name, a <code>data.frame</code>-object is designed to store data:</li>
+</ol>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">myFirst.Dataframe</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="st">"Credit_Default"</span>   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span> <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>                                <span class="st">"Age"</span>              <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">35</span>,<span class="fl">41</span>,<span class="fl">55</span>,<span class="fl">36</span>,<span class="fl">44</span>,<span class="fl">26</span><span class="op">)</span>, </span>
+<span>                                <span class="st">"Loan_in_1000_EUR"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">55</span>,<span class="fl">65</span>,<span class="fl">23</span>,<span class="fl">12</span>,<span class="fl">98</span>,<span class="fl">76</span><span class="op">)</span><span class="op">)</span> </span>
+<span><span class="co"># Take a look at it!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<!-- 
+### Simple Regression Analysis using R 
+
+Alright, let's do some statistics with real data. You can download the data [HERE](https://github.com/lidom/Teaching_Repo). Save it on your computer, at a place where you can find it, and give the path (e.g. `"C:\textbackslash path\textbackslash auto.data.csv"`, which references to the data, to the *file*-argument of the function `read.csv()`:
+
+
+
+
+::: {.cell layout-align="center"}
+
+```{.r .cell-code}
+# ATTENTION! YOU HAVE TO CHANGE "\" TO "/":
+auto.data <- read.csv(file="C:/your_path/autodata.txt", header=TRUE)
+head(auto.data)
+```
+:::
+
+
+
+
+
+
+
+
+If you have problems to read the data into R, go on with these commands. (For this you need a working internet connection!):
+
+
+
+
+::: {.cell layout-align="center"}
+
+```{.r .cell-code}
+# install.packages("readr")
+library("readr")
+auto.data <- suppressMessages(read_csv(file = "https://cdn.rawgit.com/lidom/Teaching_Repo/bc692b56/autodata.csv",col_names = TRUE))
+# head(auto.data)
+```
+:::
+
+
+
+
+
+
+
+
+You can select specific variables of the `auto.data` using the `$`-operator:
+
+
+
+
+::: {.cell layout-align="center"}
+
+```{.r .cell-code}
+gasolin.consumption      <- auto.data$MPG.city
+car.weight               <- auto.data$Weight
+## Take a look at the first elements of these vectors:
+head(cbind(gasolin.consumption,car.weight))
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+     gasolin.consumption car.weight
+[1,]                  25       2705
+[2,]                  18       3560
+[3,]                  20       3375
+[4,]                  19       3405
+[5,]                  22       3640
+[6,]                  22       2880
+```
+
+
+:::
+:::
+
+
+
+
+
+
+
+
+
+This is how you can produce your first plot:
+
+
+
+
+
+::: {.cell layout-align="center" fig.margin='true'}
+
+```{.r .cell-code}
+## Plot the data:
+plot(y=gasolin.consumption, x=car.weight, 
+     xlab="Car-Weight (US-Pounds)", 
+     ylab="Consumption (Miles/Gallon)", 
+     main="Buy Light-Weight Cars!")
+```
+
+::: {.cell-output-display}
+![Scatterplot of Gasoline consumption (mpg) vs. car weight.](Ch0_Intro2R_files/figure-html/fig-margin-1.png){#fig-margin fig-align='center' width=432}
+:::
+:::
+
+
+
+
+
+
+
+
+As a first step, we might assume a simple kind of linear relationship between the variables `gasolin.consumption` and `car.weight`. Let us assume that the data was generated by the following simple regression model: 
+$$
+y_i=\alpha+\beta_1 x_i+\varepsilon_i,\quad i=1,\dots,n
+$$
+where $y_i$ denotes the gasoline-consumption, $x_i$ the weight of car $i$, and $\varepsilon_i$ is a mean zero constant variance noise term. (This is clearly a non-sense model!) 
+
+The command `lm()` computes the estimates of this linear regression model. The command (in fact it's a *method*) `summary()` computes further quantities of general interest from the *object* that was returned from the `lm()` function.
+
+
+
+
+::: {.cell layout-align="center"}
+
+```{.r .cell-code}
+lm.result   <- lm(gasolin.consumption~car.weight)
+lm.summary  <- summary(lm.result)
+lm.summary
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+
+Call:
+lm(formula = gasolin.consumption ~ car.weight)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-6.7946 -1.9711  0.0249  1.1855 13.8278 
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 47.048353   1.679912   28.01   <2e-16 ***
+car.weight  -0.008032   0.000537  -14.96   <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 3.038 on 91 degrees of freedom
+Multiple R-squared:  0.7109,    Adjusted R-squared:  0.7077 
+F-statistic: 223.8 on 1 and 91 DF,  p-value: < 2.2e-16
+```
+
+
+:::
+:::
+
+
+
+
+
+
+
+
+Of course, we want to have a possibility to access all the quantities computed so far, e.g., in order to plot the results. This can be done as following: 
+
+
+
+
+::: {.cell layout-align="center" fig.margin='true'}
+
+```{.r .cell-code}
+## Accessing the computed quantities
+names(lm.summary) ## Alternatively: str(lm.summary)
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+ [1] "call"          "terms"         "residuals"     "coefficients" 
+ [5] "aliased"       "sigma"         "df"            "r.squared"    
+ [9] "adj.r.squared" "fstatistic"    "cov.unscaled" 
+```
+
+
+:::
+
+```{.r .cell-code}
+alpha <- lm.summary$coefficients[1]
+beta  <- lm.summary$coefficients[2]
+
+## Plot all:
+plot(y=gasolin.consumption, x=car.weight, 
+     xlab="Car-Weight (US-Pounds)", 
+     ylab="Consumption (Miles/Gallon)", 
+     main="Buy light-weight Cars!")
+abline(a=alpha, 
+       b=beta, col="red")
+```
+
+::: {.cell-output-display}
+![Scatterplot of Gasoline consumption (mpg) vs. car weight plus linear regression fit.](Ch0_Intro2R_files/figure-html/unnamed-chunk-23-1.png){fig-align='center' width=432}
+:::
+:::
+
+
+
+
+
+-->
+</section><section id="programming-in-r" class="level3" data-number="1.0.4"><h3 data-number="1.0.4" class="anchored" data-anchor-id="programming-in-r">
+<span class="header-section-number">1.0.4</span> Programming in <code>R</code>
+</h3>
+<section id="simulating-data" class="level4" data-number="1.0.4.1"><h4 data-number="1.0.4.1" class="anchored" data-anchor-id="simulating-data">
+<span class="header-section-number">1.0.4.1</span> Simulating Data</h4>
+<p>Let’s write, i.e., program our own <code>R</code>-function for estimating linear regression models. In order to be able to validate our function, we start with <strong>simulating data</strong> for which we then <em>know</em> all true parameters.</p>
+<p>Simulating data is like being the “Data-God”: For instance, we generate realizations of the error term <span class="math inline">\(\varepsilon_i\)</span>, i.e., something which we <em>never</em> observe in real data.</p>
+<p>Let us consider the following multiple regression model:</p>
+<p><span class="math display">\[
+y_i=\beta_1 +\beta_2 x_{2i}+\beta_3 x_{3i}+\varepsilon_{i},\quad i=1,\dots,n,
+\]</span> where for all <span class="math inline">\(i=1,\dots,n=50\)</span>:</p>
+<ul>
+<li>
+<span class="math inline">\(\varepsilon_{i}\sim N(0,2^2)\)</span> is the error term</li>
+<li><span class="math inline">\(x_{2i}\sim N(10,1.5^2)\)</span></li>
+<li>
+<span class="math inline">\(x_{3i}\)</span> comes from a t-distribution with 5 degrees of freedom and non-centrality parameter 2</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">109</span><span class="op">)</span> <span class="co"># Sets the "seed" of the random number generators:</span></span>
+<span><span class="va">n</span>   <span class="op">&lt;-</span> <span class="fl">50</span>     <span class="co"># Number of observations</span></span>
+<span></span>
+<span><span class="co">## Generate two explanatory variables plus an intercept-variable:</span></span>
+<span><span class="va">X.1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">n</span><span class="op">)</span>                 <span class="co"># Intercept</span></span>
+<span><span class="va">X.2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n</span>, mean<span class="op">=</span><span class="fl">10</span>, sd<span class="op">=</span><span class="fl">1.5</span><span class="op">)</span> <span class="co"># Draw realizations form a normal distr.</span></span>
+<span><span class="va">X.3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">rt</a></span><span class="op">(</span><span class="va">n</span>, df<span class="op">=</span><span class="fl">5</span>, ncp<span class="op">=</span><span class="fl">2</span><span class="op">)</span>        <span class="co"># Draw realizations form a t-distr.</span></span>
+<span><span class="va">X</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">X.1</span>, <span class="va">X.2</span>, <span class="va">X.3</span><span class="op">)</span>      <span class="co"># Save as a Nx3-dimensional data matrix.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>OK, we have regressors, i.e., data that we also have in real data sets.</p>
+<p>Now we define the elements of the <span class="math inline">\(\beta\)</span>-vector. Be aware of the difference: In real data sets we do not know the true <span class="math inline">\(\beta\)</span>-vector, but try to estimate it. However, when simulating data, we determine (as “Data-Gods”) the true <span class="math inline">\(\beta\)</span>-vector and can compare our estimate <span class="math inline">\(\hat{\beta}\)</span> with the true <span class="math inline">\(\beta\)</span>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">## Define the slope-coefficients</span></span>
+<span><span class="va">beta.vec</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="op">-</span><span class="fl">5</span>,<span class="fl">5</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We still need to simulate realizations of the dependent variable <span class="math inline">\(y_i\)</span>. Remember that <span class="math inline">\(y_i=\beta_1 x_{1i}+\beta_1 x_{2i}+\beta_3 x_{3i}+\varepsilon_{i}\)</span>. That is, we only need realizations from the error terms <span class="math inline">\(\varepsilon_i\)</span> in order to compute the realizations from <span class="math inline">\(y_i\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">## Generate realizations of the error term</span></span>
+<span><span class="va">eps</span>       <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n</span>, mean<span class="op">=</span><span class="fl">0</span>, sd<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>With the (pseudo-random) realizations from <span class="math inline">\(\varepsilon_i\)</span>, we can finally generate realizations from the dependent variable <span class="math inline">\(y_i\)</span>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">## Generate realizations of the dependent variable:</span></span>
+<span></span>
+<span><span class="va">y</span>   <span class="op">&lt;-</span> <span class="va">beta.vec</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">*</span> <span class="va">X.1</span> <span class="op">+</span> </span>
+<span>       <span class="va">beta.vec</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">*</span> <span class="va">X.2</span> <span class="op">+</span> </span>
+<span>       <span class="va">beta.vec</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span> <span class="op">*</span> <span class="va">X.3</span> <span class="op">+</span> <span class="va">eps</span></span>
+<span></span>
+<span><span class="co">## More compact version:</span></span>
+<span><span class="co"># y   &lt;- X %*% beta.vec + eps</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s take a look at the data:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mydata</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="st">"Y"</span><span class="op">=</span><span class="va">y</span>, <span class="st">"X.1"</span><span class="op">=</span><span class="va">X.1</span>, <span class="st">"X.2"</span><span class="op">=</span><span class="va">X.2</span>, <span class="st">"X.3"</span><span class="op">=</span><span class="va">X.3</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/pairs.html">pairs</a></span><span class="op">(</span><span class="va">mydata</span><span class="op">[</span>,<span class="op">-</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span> <span class="co"># The '-2' removes the intercept variable "X.1"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="Ch0_Intro2R_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Once we have data, we can compute the OLS estimate of the true <span class="math inline">\(\beta\)</span> vector. Remember the formula: <span class="math display">\[
+\hat{\beta}=(X^\top X)^{-1}X^\top y
+\]</span> In R-Code this is: <span class="math inline">\((X^\top X)^{-1}=\)</span><code>solve(t(X) %*% X)</code>, i.e.:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">## Computation of the beta-Vector:</span></span>
+<span><span class="va">beta.hat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/solve.html">solve</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="va">X</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="va">y</span></span>
+<span><span class="va">beta.hat</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          [,1]
+X.1 -0.2521756
+X.2 -4.8690074
+X.3  4.9204254</code></pre>
+</div>
+</div>
+<p>Well done. Using the above lines of code we can easily program our own <code>myOLSFun()</code> function!</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">myOLSFun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">y</span>, <span class="va">x</span>, <span class="va">add.intercept</span><span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">{</span></span>
+<span>  </span>
+<span>  <span class="co">## Number of Observations:</span></span>
+<span>  <span class="va">n</span>         <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co">## Add an intercept to x:</span></span>
+<span>  <span class="kw">if</span><span class="op">(</span><span class="va">add.intercept</span><span class="op">)</span><span class="op">{</span></span>
+<span>    <span class="va">Intercept</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">n</span><span class="op">)</span></span>
+<span>    <span class="va">x</span>         <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">Intercept</span>, <span class="va">x</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span>  </span>
+<span>  <span class="co">## Estimation of the slope-parameters:</span></span>
+<span>  <span class="va">beta.hat.vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/solve.html">solve</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="va">x</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html">%*%</a></span> <span class="va">y</span></span>
+<span>  </span>
+<span>  <span class="co">## Return the result:</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">beta.hat.vec</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co">## Run the function:</span></span>
+<span><span class="fu">myOLSFun</span><span class="op">(</span>y<span class="op">=</span><span class="va">y</span>, x<span class="op">=</span><span class="va">X</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          [,1]
+X.1 -0.2521756
+X.2 -4.8690074
+X.3  4.9204254</code></pre>
+</div>
+</div>
+<p>You extend the function <code>myOLSFun()</code> for the computation of the covariance matrix of the slope-estimates, several measures of fits (e.g.&nbsp;R<span class="math inline">\(^2\)</span> and adj.-R<span class="math inline">\(^2\)</span>), t-tests, etc.</p>
+</section></section><section id="r-packages" class="level3" data-number="1.0.5"><h3 data-number="1.0.5" class="anchored" data-anchor-id="r-packages">
+<span class="header-section-number">1.0.5</span> R-packages</h3>
+<p>One of the best features in R are its contributed packages. The list of all packages on CRAN is impressive! Take a look at it <a href="https://cran.r-project.org/web/packages/available_packages_by_name.html">HERE</a></p>
+<p>For instance, nice plots can be produced using the R-package is <code>ggplot2</code>. You can find an intro do this package <a href="http://ggplot2.tidyverse.org/">HERE</a>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># install.packages("ggplot2")</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://ggplot2.tidyverse.org">"ggplot2"</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/qplot.html">qplot</a></span><span class="op">(</span><span class="va">Sepal.Length</span>, <span class="va">Petal.Length</span>, data <span class="op">=</span> <span class="va">iris</span>, color <span class="op">=</span> <span class="va">Species</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: `qplot()` was deprecated in ggplot2 3.4.0.</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="Ch0_Intro2R_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Of course, <code>ggplot2</code> concerns “only” plotting, but you’ll find <code>R</code>-packages for almost any statistical method out there.</p>
+</section><section id="tidyverse" class="level3" data-number="1.0.6"><h3 data-number="1.0.6" class="anchored" data-anchor-id="tidyverse">
+<span class="header-section-number">1.0.6</span> Tidyverse</h3>
+<p>The <code>tidyverse</code> package is a collection of packages that lets you import, manipulate, explore, visualize and model data in a harmonized and consistent way which helps you to be more productive.</p>
+<p>Installing the <code>tidyverse</code> package:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"tidyverse"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To use the <code>tidyverse</code> package load it using the <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> function:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ stringr   1.5.1
+✔ forcats   1.0.0     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+</div>
+<p><strong>Chick Weight Data</strong></p>
+<p><code>R</code> comes with many datasets installed. We will use the <code>ChickWeight</code> dataset to learn (a little) about the tidyverse. The help system gives a basic summary of the experiment from which the data was collect:</p>
+<blockquote class="blockquote">
+<p><em>“The body weights of the chicks were measured at birth and every second day thereafter until day 20. They were also measured on day 21. There were four groups of chicks on different protein diets.”</em></p>
+</blockquote>
+<p>You can get more information, including references by typing:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/help.html">help</a></span><span class="op">(</span><span class="st">"ChickWeight"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>The Data: </strong> There are 578 observations (rows) and 4 variables:</p>
+<ul>
+<li>
+<code>Chick</code> – unique ID for each chick.</li>
+<li>
+<code>Diet</code> – one of four protein diets.</li>
+<li>
+<code>Time</code> – number of days since birth.</li>
+<li>
+<code>weight</code> – body weight of chick in grams.</li>
+</ul>
+<p>Note: <code>weight</code> has a lower case <code>w</code> (recall R is case sensitive).</p>
+<p>Store the data locally:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ChickWeight</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">Chick</span>, <span class="va">Diet</span>, <span class="va">Time</span>, <span class="va">weight</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">Chick</span>, <span class="va">Diet</span>, <span class="va">Time</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span><span class="op">(</span><span class="st">"DATA/ChickWeight.csv"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>First we will import the data from a file called <code>ChickWeight.csv</code> using the <code><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv()</a></code> function from the <code>readr</code> package (part of the <code>tidyverse</code>). The first thing to do, outside of R, is to open the file <code>ChickWeight.csv</code> to check what it contains and that it makes sense. Now we can import the data as follows:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">CW</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"DATA/ChickWeight.csv"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 578 Columns: 4
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+dbl (4): Chick, Diet, Time, weight
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+<p>If all goes well then the data is now stored in an R object called <code>CW</code>. If you get the following error message then you need to change the working directory to where the data is stored:</p>
+<blockquote class="blockquote">
+<p>Error: ‘ChickWeight.csv’ does not exist in current working directory …</p>
+</blockquote>
+<p><strong>Changing the working directory:</strong> In RStudio you can use the menu bar (“Session - Set Working Directory - Choose Directory…”). Alternatively, you can use the function <code><a href="https://rdrr.io/r/base/getwd.html">setwd()</a></code>. Last but not least, to avoid issues with brocken paths to files and data sets, use RStudios’ “Project” tools.</p>
+<p><strong>Looking at the Dataset:</strong> To look at the data type just type the object (dataset) name:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">CW</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 578 × 4
+   Chick  Diet  Time weight
+   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+ 1    18     1     0     39
+ 2    18     1     2     35
+ 3    16     1     0     41
+ 4    16     1     2     45
+ 5    16     1     4     49
+ 6    16     1     6     51
+ 7    16     1     8     57
+ 8    16     1    10     51
+ 9    16     1    12     54
+10    15     1     0     41
+# ℹ 568 more rows</code></pre>
+</div>
+</div>
+<p>If there are too many variables then not all them may be printed. To overcome this issue we can use the <code><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse()</a></code> function which makes it possible to see every column in your dataset (called a “data frame” in R speak).</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">CW</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 578
+Columns: 4
+$ Chick  &lt;dbl&gt; 18, 18, 16, 16, 16, 16, 16, 16, 16, 15, 15, 15, 15, 15, 15, 15,…
+$ Diet   &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+$ Time   &lt;dbl&gt; 0, 2, 0, 2, 4, 6, 8, 10, 12, 0, 2, 4, 6, 8, 10, 12, 14, 0, 2, 4…
+$ weight &lt;dbl&gt; 39, 35, 41, 45, 49, 51, 57, 51, 54, 41, 49, 56, 64, 68, 68, 67,…</code></pre>
+</div>
+</div>
+<p>The function <code><a href="https://rdrr.io/r/utils/View.html">View()</a></code> allows for a spread-sheet type of view on the data:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/View.html">View</a></span><span class="op">(</span><span class="va">CW</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="tidyverse-plotting-basics" class="level4" data-number="1.0.6.1"><h4 data-number="1.0.6.1" class="anchored" data-anchor-id="tidyverse-plotting-basics">
+<span class="header-section-number">1.0.6.1</span> Tidyverse: Plotting Basics</h4>
+<p>To <strong>visualize</strong> the chick weight data, we will use the <code>ggplot2</code> package (part of the <code>tidyverse</code>). Our interest is in seeing how the <em>weight changes over time for the chicks by diet</em>. For the moment don’t worry too much about the details just try to build your own understanding and logic. To learn more try different things even if you get an error messages.</p>
+<p>Let’s plot the weight data (vertical axis) over time (horizontal axis). Generally, <code>ggplot2</code> works in layers. The following codes generates an empty plot:</p>
+<div class="cell" data-layout-align="center" data-fig.margin="true">
+<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># An empty plot</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">CW</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">Time</span>, <span class="va">weight</span><span class="op">)</span><span class="op">)</span>  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="Ch0_Intro2R_files/figure-html/emptyPlot-1.png" class="img-fluid figure-img" width="432"></p>
+<figcaption>Empty ggplot layer.</figcaption></figure>
+</div>
+</div>
+</div>
+<p>To the empty plot, one can add fuhrer layers:</p>
+<div class="cell" data-layout-align="center" data-fig.margin="true">
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Adding a scatter plot </span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">CW</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">Time</span>, <span class="va">weight</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="Ch0_Intro2R_files/figure-html/emptyPlot2-1.png" class="img-fluid figure-img" width="432"></p>
+<figcaption>Adding a scatter plot layer to the empty ggplot layer.</figcaption></figure>
+</div>
+</div>
+</div>
+<p>Add color for <code>Diet</code>. The graph above does not differentiate between the diets. Let’s use a different color for each diet.</p>
+<div class="cell" data-layout-align="center" data-fig.margin="true">
+<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Adding colour for diet</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">CW</span>,<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">Time</span>,<span class="va">weight</span>,colour<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">Diet</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="Ch0_Intro2R_files/figure-html/addColourPlot-1.png" class="img-fluid figure-img" width="432"></p>
+<figcaption>Adding a further layer for shown the effect of the Diet.</figcaption></figure>
+</div>
+</div>
+</div>
+<p>It is difficult to conclude anything from this graph as the points are printed on top of one another (with diet 1 underneath and diet 4 at the top).</p>
+<p>To improve the plot, it will be handy to store <code>Diet</code> and <code>Time</code> as a <code>factor</code> variables.</p>
+<p><strong>Factor Variables:</strong> Before we continue, we have to make an important change to the <code>CW</code> dataset by making <code>Diet</code> and <code>Time</code> <em>factor variables</em>. This means that R will treat them as categorical variables (see the <code>&lt;fct&gt;</code> variables below) instead of continuous variables. It will simplify our coding. The next section will explain the <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code> function.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">CW</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">CW</span>, Diet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">Diet</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">CW</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">CW</span>, Time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">Time</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">CW</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 578
+Columns: 4
+$ Chick  &lt;dbl&gt; 18, 18, 16, 16, 16, 16, 16, 16, 16, 15, 15, 15, 15, 15, 15, 15,…
+$ Diet   &lt;fct&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+$ Time   &lt;fct&gt; 0, 2, 0, 2, 4, 6, 8, 10, 12, 0, 2, 4, 6, 8, 10, 12, 14, 0, 2, 4…
+$ weight &lt;dbl&gt; 39, 35, 41, 45, 49, 51, 57, 51, 54, 41, 49, 56, 64, 68, 68, 67,…</code></pre>
+</div>
+</div>
+<p>The <code><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap()</a></code> function: To plot each diet separately in a grid using <code><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap()</a></code>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Adding jitter to the points</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">CW</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">Time</span>, <span class="va">weight</span>, colour<span class="op">=</span><span class="va">Diet</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">Diet</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="Ch0_Intro2R_files/figure-html/ScatterPlot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<!-- To overcome the issue of ovelapping points we can ***jitter*** the points using  -->
+<!-- `geom_jitter()`. Replace the `geom_point()` above with `geom_jitter()`. What do you -->
+<!-- observe? -->
+<!-- ```{r jitterPlot2} -->
+<!-- # Adding jitter to the points -->
+<!-- ggplot(CW, aes(Time, weight, colour=Diet)) + -->
+<!--   geom_jitter() + -->
+<!--   facet_wrap(~Diet) + -->
+<!--   theme(legend.position = "bottom") -->
+<!-- ``` -->
+<p><strong>Interpretation:</strong> Diet 4 has the least variability but we can’t really say anything about the mean effect of each diet although diet 3 seems to have the highest.</p>
+<p>Next we will plot the <strong>mean changes</strong> over time for each diet using the <code><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary()</a></code> function:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">CW</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">Time</span>, <span class="va">weight</span>, </span>
+<span>               group<span class="op">=</span><span class="va">Diet</span>, colour<span class="op">=</span><span class="va">Diet</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary</a></span><span class="op">(</span>fun<span class="op">=</span><span class="st">"mean"</span>, geom<span class="op">=</span><span class="st">"line"</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="Ch0_Intro2R_files/figure-html/meanlinesPlot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Interpretation:</strong> We can see that diet 3 has the highest mean weight gains by the end of the experiment. However, we don’t have any information about the variation (uncertainty) in the data.</p>
+<p>To see variation between the different diets we use <code>geom_boxplot</code> to plot a box-whisker plot. A note of caution is that the number of chicks per diet is relatively low to produce this plot.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">CW</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">Time</span>, <span class="va">weight</span>, colour<span class="op">=</span><span class="va">Diet</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">Diet</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Chick Weight over Time by Diet"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="Ch0_Intro2R_files/figure-html/boxPlot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Interpretation:</strong> Diet 3 seems to have the highest “average” weight gain but it has more variation than diet 4 which is consistent with our findings so far.</p>
+<p>Let’s finish with a plot that you might include in a publication.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">CW</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">Time</span>, <span class="va">weight</span>, group<span class="op">=</span><span class="va">Diet</span>, </span>
+<span>                             colour<span class="op">=</span><span class="va">Diet</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">Diet</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="co"># geom_jitter() +</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary</a></span><span class="op">(</span>fun<span class="op">=</span><span class="st">"mean"</span>, geom<span class="op">=</span><span class="st">"line"</span>,</span>
+<span>               colour<span class="op">=</span><span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Chick Weight over Time by Diet"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Time (days)"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Weight (grams)"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="Ch0_Intro2R_files/figure-html/finalPlot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="tidyverse-data-wrangling-basics" class="level4" data-number="1.0.6.2"><h4 data-number="1.0.6.2" class="anchored" data-anchor-id="tidyverse-data-wrangling-basics">
+<span class="header-section-number">1.0.6.2</span> Tidyverse: Data Wrangling Basics</h4>
+<p>In this section we will learn how to wrangle (manipulate) datasets using the <code>tidyverse</code> package. Let’s start with the <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/rename.html">rename()</a></code>, <code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code> and <code><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange()</a></code> functions.</p>
+<p><code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code>: Adds a new variable (column) or modifies an existing one. We already used this above to create factor variables.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Added a column</span></span>
+<span><span class="va">CWm1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">CW</span>, weightKg <span class="op">=</span> <span class="va">weight</span><span class="op">/</span><span class="fl">1000</span><span class="op">)</span></span>
+<span><span class="va">CWm1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 578 × 5
+  Chick Diet  Time  weight weightKg
+  &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt;  &lt;dbl&gt;    &lt;dbl&gt;
+1    18 1     0         39    0.039
+2    18 1     2         35    0.035
+3    16 1     0         41    0.041
+# ℹ 575 more rows</code></pre>
+</div>
+<div class="sourceCode" id="cb88"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Modify an existing column</span></span>
+<span><span class="va">CWm2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">CW</span>, Diet <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_c.html">str_c</a></span><span class="op">(</span><span class="st">"Diet "</span>, <span class="va">Diet</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">CWm2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 578 × 4
+  Chick Diet   Time  weight
+  &lt;dbl&gt; &lt;chr&gt;  &lt;fct&gt;  &lt;dbl&gt;
+1    18 Diet 1 0         39
+2    18 Diet 1 2         35
+3    16 Diet 1 0         41
+# ℹ 575 more rows</code></pre>
+</div>
+</div>
+<p><code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code>: Keeps, drops or reorders variables.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Drop the weight variable from CWm1 using minus</span></span>
+<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">CWm1</span>, <span class="op">-</span><span class="va">weight</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 578 × 4
+  Chick Diet  Time  weightKg
+  &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt;    &lt;dbl&gt;
+1    18 1     0        0.039
+2    18 1     2        0.035
+3    16 1     0        0.041
+# ℹ 575 more rows</code></pre>
+</div>
+<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Keep variables Time, Diet and weightKg</span></span>
+<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">CWm1</span>, <span class="va">Chick</span>, <span class="va">Time</span>, <span class="va">Diet</span>, <span class="va">weightKg</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 578 × 4
+  Chick Time  Diet  weightKg
+  &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt;    &lt;dbl&gt;
+1    18 0     1        0.039
+2    18 2     1        0.035
+3    16 0     1        0.041
+# ℹ 575 more rows</code></pre>
+</div>
+</div>
+<p><code><a href="https://dplyr.tidyverse.org/reference/rename.html">rename()</a></code>: Renames variables whilst keeping all variables.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span><span class="va">CW</span>, Group <span class="op">=</span> <span class="va">Diet</span>, Weight <span class="op">=</span> <span class="va">weight</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 578 × 4
+  Chick Group Time  Weight
+  &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt;  &lt;dbl&gt;
+1    18 1     0         39
+2    18 1     2         35
+3    16 1     0         41
+# ℹ 575 more rows</code></pre>
+</div>
+</div>
+<p><code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code>: Keeps or drops observations (rows).</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">CW</span>, <span class="va">Time</span><span class="op">==</span><span class="fl">21</span> <span class="op">&amp;</span> <span class="va">weight</span><span class="op">&gt;</span><span class="fl">300</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 4
+  Chick Diet  Time  weight
+  &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt;  &lt;dbl&gt;
+1     7 1     21       305
+2    29 2     21       309
+3    21 2     21       331
+# ℹ 5 more rows</code></pre>
+</div>
+</div>
+<p>For comparing values in vectors use: <code>&lt;</code> (less than), <code>&gt;</code> (greater than), <code>&lt;=</code> (less than and equal to), <code>&gt;=</code> (greater than and equal to), <code>==</code> (equal to) and <code>!=</code> (not equal to). These can be combined logically using <code>&amp;</code> (and) and <code>|</code> (or).</p>
+<p><code><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange()</a></code>: Changes the order of the observations.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">CW</span>, <span class="va">Chick</span>, <span class="va">Time</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 578 × 4
+  Chick Diet  Time  weight
+  &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt;  &lt;dbl&gt;
+1     1 1     0         42
+2     1 1     2         51
+3     1 1     4         59
+# ℹ 575 more rows</code></pre>
+</div>
+<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">CW</span>, <span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">weight</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 578 × 4
+  Chick Diet  Time  weight
+  &lt;dbl&gt; &lt;fct&gt; &lt;fct&gt;  &lt;dbl&gt;
+1    35 3     21       373
+2    35 3     20       361
+3    34 3     21       341
+# ℹ 575 more rows</code></pre>
+</div>
+</div>
+<p>What does the <code><a href="https://dplyr.tidyverse.org/reference/desc.html">desc()</a></code> do? Try using <code>desc(Time)</code>.</p>
+</section><section id="the-pipe-operator" class="level4" data-number="1.0.6.3"><h4 data-number="1.0.6.3" class="anchored" data-anchor-id="the-pipe-operator">
+<span class="header-section-number">1.0.6.3</span> The pipe operator <code>%&gt;%</code>
+</h4>
+<p>In reality you will end up doing multiple data wrangling steps that you want to save. The pipe operator <code>%&gt;%</code> makes your code nice and readable:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">CW21</span> <span class="op">&lt;-</span> <span class="va">CW</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Time</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">21</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span>Weight <span class="op">=</span> <span class="va">weight</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_c.html">str_c</a></span><span class="op">(</span><span class="st">"Diet "</span>, <span class="va">Diet</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">Chick</span>, <span class="va">Group</span>, <span class="va">Time</span>, <span class="va">Weight</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">Chick</span>, <span class="va">Time</span><span class="op">)</span> </span>
+<span><span class="va">CW21</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 95 × 4
+  Chick Group  Time  Weight
+  &lt;dbl&gt; &lt;fct&gt;  &lt;fct&gt;  &lt;dbl&gt;
+1     1 Diet 1 0         42
+2     1 Diet 1 21       205
+3     2 Diet 1 0         40
+# ℹ 92 more rows</code></pre>
+</div>
+</div>
+<p>Hint: To understand the code above we should read the pipe operator <code>%&gt;%</code> as “then”.</p>
+<blockquote class="blockquote">
+<p>Create a new dataset (object) called <code>CW21</code> using dataset <code>CW</code> <strong><em>then</em></strong> keep the data for days 0 and 21 <strong><em>then</em></strong> rename variable <code>weight</code> to <code>Weight</code> <strong><em>then</em></strong> create a variable called <code>Group</code> <strong><em>then</em></strong> keep variables <code>Chick</code>, <code>Group</code>, <code>Time</code> and <code>Weight</code> and <strong><em>then</em></strong> finally arrange the data by variables <code>Chick</code> and <code>Time</code>.</p>
+</blockquote>
+<p>This is the same code:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">CW21</span> <span class="op">&lt;-</span> <span class="va">CW</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">.</span>, <span class="va">Time</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">21</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span><span class="va">.</span>, Weight <span class="op">=</span> <span class="va">weight</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">.</span>, Group<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_c.html">str_c</a></span><span class="op">(</span><span class="st">"Diet "</span>,<span class="va">Diet</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">.</span>, <span class="va">Chick</span>, <span class="va">Group</span>, <span class="va">Time</span>, <span class="va">Weight</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">.</span>, <span class="va">Chick</span>, <span class="va">Time</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The pipe operator, <code>%&gt;%</code>, replaces the dots (<code>.</code>) with whatever is returned from code preceding it. For example, the dot in <code>filter(., Time %in% c(0, 21))</code> is replaced by <code>CW</code>. The output of the <code>filter(...)</code> then replaces the dot in <code>rename(., Weight = weight)</code> and so on. Think of it as a data assembly line with each function doing its thing and passing it to the next.</p>
+</section><section id="the-group_by-function" class="level4" data-number="1.0.6.4"><h4 data-number="1.0.6.4" class="anchored" data-anchor-id="the-group_by-function">
+<span class="header-section-number">1.0.6.4</span> The <code>group_by()</code> function</h4>
+<p>From the data visualizations above we concluded that the diet 3 has the highest mean and diet 4 the least variation. In this section, we will quantify the effects of the diets using <strong>summmary statistics</strong>. We start by looking at the number of observations and the mean by <strong>diet</strong> and <strong>time</strong>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mnsdCW</span> <span class="op">&lt;-</span> <span class="va">CW</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">Diet</span>, <span class="va">Time</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>, Mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">weight</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">Diet</span>, <span class="va">Time</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'Diet'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mnsdCW</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 48 × 4
+# Groups:   Diet [4]
+  Diet  Time      N  Mean
+  &lt;fct&gt; &lt;fct&gt; &lt;int&gt; &lt;dbl&gt;
+1 1     0        20  41.4
+2 1     2        20  47.2
+3 1     4        19  56.5
+# ℹ 45 more rows</code></pre>
+</div>
+</div>
+<p>For each distinct combination of <code>Diet</code> and <code>Time</code>, the chick weight data is summarized into the number of observations (<code>N</code>) and the mean (<code>Mean</code>) of <code>weight</code>.</p>
+<p><strong>Further summaries:</strong> Let’s also calculate the standard deviation, median, minimum and maximum values but only at days 0 and 21.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sumCW</span> <span class="op">&lt;-</span>  <span class="va">CW</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Time</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">21</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">Diet</span>, <span class="va">Time</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>N <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>            Mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">weight</span><span class="op">)</span>,</span>
+<span>            SD <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">weight</span><span class="op">)</span>,</span>
+<span>            Median <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">weight</span><span class="op">)</span>,</span>
+<span>            Min <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">weight</span><span class="op">)</span>,</span>
+<span>            Max <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">weight</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">Diet</span>, <span class="va">Time</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'Diet'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sumCW</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 8
+# Groups:   Diet [4]
+  Diet  Time      N  Mean     SD Median   Min   Max
+  &lt;fct&gt; &lt;fct&gt; &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 1     0        20  41.4  0.995   41      39    43
+2 1     21       16 178.  58.7    166      96   305
+3 2     0        10  40.7  1.49    40.5    39    43
+# ℹ 5 more rows</code></pre>
+</div>
+</div>
+<p>Let’s make the summaries “prettier”, say, for a report or publication.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://yihui.org/knitr/">"knitr"</a></span><span class="op">)</span> <span class="co"># to use the kable() function</span></span>
+<span><span class="va">prettySumCW</span> <span class="op">&lt;-</span> <span class="va">sumCW</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>`Mean (SD)` <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_c.html">str_c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">Mean</span>, digits<span class="op">=</span><span class="fl">1</span><span class="op">)</span>,</span>
+<span>           <span class="st">" ("</span>, <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">SD</span>, digits<span class="op">=</span><span class="fl">2</span><span class="op">)</span>, <span class="st">")"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Range <span class="op">=</span> <span class="fu"><a href="https://stringr.tidyverse.org/reference/str_c.html">str_c</a></span><span class="op">(</span><span class="va">Min</span>, <span class="st">" - "</span>, <span class="va">Max</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">Diet</span>, <span class="va">Time</span>, <span class="va">N</span>, <span class="va">`Mean (SD)`</span>, <span class="va">Median</span>, <span class="va">Range</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">Diet</span>, <span class="va">Time</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span> <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"latex"</span><span class="op">)</span></span>
+<span><span class="va">prettySumCW</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<thead><tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Diet</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Time</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">N</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Mean (SD)</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Median</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Range</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: left;">41 ( 0.99)</td>
+<td style="text-align: right;">41.0</td>
+<td style="text-align: left;">39 - 43</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">21</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: left;">178 (58.70)</td>
+<td style="text-align: right;">166.0</td>
+<td style="text-align: left;">96 - 305</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">41 ( 1.5)</td>
+<td style="text-align: right;">40.5</td>
+<td style="text-align: left;">39 - 43</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">21</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">215 (78.1)</td>
+<td style="text-align: right;">212.5</td>
+<td style="text-align: left;">74 - 331</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">41 ( 1)</td>
+<td style="text-align: right;">41.0</td>
+<td style="text-align: left;">39 - 42</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">21</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">270 (72)</td>
+<td style="text-align: right;">281.0</td>
+<td style="text-align: left;">147 - 373</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: left;">41 ( 1.1)</td>
+<td style="text-align: right;">41.0</td>
+<td style="text-align: left;">39 - 42</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">21</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">239 (43.3)</td>
+<td style="text-align: right;">237.0</td>
+<td style="text-align: left;">196 - 322</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Eventually you should be able to produce a publication ready version as follows: -->
+<!-- ```{r prettyKable, echo = FALSE} -->
+<!-- library("knitr") -->
+<!-- prettySumCW %>%  -->
+<!-- kable("latex", booktabs = TRUE, linesep = "", align = "cccrc") %>%  -->
+<!--   #kable_styling(position = "center") %>%  -->
+<!--   row_spec(0, bold = TRUE) %>% -->
+<!--   row_spec(c(2, 4, 6, 8), background = "lightgray") -->
+<!--   # Uncomment below once bugs are fixed - https://github.com/haozhu233/kableExtra/issues/243 & 237 -->
+<!--   # column_spec(1, bold = T) %>% -->
+<!--   # collapse_rows(columns = 1, latex_hline = "none", valign = "top") -->
+<!-- ``` -->
+<p><strong>Interpretation:</strong> This summary table offers the same interpretation as before, namely that diet 3 has the highest mean and median weights at day 21 but a higher variation than group 4. However it should be noted that at day 21, diet 1 lost 4 chicks from 20 that started and diet 4 lost 1 from 10. This could be a sign of some health related issues.</p>
+</section></section><section id="further-links" class="level3" data-number="1.0.7"><h3 data-number="1.0.7" class="anchored" data-anchor-id="further-links">
+<span class="header-section-number">1.0.7</span> Further Links</h3>
+<section id="further-r-intros" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="further-r-intros">Further R-Intros</h4>
+<ul>
+<li><p>https://eddelbuettel.github.io/gsir-te/Getting-Started-in-R.pdf</p></li>
+<li><p>https://www.datacamp.com/courses/free-introduction-to-r</p></li>
+<li><p>https://swcarpentry.github.io/r-novice-gapminder/</p></li>
+<li><p>https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects</p></li>
+</ul></section><section id="version-control-gitgithub" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="version-control-gitgithub">Version Control (Git/GitHub)</h4>
+<ul>
+<li><p>https://support.rstudio.com/hc/en-us/articles/200532077-Version-Control-with-Git-and-SVN</p></li>
+<li><p>http://happygitwithr.com/</p></li>
+<li><p>https://www.gitkraken.com/</p></li>
+</ul></section><section id="r-ladies" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="r-ladies">R-Ladies</h4>
+<ul>
+<li>https://rladies.org/</li>
+</ul>
+
+
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link" aria-label="Organization of the Course">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Organization of the Course</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./Ch1_StatLearning.html" class="pagination-link" aria-label="Statistical Learning">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Statistical Learning</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

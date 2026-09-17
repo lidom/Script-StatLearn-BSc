@@ -1,0 +1,42 @@
+project:
+  type: book
+  output-dir: docs
+  
+book:
+  title: Statistical Learning for Business and Economics (B.Sc.) 
+  author: Prof. Dr. Dominik Liebl 
+  date: last-modified
+  date-format: "[Last Updated on] MMMM DD, YYYY"
+  sidebar: 
+    logo: images/KU_Logo_2.png
+    number-depth: 2
+  search: true
+  chapters:
+    - index.qmd
+    - Ch_Intro2R.qmd      
+    - Ch_ReviewProbStats.qmd
+    - Ch_LinearRegression.qmd 
+    - Ch_MatrixAlgebra.qmd 
+    - Ch_NonParamRegression.qmd #combine with Ch2_StatLearning.qmd
+    - Ch5_Classification.qmd    # Comment in/out solutions of exercises
+    - Ch6_Bootstrap.qmd # Comment in/out solutions of exercises
+    #- Ch7_LinModSelectRegul.qmd # Comment in/out solutions of exercises
+
+bibliography: references.bib
+
+format:
+  html:
+    theme:
+      light: [flatly, theme.scss]
+      dark: [flatly, darkly, theme.scss]
+    html-math-method:
+      method: mathjax
+      url: "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML"
+    number-sections: true
+    code-link: true
+    reference-links: true
+    reference-location: margin
+    knitr:
+      opts_chunk:
+        fig.align: center
+        fig-align: center

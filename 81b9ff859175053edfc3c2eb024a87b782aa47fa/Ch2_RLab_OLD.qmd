@@ -1,0 +1,302 @@
+# `R`-Lab Ch 3: Linear Regression"
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+First, load the necessary `R`-packages for this `R`Lab:
+
+```{r}
+# install.packages("MASS")
+# install.packages("ISLR")
+
+library("MASS") # contains the 'Boston' data-set among others
+library("ISLR") # contains further data-sets
+# check: help(package="ISLR")
+```
+
+
+# Simple Linear Regression
+
+Let's take a first look at the data. The Boston data sets contains information about $N=506$ neighborhoods around Boston. 
+
+```{r, eval=FALSE}
+View(Boston) # allows you to take a view on the data
+fix(Boston)  # allows you also to edit the data
+
+names(Boston) # column-names
+```
+
+
+In the following, we estimate a simple linear regression model
+$$
+y_i=\alpha + \beta x_i + \varepsilon_i
+$$
+with `medv` (median house value) as the dependent variable, $y_i$, and `lstat` (percent of households with low
+socioeconomic status) as the predictor-variable, $x_i$. 
+
+```{r}
+lm.fit=lm(medv ~ lstat, data=Boston) # works fine
+
+attach(Boston)
+lm.fit = lm(medv~lstat) # works fine too after attaching the data
+
+# lm.fit
+## Regression-Output
+summary(lm.fit)
+```
+
+
+The `names(lm.fit)` function tells you the names of the list-entries in the list-object `lm.fit`. I little more information is given by `str(lm.fit)`. You can extract the coefficients by selecting the corresponding list-entry, i.e., by `lm.fit$coefficients`. Alternatively, you can use the `coef()` function. 
+
+```{r}
+names(lm.fit)
+coef(lm.fit)
+```
+
+The function `confint()` computes confidence intervals for the regression coefficients. 
+```{r}
+confint(lm.fit)
+```
+
+The `predict()` function can be used to compute the prediction interval 
+$$
+\hat{y}_{0} \pm t_{n-p}^{(\alpha / 2)} \sqrt{\hat{\sigma}^2+x_{0}^{T}\left(X^{T} X\right)^{-1} x_{0}\hat{\sigma}^2}.
+$$
+This is a $100(1-\alpha)\%$ prediction interval for a future `medv`-response $y$, at a given predictor vector, $x_0=(1,\tilde{x}_0)'$. The matrix $X$ denotes a $N\times p$ matrix (here $p=2$) having $1$s in the first column and the `lstat`-predictor values $x_1,\dots,x_N$ in the second column. Note that the prediction interval consists of two variance-components; first, the (estimated) variance of the error term, $\hat{\sigma}^2$, and, second, the (estimated) variance of the empirical regression function at a chosen point $x_0$ of interest, i.e. here $Var(\hat{f}(x_0))=Var(x_0'\hat{\beta})=x_0'(X'X)^{-1}x_0\hat{\sigma}^2$. 
+```{r}
+predict(lm.fit,data.frame(lstat=(c(5,10,15))), interval="prediction")
+```
+
+Caution: The `predict` function has also the option `interval="confidence"`. This, shall not be mixed up with a confidence interval for the parameters which was computed above using `confint()`. Under this option you compute the following confidence interval
+$$
+\hat{y}_{0} \pm t_{n-p}^{(\alpha / 2)} \sqrt{x_{0}^{T}\left(X^{T} X\right)^{-1} x_{0}\hat{\sigma}^2}.
+$$
+This confidence interval is similar to the prediction interval above, but without the component for the variance of the error term. So, this is a confidence interval for $f(x_0)=x_0'\hat{\beta}$. 
+```{r}
+predict(lm.fit,data.frame(lstat=(c(5,10,15))), interval="confidence")
+```
+
+Plotting the data along with a graph of the estimated regression function. 
+```{r, fig.align="center"}
+plot(x = lstat,y = medv)
+abline(lm.fit, lwd = 3, col = "red")
+
+# plot(lstat, medv, col="red") # red points
+# plot(lstat, medv, pch=20)    # other type of points
+# plot(lstat, medv, pch="+")   # '+' instead of points
+# plot(1:20, 1:20, pch=1:20)   # overview of point-options
+```
+
+Diagnostic plots.
+```{r, fig.align="center"}
+par(mfrow=c(2,2))
+plot(lm.fit)
+```
+
+Inspecting the results by hand.
+```{r, fig.align="center"}
+par(mfrow=c(1,2))
+plot(x = predict(lm.fit), y = residuals(lm.fit))
+plot(x = predict(lm.fit), y = rstudent(lm.fit))
+```
+
+So, there are several positive outliers which can be seen by the standardized residuals with values $>+2$. 
+
+```{r, fig.align="center"}
+
+```
+
+Leverage statistics \textbf{greatly} exceeding $(p+1)/n=2/506=0.004$ are considered as high-leverage points.  
+```{r}
+n <- length(fitted.values(lm.fit))
+p <- length(coef(lm.fit)) - 1
+
+lower_threshold <- (p+1)/n
+
+which(hatvalues(lm.fit) > lower_threshold)
+which.max(hatvalues(lm.fit))
+
+par(mfrow=c(1,1))
+plot(hatvalues(lm.fit))
+abline(h=lower_threshold, col="red", lty=2)
+```
+
+Typically, we would like to avoid working with outliers having high leverage values (e.g. `lower_threshold * 2`).
+```{r}
+standardized_resid <- scale(resid(lm.fit))
+
+which(abs(standardized_resid) > 2 & hatvalues(lm.fit) > lower_threshold * 2)
+```
+
+
+
+# Multiple Linear Regression
+
+Let's do now a multiple linear regression estimation, where we investigate the effects of the predictors `lstat` and `age` on the dependent variable `medv`
+```{r}
+lm.fit <- lm(medv ~ lstat + age, data = Boston)
+summary(lm.fit)
+```
+
+There is a short-cut formula notation for regressing a dependent variable on all predictors in the data set:
+```{r}
+lm.fit <- lm(medv ~ ., data = Boston)
+summary(lm.fit)
+```
+
+The command `summary(lm.fit)` returns a list-object and you can get access to each of the list entries by using the `$` operator (use the `str()` function to get an overview). For instance, `summary(lm.fit)$r.sq` 
+gives us the $R^2$ , and `summary(lm.fit)$sigma` gives us the estimated standard deviations of the error term, which might not be a sensible statistic in case of heteroscedastic error term. 
+
+
+## Variance inflation factors
+
+Potential multicollinearity problems, can be detected using **variance inflation factors**
+$$
+\operatorname{VIF}\left(\hat{\beta}_{j}\right)=\frac{1}{1-R_{X_{j} \mid X_{-j}}^{2}}
+$$
+VIF-values close to 1 are indicating that the $j$th predictor is orthogonal to the space spanned by the other predictors (i.e. the other predictors, $X_{-j}$ cannot explain the $j$th predictor $X_j$). Large VIF-values $\gg 1$ are indicating that there may be an multicollinearity problem with the $j$th predictor.
+
+In order to compute the **variance inflation factors**, we can use the function `vif()` of the \textsf{R} package \texttt{car}.
+```{r}
+library("car")
+vif_vec <- vif(lm.fit)
+vif_vec[order(vif_vec)]
+```
+
+
+## Formula-Ticks for working with `lm()`
+A short-cut notation for a regression on all predictor variables in the data except on the `age` is the following
+```{r, eval=FALSE}
+lm.fit1 <- lm(medv ~ . -age, data = Boston)
+summary(lm.fit1)
+```
+
+Alternatively, the update() function can be used based on the above computed `lm.fit` object.
+```{r, eval=FALSE}
+lm.fit1 <- update(lm.fit, ~.-age)
+```
+
+
+# Interaction Terms
+
+It is easy to include interaction terms in a linear model using the `lm()` function. The syntax `lstat:black` tells `R` to include an interaction term between `lstat` and `black`. The syntax `lstat*age` simultaneously includes `lstat`, `age`, and the interaction term `lstat`$\times$`age` as predictors; it is a shorthand for
+`lstat+age+lstat:age`.
+```{r}
+summary(lm(medv ~ lstat * age, data = Boston))
+```
+
+
+# Non-linear Transformations of the Predictors
+
+The `lm()` function can also accommodate non-linear transformations of the
+predictors. For instance, given a predictor $X$, we can create a predictor $X^2$ using `I(X^2)`. The function `I()` is needed since the `^` has a special meaning in a formula (see `?formula` in \textsf{R}).  However, the wrapping `I(X^2)` allows the standard usage of `^` in \textsf{R} , which is to raise $X$ to the power $2$. We now perform a regression of `medv` onto `lstat` and `lstat`$^2$.
+
+```{r}
+## Full model
+lm.fit2 <- lm(medv~lstat+I(lstat^2), data = Boston)
+summary(lm.fit2)
+```
+The near-zero p-value associated with the quadratic term suggests that
+it leads to an improved model. We use the `anova()` function to further
+quantify the extent to which the quadratic fit is superior to the linear fit.
+```{r}
+## Small sub-model
+lm.fit <- lm(medv~lstat, data = Boston)
+## Compare both models
+## H0: Both models fit the data equally well. 
+## H1: The full model fits the data better.
+anova(lm.fit, lm.fit2)
+```
+The `anova()` function performs a hypothesis test comparing the two models. The null hypothesis is that the two models fit the data equally well, and the alternative hypothesis is that the full
+model is superior. Here the F-statistic is $135.2\gg 1$ and the associated p-value is
+virtually zero. This provides very clear evidence that the model containing
+the predictors `lstat` and `lstat`$^2$ is far superior to the model that only
+contains the predictor `lstat`. This is not surprising, since earlier we saw
+evidence for non-linearity in the relationship between `medv` and `lstat`. If we
+type
+```{r, fig.align="center"}
+## Diagnostic checks
+par(mfrow=c(1,2))
+plot(lm.fit,  which = 1, main="Linear Fit")
+plot(lm.fit2, which = 1, main="Quadratic Fit")
+```
+then we see that when the `lstat`$^2$ term is included in the model, there is
+little discernible pattern in the residuals.
+
+
+In order to create a cubic fit, we can include a predictor of the form `I(X^3)`, etc.  However, this approach can start to get cumbersome for higher-order polynomials. A better approach involves using the `poly()` function to create the polynomial within `lm()`:
+```{r}
+lm.fit5 <- lm(medv ~ poly(lstat, 2, raw = TRUE), data = Boston)
+summary(lm.fit5)
+```
+
+
+Of course, we are in no way restricted to using polynomial transformations of the predictors. Here we try a log-transformation and then plot the $log()$ and the polynomial transformations. 
+```{r, fig.align="center"}
+lm.fitLog <- lm(medv ~ log(lstat), data=Boston)
+summary(lm.fitLog)
+
+## Plot polynomial vs. log
+xpol <- seq(min(Boston$lstat), 
+          max(Boston$lstat), length = 20)  ## prediction grid
+ypol <- predict.lm(lm.fit2, newdata = list(lstat = xpol)) 
+
+xlog <- seq(min(log(Boston$lstat)), 
+            max(log(Boston$lstat)), length = 20)  ## prediction grid
+ylog <- lm.fitLog$coefficients[1] + lm.fitLog$coefficients[2] * xlog
+
+par(mfrow=c(1,3))
+plot(log(Boston$lstat), Boston$medv, main="Log(X)-Transformation\non log(X)-scale")
+lines(x = xlog, y = ylog, col="red") 
+plot(Boston$lstat, Boston$medv, main="Log(X)-Transformation\non X-scale")
+lines(x = exp(xlog), y = ylog, col="red")
+plot(medv ~ lstat, data = Boston, main="Poly(X)-Transformation", xlab="lstat")
+lines(xpol, ypol, col="red")
+```
+
+
+# Qualitative Predictors
+
+In the following, we will now examine the `Carseats` data, which is part of the `ISLR` \textsf{R}-package. We will attempt to predict `Sales` (child car seat sales) in 400 locations based on a number of predictors.
+```{r}
+# View(Carseats)
+# fix(Carseats)
+names(Carseats) # ? Carseats
+```
+
+The `Carseats` data includes qualitative predictors such as `Shelveloc`, an indicator of the quality of the shelving location -- that is, the space within a store in which the car seat is displayed -- at each location. The predictor `Shelveloc` takes on three possible values: `Bad`, `Medium`, and `Good`.
+
+Given a qualitative variable such as `Shelveloc`, \textsf{R} generates dummy variables automatically. Below we fit a multiple regression model that includes some interaction terms.
+```{r}
+lm.fit <- lm(Sales ~ .+Income:Advertising+Price:Age, data=Carseats)
+summary(lm.fit)
+```
+The `contrasts()` function returns the coding that \textsf{R} uses for the dummy variables.
+```{r}
+attach(Carseats)
+contrasts(ShelveLoc) # ? contrasts
+```
+
+Use `?contrasts` to learn about other contrasts, and how to set them.
+\textsf{R} has created a `ShelveLocGood` dummy variable that takes on a value of
+$1$ if the shelving location is good, and $0$ otherwise. It has also created a
+`ShelveLocMedium` dummy variable that equals $1$ if the shelving location is 
+medium, and $0$ otherwise. A bad shelving location corresponds to a zero
+for each of the two dummy variables. The fact that the coefficient for `ShelveLocGood` in the regression output is positive indicates that a good
+shelving location is associated with high sales (relative to a bad location).
+And `ShelveLocMedium` has a smaller positive coefficient, indicating that a
+medium shelving location leads to higher sales than a bad shelving location
+but lower sales than a good shelving location.
+
+<!-- # Writing Functions -->
+
+<!-- LoadLibraries -->
+<!-- LoadLibraries() -->
+<!-- LoadLibraries=function(){ -->
+<!--   library(ISLR) -->
+<!--   library(MASS) -->
+<!--   print("The libraries have been loaded.") -->
+<!-- } -->
+<!-- LoadLibraries -->
+<!-- LoadLibraries() -->

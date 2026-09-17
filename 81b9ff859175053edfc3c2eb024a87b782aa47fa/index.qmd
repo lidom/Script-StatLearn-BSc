@@ -1,0 +1,88 @@
+<!-- LTeX: language=en-US -->
+# Organization of the Course {-}
+
+### Timetable {-} 
+
+```{r, echo=FALSE}
+suppressPackageStartupMessages(library("kableExtra"))
+suppressPackageStartupMessages(library("tidyverse"))
+
+timetable <- tibble("Mondays"      = c("Theory",      "Break",       "Theory",      "Open Coding Space"),
+                    "Time"         = c("14:15-15:45", "15:45-16:15", "16:15-17:15", "17:15-17:45"),
+                    "Lecture Hall" = c("Jur / Lecture Hall K"))
+           
+timetable %>% kbl() %>%  kable_styling()
+```
+
+
+### Lecture Material {-}
+
+* This online script
+* [Folder containing `R`-Scripts](https://www.dropbox.com/scl/fo/omfqxytalaiyx4kd0kv4o/AE7EhUu8W3dJPvaA_ETDlQM?rlkey=w6v0am29ypq38gt4xpzy230bj&st=8p60234i&dl=0)
+* [eWhiteboard](https://www.dropbox.com/scl/fi/vnzws3xkbs2ojd5mfcdxr/CASA_eWhiteboard_2526_annotated.pdf?rlkey=ny3rnruqrsyyy1j4i2z3rdoek&st=djjulif7&dl=0) 
+
+### Literature {-}
+
+* [An Introduction to Statistical Learning](https://www.statlearning.com/) (`ISLR`)
+* [The Elements of Statistical Learning](https://hastie.su.domains/ElemStatLearn/)
+* Econometrics (Chapter 1) by Fumio Hayashi
+
+<!-- 
+* **To-Do List for October 9, 2023:** [To-Do List (PDF)](https://www.dropbox.com/scl/fi/oxf406ur56tq4wg5hm1dj/ToDo_List_4_Students.pdf?rlkey=juskpa6o9yx903yywpgatw5j7&dl=0) -->
+
+<!-- 
+### In-Class Coding Exercises 
+
+Date | Accepted Submission 1 | Accepted Submission 2 | Accepted Submission 3
+-----|-----------------------|-----------------------|----------------------
+Oct. 20| | |
+
+
+* Submissions must be done until 6pm of the day of the in-class exercises.
+* Persons that already have an accepted submission are not allowed to submit again.
+* One accepted submission leads to one grading-step upgrade (e.g. from 1.7 to 1.3)
+* This lecture unit is experimental. Only if everyone   
+-->
+
+
+<!-- ### Exam {-}
+
+* Written exam (60 minutes)
+* You are allowed to use 
+    * a *handwritten* cheat-sheet (**one side** of a DIN A4 page).
+    * a non-programmable scientific calculator.
+* Please, do **not** use a pencil.
+* Exam dates and times are published by the [examinations office](https://www.econ.uni-bonn.de/examinations/en/dates/dates?set_language=en).
+* Chapters marked by "**Self-Study:**" are not relevant for the exam. 
+* First page of the exam (containing the exam instructions): [Download](https://www.dropbox.com/scl/fi/0gmogr9mw7kzkjkajfp0l/Exam_CASA_1stPage.pdf?rlkey=tmshf9y6bdmjki2mhekre9nw3&dl=0) -->
+
+
+
+
+
+<!-- ### Assignments {-}
+
+For each chapter there is a home assignment. You can use the `Open Coding Space` for asking questions and for working on your assignments. You can help each other, but everyone has to submit an own home assignment.  
+
+To participate in the assignments, you need a GitHub-Account and write your name and the name of your GitHub-Account into the following spreadsheet:</br>
+[Spreadsheet](https://docs.google.com/spreadsheets/d/15NhYz8sYSogZ23FAtZkxmVMc9b4WVtvm_typ-L2xOeQ/edit?usp=sharing)
+
+
+**Grading:** 
+
+* $1$ Point per correct assignment
+* $0.5$ Point if at least $50\%$ of the assignment is correct. 
+* $0$ Point otherwise
+
+**Bonus for the exam grade:**
+
+* Upgrade of two grade steps (e.g. from 1.7 to 1.0) if at least $80\%$ of the maximal possible assignment points were collected.  
+* Upgrade of one grade step (e.g. from 1.7 to 1.3) if less than $80\%,$ but at least $60\%$ of the maximal possible points were collected.  
+
+
+**Results:** [List of Results](https://docs.google.com/spreadsheets/d/1zBNcoepnBX3vMz6E2klOtroi0QfvwbmYFcoMdmNrx-8/edit?usp=sharing)
+ -->
+
+
+
+

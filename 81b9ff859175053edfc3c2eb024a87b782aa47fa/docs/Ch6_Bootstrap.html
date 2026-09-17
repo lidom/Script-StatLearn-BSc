@@ -1,0 +1,1877 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>6&nbsp; The Bootstrap – Computer-Aided Statistical Analysis (B.Sc.)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./Ch5_Classification.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+</head>
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Ch6_Bootstrap.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The Bootstrap</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./images/Uni_Bonn_Logo.jpeg" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Computer-Aided Statistical Analysis (B.Sc.)</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Organization of the Course</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch_Intro2R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title"><code>R</code>-Lab: Introduction to <code>R</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch_LinearRegression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Linear Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch_MatrixAlgebra.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Matrix Algebra</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch_NonParamRegression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Nonparametric Regression and Cross-Validation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch5_Classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch6_Bootstrap.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The Bootstrap</span></span></a>
+  </div>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+<li>
+<a href="#self-study-exercises" id="toc-self-study-exercises" class="nav-link active" data-scroll-target="#self-study-exercises"><span class="header-section-number">6.1</span> Self-Study: Exercises</a>
+  <ul class="collapse">
+<li><a href="#solutions" id="toc-solutions" class="nav-link" data-scroll-target="#solutions"><span class="header-section-number">6.1.1</span> Solutions</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#self-study-r-lab-resampling-methods" id="toc-self-study-r-lab-resampling-methods" class="nav-link" data-scroll-target="#self-study-r-lab-resampling-methods"><span class="header-section-number">6.2</span> Self-Study: <code>R</code>-Lab Resampling Methods</a>
+  <ul class="collapse">
+<li><a href="#the-validation-set-approach" id="toc-the-validation-set-approach" class="nav-link" data-scroll-target="#the-validation-set-approach"><span class="header-section-number">6.2.1</span> The Validation Set Approach</a></li>
+  <li><a href="#sec-RLabLOOCV" id="toc-sec-RLabLOOCV" class="nav-link" data-scroll-target="#sec-RLabLOOCV"><span class="header-section-number">6.2.2</span> Leave-One-Out Cross-Validation</a></li>
+  <li><a href="#k-fold-cross-validation" id="toc-k-fold-cross-validation" class="nav-link" data-scroll-target="#k-fold-cross-validation"><span class="header-section-number">6.2.3</span> <span class="math inline">\(k\)</span>-Fold Cross-Validation</a></li>
+  <li><a href="#the-bootstrap" id="toc-the-bootstrap" class="nav-link" data-scroll-target="#the-bootstrap"><span class="header-section-number">6.2.4</span> The Bootstrap</a></li>
+  </ul>
+</li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title"><span id="sec-resamplingmethods" class="quarto-section-identifier"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The Bootstrap</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header><p>The bootstrap is a widely applicable and powerful statistical tool to quantify the uncertainty associated with a given estimator or statistical learning method.</p>
+<section id="illustration" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="illustration"><strong>Illustration</strong></h4>
+<p>Suppose that we wish to invest a fixed sum of money in two financial assets that yield returns of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y.\)</span> These returns <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are random with</p>
+<ul>
+<li><span class="math inline">\(Var(X)=\sigma^2_X\)</span></li>
+<li><span class="math inline">\(Var(Y)=\sigma^2_Y\)</span></li>
+<li><span class="math inline">\(Cov(X,Y)=\sigma_{XY}\)</span></li>
+</ul>
+<p>We want to invest a fraction <span class="math inline">\(\alpha\in(0,1)\)</span> in <span class="math inline">\(X\)</span> and invest the remaining <span class="math inline">\(1-\alpha\)</span> in <span class="math inline">\(Y.\)</span></p>
+<p>Our aim is to minimize the variance (risk) of our investment, i.e., we want to minimize <span class="math display">\[
+Var\left(\alpha X + (1-\alpha)Y\right).
+\]</span> One can show that the value <span class="math inline">\(\alpha\)</span> that minimizes this variance is <span id="eq-alpha"><span class="math display">\[
+\alpha = \frac{\sigma^2_Y - \sigma_{XY}}{\sigma^2_X + \sigma^2_Y - 2\sigma_{XY}}.
+\qquad(6.1)\]</span></span> Using a data set that contains past measurements <span class="math display">\[
+((X_1,Y_1),\dots,(X_n,Y_n))
+\]</span> for <span class="math inline">\(X\)</span> and <span class="math inline">\(Y,\)</span> we can estimate the unknown <span class="math inline">\(\alpha\)</span> by plugging in estimates of the variances and covariances <span id="eq-alphahat"><span class="math display">\[
+\hat\alpha = \frac{\hat\sigma^2_Y - \hat\sigma_{XY}}{\hat\sigma^2_X + \hat\sigma^2_Y - 2\hat\sigma_{XY}}
+\qquad(6.2)\]</span></span> with <span class="math display">\[
+\begin{align*}
+\hat{\sigma}^2_X&amp;=\frac{1}{n}\sum_{i=1}^n\left(X_i-\bar{X}\right)^2\\
+\hat{\sigma}^2_Y&amp;=\frac{1}{n}\sum_{i=1}^n\left(Y_i-\bar{Y}\right)^2\\
+\hat{\sigma}_{XY}&amp;=\frac{1}{n}\sum_{i=1}^n\left(X_i-\bar{X}\right)\left(Y_i-\bar{Y}\right),
+\end{align*}
+\]</span> where <span class="math inline">\(\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i,\)</span> and likewise for <span class="math inline">\(\bar{Y}.\)</span></p>
+<p>It is natural to wish to quantify the accuracy of our estimate <span class="math inline">\(\hat\alpha\approx \alpha.\)</span> I.e., we wish to know the standard error of the estimator <span class="math inline">\(\hat\alpha\)</span>, <span class="math display">\[
+\sqrt{Var(\hat\alpha)} = \operatorname{SE}(\hat\alpha)=?
+\]</span> Computing <span class="math inline">\(\operatorname{SE}(\hat\alpha)\)</span> is here difficult due to the definition of <span class="math inline">\(\hat\alpha\)</span> in <a href="#eq-alphahat" class="quarto-xref">Equation&nbsp;<span>6.2</span></a> which contains variance estimates also in the denominator.</p>
+</section><section id="the-infeasible-bootstrap-a-monte-carlo-simulation" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="the-infeasible-bootstrap-a-monte-carlo-simulation"><strong>The Infeasible Bootstrap: A Monte Carlo Simulation</strong></h4>
+<p>Let us, for a moment, assume that we know the distributions of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y.\)</span> And, for simplicity, let’s say <span class="math display">\[
+\left(\begin{matrix}X\\ Y\end{matrix}\right) \sim F_{(X,Y)},
+\]</span> where <span class="math inline">\(F_{(X,Y)}\)</span> is the distribution function of the bi-variate normal distribution <span id="eq-MCDistr"><span class="math display">\[
+\mathcal{N}\left(\left(\begin{matrix}0\\0\end{matrix}\right),\left[\begin{matrix}\sigma_X^2&amp;\sigma_{XY}\\\sigma_{XY}&amp;\sigma_{Y}^2\end{matrix}\right]\right).
+\qquad(6.3)\]</span></span></p>
+<p>If this were true, i.e., if we would know the true population distribution of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y,\)</span> we could simply generate a new dataset containing new observations for <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> that allows us to compute a new estimate <span class="math inline">\(\hat\alpha.\)</span></p>
+<p>Repeatedly generating new datasets <span class="math inline">\(((X_1,Y_1),\dots,(X_n,Y_n))\)</span> by sampling new observations from the (here assumed) true population distribution <a href="#eq-MCDistr" class="quarto-xref">Equation&nbsp;<span>6.3</span></a>, for instance, <span class="math inline">\(B=1000\)</span> many times, would allow us to compute <span class="math inline">\(B=1000\)</span> estimates<br><span class="math display">\[
+\hat\alpha_1,\;\hat\alpha_2,\dots,\hat\alpha_{B}.
+\]</span> The empirical standard deviation <span class="math display">\[
+\sqrt{\frac{1}{B}\sum_{b=1}^B\left(\hat\alpha_b - \bar{\alpha}\right)^2},\quad\text{with}\quad \bar{\alpha} = \frac{1}{B}\sum_{b=1}^B\hat\alpha_b,
+\]</span> is then a very good estimate of the (unknown) true <span class="math inline">\(\operatorname{SE}(\hat\alpha).\)</span></p>
+<p>Indeed, by the law of large numbers this sample standard deviation consistently estimates the true <span class="math inline">\(\operatorname{SE}(\hat\alpha)\)</span> as <span class="math inline">\(B\to\infty,\)</span> provided that we sample from the <strong>true</strong> population distribution <span class="math inline">\(F_{(X,Y)}.\)</span></p>
+<p><code>R</code> code for doing this Monte Carlo simulation:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="http://www.stats.ox.ac.uk/pub/MASS4/">"MASS"</a></span><span class="op">)</span><span class="op">)</span> <span class="co"># for mvrnorm()</span></span>
+<span></span>
+<span><span class="va">n</span>        <span class="op">&lt;-</span> <span class="fl">100</span> <span class="co"># sample size</span></span>
+<span></span>
+<span><span class="co">## Next: Defining the (usually unknown) population </span></span>
+<span><span class="co">## distribution of (X,Y) ~ F_XY, where F_XY is </span></span>
+<span><span class="co">## assumed to be a Bi-variate normal distribution </span></span>
+<span><span class="co">## with the following parameters: </span></span>
+<span><span class="va">mu_X</span>     <span class="op">&lt;-</span> <span class="fl">0</span></span>
+<span><span class="va">mu_Y</span>     <span class="op">&lt;-</span> <span class="fl">0</span></span>
+<span></span>
+<span><span class="va">sigma2_X</span> <span class="op">&lt;-</span> <span class="fl">3</span></span>
+<span><span class="va">sigma2_Y</span> <span class="op">&lt;-</span> <span class="fl">4</span></span>
+<span><span class="va">sigma_XY</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span></span>
+<span><span class="va">Sigma</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">sigma2_X</span>, <span class="va">sigma_XY</span><span class="op">)</span>, </span>
+<span>                  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">sigma_XY</span>, <span class="va">sigma2_Y</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co">## The true (usually unknown) alpha value: </span></span>
+<span><span class="va">alpha_true</span>  <span class="op">&lt;-</span> <span class="op">(</span><span class="va">sigma2_Y</span> <span class="op">-</span> <span class="va">sigma_XY</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="va">sigma2_X</span> <span class="op">+</span> <span class="va">sigma2_X</span> <span class="op">-</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">sigma_XY</span><span class="op">)</span>                  </span>
+<span></span>
+<span></span>
+<span><span class="co">## Infeasible Bootstrap (i.e. a Monte Carlo (MC) Simulation)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">333</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">B</span>            <span class="op">&lt;-</span> <span class="fl">1000</span></span>
+<span><span class="va">alpha_hat_MC</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">numeric</a></span><span class="op">(</span><span class="va">B</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw">for</span><span class="op">(</span><span class="va">b</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">B</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">dat</span>             <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/mvrnorm.html">mvrnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">n</span>, mu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">mu_X</span>, <span class="va">mu_Y</span><span class="op">)</span>, Sigma <span class="op">=</span> <span class="va">Sigma</span><span class="op">)</span></span>
+<span>  <span class="va">X</span>               <span class="op">&lt;-</span> <span class="va">dat</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span></span>
+<span>  <span class="va">Y</span>               <span class="op">&lt;-</span> <span class="va">dat</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span></span>
+<span>  <span class="co">##</span></span>
+<span>  <span class="va">sigma2_X_hat</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span>
+<span>  <span class="va">sigma2_Y_hat</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">Y</span><span class="op">)</span></span>
+<span>  <span class="va">sigma_XY_hat</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cov</a></span><span class="op">(</span><span class="va">X</span>,<span class="va">Y</span><span class="op">)</span></span>
+<span>  <span class="co">##</span></span>
+<span>  <span class="va">alpha_hat_MC</span><span class="op">[</span><span class="va">b</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">sigma2_Y_hat</span> <span class="op">-</span> <span class="va">sigma_XY_hat</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="va">sigma2_X_hat</span> <span class="op">+</span> <span class="va">sigma2_X_hat</span> <span class="op">-</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">sigma_XY_hat</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co">## Estimate of the standard error of the estimates for alpha:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">alpha_hat_MC</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2301389</code></pre>
+</div>
+</div>
+Thus, this Monte Carlo simulation estimates that the true standard error equals 0.2301389, i.e.&nbsp;
+<center>
+<span class="math inline">\(\operatorname{SE}(\hat\alpha) \approx\)</span> <code>sd(alpha_hat_MC)</code> <span class="math inline">\(=\)</span> 0.2301389,
+</center>
+<p>and by the law of large number (large <code>B</code>), we can expect this estimation to be really good and reliable.</p>
+<p>But, unfortunately, this result depends on our <strong>completely</strong> unrealistic assumption that we know the true population distribution <span class="math inline">\(F_{(X,Y)}\)</span> of <span class="math inline">\((X,Y),\)</span> which makes this simple resampling approach infeasible in practice. 😭</p>
+</section><section id="the-actual-feasible-bootstrap" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="the-actual-feasible-bootstrap"><strong>The Actual (Feasible) Bootstrap</strong></h4>
+<p>Fortunately, we can use the <strong>empirical cumulative distribution function</strong> <span class="math inline">\(F_{n,(X,Y)}\)</span> from the originally observed dataset of past measurements for <span class="math inline">\(X\)</span> and <span class="math inline">\(Y,\)</span> as an approximation to the true (unknown) population distribution <span class="math inline">\(F_{(X,Y)}\)</span>, <span class="math display">\[
+F_{n,(X,Y)}\approx F_{(X,Y)}.
+\]</span></p>
+<p>So, instead of resampling from an unknown population distribution <span class="math inline">\(F_{(X,Y)},\)</span> which is not possible in practice, since <span class="math inline">\(F_{(X,Y)}\)</span> is typically unknown, we resample from the empirical distribution <span class="math inline">\(F_{n,(X,Y)},\)</span> which is easily possible in practice. 🥳</p>
+<p>This idea will work well, as long as <span class="math inline">\(F_{n,(X,Y)}\)</span> serves as a good approximation of <span class="math inline">\(F_{(X,Y)}\)</span> which will always be the case if the sample size <span class="math inline">\(n\)</span> is sufficiently large since, by the famous <a href="https://en.wikipedia.org/wiki/Glivenko%E2%80%93Cantelli_theorem">Glivenko-Cantelli Theorem</a>, <span class="math inline">\(F_{n,(X,Y)}\)</span> is uniformly consistent for <span class="math inline">\(F_{(X,Y)}.\)</span></p>
+<p>Sampling from an empirical cdf <span class="math inline">\(F_{n}\)</span> simply means sampling from the observed dataset <span class="math inline">\((X_i,Y_i)\)</span>, <span class="math inline">\(i=1,\dots,n\)</span>, <strong>with replacement</strong>, for instance like this:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">bootstrap_sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span>, <span class="va">n</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">bootstrap_data</span>   <span class="op">&lt;-</span> <span class="va">data_frame</span><span class="op">[</span><span class="va">bootstrap_sample</span>, <span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In order to illustrate the bootstrap, let us generate some artificial data. We use again the bi-variate normal distribution as in the “infeasible bootstrap” illustration.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">## Generate some artificial data </span></span>
+<span><span class="va">observed_data</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/mvrnorm.html">mvrnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">n</span>, mu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">mu_X</span>, <span class="va">mu_Y</span><span class="op">)</span>, Sigma <span class="op">=</span> <span class="va">Sigma</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If the bootstrap works, then the bootstrap estimate of the standard error <span class="math inline">\(\operatorname{SE}(\hat\alpha)\)</span> should be close to the infeasible Monte Carlo estimate, even though the bootstrap method does not explicitly use the true data generating process, but only the observed data.</p>
+<p>The following code implements the bootstrap:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span><span class="co">## Bootstrap </span></span>
+<span><span class="va">B</span>              <span class="op">&lt;-</span> <span class="fl">1000</span></span>
+<span><span class="va">alpha_hat_boot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">numeric</a></span><span class="op">(</span><span class="va">B</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw">for</span><span class="op">(</span><span class="va">b</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">B</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">bootstrap_sample</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span>, <span class="va">n</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  <span class="va">bootstrap_data</span>    <span class="op">&lt;-</span> <span class="va">observed_data</span><span class="op">[</span><span class="va">bootstrap_sample</span>, <span class="op">]</span></span>
+<span>  <span class="co">##</span></span>
+<span>  <span class="va">X</span>                 <span class="op">&lt;-</span> <span class="va">bootstrap_data</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span></span>
+<span>  <span class="va">Y</span>                 <span class="op">&lt;-</span> <span class="va">bootstrap_data</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span></span>
+<span>  <span class="co">##</span></span>
+<span>  <span class="va">sigma2_X_hat</span>      <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span>
+<span>  <span class="va">sigma2_Y_hat</span>      <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">Y</span><span class="op">)</span></span>
+<span>  <span class="va">sigma_XY_hat</span>      <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cov</a></span><span class="op">(</span><span class="va">X</span>,<span class="va">Y</span><span class="op">)</span></span>
+<span>  <span class="co">##</span></span>
+<span>  <span class="va">alpha_hat_boot</span><span class="op">[</span><span class="va">b</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">sigma2_Y_hat</span> <span class="op">-</span> <span class="va">sigma_XY_hat</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="va">sigma2_X_hat</span> <span class="op">+</span> <span class="va">sigma2_X_hat</span> <span class="op">-</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">sigma_XY_hat</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co">## Estimate of the standard error of the estimates for alpha:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">alpha_hat_boot</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2523776</code></pre>
+</div>
+</div>
+The bootstrap estimate of the true standard error equals 0.2523776, i.e.&nbsp;
+<center>
+<span class="math inline">\(\operatorname{SE}(\hat\alpha) \approx\)</span> <code>sd(alpha_hat_boot)</code> <span class="math inline">\(=\)</span> 0.2523776.
+</center>
+<p>This is really close to the infeasible Monte Carlo simulation based estimate <code>sd(alpha_hat_MC)</code> <span class="math inline">\(=\)</span> 0.2301389, but without making use of the unknown data generating process.</p>
+<blockquote class="blockquote">
+<p>The bootstrap method is attributed to Bradley Efron, who received the <em><a href="https://statprize.org/pdfs/2019-Efron-Announcement.pdf">International Prize in Statistics</a></em> (the Nobel price of statistics) for his seminal works on the bootstrap method.</p>
+</blockquote>
+</section><section id="self-study-exercises" class="level2" data-number="6.1"><h2 data-number="6.1" class="anchored" data-anchor-id="self-study-exercises">
+<span class="header-section-number">6.1</span> Self-Study: Exercises</h2>
+<p>Prepare the following exercises of Chapter 5 in our course textbook:</p>
+<ul>
+<li>Exercise 3 <!-- - Exercise 4 -->
+</li>
+<li>Exercise 5 <!-- - Exercise 6 -->
+</li>
+<li>Exercise 8</li>
+</ul>
+<section id="solutions" class="level3" data-number="6.1.1"><h3 data-number="6.1.1" class="anchored" data-anchor-id="solutions">
+<span class="header-section-number">6.1.1</span> Solutions</h3>
+<section id="exercise-3" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="exercise-3">Exercise 3</h4>
+<p>We now review k-fold cross-validation.</p>
+<p><strong>3 a)</strong> Explain how k-fold cross-validation is implemented.</p>
+<p><strong>Answer:</strong></p>
+<p>k-fold cross-validation is implemented by taking the set of <span class="math inline">\(n\)</span> observations and randomly splitting into <span class="math inline">\(K\)</span> non-overlapping groups of roughly equal group-size (approx. <span class="math inline">\(n/K\)</span>). To compute the <span class="math inline">\(k\)</span>-th <span class="math inline">\((k=1,2,\dots,K)\)</span> test MSE estimate, group <span class="math inline">\(k\)</span> is used as a validation set and the remainder as a training set. The test error is estimated by averaging the <span class="math inline">\(K\)</span> resulting test MSE estimates.</p>
+<p><strong>3 b)</strong> What are the advantages and disadvantages of <span class="math inline">\(k\)</span>-fold cross-validation relative to:</p>
+<ol type="i">
+<li><p>the validation set approach?</p></li>
+<li><p>LOOCV?</p></li>
+</ol>
+<p><strong>Answer:</strong></p>
+<p>The <strong>validation set</strong> approach is conceptually simple and easily implemented as you are simply partitioning the existing training data into two sets. However, there are two drawbacks:</p>
+<ol type="1">
+<li><p>The estimate of the test MSE can be highly variable/instable; i.e.&nbsp;may strongly depend on which observations are included in the training and validation sets.</p></li>
+<li><p>The validation set error rate may tend to overestimate the test MSE for the actual model fit on the entire data set since the training set has a relatively small sample size in comparison to the actual data size <span class="math inline">\(n\)</span>.</p></li>
+</ol>
+<p><strong>LOOCV</strong> is a special case of k-fold cross-validation with <span class="math inline">\(k = n\)</span>. Thus, LOOCV is the computationally most expensive cross-validation method since the model must be fit <span class="math inline">\(n\)</span> times. Also, LOOCV has higher variance, but lower bias, than k-fold CV: On the one hand, the LOOCV cross-validation samples are highly correlated; one the other hand, the cross-validation samples are having sample sizes roughly equal to the actual sample size <span class="math inline">\((n-1\approx n).\)</span></p>
+<!-- 
+### Exercise 4 {-}
+
+Suppose that we use some statistical learning method to make a prediction for the response $Y$ for a *particular* value of the predictor $X$. Carefully describe how we might estimate the standard deviation of our prediction.
+
+**Answer:**
+
+We can estimate the standard deviation of our prediction by using the bootstrap approach. 
+
+Let $\hat{Y} = \hat{f}(X)$ denote the prediction of $Y$ for the given $X$. The bootstrap approach works by repeatedly ($B$ many times) sampling $n$ observations (with replacement) from the original data set, and to compute new prediction results for each re-sampled bootstrap datasets. This yields to $B$ many bootstrap predictions: 
+$$
+\hat{f}^*_1(X), \hat{f}^*_2(X), \dots, \hat{f}^*_B(X).
+$$
+
+Using these bootstrap predictions we can compute the standard deviation of our prediction by computing 
+$$
+\sqrt{\frac{1}{B}\sum^B_{b=1}\left(\hat{f}^*_b(X)-\left(\frac{1}{B}\sum_{r=1}^B\hat{f}^*_r(X)\right)\right)^2}.
+$$ 
+-->
+</section><section id="exercise-5" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="exercise-5">Exercise 5</h4>
+<p>Previously, we used logistic regression to predict the probability of <code>default</code> using <code>income</code> and <code>balance</code> on the <code>Default</code> dataset. We will now estimate the test error of this logistic regression model using the validation set approach. Do not forget to set a random seed before beginning your analysis.</p>
+<p><strong>5 a)</strong> Fit a logistic regression model that uses <code>income</code> and <code>balance</code> to predict <code>default</code>.</p>
+<p><strong>Answer:</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://www.statlearning.com">"ISLR2"</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'ISLR2'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:MASS':
+
+    Boston</code></pre>
+</div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Attaching the data set</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/attach.html">attach</a></span><span class="op">(</span><span class="va">Default</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="co"># Estimate a GLM model where "family=binomial" selects a logistic regression</span></span>
+<span><span class="va">glm.fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">default</span> <span class="op">~</span> <span class="va">income</span> <span class="op">+</span> <span class="va">balance</span>, </span>
+<span>                data   <span class="op">=</span> <span class="va">Default</span>, </span>
+<span>                family <span class="op">=</span> <span class="va">binomial</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Use summary function to print the results</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">glm.fit</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = default ~ income + balance, family = binomial, 
+    data = Default)
+
+Coefficients:
+              Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept) -1.154e+01  4.348e-01 -26.545  &lt; 2e-16 ***
+income       2.081e-05  4.985e-06   4.174 2.99e-05 ***
+balance      5.647e-03  2.274e-04  24.836  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 2920.6  on 9999  degrees of freedom
+Residual deviance: 1579.0  on 9997  degrees of freedom
+AIC: 1585
+
+Number of Fisher Scoring iterations: 8</code></pre>
+</div>
+</div>
+<p><strong>5 b)</strong> Using the validation set approach, estimate the test error of this model. In order to do this, you must perform the following steps:</p>
+<ol type="1">
+<li><p>Split the sample set into a training set and a validation set.</p></li>
+<li><p>Fit a multiple logistic regression model using only the training observations.</p></li>
+<li><p>Obtain a prediction of default status for each individual in the validation set by computing the posterior probability of default for that individual, and classifying the individual to the default category if the posterior probability is greater than <span class="math inline">\(0.5\)</span>.</p></li>
+<li><p>Compute the validation set error, which is the fraction of the observations in the validation set that are misclassified.</p></li>
+</ol>
+<p><strong>Answer:</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">## We are going to do similar tasks several times in this exercise. </span></span>
+<span><span class="co">## Therefore, it's convenient to build a function:</span></span>
+<span></span>
+<span><span class="va">fun5b</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span><span class="op">{</span></span>
+<span>    <span class="co"># sample(): takes a sample of the specified size from the elements of x using either with or without replacement.</span></span>
+<span>    <span class="va">n</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">Default</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span>    <span class="va">train</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">n</span>, size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">n</span><span class="op">/</span><span class="fl">2</span>, <span class="fl">0</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>    </span>
+<span>    <span class="co"># logistic function fit (training dataset)</span></span>
+<span>    <span class="va">glm.fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">default</span> <span class="op">~</span> <span class="va">income</span> <span class="op">+</span> <span class="va">balance</span>, </span>
+<span>        data   <span class="op">=</span> <span class="va">Default</span>, </span>
+<span>        family <span class="op">=</span> <span class="va">binomial</span>, </span>
+<span>        subset <span class="op">=</span> <span class="va">train</span><span class="op">)</span></span>
+<span>    </span>
+<span>    <span class="co"># predictions (test dataset)</span></span>
+<span>    <span class="va">glm.pred</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"No"</span>, times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">n</span><span class="op">/</span><span class="fl">2</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="va">glm.probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">glm.fit</span>, <span class="va">Default</span><span class="op">[</span><span class="op">-</span><span class="va">train</span>, <span class="op">]</span>, </span>
+<span>                         type <span class="op">=</span> <span class="st">"response"</span><span class="op">)</span></span>
+<span>    <span class="va">glm.pred</span><span class="op">[</span><span class="va">glm.probs</span> <span class="op">&gt;</span> <span class="fl">0.5</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"Yes"</span></span>
+<span>    </span>
+<span>    <span class="co"># return the test (prediction) error rate </span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">glm.pred</span> <span class="op">!=</span> <span class="va">Default</span><span class="op">[</span><span class="op">-</span><span class="va">train</span>, <span class="op">]</span><span class="op">$</span><span class="va">default</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co">## set seed</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1110</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## compute test prediction error using the </span></span>
+<span><span class="co">## programmed validation set approach</span></span>
+<span><span class="fu">fun5b</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0262</code></pre>
+</div>
+</div>
+<p><strong>Answer:</strong> There is a 2.62% test error rate from the validation set approach.</p>
+<p><strong>5 c)</strong> Repeat the process in (b) three times, using three different splits of the observations into a training set and a validation set. Comment on the results obtained.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">fun5b</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.028</code></pre>
+</div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">fun5b</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0272</code></pre>
+</div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">fun5b</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.025</code></pre>
+</div>
+</div>
+<p><strong>Answer:</strong> The estimates of the test error rates are in the range of 2.5% and 2.8% and are varying with respect to the different training and validation set splittings.</p>
+<p><strong>5 d)</strong> Now consider a logistic regression model that predicts the probability of default using <code>income</code>, <code>balance</code>, and a dummy variable for <code>student</code>. Estimate the test error for this model using the validation set approach. Comment on whether or not including a dummy variable for <code>student</code> leads to a reduction in the test error rate.</p>
+<p><strong>Answer:</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># generate our training data</span></span>
+<span><span class="va">n</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">Default</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span><span class="va">train</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">n</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">n</span><span class="op">/</span><span class="fl">2</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># run regression on the training data subset</span></span>
+<span><span class="va">glm.fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">default</span> <span class="op">~</span> <span class="va">income</span> <span class="op">+</span> <span class="va">balance</span> <span class="op">+</span> <span class="va">student</span>, </span>
+<span>                data   <span class="op">=</span> <span class="va">Default</span>, </span>
+<span>                family <span class="op">=</span> <span class="va">binomial</span>, </span>
+<span>                subset <span class="op">=</span> <span class="va">train</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># test sample predictions</span></span>
+<span><span class="va">glm.pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"No"</span>, times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">n</span><span class="op">/</span><span class="fl">2</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># fill with our predictions</span></span>
+<span><span class="va">glm.probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">glm.fit</span>, <span class="va">Default</span><span class="op">[</span><span class="op">-</span><span class="va">train</span>, <span class="op">]</span>, </span>
+<span>                    type <span class="op">=</span> <span class="st">"response"</span><span class="op">)</span></span>
+<span><span class="va">glm.pred</span><span class="op">[</span><span class="va">glm.probs</span> <span class="op">&gt;</span> <span class="fl">0.5</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"Yes"</span></span>
+<span></span>
+<span><span class="co"># test (prediction) error rate </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">glm.pred</span> <span class="op">!=</span> <span class="va">Default</span><span class="op">[</span><span class="op">-</span><span class="va">train</span>, <span class="op">]</span><span class="op">$</span><span class="va">default</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.026</code></pre>
+</div>
+</div>
+<p><strong>Answer:</strong></p>
+<p>The test error rate is 2.6%. Thus adding the <code>student</code> dummy variable to our specification doesn’t appear to reduce the test error rate.</p>
+<!-- 
+
+### Exercise 6 {-}
+
+We continue to consider the use of a logistic regression model to predict the probability of `default` using `income` and `balance` on the `Default` data set. In particular, we will now compute estimates for the standard errors of the `income` and `balance` logistic regression coefficients in two different ways: (1) using the bootstrap, and (2) using the standard formula for computing the standard errors in the `glm()` function. Do not forget to set a random seed before beginning your analysis.
+
+**6 a)** Using the `summary()` and `glm()` functions, determine the estimated standard errors for the coefficients associated with `income` and `balance` in a multiple logistic regression model that uses both predictors.
+
+**Answer:** 
+
+
+
+
+
+::: {.cell layout-align="center"}
+
+```{.r .cell-code}
+# Same as in 5 a)
+
+# Estimate a generalized linear regression model using glm(), 
+# where the third function argument ('family') allows to specify 
+# distribution---here, 'binomial' since our independent variable
+# 'default' takes two values '0' and '1'
+
+glm.fit <- glm(default ~ income + balance, 
+                data   = Default, 
+                family = binomial)
+
+# Use summary function to print a summary of the the results
+summary(glm.fit)
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+
+Call:
+glm(formula = default ~ income + balance, family = binomial, 
+    data = Default)
+
+Coefficients:
+              Estimate Std. Error z value Pr(>|z|)    
+(Intercept) -1.154e+01  4.348e-01 -26.545  < 2e-16 ***
+income       2.081e-05  4.985e-06   4.174 2.99e-05 ***
+balance      5.647e-03  2.274e-04  24.836  < 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 2920.6  on 9999  degrees of freedom
+Residual deviance: 1579.0  on 9997  degrees of freedom
+AIC: 1585
+
+Number of Fisher Scoring iterations: 8
+```
+
+
+:::
+:::
+
+
+
+
+
+Using the standard formula for the standard errors in logistic regression:
+
+* Estimated standard error of the parameter estimator `income`: $4.985 \cdot 10^{-06}$
+* Estimated standard error of the parameter estimator `balance`: $2.274\cdot 10^{-04}$
+
+
+**6 b)** Write a function, `boot_fn()`, that takes as input the `Default` data set as well as an `index` of the observations, and that outputs the coefficient estimates for `income` and `balance` in the multiple logistic regression model.
+
+**Answer:** 
+
+
+
+
+
+::: {.cell layout-align="center"}
+
+```{.r .cell-code}
+boot_fn <- function(data, index){
+    return(coef(glm(default ~ income + balance, 
+                    data   = data, 
+                    family = binomial, 
+                    subset = index)))
+}
+```
+:::
+
+
+
+
+
+**6 c)** Use the `boot()` function together with your `boot_fn()` function to estimate the standard errors of the logistic regression coefficients for `income` and `balance`.
+
+**Answer:** 
+
+
+
+
+
+::: {.cell layout-align="center"}
+
+```{.r .cell-code}
+# install.packages("boot")
+
+# Load the boot package
+library("boot")
+
+# Set seed
+set.seed(1)
+
+# The boot package provides extensive facilities for bootstrapping 
+# and related resampling methods. 
+boot(data = Default, statistic = boot_fn, R = 100)
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+
+ORDINARY NONPARAMETRIC BOOTSTRAP
+
+
+Call:
+boot(data = Default, statistic = boot_fn, R = 100)
+
+
+Bootstrap Statistics :
+         original        bias     std. error
+t1* -1.154047e+01  8.556378e-03 4.122015e-01
+t2*  2.080898e-05 -3.993598e-07 4.186088e-06
+t3*  5.647103e-03 -4.116657e-06 2.226242e-04
+```
+
+
+:::
+:::
+
+
+
+
+
+**6 d)** Comment on the estimated standard errors obtained using the `glm()` function and using your bootstrap function.
+
+**Answer:** 
+
+
+* Estimated standard error (bootstrap version) of the parameter estimator `income`: $4.186 \cdot 10^{-06}$
+  * The bootstrap approach estimates slightly smaller std errors for `income` than the classic standard formula. 
+* Estimated standard error (bootstrap version) of the parameter estimator `balance`: $2.226\cdot 10^{-04}$
+  * The bootstrap approach and the standard formula yield essentially equal results. 
+
+-->
+</section><section id="exercise-8" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="exercise-8">Exercise 8</h4>
+<p>We will now perform cross-validation on a simulated data set.</p>
+<p><strong>8 a)</strong> Generate a simulated data set as follows.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># set seed for rnorm function</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># rnorm draws pseudo-random variables from a </span></span>
+<span><span class="co"># (standard) normal distribution</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op">-</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">x</span><span class="op">^</span><span class="fl">2</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In this data set, what is <span class="math inline">\(n\)</span> and what is <span class="math inline">\(p\)</span>? Write out the model used to generate the data in equation form.</p>
+<p><strong>Answer:</strong></p>
+<ul>
+<li><p>The sample size: <span class="math inline">\(n=100\)</span></p></li>
+<li><p>Number of predictors: <span class="math inline">\(p=2\)</span></p></li>
+<li><p>Model: <span class="math inline">\(Y_i= X_i -2 \, X_i^2 + \epsilon_i\)</span> with i.i.d. errors <span class="math inline">\(\epsilon_i \sim \mathcal{N}(0,1)\)</span>, <span class="math inline">\(i=1,...,n=100\)</span></p></li>
+</ul>
+<p><strong>8 b)</strong> Create a scatterplot of <span class="math inline">\(X\)</span> against <span class="math inline">\(Y\)</span>. Comment on what you find.</p>
+<p><strong>Answer:</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="Ch6_Bootstrap_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We can observe a quadratic relationship between <span class="math inline">\(Y\)</span> and <span class="math inline">\(X.\)</span> Moreover, <span class="math inline">\(X\)</span> ranges from about <span class="math inline">\(-2\)</span> to <span class="math inline">\(2,\)</span> while <span class="math inline">\(Y\)</span> ranges from about <span class="math inline">\(-12\)</span> to <span class="math inline">\(2.\)</span> The largest <span class="math inline">\(Y\)</span> values are observed for <span class="math inline">\(X\)</span> values around <span class="math inline">\(0.\)</span></p>
+<p><strong>8 c)</strong> Set a random seed, and then compute the LOOCV errors that result from fitting the following four models using least squares:</p>
+<ol type="i">
+<li><p><span class="math inline">\(Y = \beta_0 +\beta_1 X + \epsilon\)</span></p></li>
+<li><p><span class="math inline">\(Y = \beta_0 +\beta_1 X + \beta_2 X^2 + \epsilon\)</span></p></li>
+<li><p><span class="math inline">\(Y = \beta_0 +\beta_1 X + \beta_2 X^2 + \beta_3 X^3 + \epsilon\)</span></p></li>
+<li><p><span class="math inline">\(Y = \beta_0 +\beta_1 X + \beta_2 X^2 + \beta_3 X^3 + \beta_4 X^4 + \epsilon\)</span></p></li>
+</ol>
+<p><strong>Answers:</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># call boot package (contains the cv.glm() function)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">boot</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#set seed</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># create data frame containing the simulated data for X and Y</span></span>
+<span><span class="va">Sim_Data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>8 c i)</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># i</span></span>
+<span><span class="co"># Caution:</span></span>
+<span><span class="co"># This performes linear regression (no 'family' argument specified)</span></span>
+<span><span class="va">lm.fit_i</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">Sim_Data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># cv.glm calculates the estimated K-fold cross-validation prediction</span></span>
+<span><span class="co"># error for generalized linear models (with K=n).</span></span>
+<span><span class="co"># '$delta' selects a vector of length two: </span></span>
+<span><span class="co"># The first component is the raw cross-validation estimate of the </span></span>
+<span><span class="co"># prediction error. </span></span>
+<span><span class="co"># The second component is the adjusted cross-validation estimate. </span></span>
+<span><span class="co"># (The adjustment is designed to compensate for bias.)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/boot/man/cv.glm.html">cv.glm</a></span><span class="op">(</span>data   <span class="op">=</span> <span class="va">Sim_Data</span>, </span>
+<span>       glmfit <span class="op">=</span> <span class="va">lm.fit_i</span>, </span>
+<span>       K      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">Sim_Data</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">delta</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 7.288162 7.284744</code></pre>
+</div>
+</div>
+<p><strong>8 c ii)</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># ii </span></span>
+<span><span class="co"># see ?poly for infos on poly()</span></span>
+<span><span class="va">lm.fit_ii</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/poly.html">poly</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">2</span>, raw<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">Sim_Data</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/boot/man/cv.glm.html">cv.glm</a></span><span class="op">(</span><span class="va">Sim_Data</span>, <span class="va">lm.fit_ii</span>, K <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">Sim_Data</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">delta</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9374236 0.9371789</code></pre>
+</div>
+</div>
+<p><strong>8 c iii)</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># iii</span></span>
+<span><span class="va">lm.fit_iii</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/poly.html">poly</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">3</span>, raw<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">Sim_Data</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/boot/man/cv.glm.html">cv.glm</a></span><span class="op">(</span><span class="va">Sim_Data</span>, <span class="va">lm.fit_iii</span>, K <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">Sim_Data</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">delta</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9566218 0.9562538</code></pre>
+</div>
+</div>
+<p><strong>8 c iv)</strong></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># iv</span></span>
+<span><span class="va">lm.fit_iv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/poly.html">poly</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">4</span>, raw<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">Sim_Data</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/boot/man/cv.glm.html">cv.glm</a></span><span class="op">(</span><span class="va">Sim_Data</span>, <span class="va">lm.fit_iv</span>, K <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">Sim_Data</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">delta</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9539049 0.9534453</code></pre>
+</div>
+</div>
+<!-- 
+**Conclusion:** The (correct) quadratic model has the smallest CV error.   
+-->
+<p><strong>8. d)</strong> Repeat (c) using another random seed, and report your results. Are your results the same as what you got in (c)? Why?</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
+<span><span class="co"># i.</span></span>
+<span><span class="va">lm.fit1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">Sim_Data</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/boot/man/cv.glm.html">cv.glm</a></span><span class="op">(</span><span class="va">Sim_Data</span>, <span class="va">lm.fit1</span><span class="op">)</span><span class="op">$</span><span class="va">delta</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 7.288162 7.284744</code></pre>
+</div>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># ii.</span></span>
+<span><span class="va">lm.fit2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/poly.html">poly</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">2</span>, raw<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">Sim_Data</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/boot/man/cv.glm.html">cv.glm</a></span><span class="op">(</span><span class="va">Sim_Data</span>, <span class="va">lm.fit2</span><span class="op">)</span><span class="op">$</span><span class="va">delta</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9374236 0.9371789</code></pre>
+</div>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># iii.</span></span>
+<span><span class="va">lm.fit3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/poly.html">poly</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">3</span>, raw<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">Sim_Data</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/boot/man/cv.glm.html">cv.glm</a></span><span class="op">(</span><span class="va">Sim_Data</span>, <span class="va">lm.fit3</span><span class="op">)</span><span class="op">$</span><span class="va">delta</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9566218 0.9562538</code></pre>
+</div>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># iv.</span></span>
+<span><span class="va">lm.fit4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/poly.html">poly</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">4</span>, raw<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">Sim_Data</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/boot/man/cv.glm.html">cv.glm</a></span><span class="op">(</span><span class="va">Sim_Data</span>, <span class="va">lm.fit4</span><span class="op">)</span><span class="op">$</span><span class="va">delta</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9539049 0.9534453</code></pre>
+</div>
+</div>
+<p><strong>Answer:</strong></p>
+<p>The results are exactly the same, because LOOCV will be the same since it evaluates n folds of a single observation.</p>
+<p><strong>8 e)</strong> Which of the models in (c) had the smallest LOOCV error? Is this what you expected? Explain your answer.</p>
+<p><strong>Answer:</strong></p>
+<p>The quadratic polynomial had the lowest LOOCV test error rate. This was expected as it matches the true form of <span class="math inline">\(Y\)</span>.</p>
+<p><strong>8 f)</strong> Comment on the statistical significance of the coefficient estimates that results from fitting each of the models in (c) using least squares. Do these results agree with the conclusions drawn based on the cross-validation results?</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">lm.fit1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = y ~ x, data = Sim_Data)
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  -1.6254     0.2619  -6.205 1.31e-08 ***
+x             0.6925     0.2909   2.380   0.0192 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for gaussian family taken to be 6.760719)
+
+    Null deviance: 700.85  on 99  degrees of freedom
+Residual deviance: 662.55  on 98  degrees of freedom
+AIC: 478.88
+
+Number of Fisher Scoring iterations: 2</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">lm.fit2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = y ~ poly(x, 2, raw = TRUE), data = Sim_Data)
+
+Coefficients:
+                        Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)              0.05672    0.11766   0.482    0.631    
+poly(x, 2, raw = TRUE)1  1.01716    0.10798   9.420  2.4e-15 ***
+poly(x, 2, raw = TRUE)2 -2.11892    0.08477 -24.997  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for gaussian family taken to be 0.9178258)
+
+    Null deviance: 700.852  on 99  degrees of freedom
+Residual deviance:  89.029  on 97  degrees of freedom
+AIC: 280.17
+
+Number of Fisher Scoring iterations: 2</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">lm.fit3</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = y ~ poly(x, 3, raw = TRUE), data = Sim_Data)
+
+Coefficients:
+                        Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)              0.06151    0.11950   0.515    0.608    
+poly(x, 3, raw = TRUE)1  0.97528    0.18728   5.208 1.09e-06 ***
+poly(x, 3, raw = TRUE)2 -2.12379    0.08700 -24.411  &lt; 2e-16 ***
+poly(x, 3, raw = TRUE)3  0.01764    0.06429   0.274    0.784    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for gaussian family taken to be 0.9266599)
+
+    Null deviance: 700.852  on 99  degrees of freedom
+Residual deviance:  88.959  on 96  degrees of freedom
+AIC: 282.09
+
+Number of Fisher Scoring iterations: 2</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">lm.fit4</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = y ~ poly(x, 4, raw = TRUE), data = Sim_Data)
+
+Coefficients:
+                         Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)              0.156703   0.139462   1.124    0.264    
+poly(x, 4, raw = TRUE)1  1.030826   0.191337   5.387 5.17e-07 ***
+poly(x, 4, raw = TRUE)2 -2.409898   0.234855 -10.261  &lt; 2e-16 ***
+poly(x, 4, raw = TRUE)3 -0.009133   0.067229  -0.136    0.892    
+poly(x, 4, raw = TRUE)4  0.069785   0.053240   1.311    0.193    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for gaussian family taken to be 0.9197797)
+
+    Null deviance: 700.852  on 99  degrees of freedom
+Residual deviance:  87.379  on 95  degrees of freedom
+AIC: 282.3
+
+Number of Fisher Scoring iterations: 2</code></pre>
+</div>
+</div>
+<p><strong>Answer:</strong></p>
+<p>The <span class="math inline">\(p\)</span>-values only show statistical significance of the linear and the quadratic predictor, which agrees with the CV-results.</p>
+</section></section></section><section id="self-study-r-lab-resampling-methods" class="level2" data-number="6.2"><h2 data-number="6.2" class="anchored" data-anchor-id="self-study-r-lab-resampling-methods">
+<span class="header-section-number">6.2</span> Self-Study: <code>R</code>-Lab Resampling Methods</h2>
+<p>In this lab, we explore the resampling techniques covered in this chapter. Some of the commands in this lab may take a while to run on your computer.</p>
+<section id="the-validation-set-approach" class="level3" data-number="6.2.1"><h3 data-number="6.2.1" class="anchored" data-anchor-id="the-validation-set-approach">
+<span class="header-section-number">6.2.1</span> The Validation Set Approach</h3>
+<p>We explore the use of the validation set approach in order to estimate the test error rates that result from fitting various linear models on the <code>Auto</code> data set.</p>
+<p>Before we begin, we use the <code><a href="https://rdrr.io/r/base/Random.html">set.seed()</a></code> function in order to set a for <code>R</code>’s random number generator, so that the (pseudo) random data splits are reproducible.</p>
+<p>We begin by using the <code><a href="https://rdrr.io/r/base/sample.html">sample()</a></code> function to split the set of observations into two halves, by selecting a random subset of <span class="math inline">\(196\)</span> observations out of the original <span class="math inline">\(392\)</span> observations. We refer to these observations as the training set.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://www.statlearning.com">"ISLR2"</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/attach.html">attach</a></span><span class="op">(</span><span class="va">Auto</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## One half of the sample size</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">Auto</span><span class="op">)</span><span class="op">/</span><span class="fl">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 196</code></pre>
+</div>
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">train</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">392</span>, size <span class="op">=</span> <span class="fl">196</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We then use the <code>subset</code> option in <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> to fit a linear regression using only the observations corresponding to the training set.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lm.fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">horsepower</span>, </span>
+<span>             data   <span class="op">=</span> <span class="va">Auto</span>, </span>
+<span>             subset <span class="op">=</span> <span class="va">train</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We now use the <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> function to estimate the response for all <span class="math inline">\(392\)</span> observations, and we use the <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code> function to calculate the MSE of the <span class="math inline">\(196\)</span> observations in the test dataset. Note that the <code>-train</code> index below selects only the observations that are not in the training set.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">mpg</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">lm.fit</span>, <span class="va">Auto</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="va">train</span><span class="op">]</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 23.26601</code></pre>
+</div>
+</div>
+<p>Therefore, the estimated test MSE for the linear regression fit is <span class="math inline">\(23.27\)</span>. We can use the <code><a href="https://rdrr.io/r/stats/poly.html">poly()</a></code> function to estimate the test error for the quadratic and cubic regressions.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lm.fit2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/poly.html">poly</a></span><span class="op">(</span><span class="va">horsepower</span>, <span class="fl">2</span><span class="op">)</span>, </span>
+<span>             data   <span class="op">=</span> <span class="va">Auto</span>, </span>
+<span>             subset <span class="op">=</span> <span class="va">train</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## Test MSE </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">mpg</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">lm.fit2</span>, <span class="va">Auto</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="va">train</span><span class="op">]</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 18.71646</code></pre>
+</div>
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lm.fit3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/poly.html">poly</a></span><span class="op">(</span><span class="va">horsepower</span>, <span class="fl">3</span><span class="op">)</span>, </span>
+<span>             data   <span class="op">=</span> <span class="va">Auto</span>, </span>
+<span>             subset <span class="op">=</span> <span class="va">train</span><span class="op">)</span></span>
+<span><span class="co">## Test MSE             </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">mpg</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">lm.fit3</span>, <span class="va">Auto</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="va">train</span><span class="op">]</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 18.79401</code></pre>
+</div>
+</div>
+<p>These error rates are <span class="math inline">\(18.72\)</span> and <span class="math inline">\(18.79\)</span>, respectively. If we choose a different training set instead, then we will obtain somewhat different errors on the testing set.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## Polynomial degree 1</span></span>
+<span><span class="va">train</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">392</span>, size <span class="op">=</span> <span class="fl">196</span><span class="op">)</span></span>
+<span><span class="va">lm.fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">horsepower</span>, subset <span class="op">=</span> <span class="va">train</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">mpg</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">lm.fit</span>, <span class="va">Auto</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="va">train</span><span class="op">]</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 25.72651</code></pre>
+</div>
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">## Polynomial degree 2</span></span>
+<span><span class="va">lm.fit2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/poly.html">poly</a></span><span class="op">(</span><span class="va">horsepower</span>, <span class="fl">2</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">Auto</span>, </span>
+<span>    subset <span class="op">=</span> <span class="va">train</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">mpg</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">lm.fit2</span>, <span class="va">Auto</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="va">train</span><span class="op">]</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 20.43036</code></pre>
+</div>
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">## Polynomial degree 3</span></span>
+<span><span class="va">lm.fit3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/poly.html">poly</a></span><span class="op">(</span><span class="va">horsepower</span>, <span class="fl">3</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">Auto</span>, </span>
+<span>    subset <span class="op">=</span> <span class="va">train</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">mpg</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">lm.fit3</span>, <span class="va">Auto</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="va">train</span><span class="op">]</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 20.38533</code></pre>
+</div>
+</div>
+<p>Using this split of the observations into a training set and a testing set, we find that the validation set error rates for the models with linear, quadratic, and cubic terms are <span class="math inline">\(25.73\)</span>, <span class="math inline">\(20.43\)</span>, and <span class="math inline">\(20.39\)</span>, respectively.</p>
+<p>These results are consistent with our previous findings: a model that predicts <code>mpg</code> using a quadratic function of <code>horsepower</code> performs better than a model that involves only a linear function of <code>horsepower</code>, and there is little evidence that a model that uses a cubic function of <code>horsepower</code> performance substantially better.</p>
+</section><section id="sec-RLabLOOCV" class="level3" data-number="6.2.2"><h3 data-number="6.2.2" class="anchored" data-anchor-id="sec-RLabLOOCV">
+<span class="header-section-number">6.2.2</span> Leave-One-Out Cross-Validation</h3>
+<p>The LOOCV estimate can be automatically computed for any generalized linear model using the <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> and <code><a href="https://rdrr.io/pkg/boot/man/cv.glm.html">cv.glm()</a></code> functions. In the lab for Chapter 4, we used the <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> function to perform logistic regression by passing in the <code>family = "binomial"</code> argument. But if we use <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> to fit a model without passing in the <code>family</code> argument, then it performs linear regression, just like the <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> function. So for instance,</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">glm_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">horsepower</span>, data <span class="op">=</span> <span class="va">Auto</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">glm_fit</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)  horsepower 
+ 39.9358610  -0.1578447 </code></pre>
+</div>
+</div>
+<p>and</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lm.fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">horsepower</span>, data <span class="op">=</span> <span class="va">Auto</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">lm.fit</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)  horsepower 
+ 39.9358610  -0.1578447 </code></pre>
+</div>
+</div>
+<p>yield identical linear regression models. In this lab, we will perform linear regression using the <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> function rather than the <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> function because the former can be used together with <code><a href="https://rdrr.io/pkg/boot/man/cv.glm.html">cv.glm()</a></code>. The <code><a href="https://rdrr.io/pkg/boot/man/cv.glm.html">cv.glm()</a></code> function is part of the <code>boot</code> library.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">## install.packages("boot")</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st">"boot"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">glm_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">horsepower</span>, data <span class="op">=</span> <span class="va">Auto</span><span class="op">)</span></span>
+<span><span class="va">cv.err</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/boot/man/cv.glm.html">cv.glm</a></span><span class="op">(</span><span class="va">Auto</span>, <span class="va">glm_fit</span><span class="op">)</span></span>
+<span><span class="va">cv.err</span><span class="op">$</span><span class="va">delta</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 24.23151 24.23114</code></pre>
+</div>
+</div>
+<p>The <code><a href="https://rdrr.io/pkg/boot/man/cv.glm.html">cv.glm()</a></code> function produces a list with several components. The two numbers in the <code>delta</code> vector contain the cross-validation results. In this case the numbers are identical (up to two decimal places) and correspond to the LOOCV statistic given in <a href="Ch_NonParamRegression.html#eq-LOOCV" class="quarto-xref">Equation&nbsp;<span>4.4</span></a>. Below, we discuss a situation in which the two numbers differ. Our cross-validation estimate for the test error is approximately <span class="math inline">\(24.23\)</span>.</p>
+<p>We can repeat this procedure for increasingly complex polynomial fits. To automate the process, we use the <code>for()</code> function to initiate a which iteratively fits polynomial regressions for polynomials of order <span class="math inline">\(i=1\)</span> to <span class="math inline">\(i=10\)</span>, computes the associated cross-validation error, and stores it in the <span class="math inline">\(i\)</span>th element of the vector <code>cv_error</code>. We begin by initializing the vector.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cv_error</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">glm_fit</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/poly.html">poly</a></span><span class="op">(</span><span class="va">horsepower</span>, <span class="va">i</span><span class="op">)</span>, </span>
+<span>                     data <span class="op">=</span> <span class="va">Auto</span><span class="op">)</span></span>
+<span>  <span class="va">cv_error</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/boot/man/cv.glm.html">cv.glm</a></span><span class="op">(</span><span class="va">Auto</span>, <span class="va">glm_fit</span><span class="op">)</span><span class="op">$</span><span class="va">delta</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span><span class="op">}</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">cv_error</span>, type<span class="op">=</span><span class="st">"b"</span>, ylab<span class="op">=</span><span class="st">"Test MSE"</span>, xlab<span class="op">=</span><span class="st">"Polynomial Degree"</span>,</span>
+<span>     col <span class="op">=</span> <span class="st">"black"</span>, bg <span class="op">=</span> <span class="st">"black"</span>, pch <span class="op">=</span> <span class="fl">21</span>, main<span class="op">=</span><span class="st">"LOOCV"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="Ch6_Bootstrap_files/figure-html/chunk9-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We see a sharp drop in the estimated test MSE between the linear and quadratic fits, but then no clear improvement from using higher-order polynomials.</p>
+</section><section id="k-fold-cross-validation" class="level3" data-number="6.2.3"><h3 data-number="6.2.3" class="anchored" data-anchor-id="k-fold-cross-validation">
+<span class="header-section-number">6.2.3</span> <span class="math inline">\(k\)</span>-Fold Cross-Validation</h3>
+<p>The <code><a href="https://rdrr.io/pkg/boot/man/cv.glm.html">cv.glm()</a></code> function can also be used to implement <span class="math inline">\(k\)</span>-fold CV. Below we use <span class="math inline">\(k=10\)</span>, a common choice for <span class="math inline">\(k\)</span>, on the <code>Auto</code> data set. We once again set a random seed and initialize a vector in which we will store the CV errors corresponding to the polynomial fits of orders one to ten.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">17</span><span class="op">)</span></span>
+<span><span class="va">cv_error_10</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">glm_fit</span>        <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/poly.html">poly</a></span><span class="op">(</span><span class="va">horsepower</span>, <span class="va">i</span><span class="op">)</span>, </span>
+<span>                        data <span class="op">=</span> <span class="va">Auto</span><span class="op">)</span></span>
+<span>  <span class="va">cv_error_10</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/boot/man/cv.glm.html">cv.glm</a></span><span class="op">(</span><span class="va">Auto</span>, <span class="va">glm_fit</span>, K <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">$</span><span class="va">delta</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span><span class="op">}</span></span>
+<span><span class="co">##</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">cv_error_10</span>, type<span class="op">=</span><span class="st">"b"</span>, ylab<span class="op">=</span><span class="st">"Test MSE"</span>, xlab<span class="op">=</span><span class="st">"Polynomial Degree"</span>,</span>
+<span>     col <span class="op">=</span> <span class="st">"black"</span>, bg <span class="op">=</span> <span class="st">"black"</span>, pch <span class="op">=</span> <span class="fl">21</span>, main<span class="op">=</span><span class="st">"10-fold CV"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="Ch6_Bootstrap_files/figure-html/chunk10-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We still see little evidence that using cubic or higher-order polynomial terms leads to lower test error than simply using a quadratic fit.</p>
+<p>Notice that the computation time is shorter than that of LOOCV.</p>
+<p>(In principle, the computation time for LOOCV for a least squares linear model should be faster than for <span class="math inline">\(k\)</span>-fold CV, due to the availability of the formula <a href="Ch_NonParamRegression.html#eq-CVfast" class="quarto-xref">Equation&nbsp;<span>4.5</span></a> for LOOCV; however, unfortunately the <code><a href="https://rdrr.io/pkg/boot/man/cv.glm.html">cv.glm()</a></code> function does not make use of this formula.)</p>
+<p>We saw in <a href="#sec-RLabLOOCV" class="quarto-xref"><span>Section 6.2.2</span></a> that the two numbers associated with <code>delta</code> are essentially the same when LOOCV is performed. When we instead perform <span class="math inline">\(k\)</span>-fold CV, then the two numbers associated with <code>delta</code> differ slightly. The first number is the standard <span class="math inline">\(k\)</span>-fold CV estimate, as in <a href="Ch_NonParamRegression.html#eq-kfoldCV" class="quarto-xref">Equation&nbsp;<span>4.6</span></a>. The second is a bias-corrected version. On this data set, however, the two estimates are very similar to each other.</p>
+</section><section id="the-bootstrap" class="level3" data-number="6.2.4"><h3 data-number="6.2.4" class="anchored" data-anchor-id="the-bootstrap">
+<span class="header-section-number">6.2.4</span> The Bootstrap</h3>
+<p>We illustrate the use of the bootstrap revisiting the portfolio choice example from above, as well as on an example involving estimating the accuracy of the linear regression model on the <code>Auto</code> data set.</p>
+<section id="estimating-the-accuracy-of-a-statistic-of-interest" class="level4" data-number="6.2.4.1"><h4 data-number="6.2.4.1" class="anchored" data-anchor-id="estimating-the-accuracy-of-a-statistic-of-interest">
+<span class="header-section-number">6.2.4.1</span> Estimating the Accuracy of a Statistic of Interest</h4>
+<p>One of the great advantages of the bootstrap approach is that it can be applied in almost all situations. No complicated mathematical calculations are required. Performing a bootstrap analysis in <code>R</code> entails only two steps:</p>
+<ul>
+<li>First, we must create a function that computes the statistic of interest.</li>
+<li>Second, we use the <code><a href="https://rdrr.io/pkg/boot/man/boot.html">boot()</a></code> function, which is part of the <code>boot</code> library, to perform the bootstrap by repeatedly sampling observations from the data set with replacement.</li>
+</ul>
+<p>The <code>Portfolio</code> data set in the <code>ISLR2</code> package is simulated data of <span class="math inline">\(100\)</span> pairs of returns, generated in the fashion described above, where we introduced the portfolio example.</p>
+<p>To illustrate the use of the bootstrap on this data, we must first create a function, <code>alpha_fn()</code>, which takes as input the <span class="math inline">\((X,Y)\)</span> data as well as a vector indicating which observations should be used to estimate <span class="math inline">\(\alpha\)</span>. The function then outputs the estimate for <span class="math inline">\(\alpha\)</span> based on the selected observations.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">alpha_fn</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">index</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">X</span>         <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="va">X</span><span class="op">[</span><span class="va">index</span><span class="op">]</span></span>
+<span>  <span class="va">Y</span>         <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="va">Y</span><span class="op">[</span><span class="va">index</span><span class="op">]</span></span>
+<span>  <span class="va">alpha_hat</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">Y</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cov</a></span><span class="op">(</span><span class="va">X</span>, <span class="va">Y</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">Y</span><span class="op">)</span> <span class="op">-</span> <span class="fl">2</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cov</a></span><span class="op">(</span><span class="va">X</span>, <span class="va">Y</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">alpha_hat</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This function returns an estimate for <span class="math inline">\(\alpha\)</span> based on applying <a href="#eq-alpha" class="quarto-xref">Equation&nbsp;<span>6.1</span></a> to the observations indexed by the argument <code>index</code>. For instance, the following command tells <code>R</code> to estimate <span class="math inline">\(\alpha\)</span> using all of the <span class="math inline">\(100\)</span> observations.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">alpha_fn</span><span class="op">(</span>data  <span class="op">=</span> <span class="va">Portfolio</span>, </span>
+<span>         index <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">)</span> <span class="co"># complete original dataset</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5758321</code></pre>
+</div>
+</div>
+<p>The next command uses the <code><a href="https://rdrr.io/r/base/sample.html">sample()</a></code> function to randomly select <span class="math inline">\(100\)</span> observations from the range <span class="math inline">\(1\)</span> to <span class="math inline">\(100\)</span>, with replacement. This is equivalent to constructing a new bootstrap data set and recomputing <span class="math inline">\(\hat{\alpha}\)</span> based on the new data set.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span></span>
+<span><span class="fu">alpha_fn</span><span class="op">(</span>data  <span class="op">=</span> <span class="va">Portfolio</span>, </span>
+<span>         index <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span>x<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, size<span class="op">=</span><span class="fl">100</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5385326</code></pre>
+</div>
+</div>
+<p>We can implement a bootstrap analysis by performing this command many times, recording all of the corresponding estimates for <span class="math inline">\(\alpha\)</span>, and computing the resulting standard deviation. (We use this approach above.)</p>
+<p>However, the <code><a href="https://rdrr.io/pkg/boot/man/boot.html">boot()</a></code> function automates this approach. Below we produce <span class="math inline">\(R=1,000\)</span> bootstrap estimates for <span class="math inline">\(\alpha\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/boot/man/boot.html">boot</a></span><span class="op">(</span>data      <span class="op">=</span> <span class="va">Portfolio</span>, </span>
+<span>     statistic <span class="op">=</span> <span class="va">alpha_fn</span>, </span>
+<span>     R         <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ORDINARY NONPARAMETRIC BOOTSTRAP
+
+
+Call:
+boot(data = Portfolio, statistic = alpha_fn, R = 1000)
+
+
+Bootstrap Statistics :
+     original       bias    std. error
+t1* 0.5758321 0.0007959475  0.08969074</code></pre>
+</div>
+</div>
+<p>The final output shows that using the original data, <span class="math inline">\(\hat{\alpha}=0.5758\)</span>, and that the bootstrap estimate for <span class="math inline">\(\operatorname{SE}(\hat{\alpha})\)</span> is <span class="math inline">\(0.0897\)</span>.</p>
+</section><section id="estimating-the-accuracy-of-a-linear-regression-model" class="level4" data-number="6.2.4.2"><h4 data-number="6.2.4.2" class="anchored" data-anchor-id="estimating-the-accuracy-of-a-linear-regression-model">
+<span class="header-section-number">6.2.4.2</span> Estimating the Accuracy of a Linear Regression Model</h4>
+<p>The bootstrap approach can be used to assess the variability of the coefficient estimates and predictions from a statistical learning method. Here we use the bootstrap approach in order to assess the variability of the estimates for <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>, the intercept and slope terms for the linear regression model that uses <code>horsepower</code> to predict <code>mpg</code> in the <code>Auto</code> data set. We will compare the estimates obtained using the bootstrap to those obtained using the formulas for <span class="math inline">\({\rm SE}(\hat{\beta}_0)\)</span> and <span class="math inline">\({\rm SE}(\hat{\beta}_1)\)</span> described in Chapter 3.1.2.</p>
+<p>We first create a simple function, <code>boot_fn()</code>, which takes in the <code>Auto</code> data set as well as a set of indices for the observations, and returns the intercept and slope estimates for the linear regression model. We then apply this function to the full set of <span class="math inline">\(392\)</span> observations in order to compute the estimates of <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> on the entire data set using the usual linear regression coefficient estimate formulas from Chapter 3.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">## Function to compute coefficient estimates using lm()</span></span>
+<span><span class="va">boot_fn</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">index</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">horsepower</span>, </span>
+<span>          data   <span class="op">=</span> <span class="va">data</span>, </span>
+<span>          subset <span class="op">=</span> <span class="va">index</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co">## Sample size</span></span>
+<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">Auto</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## Coeficient estimates using the total sample</span></span>
+<span><span class="fu">boot_fn</span><span class="op">(</span>data  <span class="op">=</span> <span class="va">Auto</span>, </span>
+<span>        index <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)  horsepower 
+ 39.9358610  -0.1578447 </code></pre>
+</div>
+</div>
+<p>The <code>boot_fn()</code> function can also be used in order to create bootstrap estimates for the intercept and slope terms by randomly sampling from among the observations with replacement. Here we give two examples.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">boot_fn</span><span class="op">(</span>data  <span class="op">=</span> <span class="va">Auto</span>, </span>
+<span>        index <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">n</span>, <span class="va">n</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)  horsepower 
+ 40.3404517  -0.1634868 </code></pre>
+</div>
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">boot_fn</span><span class="op">(</span>data  <span class="op">=</span> <span class="va">Auto</span>, </span>
+<span>        index <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">n</span>, <span class="va">n</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)  horsepower 
+ 40.1186906  -0.1577063 </code></pre>
+</div>
+</div>
+<p>Next, we use the <code><a href="https://rdrr.io/pkg/boot/man/boot.html">boot()</a></code> function to compute the standard errors of <span class="math inline">\(R=1,000\)</span> bootstrap estimates for the intercept and slope terms.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">boot_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/boot/man/boot.html">boot</a></span><span class="op">(</span>data      <span class="op">=</span> <span class="va">Auto</span>, </span>
+<span>                 statistic <span class="op">=</span> <span class="va">boot_fn</span>, </span>
+<span>                 R         <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
+<span><span class="va">boot_obj</span>                 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ORDINARY NONPARAMETRIC BOOTSTRAP
+
+
+Call:
+boot(data = Auto, statistic = boot_fn, R = 1000)
+
+
+Bootstrap Statistics :
+      original        bias    std. error
+t1* 39.9358610  0.0544513229 0.841289790
+t2* -0.1578447 -0.0006170901 0.007343073</code></pre>
+</div>
+</div>
+<p>This indicates that the bootstrap estimate for <span class="math inline">\({\rm SE}(\hat{\beta}_0)\)</span> is <span class="math inline">\(0.84\)</span>, and that the bootstrap estimate for <span class="math inline">\({\rm SE}(\hat{\beta}_1)\)</span> is <span class="math inline">\(0.0073\)</span>.</p>
+<p>The reported <code>bias</code> equals the difference between the sample means of the bootstrap realizations and the full sample estimates:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb88"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">## estimated biases: </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span><span class="op">(</span><span class="va">boot_obj</span><span class="op">$</span><span class="va">t</span><span class="op">)</span> <span class="op">-</span> <span class="va">boot_obj</span><span class="op">$</span><span class="va">t0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  (Intercept)    horsepower 
+ 0.0544513229 -0.0006170901 </code></pre>
+</div>
+</div>
+<p>As discussed in Chapter 3.1.2, standard formulas can be used to compute the standard errors for the regression coefficients in a linear model. These can be obtained using the <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> function.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">horsepower</span>, data <span class="op">=</span> <span class="va">Auto</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">coef</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              Estimate  Std. Error   t value      Pr(&gt;|t|)
+(Intercept) 39.9358610 0.717498656  55.65984 1.220362e-187
+horsepower  -0.1578447 0.006445501 -24.48914  7.031989e-81</code></pre>
+</div>
+</div>
+<p>The standard error estimates for <span class="math inline">\(\hat{\beta}_0\)</span> and <span class="math inline">\(\hat{\beta}_1\)</span> obtained using the formulas from Chapter 3.1.2 are <span class="math inline">\(0.717\)</span> for the intercept and <span class="math inline">\(0.0064\)</span> for the slope.</p>
+<p>Interestingly, these are somewhat different from the estimates obtained using the bootstrap. Does this indicate a problem with the bootstrap? In fact, it suggests the opposite. Recall that the standard formulas given in Equation 3.8 (Chapter 3.1.2) rely on certain assumptions. For example, they depend on the unknown parameter <span class="math inline">\(\sigma^2\)</span>, the noise variance. We then estimate <span class="math inline">\(\sigma^2\)</span> by <span class="math inline">\(\operatorname{RSS}/(n-p-1).\)</span> Now although the formulas for the standard errors do not rely on the linear model being correct, the estimate for <span class="math inline">\(\sigma^2\)</span> does. We see in Figure 3.8 of our textbook that there is a non-linear relationship in the data, and so the residuals from a linear fit will be inflated, and so will <span class="math inline">\(\hat{\sigma}^2\)</span>.</p>
+<p>Moreover, the standard formulas assume (somewhat unrealistically) that the <span class="math inline">\(x_i\)</span> are fixed, and all the variability comes from the variation in the errors <span class="math inline">\(\epsilon_i\)</span>. The bootstrap approach does not rely on any of these assumptions, and so it is likely giving a more accurate estimate of the standard errors of <span class="math inline">\(\hat{\beta}_0\)</span> and <span class="math inline">\(\hat{\beta}_1\)</span> than is the <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> function.</p>
+<p>Below we compute the bootstrap standard error estimates and the standard linear regression estimates that result from fitting the quadratic model to the data.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">boot_fn</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">index</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">horsepower</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">horsepower</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>, </span>
+<span>        data <span class="op">=</span> <span class="va">data</span>, subset <span class="op">=</span> <span class="va">index</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/boot/man/boot.html">boot</a></span><span class="op">(</span>data      <span class="op">=</span> <span class="va">Auto</span>, </span>
+<span>     statistic <span class="op">=</span> <span class="va">boot_fn</span>, </span>
+<span>     R         <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ORDINARY NONPARAMETRIC BOOTSTRAP
+
+
+Call:
+boot(data = Auto, statistic = boot_fn, R = 1000)
+
+
+Bootstrap Statistics :
+        original        bias     std. error
+t1* 56.900099702  3.511640e-02 2.0300222526
+t2* -0.466189630 -7.080834e-04 0.0324241984
+t3*  0.001230536  2.840324e-06 0.0001172164</code></pre>
+</div>
+<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">horsepower</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">horsepower</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">Auto</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">coef</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                    Estimate   Std. Error   t value      Pr(&gt;|t|)
+(Intercept)     56.900099702 1.8004268063  31.60367 1.740911e-109
+horsepower      -0.466189630 0.0311246171 -14.97816  2.289429e-40
+I(horsepower^2)  0.001230536 0.0001220759  10.08009  2.196340e-21</code></pre>
+</div>
+</div>
+<p>Since the quadratic model provides a good fit to the data (Figure 3.8 of our textbook), there is now a better correspondence between the bootstrap estimates and the standard estimates of <span class="math inline">\({\rm SE}(\hat{\beta}_0)\)</span>, <span class="math inline">\({\rm SE}(\hat{\beta}_1)\)</span> and <span class="math inline">\({\rm SE}(\hat{\beta}_2)\)</span>.</p>
+
+
+</section></section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="./Ch5_Classification.html" class="pagination-link" aria-label="Classification">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Classification</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

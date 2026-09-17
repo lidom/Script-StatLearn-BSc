@@ -1,0 +1,2167 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>4&nbsp; Nonparametric Regression and Cross-Validation – Computer-Aided Statistical Analysis (B.Sc.)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./Ch5_Classification.html" rel="next">
+<link href="./Ch_MatrixAlgebra.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+</head>
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Ch_NonParamRegression.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Nonparametric Regression and Cross-Validation</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./images/Uni_Bonn_Logo.jpeg" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Computer-Aided Statistical Analysis (B.Sc.)</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Organization of the Course</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch_Intro2R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title"><code>R</code>-Lab: Introduction to <code>R</code></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch_LinearRegression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Linear Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch_MatrixAlgebra.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Matrix Algebra</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch_NonParamRegression.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Nonparametric Regression and Cross-Validation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch5_Classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
+  </div>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+<li><a href="#nonparametric-regression" id="toc-nonparametric-regression" class="nav-link active" data-scroll-target="#nonparametric-regression"><span class="header-section-number">4.1</span> Nonparametric Regression</a></li>
+  <li><a href="#k-nearest-neighbors-k-nn-regression" id="toc-k-nearest-neighbors-k-nn-regression" class="nav-link" data-scroll-target="#k-nearest-neighbors-k-nn-regression"><span class="header-section-number">4.2</span> K-Nearest Neighbors (K-NN) Regression</a></li>
+  <li>
+<a href="#sec-mqfit" id="toc-sec-mqfit" class="nav-link" data-scroll-target="#sec-mqfit"><span class="header-section-number">4.3</span> Local Mean Squared (Prediction) Error (MSE)</a>
+  <ul class="collapse">
+<li><a href="#local-bias-variance-trade-off" id="toc-local-bias-variance-trade-off" class="nav-link" data-scroll-target="#local-bias-variance-trade-off"><span class="header-section-number">4.3.1</span> Local Bias-Variance Trade-Off</a></li>
+  <li><a href="#choosing-the-local-smoothing-parameter-kequiv-k_x_0" id="toc-choosing-the-local-smoothing-parameter-kequiv-k_x_0" class="nav-link" data-scroll-target="#choosing-the-local-smoothing-parameter-kequiv-k_x_0"><span class="header-section-number">4.3.2</span> Choosing the Local Smoothing Parameter <span class="math inline">\(K\equiv K_{x_0}\)</span></a></li>
+  </ul>
+</li>
+  <li>
+<a href="#sec-globalMSE" id="toc-sec-globalMSE" class="nav-link" data-scroll-target="#sec-globalMSE"><span class="header-section-number">4.4</span> Global Mean Squared (Prediction) Error (MSE)</a>
+  <ul class="collapse">
+<li><a href="#choosing-the-global-smoothing-parameter-k" id="toc-choosing-the-global-smoothing-parameter-k" class="nav-link" data-scroll-target="#choosing-the-global-smoothing-parameter-k"><span class="header-section-number">4.4.1</span> Choosing the Global Smoothing Parameter <span class="math inline">\(K\)</span></a></li>
+  </ul>
+</li>
+  <li>
+<a href="#cross-validation" id="toc-cross-validation" class="nav-link" data-scroll-target="#cross-validation"><span class="header-section-number">4.5</span> Cross-Validation</a>
+  <ul class="collapse">
+<li><a href="#validation-set-approach" id="toc-validation-set-approach" class="nav-link" data-scroll-target="#validation-set-approach"><span class="header-section-number">4.5.1</span> Validation Set Approach</a></li>
+  <li><a href="#leave-one-out-cross-validation-loocv" id="toc-leave-one-out-cross-validation-loocv" class="nav-link" data-scroll-target="#leave-one-out-cross-validation-loocv"><span class="header-section-number">4.5.2</span> Leave-One-Out Cross-Validation (LOOCV)</a></li>
+  </ul>
+</li>
+  <li><a href="#k-fold-cross-validation" id="toc-k-fold-cross-validation" class="nav-link" data-scroll-target="#k-fold-cross-validation"><span class="header-section-number">4.6</span> <span class="math inline">\(k\)</span>-Fold Cross-Validation</a></li>
+  <li><a href="#parametric-versus-nonparametric-regression" id="toc-parametric-versus-nonparametric-regression" class="nav-link" data-scroll-target="#parametric-versus-nonparametric-regression"><span class="header-section-number">4.7</span> Parametric versus Nonparametric Regression</a></li>
+  <li><a href="#in-class-coding-exercises" id="toc-in-class-coding-exercises" class="nav-link" data-scroll-target="#in-class-coding-exercises"><span class="header-section-number">4.8</span> In Class Coding Exercises</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">4.9</span> Exercises</a></li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">
+<span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Nonparametric Regression and Cross-Validation</span>
+</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header><!-- LTeX: language=en-US --><section id="nonparametric-regression" class="level2" data-number="4.1"><h2 data-number="4.1" class="anchored" data-anchor-id="nonparametric-regression">
+<span class="header-section-number">4.1</span> Nonparametric Regression</h2>
+<p>The linear regression model as considered in <a href="Ch_LinearRegression.html" class="quarto-xref"><span>Chapter 2</span></a> is an example of a <strong>parametric</strong> regression model because it parametrizes the general regression model <span class="math display">\[
+Y_i = f(X_i) + \epsilon_i
+\]</span> using a linear model assumption (Assumption 1 in <a href="Ch_LinearRegression.html" class="quarto-xref"><span>Chapter 2</span></a>), such that <span class="math display">\[
+f(X_i)=\beta_0 + \beta_1 X_{i1} + \dots + \beta_p X_{ip}.
+\]</span></p>
+<p><strong>Advantages of parametric approaches:</strong></p>
+<ul>
+<li>Typically easy to fit</li>
+<li>Simple interpretation</li>
+<li>Simple inference</li>
+</ul>
+<p><strong>Disadvantages of parametric approaches:</strong></p>
+<ul>
+<li>The parametric model assumption can be far from true; i.e. <span class="math display">\[
+f(X_i) \neq \beta_0 + \beta_1 X_{i1} + \dots + \beta_p X_{ip}
+\]</span>
+</li>
+</ul>
+<p><strong>Alternative:</strong> <strong>Non-parametric methods</strong> such as <strong>K-nearest neighbors regression</strong> since non-parametric approaches do not explicitly assume a parametric form for <span class="math inline">\(f(X).\)</span></p>
+</section><section id="k-nearest-neighbors-k-nn-regression" class="level2" data-number="4.2"><h2 data-number="4.2" class="anchored" data-anchor-id="k-nearest-neighbors-k-nn-regression">
+<span class="header-section-number">4.2</span> K-Nearest Neighbors (K-NN) Regression</h2>
+<p>Let <span class="math display">\[
+Y_i = f(X_i) + \epsilon_i
+\]</span> denote the <strong>general regression model.</strong></p>
+<p>In the following, we do not assume a certain parametric model form for <span class="math inline">\(f(x),\)</span> but only make the <strong>qualitative assumption</strong> that <span class="math inline">\(f\)</span> is a sufficiently <strong>smooth</strong> function, such that <span class="math display">\[
+|f(x_1)-f(x_2)|\approx 0\quad\text{if}\quad d(x_1,x_2)\approx 0,
+\]</span> where <span class="math inline">\(d(x_1,x_2)\)</span> measures the distance (e.g.&nbsp;<span class="math inline">\(d(x_1,x_2)=||x_1-x_2||\)</span>) between the points <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2.\)</span></p>
+<p>Let <span class="math inline">\(x_0\in\mathbb{R}^p\)</span> denote a certain (multivariate) predictor value at which we want to estimate <span class="math display">\[
+f(x_0).
+\]</span></p>
+<p><strong>KNN regression</strong> estimates the value of the regression function at a point <span class="math inline">\(x_0,\)</span> denoted by <span class="math inline">\(f(x_0),\)</span> using the estimator <span class="math display">\[
+\hat{f}_K(x_0).
+\]</span> The estimate is obtained through the following two steps:</p>
+<ol type="1">
+<li>
+<strong>Identify the <span class="math inline">\(K\)</span> nearest neighbors of <span class="math inline">\(x_0.\)</span></strong> Compute the distances between <span class="math inline">\(x_0\)</span> and each training predictor <span class="math inline">\(X_1,\dots,X_{n_{\text{Train}}}\)</span> <span class="math display">\[
+d(x_0,X_1),d(x_0,X_2)\dots,d(x_0,X_{n_{\text{Train}}}).
+\]</span> Select the <span class="math inline">\(K\)</span> training points whose predictors are closest to <span class="math inline">\(x_0.\)</span> Let <span class="math inline">\(\mathcal{N}_0\)</span> denote the set of their indices: <span class="math display">\[
+\begin{align*}
+\mathcal{N}_0
+&amp; =\{i\in\{1,2,\dots,n_{\text{Train}}\} \; |\; d(x_0,X_i)\text{ is among the $K$ smallest distances}\}
+\end{align*}
+\]</span> where
+<ul>
+<li><span class="math inline">\(\mathcal{N}_0\subset\{1,2,\dots,n_{\text{Train}}\}\)</span></li>
+<li>
+<span class="math inline">\(|\mathcal{N}_0|=K\)</span> (number of elements in <span class="math inline">\(\mathcal{N}_0\)</span>)</li>
+</ul>
+</li>
+<li>
+<strong>Average the corresponding responses.</strong> Estimate <span class="math inline">\(f(x_0)\)</span> by taking the average of the training responses associated with the <span class="math inline">\(K\)</span> nearest neighbors: <span class="math display">\[
+\hat{f}_K(x_0)=\frac{1}{K}\sum_{i\in\mathcal{N}_0}Y_i.
+\]</span>
+</li>
+</ol>
+<p>These two steps are repeated for every predictor value <span class="math inline">\(x_0\in\mathbb{R}^p\)</span> at which the regression function is to be estimated.</p>
+<p>The performance of the estimator <span class="math inline">\(\hat{f}_K(x_0)\)</span> depends on</p>
+<ul>
+<li>the choice of <span class="math inline">\(K\)</span> (<strong>smoothing parameter</strong>) and</li>
+<li>the choice of distance <span class="math inline">\(d\)</span>
+</li>
+</ul>
+<p>For real valued predictors, <span class="math inline">\(X_i\in\mathbb{R}^p\)</span> a usual choice is the <strong>Euclidean distance</strong> <span class="math display">\[
+d_E(x_0, X_i) = ||x_0 - X_i||^2 = \sum_{j=1}^p (x_{0j} - X_{ij})^2.
+\]</span></p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Use Standardized Predictors!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Typically, it is important to compute the distances with respect to the <strong>standardized</strong> (centering, and scaling to unit variance) predictor variables; i.e. <span class="math display">\[
+d^*_E(x_0, X_i) = ||x^*_0 - X^*_i||^2 = \sum_{j=1}^p (x^*_{0j} - X^*_{ij})^2,
+\]</span> where <span class="math display">\[
+x^*_{0j} = \frac{x_{0j} - \bar{X}_{j}}{\sqrt{\frac{1}{n_{\text{Train}}}\sum_{i=1}^{n_{\text{Train}}}(X_{ij}-\bar{X}_{j})^2}}
+\]</span> and <span class="math display">\[
+X^*_{ij} = \frac{X_{ij} - \bar{X}_{j}}{\sqrt{\frac{1}{n_{\text{Train}}}\sum_{i=1}^{n_{\text{Train}}}(X_{ij}-\bar{X}_{j})^2}}
+\]</span> with <span class="math inline">\(\bar{X}_{j} = \frac{1}{n_{\text{Train}}}\sum_{i=1}^{n_{\text{Train}}}X_{ij}.\)</span></p>
+<p>Otherwise, the distance values could be dominated by one of the <span class="math inline">\(p\)</span> predictors.</p>
+<p>E.g. when one predictor is age (values between <span class="math inline">\(0\)</span> and <span class="math inline">\(99\)</span>) and another predictor is yearly income (values between <span class="math inline">\(0\)</span> and <span class="math inline">\(12,000,000\)</span>), then the differences in income will dominate the differences in age only because of the different scales. <!-- 
+$$
+\frac{X_{1j} - \bar{X}_{j}}{\sqrt{\frac{1}{n_{\text{Train}}}\sum_{i=1}^{n_{\text{Train}}}(X_{ij}-\bar{X}_{j})^2}},\dots,\frac{X_{n_{\text{Train}}j} - \bar{X}_{j}}{\sqrt{\frac{1}{n_{\text{Train}}}\sum_{i=1}^{n_{\text{Train}}}(X_{ij}-\bar{X}_{j})^2}}
+$$  --></p>
+</div>
+</div>
+<p>The problem is now, to find the optimal value for <span class="math inline">\(K.\)</span></p>
+<p><strong>Idea:</strong> Choose <span class="math inline">\(K\)</span> by minimizing the mean squared (prediction) error.</p>
+</section><section id="sec-mqfit" class="level2" data-number="4.3"><h2 data-number="4.3" class="anchored" data-anchor-id="sec-mqfit">
+<span class="header-section-number">4.3</span> Local Mean Squared (Prediction) Error (MSE)</h2>
+<!-- In fact, a very flexible (e.g. non-parametric) estimation method will tend to overfit the training data such that $y_i\approx \hat{f}(x_i)$ for all $i=1,\dots,n$ resulting in a training MSE that is close to zero since $\hat{f}(x_i)$ fits also the errors $\epsilon_i.$ -->
+<!-- **Example:** Suppose that we are interested in developing an algorithm to predict a stock’s price based on previous stock returns. We can train the method using stock returns from the past 6 months. But we don't really care how well our method predicts last week's stock price. We instead care about how well it will predict tomorrow's price
+or next month's price.  -->
+<!-- **Example:** Suppose that we have clinical measurements (e.g. weight, blood pressure, height, age, family history of disease) for a number of patients, as well as information about whether each patient has diabetes. We can use these patients to train a statistical learning method to predict risk of diabetes based on clinical measurements. In practice, we want this method to accurately predict diabetes risk for future patients based on their clinical measurements.  -->
+<!-- In general, however, we do not really care how well the method works on the training data. We are interested in the accuracy of the predictions that we obtain when we apply our method to **previously unseen test data**. 
+
+Thus, we want to choose the method that gives the **lowest *test* MSE**, as opposed to the lowest *training* MSE.  -->
+<!--
+#### **Local Test Data MSE** {-}
+
+Let $\hat{f}$ be computed from the training data $\{(X_1,Y_1),\dots,(X_n,Y_{n_{\text{Train}}})\}.$ And let 
+$$
+\{(x_{0},Y^{\text{Test}}_{1}),(x_{0},Y^{\text{Test}}_{2})\dots,(x_{0},Y^{\text{Test}}_{n_{\text{Test}}})\}
+$$
+denote a specific set of $n_{\text{Test}}$ **test data points** $Y^{\text{Test}}_{1},\dots,Y^{\text{Test}}_{n_{\text{Test}}}$ for a **specific predictor value** $x_0.$ 
+
+
+::: {.callout-tip}
+# Local Test Data
+This type of $x_0$-specific test data is a realization of a **conditional random sample** given $X=x_0,$
+$$
+(x_{0},Y^{\text{Test}}_{i})\overset{\text{iid}}{\sim}(X,Y)|X=x_0,\quad i=1,\dots,n_{\text{Test}}.
+$$ 
+I.e, the test data $(x_{0},Y^{\text{Test}}_{i}),$ is generated using iid realizations from 
+$$
+Y^{\text{Test}} = f(x_0) +  \epsilon^{\text{Test}}.
+$$
+The test data random sample is independent of the training data random sample whose realization was used to compute $\hat{f}.$
+
+**Note:** Unfortunately, in real data, we usually do not have access to $x_0$-specific test data. Therefore, we will later consider the ***global* test MSE** which does not require $x_0$-specific test data.  
+:::
+
+Then, the **empirical, local test MSE** at $X=x_0$ is given by,
+\begin{align*}
+\widehat{\operatorname{MSE}}_{\text{Test}}(x_0,K)= \frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}\left(Y^{\text{Test}}_{i} - \hat{f}_K(x_{0})\right)^2,
+\end{align*}
+where $\hat{f}_K$ denotes the KNN regression function estimator. 
+-->
+<p>In the following, we focus on the KNN-regression estimator <span class="math inline">\(\hat{f}_K,\)</span> which is, of course, only one of many possible nonparametric regression estimators.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Alternative Estimators <span class="math inline">\(\hat{f}(x_0)\)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The KNN regression function estimator <span class="math inline">\(\hat{f}_K\)</span> is, of course, only one of many examples for nonparametric estimators. Alternative examples are:</p>
+<ul>
+<li>Smoothing splines estimator <span class="math inline">\(\hat{f}_\lambda\)</span> (<code><a href="https://rdrr.io/r/stats/smooth.spline.html">smooth.spline()</a></code>), where <span class="math inline">\(\lambda\)</span> is the smoothing parameter.</li>
+<li>Polynomial regression estimator <span class="math inline">\(\hat{f}_p\)</span>, where the polynomial degree <span class="math inline">\(p\)</span> is the smoothing parameter. (Caution: we don’t assume that the true regression function <span class="math inline">\(f\)</span> is actually a polynomial function. The lack of this assumption renders the polynomial regression function a nonparametric estimator.)</li>
+</ul>
+</div>
+</div>
+<!-- The **empirical, local test MSE** $\widehat{\operatorname{MSE}}_{\text{Test}}(x_0,K)$ is an unbiased **estimator** of the population version of the **local Mean Squared (Prediction) Error** of $\hat{f}_K(x_0)$ 
+-->
+<p>A fair and reliable assessment of an estimator requires <strong>testing data</strong>, i.e., data which comes from the same data generating process as the <strong>training data</strong>, but which was not used to compute (train) the estimator.</p>
+<p>Let <span class="math display">\[
+(X_i,Y_i)\overset{\text{iid}}{\sim}(X,Y)\quad i=1,\dots,n_{\text{Train}}
+\]</span> denote the training data used to compute the estimator <span class="math inline">\(\hat{f}(x_0),\)</span> and let <span class="math display">\[
+(X^{\text{Test}},Y^{\text{Test}})\overset{\text{iid}}{\sim}(X,Y).
+\]</span> denote a test data “point” independent of the training data, where both training and testing data come form the same data generating process <span class="math display">\[
+Y=f(X)+\epsilon
+\]</span> with <span class="math inline">\(Var(\epsilon)=\sigma^2.\)</span></p>
+<p>The most often used measure of the predictor error is the <strong>Mean Squared (Prediction) Error (MSE)</strong></p>
+<p>The <strong><em>local</em> (i.e., <span class="math inline">\(x_0\)</span>-specific) Mean Squared (Prediction) Error</strong> of <span class="math inline">\(\hat{f}_K(x_0)\)</span> is given by <span id="eq-MSERedIrrRed"><span class="math display">\[
+\begin{align*}
+\operatorname{MSE}(x_0,K)
+&amp;= E\left[\left.(Y^{\text{Test}} - \hat{f}_K(X^{\text{Test}}))^2\right|X^{\text{Test}}=x_0\right]\\[2ex]
+&amp;=\underbrace{E\left[\left(f(x_0)-\hat{f}_K(x_0)\right)^2\right]}_{\text{reducable}}\;+\;\underbrace{\sigma^2}_{\text{irreducable}}\geq \sigma^2,
+\end{align*}
+\qquad(4.1)\]</span></span> where <span class="math display">\[
+E\left[\left(f(x_0)-\hat{f}_K(x_0)\right)^2\right]
+\]</span> denotes the <strong><em>reducable</em></strong> mean squared <strong>estimation</strong> error component of <span class="math inline">\(\hat{f}_K(x_0),\)</span> and where <span class="math display">\[
+\begin{align*}
+\sigma^2
+&amp;=Var(\epsilon^{\text{Test}})=Var(\epsilon)
+\end{align*}
+\]</span> denotes the <strong>irreducible</strong> component of the local mean squared (prediction) error <span class="math inline">\(\operatorname{MSE}(x_0,K).\)</span></p>
+<div class="callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Proof of <a href="#eq-MSERedIrrRed" class="quarto-xref">Equation&nbsp;<span>4.1</span></a>:
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><span class="math display">\[
+\begin{align*}
+\operatorname{MSE}(x_0,K)
+&amp;= E\left[\left.(Y^{\text{Test}} - \hat{f}_K(X^{\text{Test}}))^2\right|X^{\text{Test}}=x_0\right]\\[2ex]
+&amp;\left[\text{using that }Y^{\text{Test}}=f(X^{\text{Test}})+\epsilon^{\text{Test}}:\right]\\[2ex]
+&amp;= E\left[\left.(f(X^{\text{Test}})+\epsilon^{\text{Test}} - \hat{f}_K(X^{\text{Test}}))^2\right|X^{\text{Test}}=x_0\right]\\[2ex]
+&amp;= E\left[\left( f(X^{\text{Test}})- \hat{f}_K(X^{\text{Test}})\right)^2\right.+\left(\epsilon^{\text{Test}}\right)^2\\
+&amp; \;\;\;\;+2\left.\left.\left( f(X^{\text{Test}})- \hat{f}_K(X^{\text{Test}})\right)\epsilon^{\text{Test}}  \right|X^{\text{Test}}=x_0\right]\\[2ex]
+&amp;= E\left[\left( f(x_0)- \hat{f}_K(x_0)\right)^2\right]+E\left[\left(\epsilon^{\text{Test}}\right)^2\right]\\
+&amp; \;\;\;\;+2\underbrace{E\left[\left( f(x_0)- \hat{f}_K(x_0)\right)\right]E\left[\epsilon^{\text{Test}}\right]}_{\text{using independence between training and testing data}}\\[2ex]
+&amp;=\underbrace{E\left[\left(f(x_0)-\hat{f}_K(x_0)\right)^2\right]}_{\text{Mean Squared Estimation Error (reducable)}}\;+\;\sigma^2,
+\end{align*}
+\]</span> where <span class="math display">\[
+\begin{align*}
+E\left[\left(\epsilon^{\text{Test}}\right)^2\right]
+&amp;=Var(\epsilon^{\text{Test}})\\
+&amp;=Var(\epsilon)
+\end{align*}
+\]</span> denotes the <strong>irreducible</strong> component of the local mean squared (prediction) error <span class="math inline">\(\operatorname{MSE}(x_0,K).\)</span></p>
+</div>
+</div>
+</div>
+<!-- 
+I.e., we have that
+$$
+\begin{align}
+E\left[\widehat{\operatorname{MSE}}_{test}(x_0,K)\right]
+&=\operatorname{MSE}(x_0,K)
+\end{align}
+$${#eq-MSEUnbiased}
+
+@eq-MSEUnbiased means that we can expect to get a reasonable/useful MSE-result when working with $\widehat{\operatorname{MSE}}_{\text{Test}}(x_0,K).$
+
+::: {.callout collapse="true"}
+
+# Proof of @eq-MSEUnbiased:
+$$
+\begin{align*}
+E\left[\widehat{\operatorname{MSE}}_{\text{Test}}(x_0,K)\right] 
+& =E\left[\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}\left(Y_{i}^{\text{Test}}- \hat{f}_K(x_0)\right)^2\right]\\[2ex]
+& \text{By the linearity of $E()$:}\\[2ex]
+& =\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}E\left[\left(Y_{i}^{\text{Test}}- \hat{f}_K(x_0)\right)^2\right]\\[2ex]
+%& =\frac{1}{n_{\text{Test}}}\,\sum_{i=1}^{n_{\text{Test}}}\,E\left[\left(Y_{1}^{\text{Test}}- \hat{f}_K(x_0)\right)^2\right]\\[2ex]
+& \text{Using that $Y_{i}^{\text{Test}}$ is iid across $i=1,\dots,n_{\text{Test}}$:}\\[2ex]
+& =\frac{1}{n_{\text{Test}}}\,E\left[\left(Y^{\text{Test}}- \hat{f}_K(x_0)\right)^2\right]\,\sum_{i=1}^{n_{\text{Test}}} 1\\[2ex]
+& =\frac{1}{n_{\text{Test}}}\,n_{\text{Test}}\,E\left[\left(Y^{\text{Test}}- \hat{f}_K(x_0)\right)^2\right]\\[2ex]
+& =E\left[\left(Y^{\text{Test}}- \hat{f}_K(x_0)\right)^2\right]\\[2ex]
+& \text{Using that}\;Y^{\text{Test}}=f(x_0)+\epsilon^{\text{Test}}\\[2ex]
+& =E\left[\left(f(x_0) + \epsilon^{\text{Test}} - \hat{f}_K(x_0)\right)^2\right]\\[2ex]
+& =E\left[\left(f(x_0)- \hat{f}_K(x_0)\right)^2 +2\left(f(x_0)- \hat{f}_K(x_0)\right)\epsilon^{\text{Test}} + (\epsilon^{\text{Test}})^2 \right]\\[2ex]
+& =E\left[\left(f(x_0)- \hat{f}_K(x_0)\right)^2\right]\\[2ex] 
+&+ \underbrace{2E\left[\left(f(x_0)- \hat{f}_K(x_0)\right)\right]\overbrace{E\left[\epsilon^{\text{Test}}\right]}^{=0}}_{\text{using independence between training (in $\hat{f}$) and testing data}}\\[2ex] 
+&+ \underbrace{E\left[(\epsilon^{\text{Test}})^2 \right]}_{=Var(\epsilon^{\text{Test}})}\\[2ex]
+& =\underbrace{E\left[\left(f(x_0)- \hat{f}_K(x_0)\right)^2\right]}_{\text{Mean Squared Estimation Error of $\hat{f}_K(x_0)$}}+0+Var(\epsilon^{\text{Test}})\\[2ex] 
+& =\underbrace{E\left[\left(f(x_0)- \hat{f}_K(x_0)\right)^2\right]}_{\text{reducable}}+\overbrace{\underbrace{Var(\epsilon^{\text{Test}})}_{\text{irreducable}}}^{=\sigma^2}\\[2ex] 
+\end{align*}
+$$
+:::
+ -->
+<!-- 
+The minimum of $\operatorname{MSE}(x_0,K)$ with respect to $K$ finds the optimal compromise between: 
+
+* the squared bias of $\hat{f}_K(x_0)$ and 
+* the variance of $\hat{f}_K(x_0).$ 
+-->
+<section id="local-bias-variance-trade-off" class="level3" data-number="4.3.1"><h3 data-number="4.3.1" class="anchored" data-anchor-id="local-bias-variance-trade-off">
+<span class="header-section-number">4.3.1</span> Local Bias-Variance Trade-Off</h3>
+<!-- 
+The mean squared (prediction) error $\operatorname{MSE}(x_0,K)$ of $\hat{f}_K(x_0)$ can be decomposed into the **reducable** mean squared estimation error and the **irreducable** prediction error $\sigma^2$
+$$
+\begin{align*}
+\operatorname{MSE}(x_0,K) 
+&=\underbrace{E\left[\left(f(x_0)-\hat{f}_K(x_0)\right)^2\right]+\sigma^2}_{\text{Mean Squared Prediction Error of $\hat{f}_K(x_0)$}}.
+\end{align*}
+$$  
+-->
+<!-- The **expected MSE** at $x_0,$ 
+$$
+E\left[\operatorname{MSE}_{test}(x_0)\right],
+$$ 
+refers to the average test MSE that we would obtain if we repeatedly estimated $f$ using training data set, and evaluated each at $x_0.$  
+-->
+<!-- 
+::: {.callout-note}
+A computed value of $\operatorname{MSE}_{test}(x_0)$ (as done in the coding challenge) is not able to consistently approximate $E\left[\operatorname{MSE}_{test}(x_0)\right].$
+
+However, to get information about Bias and Variance of a method, we need to approximate $E\left[\operatorname{MSE}_{test}(x_0)\right].$ This will be (among others) the topic of  @sec-resamplingmethods.
+::: 
+-->
+<!-- 
+Since the mean squared **estimation** error is potentially **reducable,** it is important to understand its behavior with respect to different choices of the smoothing parameter $K.$  
+-->
+<p>The mean squared <strong>estimation</strong> error of <span class="math inline">\(\hat{f}_K(x_0)\)</span> can be further <strong>decomposed</strong> into a <strong>variance</strong> component and a <strong>squared bias</strong> component, i.e. <span id="eq-MSEBiasVar"><span class="math display">\[
+E\left[\left(f(x_0) - \hat{f}_K(x_0)\right)^2\right] =
+Var\left(\hat{f}_K(x_0)\right) + \left[\operatorname{Bias}\left(\hat{f}_K(x_0)\right)\right]^2.
+\qquad(4.2)\]</span></span></p>
+<div class="callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Proof of <a href="#eq-MSEBiasVar" class="quarto-xref">Equation&nbsp;<span>4.2</span></a>:
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><br></p>
+<p><span class="math display">\[
+\begin{align*}
+&amp;   E\left[\left(f(x_0) - \hat{f}_K(x_0)\right)^2\right]\\[2ex]
+&amp; = E\left[\left(\hat{f}_K(x_0) - f(x_0)\right)^2\right]\\[2ex]
+&amp;\text{Adding $0=E[\hat{f}_K(x_0)] - E[\hat{f}_K(x_0)]$ yields}\\[2ex]
+&amp; = E\left[\left(\left\{\hat{f}_K(x_0) - E[\hat{f}_K(x_0)]\right\} - \left\{ f(x_0)- E[\hat{f}_K(x_0)]\right\}\right)^2\right]\\[2ex]
+&amp; = \overbrace{E\left[\left\{\hat{f}_K(x_0) - E[\hat{f}_K(x_0)]\right\}^2\right]}^{=Var\left(\hat{f}_K(x_0)\right)} + \overbrace{E\left[\left\{ f(x_0)- E[\hat{f}_K(x_0)]\right\}^2\right]}^{=\left\{E[\hat{f}_K(x_0)] - f(x_0) \right\}^2}\\[2ex]
+&amp; \;\; -2\;\; \underbrace{E\left[\left\{\hat{f}_K(x_0) - E[\hat{f}_K(x_0)]\right\} \cdot
+                 \left\{ f(x_0)- E[\hat{f}_K(x_0)]\right\}\right]}_{=E\left[\hat{f}_K(x_0)f(x_0)
+                                                                         -\hat{f}_K(x_0)E\left[\hat{f}_K(x_0)\right]
+                                                                         -     f(x_0) E\left[\hat{f}_K(x_0)\right]
+                                                                         +\left(E\left[\hat{f}_K(x_0)\right]\right)^2\right]}\\[2ex]
+&amp; = Var\left(\hat{f}_K(x_0)\right) + \Big\{\;\overbrace{E[\hat{f}_K(x_0)] - f(x_0)}^{=\operatorname{Bias}\left(\hat{f}_K(x_0)\right)}\; \Big\}^2\\[2ex]
+&amp; \;\; -2\;\; \underbrace{E\left[\hat{f}_K(x_0)f(x_0) -\hat{f}_K(x_0)E\left[\hat{f}_K(x_0)\right]
+                                                                         -     f(x_0) E\left[\hat{f}_K(x_0)\right]
+                                                                         +\left(E\left[\hat{f}_K(x_0)\right]\right)^2\right]}_{= 0
+                                                                         }\\[2ex]                  
+% = E\left[\hat{f}_K(x_0)\right]f(x_0) - \left(E\left[\hat{f}_K(x_0)\right]\right)^2 - f(x_0) E\left[\hat{f}_K(x_0)\right]+\left(E\left[\hat{f}_K(x_0)\right]\right)^2                                                                          
+&amp; = \underbrace{Var\left(\hat{f}_K(x_0)\right) + \left[\operatorname{Bias}\left(\hat{f}_K(x_0)\right)\right]^2}_{\text{reducible}}
+\end{align*}
+\]</span></p>
+</div>
+</div>
+</div>
+<section id="variance-of-hatf_k-at-x_0" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="variance-of-hatf_k-at-x_0"><strong>Variance of <span class="math inline">\(\hat{f}_K\)</span> at <span class="math inline">\(x_0\)</span></strong></h4>
+<p><span class="math display">\[
+Var(\hat{f}_K(x_0))=E\left[\left(\hat{f}_K(x_0) - E\left[\hat{f}_K(x_0)\right]\right)^2\right]
+\]</span></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Variance
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The variance of <span class="math inline">\(\hat{f}\)</span> at <span class="math inline">\(x_0\)</span> refers to the amount by which <span class="math inline">\(\hat{f}_K(x_0)\)</span> would change if we estimated it using a different training data set. Generally, different training data sets will result in a different <span class="math inline">\(\hat{f}_K(x_0).\)</span> Ideally the estimate for <span class="math inline">\(f\)</span> should not vary too much between training sets. If a method has high variance then small changes in the training data can result in large changes in <span class="math inline">\(\hat{f}_K(x_0).\)</span></p>
+<p>🤓 In general, more flexible statistical methods (e.g., KNN-regression with small <span class="math inline">\(K\)</span>) have higher variance—and vice versa.</p>
+</div>
+</div>
+</section><section id="bias-of-hatf-at-x_0" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="bias-of-hatf-at-x_0"><strong>Bias of <span class="math inline">\(\hat{f}\)</span> at <span class="math inline">\(x_0\)</span></strong></h4>
+<p><span class="math display">\[
+\operatorname{Bias}(\hat{f}_K(x_0))=E\left[\hat{f}_K(x_0)\right] - f(x_0)
+\]</span></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Bias
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The bias of <span class="math inline">\(\hat{f}\)</span> at <span class="math inline">\(x_0\)</span> refers to the error that is introduced by approximating <span class="math inline">\(f(x_0)\)</span> using a <strong>nonparametric</strong> estimation approach.</p>
+<p>🤓 In general, more flexible statistical methods (e.g., KNN-regression with small <span class="math inline">\(K\)</span>) have smaller bias—and vice versa.</p>
+</div>
+</div>
+<p>Note that <span class="math display">\[
+Var\left(\hat{f}_K(x_0)\right)\geq 0
+\]</span> and that <span class="math display">\[
+\left[\operatorname{Bias}\left(\hat{f}_K(x_0)\right)\right]^2\geq 0.
+\]</span> Thus, the mean squared (prediction) error <span class="math inline">\(\operatorname{MSE}(x_0,K)\)</span> can never lie below of <span class="math inline">\(Var(\epsilon),\)</span> i.e. <span class="math display">\[
+\begin{align*}
+\operatorname{MSE}(x_0,K)
+&amp;=E\left[\left(f(x_0)-\hat{f}_K(x_0)\right)^2\right] + \sigma^2\\
+&amp;=Var\left(\hat{f}_K(x_0)\right)+\left[\operatorname{Bias}\left(\hat{f}_K(x_0)\right)\right]^2+ \sigma^2\\
+&amp; \geq \sigma^2 = Var\left(\epsilon\right).
+\end{align*}
+\]</span></p>
+</section><section id="example-knn-regression" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="example-knn-regression"><strong>Example: KNN-Regression</strong></h4>
+<p>The left panel of Figure 3.16 shows the estimation result for <span class="math inline">\(K=1\)</span> and the right panel for <span class="math inline">\(K=9.\)</span></p>
+<p><strong>Case <span class="math inline">\(K=1:\)</span></strong> KNN-regression <strong>interpolates</strong> all the (yellow) training data points.</p>
+<p><strong>Case <span class="math inline">\(K=9:\)</span></strong> KNN-regression <strong>smoothes</strong> the (yellow) training data points.</p>
+<p><img src="images/Fig_3_16.png" class="img-fluid"></p>
+<p><strong>A small value for <span class="math inline">\(K\)</span></strong> provides a very flexible fit, which will have</p>
+<ul>
+<li>small bias <span class="math display">\[
+    \operatorname{Bias}(\hat{f}_K(x_0)) = E(\hat{f}_K(x_0)) - f(x_0) =\;\text{small}
+    \]</span>
+</li>
+<li>large variance <span class="math display">\[
+    Var(\hat{f}_K(x_0)) = \text{large}
+    \]</span>
+</li>
+</ul>
+<p><strong>A large value of <span class="math inline">\(K\)</span></strong> provides a less flexible fit, which will have</p>
+<ul>
+<li>large bias <span class="math display">\[
+    \operatorname{Bias}(\hat{f}_K(x_0)) = E(\hat{f}_K(x_0)) - f(x_0) =\;\text{large}
+    \]</span>
+</li>
+<li>small variance <span class="math display">\[
+    Var(\hat{f}_K(x_0)) = \;\text{small}
+    \]</span>
+</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Bias of <span class="math inline">\(\hat{f}_K(x_0)\)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Small Bias:</strong> The estimator <span class="math inline">\(\hat{f}_K(x_0)\)</span> has <strong>small bias</strong> if it only uses <strong>very close and thus good</strong> training data neighbors since, by our qualitative smoothness assumption on <span class="math inline">\(f\)</span> <span class="math display">\[
+d(x_0, X_i^{\text{Train}})\approx 0\quad\Rightarrow\quad |f(X_i^{\text{Train}}) - f(x_0)|\approx 0.
+\]</span> In this case, we can expect that the systematic estimation error is small, i.e.&nbsp;that <span class="math inline">\(E(\hat{f}_K(x_0))\approx f(x_0)\)</span> (small bias).</p>
+<p><strong>Large Bias:</strong> The estimator <span class="math inline">\(\hat{f}_K(x_0)\)</span> has <strong>large bias</strong> if it also uses <strong>more distant and thus bad</strong> training data neighbors for which <span class="math display">\[
+d(x_0, X_i^{\text{Train}})\gg 0\quad\Rightarrow\quad |f(X_i^{\text{Train}}) - f(x_0)|\gg 0.
+\]</span> In this case, we expect a large systematic estimation error, i.e.&nbsp;that <span class="math inline">\(E(\hat{f}_K(x_0))\not\approx f(x_0)\)</span> (large bias).</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Variance of <span class="math inline">\(\hat{f}_K(x_0)\)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Large Variance:</strong> The estimator <span class="math inline">\(\hat{f}_K(x_0)\)</span> has <strong>large variance</strong> if it is computed from a small number (<span class="math inline">\(K\)</span> small) of training data points such that the <strong>law of larger numbers</strong> had no chance to reduce variance yet. Thus, for small <span class="math inline">\(K\)</span>, the estimation result <span class="math inline">\(\hat{f}_K(x_0)\)</span> would change a lot if we re-estimated it using a different training data set.</p>
+<p><strong>Small Variance:</strong> The estimator <span class="math inline">\(\hat{f}_K(x_0)\)</span> has <strong>small variance</strong> if it is computed from a large number (<span class="math inline">\(K\)</span> large) of training data points such that the <strong>law of larger numbers</strong> had a chance to reduce variance. Thus, for large <span class="math inline">\(K\)</span>, the estimation result <span class="math inline">\(\hat{f}_K(x_0)\)</span> would not change much if we re-estimated it using a different training data set.</p>
+</div>
+</div>
+</section></section><section id="choosing-the-local-smoothing-parameter-kequiv-k_x_0" class="level3" data-number="4.3.2"><h3 data-number="4.3.2" class="anchored" data-anchor-id="choosing-the-local-smoothing-parameter-kequiv-k_x_0">
+<span class="header-section-number">4.3.2</span> Choosing the Local Smoothing Parameter <span class="math inline">\(K\equiv K_{x_0}\)</span>
+</h3>
+<p>The <strong>locally optimal value of <span class="math inline">\(K\equiv K_{x_0}\)</span></strong> can be estimated, for every <span class="math inline">\(x_0\)</span>-value, by choosing that value of <span class="math inline">\(K\)</span> that <strong>minimizes</strong> <span id="eq-EmpiricalLocalMSE"><span class="math display">\[
+\widehat{\operatorname{MSE}}_{\text{Test}}(x_0,K)
+=\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}\left(Y_{i}^{\text{Test}}- \hat{f}_K(x_0)\right)^2
+\qquad(4.3)\]</span></span> with respect to <span class="math inline">\(K=1,2,\dots.\)</span></p>
+<p>The minimum of <span class="math inline">\(\widehat{\operatorname{MSE}}(x_0,K)\)</span> with respect to <span class="math inline">\(K\)</span> estimates the <span class="math inline">\(x_0\)</span>-specific optimal compromise between:</p>
+<ul>
+<li>the squared bias of <span class="math inline">\(\hat{f}_K(x_0)\)</span> and</li>
+<li>the variance of <span class="math inline">\(\hat{f}_K(x_0).\)</span>
+</li>
+</ul>
+<p>However, <a href="#eq-EmpiricalLocalMSE" class="quarto-xref">Equation&nbsp;<span>4.3</span></a> requires local <span class="math inline">\(x_0\)</span>-specific training data, which usually do not exist in practice.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Local (<span class="math inline">\(x_0\)</span>-specific) Test Data
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Local, i.e., <span class="math inline">\(x_0\)</span>-specific test data are a realization of a <strong>conditional random sample</strong> given <span class="math inline">\(X=x_0,\)</span> <span class="math display">\[
+(x_{0},Y^{\text{Test}}_{i})\overset{\text{iid}}{\sim}(X,Y)|X=x_0,\quad i=1,\dots,n_{\text{Test}}.
+\]</span> I.e, the test data <span class="math inline">\((x_{0},Y^{\text{Test}}_{i}),\)</span> is generated using iid realizations from <span class="math display">\[
+Y^{\text{Test}} = f(x_0) +  \epsilon^{\text{Test}}.
+\]</span> The test data random sample is independent of the training data random sample whose realization was used to compute <span class="math inline">\(\hat{f}.\)</span></p>
+</div>
+</div>
+<p>In real data problems, where we typically do not have access to such <span class="math inline">\(x_0\)</span>-specific test data. Thus, we usually determine a <strong>globally</strong>-optimal <span class="math inline">\(K\)</span> by minimizing the <strong><em>global</em> test MSE</strong> which does not require <span class="math inline">\(x_0\)</span>-specific test data.</p>
+</section></section><section id="sec-globalMSE" class="level2" data-number="4.4"><h2 data-number="4.4" class="anchored" data-anchor-id="sec-globalMSE">
+<span class="header-section-number">4.4</span> Global Mean Squared (Prediction) Error (MSE)</h2>
+<p>In practice, we usually want to find a <strong>globally</strong> optimal smoothing parameter <span class="math inline">\(K,\)</span> which gives good estimation results <span class="math inline">\(\hat{f}_K(x_0)\)</span> for <strong>all</strong> values <span class="math inline">\(x_0\)</span> of interest.</p>
+<p><strong>Idea:</strong> Find the smoothing parameter <span class="math inline">\(K\)</span> that minimizes the <strong>global MSE.</strong></p>
+<p><span class="math display">\[
+\begin{align*}
+\operatorname{MSE}(K)
+&amp;= E\left[\left(Y^{\text{Test}} - \hat{f}_K(X^{\text{Test}})\right)^2\right].
+\end{align*}
+\]</span></p>
+<p>The <strong>global MSE</strong> is the average of the local <span class="math inline">\(\operatorname{MSE}(x_0)\)</span> over all possible values of <span class="math inline">\(x_0,\)</span> i.e. <span class="math display">\[
+\operatorname{MSE}(K) = E(\operatorname{MSE}(X,K)) = \int \operatorname{MSE}(x,K) f_X(x) dx,
+\]</span> where <span class="math inline">\(f_X\)</span> denotes the density of the predictors <span class="math inline">\(X.\)</span></p>
+<!-- 
+#### **Global Training Data MSE** {-}
+
+A commonly used measure for the model fit is the mean squared (prediction) error (MSE). 
+
+The global **training data MSE** is given by
+\begin{align*}
+\widehat{\operatorname{MSE}}_{\text{train}}=\frac{1}{n_{\text{Train}}}\sum_{i=1}^n\left(Y_i - \hat{f}(X_i)\right)^2,
+\end{align*}
+where 
+
+* $\hat{f}$ is computed from the training data
+* $\hat{f}(x_i)$ is the prediction that $\hat{f}$ gives for the $i$th training data observation. 
+
+
+In general, however, we do not really care how well the method works on the training data. One can actually show that $E(\widehat{\operatorname{MSE}}_{\text{train}})\neq \operatorname{MSE}$ and thus, we cannot expect to learn something reasonable from $\widehat{\operatorname{MSE}}_{\text{train}}.$
+
+Therefore, we are interested in the accuracy of the predictions that we obtain when we apply our method to **test data,** which was not used for computing the estimator $\hat{f}.$ 
+
+Thus, we want to choose the method that gives the **lowest *test* MSE**, as opposed to the lowest *training* MSE.  
+-->
+<section id="global-test-data-mse" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="global-test-data-mse"><strong>Global Test Data MSE</strong></h4>
+<p>Let <span class="math display">\[
+\{(X^{\text{Test}}_{1},Y^{\text{Test}}_{1}),(X^{\text{Test}}_{2},Y^{\text{Test}}_{2})\dots,(X_{n_{\text{Test}}},Y_{n_{\text{Test}}}^{\text{Test}})\}
+\]</span> denote the <strong>test data</strong> with different predictor values <span class="math inline">\(X_{1}^{\text{Test}},\dots,X_{n_{\text{Test}}}^{\text{Test}}.\)</span></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Global Test Data
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This type of test data is a realization of a random sample <span class="math display">\[
+(X^{\text{Test}}_{i},Y^{\text{Test}}_{i})\overset{\text{iid}}{\sim}(X,Y),\quad i=1,\dots,n_{\text{Test}}.
+\]</span> The test data random sample is independent of the training data random sample whose realization was used to compute <span class="math inline">\(\hat{f}.\)</span></p>
+<p><strong>Note:</strong> In real data problems, we can use sample splitting to get access to global test data, for instance, by using one half of the data as training data and the other half of the data as testing data.</p>
+</div>
+</div>
+<p>Then, the <strong>empirical, global test MSE</strong> is given by, <span class="math display">\[
+\begin{align*}
+\widehat{\operatorname{MSE}}_{\text{Test}}(K)=\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}\left(Y_{i}^{\text{Test}} - \hat{f}_K(X_{i}^{\text{Test}})\right)^2.
+\end{align*}
+\]</span></p>
+<p>The <strong>global test MSE</strong> is an unbiased <strong>estimator</strong> of the population version of the <strong>global Mean Squared (Prediction) Error</strong> of <span class="math inline">\(\hat{f},\)</span> i.e., <span class="math display">\[
+\begin{align*}
+E\left(\widehat{\operatorname{MSE}}_{\text{Test}}(K)\right)=
+\operatorname{MSE}(K)
+\end{align*}
+\]</span></p>
+</section><section id="choosing-the-global-smoothing-parameter-k" class="level3" data-number="4.4.1"><h3 data-number="4.4.1" class="anchored" data-anchor-id="choosing-the-global-smoothing-parameter-k">
+<span class="header-section-number">4.4.1</span> Choosing the Global Smoothing Parameter <span class="math inline">\(K\)</span>
+</h3>
+<p>The estimate of the <strong>globally optimal value of <span class="math inline">\(K\)</span></strong> is given by choosing that value of <span class="math inline">\(K\)</span> that <strong>minimizes</strong> <span class="math display">\[
+\begin{align*}
+\widehat{\operatorname{MSE}}_{\text{Test}}(K)=\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}\left(Y_{i}^{\text{Test}} - \hat{f}_K(X_{i}^{\text{Test}})\right)^2.
+\end{align*}
+\]</span> with respect to <span class="math inline">\(K=1,2,\dots.\)</span></p>
+<p>The minimum of <span class="math inline">\(\widehat{\operatorname{MSE}}_{\text{Test}}(K)\)</span> with respect to <span class="math inline">\(K\)</span> estimates the globally optimal compromise between:</p>
+<ul>
+<li>the global squared bias of <span class="math inline">\(\hat{f}_K\)</span> and</li>
+<li>the global variance of <span class="math inline">\(\hat{f}_K.\)</span>
+</li>
+</ul></section></section><section id="cross-validation" class="level2" data-number="4.5"><h2 data-number="4.5" class="anchored" data-anchor-id="cross-validation">
+<span class="header-section-number">4.5</span> Cross-Validation</h2>
+<p>In this chapter, we consider a class of methods that allow to estimate the <strong><em>global</em> mean squared (prediction) error MSE.</strong></p>
+<p>As our main example, we consider the <strong>polynomial regression estimator</strong> as a <strong>nonparametric estimator</strong> <span class="math display">\[
+\hat{f}_p(x) = \hat{\beta}_0 + \sum_{j=1}^p\hat{\beta}_j x^j,
+\]</span> where <span class="math inline">\(x\in\mathbb{R}\)</span> is a <strong>uni</strong>variate predictor, and where the parameters <span class="math inline">\(\hat{\beta}_0,\dots,\hat{\beta}_p\)</span> are computed using the usual least squares formula, i.e.&nbsp; <span class="math display">\[
+\begin{align*}
+\begin{pmatrix}\hat{\beta}_0\\\hat{\beta}_1\\\vdots\\\hat{\beta}_p\end{pmatrix} &amp;=\left(X^{\top} X\right)^{-1} X^{\top} Y,
+\end{align*}
+\]</span> with <span class="math display">\[
+X=\begin{pmatrix}
+    1&amp;X_{1}&amp;X_{1}^2&amp;\dots&amp;X_{1}^p\\
+    1&amp;X_{2}&amp;X_{2}^2&amp;\dots&amp;X_{2}^p\\
+    \vdots&amp;\vdots&amp;\vdots &amp;&amp;\vdots  \\
+    1&amp;X_{n_\text{Train}}&amp;X_{n_\text{Train}}^2&amp;\dots&amp;X_{n_\text{Train}}^p
+    \end{pmatrix} \;\text{and}\;
+Y=\begin{pmatrix}Y_1\\ Y_2\\\vdots\\ Y_{n_\text{Train}}\end{pmatrix}
+\]</span></p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We do <strong><em>not</em> assume</strong> (as done in Assumption 1 of <a href="Ch_LinearRegression.html" class="quarto-xref"><span>Chapter 2</span></a>) that the true regression function <span class="math inline">\(f(x)\)</span> is actually a polynomial function. We only assume that the true regression function <span class="math inline">\(f\)</span> is a sufficiently smooth function. Any smooth function <span class="math inline">\(f\)</span> can be <strong>approximated</strong> using a polynomial function (approximation theory).</p>
+<p>Thus, the polynomial regression estimator <span class="math inline">\(\hat{f}_p(x)\)</span> is here used as a <strong>nonparametric</strong> estimator, where the <strong>polynomial degree</strong> <span class="math inline">\(p\)</span> is treated as the <strong>smoothing parameter</strong>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Alternative Estimators
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The polynomial regression function estimator <span class="math inline">\(\hat{f}_p\)</span> is, of course, only one of many examples. Alternative examples are:</p>
+<ul>
+<li>Smoothing splines estimator <span class="math inline">\(\hat{f}_\lambda\)</span> (<code><a href="https://rdrr.io/r/stats/smooth.spline.html">smooth.spline()</a></code>), where <span class="math inline">\(\lambda\)</span> is the smoothing parameter</li>
+<li>KNN-regression estimator <span class="math inline">\(\hat{f}_K\)</span>
+</li>
+</ul>
+</div>
+</div>
+<section id="validation-set-approach" class="level3" data-number="4.5.1"><h3 data-number="4.5.1" class="anchored" data-anchor-id="validation-set-approach">
+<span class="header-section-number">4.5.1</span> Validation Set Approach</h3>
+<p>The validation set approach randomly divides the available set of observations into two parts:</p>
+<ul>
+<li>a <em>training set</em> and</li>
+<li>a <em>validation set</em> (or hold-out set)</li>
+</ul>
+<p>The model is fit on the training set, and the fitted model is used to predict the responses for the observations in the validation set.</p>
+<p><img src="images/Fig_5_1.png" class="img-fluid"></p>
+<section id="illustration" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="illustration">Illustration</h4>
+<p>Reconsider the <code>Auto</code> data set. In Chapter 3, we found that a model that predicts <code>mpg</code> using <code>horsepower</code> and <code>horsepower</code><span class="math inline">\(^2\)</span> predicts better than a model that uses only the linear term. But maybe a cubic or a higher order polynomial regression model predicts even better? The validation set approach can be used to select the degree <span class="math inline">\(p\)</span> of the polynomial regression model <span class="math display">\[
+\texttt{mpg}=\beta_0 + \sum_{j=1}^p\beta_j \texttt{horsepower}^j + \epsilon.
+\]</span></p>
+<p><strong>Step 1:</strong> Randomly split the total data set into mutually exclusive training and test (validation) sets of roughly equal subsample sizes:</p>
+<ul>
+<li>
+<strong>Training set:</strong> <span class="math inline">\(\{(X_i,Y_i), i\in\mathcal{I}_{\text{Train}}\},\)</span> where <span class="math inline">\(n_{\text{Train}}=|\mathcal{I}_{\text{Train}}|&lt;n\)</span>
+</li>
+<li>
+<strong>Test set:</strong> <span class="math inline">\(\{(X_i^{\text{Test}},Y_i^{\text{Test}}), i\in\mathcal{I}_{\text{Test}}\},\)</span> where <span class="math inline">\(n_{\text{Test}}=|\mathcal{I}_{\text{Test}}|&lt;n\)</span>
+</li>
+</ul>
+<p>such that <span class="math inline">\(n_{\text{Train}}\approx n_{\text{Test}}\)</span> with <span class="math inline">\(n=n_{\text{Train}} + n_{\text{Test}}\)</span> and <span class="math display">\[
+\mathcal{I}_{\text{Train}}\cap \mathcal{I}_{\text{Test}}=\emptyset.
+\]</span> Code for splitting data randomly into training and validation sets:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://www.statlearning.com">"ISLR2"</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"Auto"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">n</span>        <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">Auto</span><span class="op">)</span>    <span class="co"># Sample size</span></span>
+<span><span class="va">n_Train</span>  <span class="op">&lt;-</span> <span class="fl">200</span>           <span class="co"># Sample size of training set </span></span>
+<span><span class="va">n_Test</span>  <span class="op">&lt;-</span> <span class="va">n</span> <span class="op">-</span> <span class="va">n_Train</span>   <span class="co"># Sample size of test/validation set </span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="co">## Index-Sets for selecting the training and validation sets</span></span>
+<span><span class="va">I_Train</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span>, size <span class="op">=</span> <span class="va">n_Train</span>, replace <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">I_Test</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="va">I_Train</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co">## Training data</span></span>
+<span><span class="va">Auto_Train_df</span> <span class="op">&lt;-</span> <span class="va">Auto</span><span class="op">[</span><span class="va">I_Train</span>, <span class="op">]</span></span>
+<span><span class="co">## Testing (validation) data </span></span>
+<span><span class="va">Auto_Test_df</span> <span class="op">&lt;-</span> <span class="va">Auto</span><span class="op">[</span><span class="va">I_Test</span>, <span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Step 2:</strong> Estimation of the polynomial regression model, e.g., for <span class="math inline">\(p=2\)</span> using the training set:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">p</span>            <span class="op">&lt;-</span> <span class="fl">2</span></span>
+<span><span class="va">Train_polreg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/poly.html">poly</a></span><span class="op">(</span><span class="va">horsepower</span>, degree <span class="op">=</span> <span class="va">p</span>, raw<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, </span>
+<span>                   data <span class="op">=</span> <span class="va">Auto_Train_df</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Step 3:</strong> Validation of the polynomial regression model by computing the test mean squared (prediction) error using the validation set: <span class="math display">\[
+\begin{align*}
+\widehat{\operatorname{MSE}}_{\text{Test}}^{ValidationSetApproach}(p)
+&amp;=\frac{1}{n_{\text{Test}}}\sum_{i\in\mathcal{I}_{\text{Test}}}\left(Y_i^{\text{Test}} - \hat{f}_p(X_i^{\text{Test}})\right)^2,
+\end{align*}
+\]</span> where <span class="math inline">\(\hat{f}_p\)</span> is computed from the <strong>training data</strong>, but evaluated <span class="math display">\[
+\hat{Y}_i^{\text{Test}}=\hat{f}(X_i^{\text{Test}})
+\]</span> at the <strong>test data</strong> <span class="math inline">\(X_i^{\text{Test}},\)</span> <span class="math inline">\(i\in\mathcal{I}_{\text{Test}}.\)</span></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">y_fit_Test</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">Train_polreg</span>, newdata <span class="op">=</span> <span class="va">Auto_Test_df</span><span class="op">)</span></span>
+<span><span class="va">RSS_Test</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="op">(</span><span class="va">Auto_Test_df</span><span class="op">$</span><span class="va">mpg</span> <span class="op">-</span> <span class="va">y_fit_Test</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="va">MSE</span>          <span class="op">&lt;-</span> <span class="va">RSS_Test</span> <span class="op">/</span> <span class="va">n_Test</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Repeating Steps 1-3 for a series of polynomial degrees <span class="math inline">\(p=1,\dots,10\)</span> allows us to search for the polynomial degree with lowest test MSE.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">p_max</span>         <span class="op">&lt;-</span> <span class="fl">10</span></span>
+<span><span class="va">MSE</span>           <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">numeric</a></span><span class="op">(</span><span class="va">p_max</span><span class="op">)</span></span>
+<span><span class="kw">for</span><span class="op">(</span><span class="va">p</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">p_max</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="co">## Step 1</span></span>
+<span>  <span class="va">Train_polreg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/poly.html">poly</a></span><span class="op">(</span><span class="va">horsepower</span>, degree <span class="op">=</span> <span class="va">p</span>, raw<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, </span>
+<span>                     data <span class="op">=</span> <span class="va">Auto_Train_df</span><span class="op">)</span></span>
+<span>  <span class="co">## Step 2</span></span>
+<span>  <span class="va">y_fit_Test</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">Train_polreg</span>, newdata <span class="op">=</span> <span class="va">Auto_Test_df</span><span class="op">)</span></span>
+<span>  <span class="co">## Step 3</span></span>
+<span>  <span class="va">RSS_Test</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span> <span class="op">(</span><span class="va">Auto_Test_df</span><span class="op">$</span><span class="va">mpg</span> <span class="op">-</span> <span class="va">y_fit_Test</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span> <span class="op">)</span></span>
+<span>  <span class="va">MSE</span><span class="op">[</span><span class="va">p</span><span class="op">]</span>        <span class="op">&lt;-</span> <span class="va">RSS_Test</span> <span class="op">/</span> <span class="va">n_Test</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">p_max</span>, y <span class="op">=</span> <span class="va">MSE</span>, type <span class="op">=</span> <span class="st">"b"</span>, </span>
+<span>     col <span class="op">=</span> <span class="st">"black"</span>, bg <span class="op">=</span> <span class="st">"black"</span>, pch <span class="op">=</span> <span class="fl">21</span>,  </span>
+<span>     xlab <span class="op">=</span> <span class="st">"Degree of Polynomial"</span>, ylab <span class="op">=</span> <span class="st">"MSE"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html">points</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">MSE</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html">which.min</a></span><span class="op">(</span><span class="va">MSE</span><span class="op">)</span><span class="op">]</span>, </span>
+<span>       x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">p_max</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html">which.min</a></span><span class="op">(</span><span class="va">MSE</span><span class="op">)</span><span class="op">]</span>, </span>
+<span>       col <span class="op">=</span> <span class="st">"red"</span>, bg <span class="op">=</span> <span class="st">"red"</span>, pch <span class="op">=</span> <span class="fl">21</span><span class="op">)</span>     </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-VA1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-VA1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Ch_NonParamRegression_files/figure-html/fig-VA1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-VA1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.1: Testing error estimates for a single split into training and testing datasets. This result suggests that <span class="math inline">\(p=9\)</span> minimizes the test MSE; however, the test MSE values for polynomial degrees from <span class="math inline">\(p=2\)</span> to <span class="math inline">\(p=10\)</span> are all of comparable order of magnitude.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<p><a href="#fig-VA1" class="quarto-xref">Figure&nbsp;<span>4.1</span></a> shows the test MSE values based on <strong>one</strong> random split of the dataset. The result that <span class="math inline">\(p=9\)</span> minimizes the test MSE, however, may depend on the random split. Different random splits may lead to different model selection (choices of <span class="math inline">\(p\)</span>).</p>
+<p>The following code repeats the above computations for multiple random splits of the dataset into training and validation sets:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">## R = 10 random splits</span></span>
+<span><span class="va">R</span>        <span class="op">&lt;-</span> <span class="fl">10</span></span>
+<span><span class="co">## Container for the MSE results</span></span>
+<span><span class="va">MSE</span>      <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="va">R</span>, <span class="va">p_max</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw">for</span><span class="op">(</span><span class="va">r</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">R</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="co">## Index sets for training and  sets</span></span>
+<span>  <span class="va">I_Train</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span>, size <span class="op">=</span> <span class="va">n_Train</span>, replace <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>  <span class="va">I_Test</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="va">I_Train</span><span class="op">]</span></span>
+<span></span>
+<span>  <span class="co">## Training set </span></span>
+<span>  <span class="va">Auto_Train_df</span> <span class="op">&lt;-</span> <span class="va">Auto</span><span class="op">[</span><span class="va">I_Train</span>, <span class="op">]</span></span>
+<span>  <span class="co">## Test set</span></span>
+<span>  <span class="va">Auto_Test_df</span> <span class="op">&lt;-</span> <span class="va">Auto</span><span class="op">[</span><span class="va">I_Test</span>, <span class="op">]</span></span>
+<span></span>
+<span>  <span class="kw">for</span><span class="op">(</span><span class="va">p</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">p_max</span><span class="op">)</span><span class="op">{</span></span>
+<span>    <span class="co">## Step 1</span></span>
+<span>    <span class="va">Train_polreg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/poly.html">poly</a></span><span class="op">(</span><span class="va">horsepower</span>, degree <span class="op">=</span> <span class="va">p</span>, raw <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, </span>
+<span>                       data <span class="op">=</span> <span class="va">Auto_Train_df</span><span class="op">)</span></span>
+<span>    <span class="co">## Step 2</span></span>
+<span>    <span class="va">y_fit_Test</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">Train_polreg</span>, newdata <span class="op">=</span> <span class="va">Auto_Test_df</span><span class="op">)</span></span>
+<span>    <span class="co">## Step 3</span></span>
+<span>    <span class="va">RSS_Test</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span> <span class="op">(</span><span class="va">Auto_Test_df</span><span class="op">$</span><span class="va">mpg</span> <span class="op">-</span> <span class="va">y_fit_Test</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span> <span class="op">)</span></span>
+<span>    <span class="va">MSE</span><span class="op">[</span><span class="va">r</span>,<span class="va">p</span><span class="op">]</span>      <span class="op">&lt;-</span> <span class="va">RSS_Test</span> <span class="op">/</span> <span class="va">n_Test</span></span>
+<span>  <span class="op">}</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/matplot.html">matplot</a></span><span class="op">(</span>y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">MSE</span><span class="op">)</span>, type<span class="op">=</span><span class="st">"b"</span>, ylab<span class="op">=</span><span class="st">"MSE"</span>, xlab<span class="op">=</span><span class="st">"Degree of Polynomial"</span>, </span>
+<span>        pch<span class="op">=</span><span class="fl">21</span>, col<span class="op">=</span><span class="st">"black"</span>, bg<span class="op">=</span><span class="st">"black"</span>, lty <span class="op">=</span> <span class="fl">1</span>, main<span class="op">=</span><span class="st">""</span><span class="op">)</span></span>
+<span><span class="kw">for</span><span class="op">(</span><span class="va">r</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">R</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/points.html">points</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">MSE</span><span class="op">[</span><span class="va">r</span>,<span class="op">]</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html">which.min</a></span><span class="op">(</span><span class="va">MSE</span><span class="op">[</span><span class="va">r</span>,<span class="op">]</span><span class="op">)</span><span class="op">]</span>, </span>
+<span>       x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">p_max</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html">which.min</a></span><span class="op">(</span><span class="va">MSE</span><span class="op">[</span><span class="va">r</span>,<span class="op">]</span><span class="op">)</span><span class="op">]</span>, </span>
+<span>       col <span class="op">=</span> <span class="st">"red"</span>, bg <span class="op">=</span> <span class="st">"red"</span>, pch <span class="op">=</span> <span class="fl">21</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-VA2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-VA2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Ch_NonParamRegression_files/figure-html/fig-VA2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-VA2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.2: Test error estimates for ten different random splits into training and test data sets. The polynomial degrees that minimize the test MSE strongly vary across the different random splits.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<p><a href="#fig-VA2" class="quarto-xref">Figure&nbsp;<span>4.2</span></a> shows that the validation set approach can be highly variable. The selected polynomial degrees (minimal test MSE) strongly varies across the different random splits and thus depend on the data included in the test and test sets.</p>
+<p>A further serious problem with the validation set approach is that the evaluated predictions <span class="math inline">\(\hat{Y}^{\text{Test}}_i=\hat{f}(X_i^{\text{Test}})\)</span> are based on estimates <span class="math inline">\(\hat{f}_p\)</span> computed from the training set, where, however, the training set sample size <span class="math inline">\(n_{\text{Train}}\)</span> is typically <strong>substantially smaller</strong> than the actual sample size, i.e.&nbsp; <span class="math display">\[
+n_{{\text{Train}}}\ll n.
+\]</span> This leads to <strong>increased (i.e.&nbsp;biased) test MSE values</strong> which do not reflect the actual test MSE values for the total sample size <span class="math inline">\(n.\)</span></p>
+<p>Leave-One-Out and <span class="math inline">\(k\)</span>-fold <em>Cross-validation</em> are refinements of the validation set approach that addresses these issues.</p>
+</section></section><section id="leave-one-out-cross-validation-loocv" class="level3" data-number="4.5.2"><h3 data-number="4.5.2" class="anchored" data-anchor-id="leave-one-out-cross-validation-loocv">
+<span class="header-section-number">4.5.2</span> Leave-One-Out Cross-Validation (LOOCV)</h3>
+<p>Like the validation set approach, LOOCV involves splitting the total dataset into a training and a test part.</p>
+<p>However, instead of creating two subsets of comparable size, a <strong>single</strong> observation is used for the test set, and the remaining observations are used for the training set. , i.e.</p>
+<ul>
+<li>
+<strong>Training set:</strong> <span class="math inline">\(\{(X_1,Y_1),\dots,(X_{i-1},Y_{i-1}),(X_{i+1},Y_{i+1}),\dots,(X_{n},Y_{n})\}\)</span> with <span class="math inline">\(n_{\text{Train}}=n-1\)</span>
+</li>
+<li>
+<strong>Test set:</strong> <span class="math inline">\(\{(X_i^{\text{Test}},Y_i^{\text{Test}})\}\)</span> with <span class="math inline">\(n_{\text{Test}}=1\)</span>
+</li>
+</ul>
+<p>The <span class="math inline">\(i\)</span>th estimate for the test MSE is thus <span class="math display">\[
+\begin{align*}
+\widehat{\operatorname{MSE}}_{\text{Test},i}(p)
+&amp;= \left(Y_i^{\text{Test}} - \hat{f}_p(X_i^{\text{Test}})\right)^2,
+\end{align*}
+\]</span> where <span class="math inline">\(\hat{f}_p\)</span> is computed from the <span class="math inline">\(n_{\text{Train}}=n-1\)</span> training data points, but evaluated <span class="math display">\[
+\hat{Y}_i^{\text{Test}}=\hat{f}_p(X_i^{\text{Test}})
+\]</span> at the <em>one</em> test data point <span class="math inline">\(X_i^{\text{Test}},\)</span> <span class="math inline">\(i\in\mathcal{I}_{\text{Test}}.\)</span></p>
+<p>Since <span class="math inline">\(\hat{f}_p\)</span> is essentially based on the total dataset, <span class="math inline">\(\widehat{\operatorname{MSE}}_{\text{Test},i}(p)\)</span> is an (approximately) unbiased (since <span class="math inline">\(n_{\text{Train}}=n-1\approx n\)</span>) estimate for the test MSE, although a poor estimate with a high variance as it is based on only one observation in the test set.</p>
+<p>Repeating this leave-one-out splitting approach for each <span class="math inline">\(i=1,\dots,n,\)</span> produces <span class="math inline">\(n\)</span> many estimates of the test MSE: <span class="math display">\[
+\widehat{\operatorname{MSE}}_{\text{Test},1}(p),
+\widehat{\operatorname{MSE}}_{\text{Test},2}(p),\dots,
+\widehat{\operatorname{MSE}}_{\text{Test},n}(p)
+\]</span></p>
+<p>The LOOCV estimate is then formed by the average of the <span class="math inline">\(n\)</span> MSE estimates: <span id="eq-LOOCV"><span class="math display">\[
+\operatorname{LOOCV}(p)=\operatorname{CV}_{(n)}(p) = \frac{1}{n} \sum_{i=1}^n\widehat{\operatorname{MSE}}_{\text{Test},i}(p).
+\qquad(4.4)\]</span></span></p>
+<p>Figure 5.3 shows schematically the leave-one-out data splitting approach.</p>
+<p><img src="images/Fig_5_3.png" class="img-fluid"></p>
+<p><strong>Advantages</strong> of CV over the Validation Set approach:</p>
+<ol type="1">
+<li>Lower bias. Since the test MSE estimates are based on training sets with sample sizes <span class="math display">\[
+n_{\text{Train}}=n-1 \approx n
+\]</span> LOOCV does not overestimate the test error rate as much as the validation set approach does.</li>
+<li>Performing LOOCV multiple times, always yields the same result. I.e., there is no randomness due to the training/testing set splits as seen for the validation set approach.</li>
+</ol>
+<p>Codes to implement the LOOCV approach for the <code>Auto</code> data example:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">MSE_i</span>      <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="va">n</span>, <span class="va">p_max</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## Save starting time of the loop</span></span>
+<span><span class="va">start_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw">for</span><span class="op">(</span><span class="va">r</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="co">## Training set </span></span>
+<span>  <span class="va">Auto_Train_df</span> <span class="op">&lt;-</span> <span class="va">Auto</span><span class="op">[</span><span class="op">-</span><span class="va">r</span>, <span class="op">]</span></span>
+<span>  <span class="co">## Testing set</span></span>
+<span>  <span class="va">Auto_Test_df</span> <span class="op">&lt;-</span> <span class="va">Auto</span><span class="op">[</span><span class="va">r</span>, <span class="op">]</span></span>
+<span></span>
+<span>  <span class="kw">for</span><span class="op">(</span><span class="va">p</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">p_max</span><span class="op">)</span><span class="op">{</span></span>
+<span>    <span class="co">## Step 1</span></span>
+<span>    <span class="va">Train_polreg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/poly.html">poly</a></span><span class="op">(</span><span class="va">horsepower</span>, degree <span class="op">=</span> <span class="va">p</span>, raw <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, </span>
+<span>                       data <span class="op">=</span> <span class="va">Auto_Train_df</span><span class="op">)</span></span>
+<span>    <span class="co">## Step 2</span></span>
+<span>    <span class="va">y_fit_Test</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">Train_polreg</span>, newdata <span class="op">=</span> <span class="va">Auto_Test_df</span><span class="op">)</span></span>
+<span>    <span class="co">## Step 3</span></span>
+<span>    <span class="va">MSE_i</span><span class="op">[</span><span class="va">r</span>,<span class="va">p</span><span class="op">]</span>    <span class="op">&lt;-</span> <span class="op">(</span><span class="va">Auto_Test_df</span><span class="op">$</span><span class="va">mpg</span> <span class="op">-</span> <span class="va">y_fit_Test</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span>  </span>
+<span>  <span class="op">}</span></span>
+<span><span class="op">}</span></span>
+<span><span class="co">## Save end time of the loop</span></span>
+<span><span class="va">end_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">LOOCV</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span><span class="op">(</span><span class="va">MSE_i</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">p_max</span>, y <span class="op">=</span> <span class="va">LOOCV</span>, type <span class="op">=</span> <span class="st">"b"</span>, </span>
+<span>     col <span class="op">=</span> <span class="st">"black"</span>, bg <span class="op">=</span> <span class="st">"black"</span>, pch <span class="op">=</span> <span class="fl">21</span>,  </span>
+<span>     xlab <span class="op">=</span> <span class="st">"Degree of Polynomial"</span>, ylab <span class="op">=</span> <span class="st">"LOOCV"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html">points</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">LOOCV</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html">which.min</a></span><span class="op">(</span><span class="va">LOOCV</span><span class="op">)</span><span class="op">]</span>, </span>
+<span>       x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">p_max</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html">which.min</a></span><span class="op">(</span><span class="va">LOOCV</span><span class="op">)</span><span class="op">]</span>, </span>
+<span>       col <span class="op">=</span> <span class="st">"red"</span>, bg <span class="op">=</span> <span class="st">"red"</span>, pch <span class="op">=</span> <span class="fl">21</span><span class="op">)</span>     </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-CV1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-CV1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Ch_NonParamRegression_files/figure-html/fig-CV1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-CV1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.3: LOOCV error estimates for different polynomial degrees <span class="math inline">\(p.\)</span>
+</figcaption></figure>
+</div>
+</div>
+</div>
+<section id="cv-often-computationally-expensive" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="cv-often-computationally-expensive"><strong>CV: (Often) Computationally Expensive</strong></h4>
+LOOCV has the potential to be <strong>computationally expensive</strong>, since the model has to be fit <span class="math inline">\(n\)</span> times. Indeed the above code, which represents a rather simple implementation of LOOCV for least squares fits of linear regression models, takes<br><center>
+<code>end_time</code><span class="math inline">\(-\)</span><code>start_time</code> <span class="math inline">\(=\)</span> 4.156 seconds
+</center>
+<p>for the computations which is quite long.</p>
+<p>Luckily, for least squares fits of linear/polynomial regression models one can use the following short-cut formula <span id="eq-CVfast"><span class="math display">\[
+\begin{align*}
+\operatorname{LOOCV}(p)
+&amp;=\operatorname{CV}_{(n)}(p) = \frac{1}{n} \sum_{i=1}^n\left(\frac{Y_i - \hat{f}_p(X_i)}{1-h_i}\right)^2,
+%&amp;=\operatorname{CV}_{(n)} = \frac{1}{n} \sum_{i=1}^n\left(\frac{y_i - \hat{y}_i}{1-h_i}\right)^2
+\end{align*}
+\qquad(4.5)\]</span></span> where</p>
+<ul>
+<li>
+<span class="math inline">\(\hat{y}_i\)</span> is the <span class="math inline">\(i\)</span>th fitted value from the <em>original least squares fit,</em> based on the total sample size <span class="math inline">\(n,\)</span> and</li>
+<li>
+<span class="math inline">\(h_i\)</span> is the leverage statistic for the <span class="math inline">\(i\)</span>th observation, i.e.&nbsp; <span class="math display">\[
+h_i=\left[X(X'X)^{-1}X'\right]_{ii}.
+\]</span>
+</li>
+</ul>
+<p>The following codes implement this fast LOOCV version:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">LOOCV_fast</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">numeric</a></span><span class="op">(</span><span class="va">p_max</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## Save starting time </span></span>
+<span><span class="va">start_time2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw">for</span><span class="op">(</span><span class="va">p</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">p_max</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">PolyReg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/poly.html">poly</a></span><span class="op">(</span><span class="va">horsepower</span>, degree <span class="op">=</span> <span class="va">p</span>, raw <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, </span>
+<span>                           data <span class="op">=</span> <span class="va">Auto</span><span class="op">)</span></span>
+<span>  <span class="va">h</span>             <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.influence.html">lm.influence</a></span><span class="op">(</span><span class="va">PolyReg</span><span class="op">)</span><span class="op">$</span><span class="va">hat</span></span>
+<span>  <span class="va">LOOCV_fast</span><span class="op">[</span><span class="va">p</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="op">(</span><span class="op">(</span><span class="va">Auto</span><span class="op">$</span><span class="va">mpg</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/fitted.values.html">fitted.values</a></span><span class="op">(</span><span class="va">PolyReg</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">h</span><span class="op">)</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="co">## Save end time of the loop</span></span>
+<span><span class="va">end_time2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Indeed, both approaches yield the same LOOCV values</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">## Minimal absolute difference between </span></span>
+<span><span class="co">## the naive and the fast implementation: </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">LOOCV</span> <span class="op">-</span> <span class="va">LOOCV_fast</span><span class="op">)</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+However, the fast version takes only
+<center>
+<code>end_time2</code><span class="math inline">\(-\)</span><code>start_time2</code> <span class="math inline">\(=\)</span> 0.037 seconds
+</center>
+<p>for the computations.</p>
+<p>LOOCV is a very general method, and can be used with any kind of predictive modeling; e.g.</p>
+<ul>
+<li>Logistic regression</li>
+<li>Linear discriminant analysis</li>
+<li>Quadratic discriminant analysis</li>
+<li>etc.</li>
+</ul>
+<p><strong>Caution:</strong> The fast LOOCV <a href="#eq-CVfast" class="quarto-xref">Equation&nbsp;<span>4.5</span></a> does not hold in general, but only for least squares fits of linear regression models, which includes, for instance, polynomial regressions, but, for instance, not logistic regression models.</p>
+</section></section></section><section id="k-fold-cross-validation" class="level2" data-number="4.6"><h2 data-number="4.6" class="anchored" data-anchor-id="k-fold-cross-validation">
+<span class="header-section-number">4.6</span> <span class="math inline">\(k\)</span>-Fold Cross-Validation</h2>
+<p>An alternative to LOOCV is <span class="math inline">\(k\)</span>-fold CV.</p>
+<p>This approach divides the total index set <span class="math inline">\(\mathcal{I}=\{1,2,\dots,n\}\)</span> of the original data data set into <span class="math inline">\(k\)</span> mutually exclusive subsets (folds) of roughly equal sizes <span class="math display">\[
+\mathcal{I}_1,\,\mathcal{I}_2,\dots,\mathcal{I}_k
+\]</span> with <span class="math inline">\(|\mathcal{I}_1|\approx |\mathcal{I}_k|\approx n/k.\)</span></p>
+<p>These <span class="math inline">\(k\)</span> index sets allow us construct different training and test sets for each <span class="math inline">\(j=1,2,\dots,k\)</span></p>
+<ul>
+<li>
+<strong>Training set:</strong> <span class="math inline">\(\{(X_i,Y_i),\; i\in\mathcal{I}\setminus \mathcal{I}_j\}\)</span> with sample size of <span class="math inline">\(n_{\text{Train}}\approx n - n/k\)</span>
+</li>
+<li>
+<strong>Test set:</strong> <span class="math inline">\(\{(X_i^{\text{Test}},Y_i^{\text{Test}}),\;i\in\mathcal{I}_j\}\)</span> with sample size of <span class="math inline">\(n_{\text{Test}}\approx n/k\)</span>
+</li>
+</ul>
+<p>Each pair of training and test set allows computing an estimate of the test error <span class="math display">\[
+\widehat{\operatorname{MSE}}_{\text{Test},1}(p),\;
+\widehat{\operatorname{MSE}}_{\text{Test},2}(p),\;\dots,
+\widehat{\operatorname{MSE}}_{\text{Test},k}(p),
+\]</span> where <span class="math display">\[
+\begin{align*}
+\widehat{\operatorname{MSE}}_{\text{Test},j}(p)
+&amp;=\frac{1}{|\mathcal{I}_j|}\sum_{i\in\mathcal{I}_j}\left(Y_i^{\text{Test}} - \hat{f}_p(X_i^{\text{Test}})\right)^2,\quad j=1,\dots,k,
+\end{align*}
+\]</span> with <span class="math inline">\(\hat{f}_p\)</span> being computed from the training data, but evaluated at the test data.</p>
+<p>The <span class="math inline">\(k\)</span>-fold CV estimate is computed by averaging these values <span id="eq-kfoldCV"><span class="math display">\[
+\operatorname{CV}_{(k)}(p)=\frac{1}{k}\sum_{j=1}^k\widehat{\operatorname{MSE}}_{\text{Test},j}(p)
+\qquad(4.6)\]</span></span></p>
+<p>Figure 5.5 illustrates the data splitting for <span class="math inline">\(k\)</span>-fold CV.</p>
+<p><img src="images/Fig_5_5.png" class="img-fluid"></p>
+<ul>
+<li><p>LOOCV is a special case of <span class="math inline">\(k\)</span>-fold CV with <span class="math inline">\(k=n\)</span>.</p></li>
+<li><p>Most often used <span class="math inline">\(k\)</span>-values in practice are <span class="math inline">\(k=5\)</span> or <span class="math inline">\(k=10\)</span>.</p></li>
+</ul>
+<!-- 
+**Why $k=5$ or $k=10$ instead of $k=n$?**
+
+* Faster computation times ($k=5$ instead of $k=n$ model fits)
+* Improved estimates of the test MSE (see next section) 
+--><p>The following codes illustrate <span class="math inline">\(k\)</span>-fold CV:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## number of folds for k-fold CV </span></span>
+<span><span class="va">k</span>              <span class="op">&lt;-</span> <span class="fl">5</span></span>
+<span></span>
+<span><span class="co">## container for storing the MSE results</span></span>
+<span><span class="va">MSE_folds</span>      <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="va">k</span>, <span class="va">p_max</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## selector for the folds </span></span>
+<span><span class="va">folds</span>          <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">k</span>, length <span class="op">=</span> <span class="va">n</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## Save starting time of the loop</span></span>
+<span><span class="va">start_time</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw">for</span><span class="op">(</span><span class="va">j</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">k</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="co">## Training set </span></span>
+<span>  <span class="va">Auto_Train_df</span> <span class="op">&lt;-</span> <span class="va">Auto</span><span class="op">[</span><span class="va">folds</span> <span class="op">!=</span> <span class="va">j</span>, <span class="op">]</span></span>
+<span>  <span class="co">## Testing set</span></span>
+<span>  <span class="va">Auto_Test_df</span> <span class="op">&lt;-</span> <span class="va">Auto</span><span class="op">[</span><span class="va">folds</span> <span class="op">==</span> <span class="va">j</span>, <span class="op">]</span></span>
+<span></span>
+<span>  <span class="kw">for</span><span class="op">(</span><span class="va">p</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">p_max</span><span class="op">)</span><span class="op">{</span></span>
+<span>    <span class="co">## Step 1</span></span>
+<span>    <span class="va">Train_polreg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/poly.html">poly</a></span><span class="op">(</span><span class="va">horsepower</span>, degree <span class="op">=</span> <span class="va">p</span>, raw <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, </span>
+<span>                       data <span class="op">=</span> <span class="va">Auto_Train_df</span><span class="op">)</span></span>
+<span>    <span class="co">## Step 2</span></span>
+<span>    <span class="va">y_fit_Test</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">Train_polreg</span>, newdata <span class="op">=</span> <span class="va">Auto_Test_df</span><span class="op">)</span></span>
+<span>    <span class="co">## Step 3</span></span>
+<span>    <span class="va">MSE_folds</span><span class="op">[</span><span class="va">j</span>,<span class="va">p</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="op">(</span><span class="va">Auto_Test_df</span><span class="op">$</span><span class="va">mpg</span> <span class="op">-</span> <span class="va">y_fit_Test</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span><span class="op">}</span></span>
+<span><span class="co">## Save end time of the loop</span></span>
+<span><span class="va">end_time</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">CV_kfold</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span><span class="op">(</span><span class="va">MSE_folds</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">p_max</span>, y <span class="op">=</span> <span class="va">CV_kfold</span>, type <span class="op">=</span> <span class="st">"b"</span>, </span>
+<span>     col <span class="op">=</span> <span class="st">"black"</span>, bg <span class="op">=</span> <span class="st">"black"</span>, pch <span class="op">=</span> <span class="fl">21</span>,  main<span class="op">=</span><span class="st">"k-fold CV"</span>, </span>
+<span>     xlab <span class="op">=</span> <span class="st">"Degree of Polynomial"</span>, ylab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="st">"CV"</span><span class="op">[</span><span class="va">k</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html">points</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">CV_kfold</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html">which.min</a></span><span class="op">(</span><span class="va">CV_kfold</span><span class="op">)</span><span class="op">]</span>, </span>
+<span>       x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">p_max</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html">which.min</a></span><span class="op">(</span><span class="va">CV_kfold</span><span class="op">)</span><span class="op">]</span>, </span>
+<span>       col <span class="op">=</span> <span class="st">"red"</span>, bg <span class="op">=</span> <span class="st">"red"</span>, pch <span class="op">=</span> <span class="fl">21</span><span class="op">)</span>     </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="Ch_NonParamRegression_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<!-- 
+### Bias-Variance Trade-Off for $k$-Fold Cross-Validation
+
+There is a bias-variance trade-off associated with the choice of $k$ in $k$-fold CV.
+
+
+**Bias:**
+
+* Small $k$ lead to test MSE estimates with large **bias**
+* Large $k$ lead to test MSE estimates with small **bias**
+
+*Explanation:*
+
+* A small $k$ leads to trainings sets with samples sizes $n_{\text{Train}} \ll n$ substantially smaller than the actual sample size $n.$ Thus, we estimate the MSE for a sample size that is substantially smaller than the sample size $n$ we are actually interested in. This leads to systematic overestimations of the actual test MSE for sample size $n.$ 
+
+* A large $k$ reduces this bias since $n_{\text{Train}}\approx n.$ Thus we estimate essentially the actual test MSE for sample size $n.$ 
+
+
+**Variance:**
+
+* Small $k$ lead to test MSE estimates with small **variance**
+* Large $k$ lead to test MSE estimates with large **variance**
+
+*Explanation:* 
+
+* In $k$-fold CV, the training sets overlap pairwise by roughly $((k-2)/k)\times 100 \%$. 
+  * For $k=2$ there is no overlap. 
+  * For $k=5$ ($k$-fold CV) approximately $(k-2)/k=(3/5)=60\%$ of the training data points are equal in each pair of training sets.
+  * For $k=n$ (LOOCV) approximately $(n-2)/n=98\%$ of the training data points are equal in each pair of trainings sets. 
+
+Thus, the larger $k$ the more similar the training data sets become. However, very similar training sets lead to highly correlated test MSE estimates
+$$
+\widehat{\operatorname{MSE}}_{\text{Test},1},\widehat{\operatorname{MSE}}_{\text{Test},2},\dots,\widehat{\operatorname{MSE}}_{\text{Test},k}.
+$$
+Since the (sample) mean 
+$$
+\operatorname{CV}_{(k)}=\frac{1}{k}\sum_{j=1}^k\widehat{\operatorname{MSE}}_{\text{Test},j}
+$$
+of highly correlated quantities has higher variance than the (sample) mean of quantities that are not as highly correlated, the test error estimate resulting from LOOCV tends to have higher variance than does the test error estimate resulting from $k$-fold CV with $k<n.$ 
+
+$k$-fold CV with $k=5$ or $k=10$ is often considered a good compromise balancing these bias and variance issues. 
+
+### Cross-Validation on Classification Problems
+
+Cross-validation can also be a very useful approach in the classification setting when $Y$ is qualitative.
+
+In the classification setting, the LOOCV error rate takes the form
+$$
+\operatorname{CV}_{(n)}=\frac{1}{n}\sum_{i=1}^n\operatorname{Err}_{\text{Test},i},
+$$
+where 
+$$
+\operatorname{Err}_{\text{Test},i}=I(y_i\neq \hat{y}_i)
+$$
+with $I(\texttt{TRUE})=1$ and $I(\texttt{FALSE})=0.$
+
+Analogously for the $k$-fold CV error rate and the validation set error rate.
+
+We can, for instance, determine the degree $d$ in logistic regression models
+$$
+\log\left(\frac{p(X)}{1-p(X)}\right)=\beta_0 +\sum_{j=1}^d X_j^d 
+$$
+by selecting that polynomial degree $d$ that minimizes the CV error rate.
+
+Likewise, one can select the tuning parameter $K$ in KNN classification by minimizing the CV error rate across different candidate values for $K.$ 
+
+-->
+<!-- 
+### Global Training and Test MSE in Nonparametric Smoothing Spline Regression {-}
+
+Figure 2.9 shows training and test MSEs for smoothing spline (`R` command `smooth.spline()`) estimates $\hat{f}$ in the case of 
+
+* a moderately complex $f$ 
+* a moderate signal-to-noise ratio $\frac{Var(f(X))}{Var(\epsilon)}$
+
+![](images/Fig_2_9.png)
+
+<br>
+
+Figure 2.10 shows training and test MSEs for smoothing spline estimates $\hat{f}$ in the case of 
+
+* a very simple $f$ 
+* a moderate signal-to-noise ratio $\frac{Var(f(X))}{Var(\epsilon)}$
+
+![](images/Fig_2_10.png)
+
+<br>
+
+Figure 2.11 shows training and test MSEs for smoothing spline estimates $\hat{f}$ in the case of 
+
+* a moderately complex $f$
+* a very large signal-to-noise ratio $\frac{Var(f(X))}{Var(\epsilon)}$
+
+![](images/Fig_2_11.png)
+
+<br>
+
+![](images/Fig_2_12.png)
+
+
+
+In practice, one can usually compute the training MSE with relative ease, but estimating the test MSE is considerably more difficult because usually no test data are available. 
+
+As the three examples in Figures 2.9, 2.10, and 2.11 of our textbook illustrate, the flexibility level corresponding to the model with the minimal test MSE can vary considerably. 
+
+Throughout this book, we discuss a variety of approaches that can be used in practice to estimate the minimum point of the test MSE. 
+
+One important method is **cross-validation**, which is a method for estimating the global test MSE. 
+-->
+</section><section id="parametric-versus-nonparametric-regression" class="level2" data-number="4.7"><h2 data-number="4.7" class="anchored" data-anchor-id="parametric-versus-nonparametric-regression">
+<span class="header-section-number">4.7</span> Parametric versus Nonparametric Regression</h2>
+<p>Generally, the parametric approach will outperform the non-parametric approach if the parametric form that has been selected is close to the true form of <span class="math inline">\(f\)</span> and vice versa.</p>
+<p><strong>Figure 3.17</strong> provides an example with data generated from a one-dimensional linear regression model:</p>
+<ul>
+<li>black solid lines: true <span class="math inline">\(f(x)\)</span>
+</li>
+<li>blue curves: KNN fits <span class="math inline">\(\hat{f}_K(x)\)</span> using <span class="math inline">\(K = 1\)</span> (left plot) and <span class="math inline">\(K = 9\)</span> (right plot).</li>
+</ul>
+<p>Observations:</p>
+<ul>
+<li>The KNN fit <span class="math inline">\(\hat{f}_K(x)\)</span> using <span class="math inline">\(K = 1\)</span> is far too wiggly</li>
+<li>The KNN fit <span class="math inline">\(\hat{f}_K(x)\)</span> using <span class="math inline">\(K = 9\)</span> is much closer to the true <span class="math inline">\(f(X).\)</span>
+</li>
+</ul>
+<p>However, since the true regression function is here linear, it is hard for a non-parametric approach to compete with simple linear regression: a non-parametric approach incurs a cost in variance that is here not offset by a reduction in bias. <img src="images/Fig_3_17.png" class="img-fluid"></p>
+<p>The blue dashed line in the left-hand panel of <strong>Figure 3.18</strong> represents the simple linear regression fit to the same data. It is almost perfect.</p>
+<p>The right-hand panel of <strong>Figure 3.18</strong> reveals that linear regression outperforms KNN for this data across different choices of <span class="math inline">\(K=1,2,\dots,10.\)</span> <img src="images/Fig_3_18.png" class="img-fluid"></p>
+<p><strong>Figure 3.19</strong> displays a non-linear situations in which KNN performs much better than simple linear regression. <img src="images/Fig_3_19.png" class="img-fluid"></p>
+<section id="curse-of-dimensionality" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="curse-of-dimensionality">Curse of Dimensionality</h4>
+<p>Unfortunately, in higher dimensions, KNN often performs worse than simple/multiple linear regression, since non-parametric approaches suffer from the <strong>curse of dimensionality</strong>.</p>
+<p><strong>Figure 3.20</strong> considers the same strongly non-linear situation as in the second row of <strong>Figure 3.19</strong> (sample size <span class="math inline">\(n=50\)</span>), except that we have added additional noise (i.e.&nbsp;redundant) predictors that are not associated with the response: <span class="math display">\[
+Y_i = f(X_{i1}) + 0\cdot X_{i2} + \dots + 0\cdot X_{ip} + \epsilon_i
+\]</span></p>
+<ul>
+<li>When <span class="math inline">\(p = 1\)</span> or <span class="math inline">\(p = 2,\)</span> KNN outperforms linear regression.</li>
+<li>But for <span class="math inline">\(p = 3\)</span> the results are mixed, and for <span class="math inline">\(p\geq 4\)</span> linear regression is superior to KNN. <img src="images/Fig_3_20.png" class="img-fluid">
+</li>
+</ul>
+<p>Observations:</p>
+<ul>
+<li>When <span class="math inline">\(p=1\)</span>, a sample size of <span class="math inline">\(n=50\)</span> can provide enough information to estimate <span class="math inline">\(f(X)\)</span> accurately using non-parametric methods since the <span class="math inline">\(K\)</span> nearest neighbors can actually be close to a given test observation <span class="math inline">\(x_0.\)</span>
+</li>
+<li>However, when spreading the <span class="math inline">\(n=50\)</span> data points over a large number of, for instance, <span class="math inline">\(p=20\)</span> dimensions, the <span class="math inline">\(K\)</span> nearest neighbors tend to become far away from <span class="math inline">\(x_0\)</span> causing a large bias.</li>
+</ul>
+<!-- ### The Global Bias-Variance Trade-Off
+
+
+
+The overall, i.e., **global MSE**  can be computed by averaging the local $\operatorname{MSE}(x_0)$ over all possible values of $x_0,$ i.e.
+$$
+\operatorname{MSE} = E(\operatorname{MSE}(X)) = \int f_X(x)\operatorname{MSE}(x) dx,
+$$
+where $f_X$ denotes the design density of the predicors $X.$
+
+
+We can **estimate** the global MSE using 
+$$
+\widehat{\operatorname{MSE}}_{test} = \frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}\left(Y_{i}^{\text{Test}}-\hat{f}(X_{i}^{\text{Test}})\right)^2.
+$$ 
+
+
+### Population Version of the Mean Squared (Prediction) Error 
+
+Consider a **given** estimate $\hat{f}$ and a **given** predictor $X,$ which yields a **given** prediction $\hat{Y} = \hat{f}(X).$ That is, assume for a moment that both $\hat{f}$ and $X$ are **fixed**, so that the only variability comes from $\epsilon.$ Then, it is easy to show that
+$$
+\begin{align*}
+\overbrace{E\left[(Y - \hat{Y})^2\right]}^{\text{Mean Squared (Prediction) Error}}
+=\underbrace{\left(f(X) -\hat{f}(X)\right)^2}_{\text{reducable}} + \underbrace{Var\left(\epsilon\right)}_{\text{irreducable}}, 
+\end{align*}
+$${#eq-MSEDecompFixed}
+where 
+
+* $E\left[(Y - \hat{Y})^2\right]$ represents the expected value, of the squared difference between the predicted $\hat{Y}=\hat{f}(X)$ and actual value of $Y,$ 
+* and $Var(\epsilon)$ represents the variance associated with the error term $\epsilon.$
+
+
+Derivation of @eq-MSEDecompFixed for a **given** $\hat{f}$ and a **given** $X;$ i.e. only $\epsilon$ is random: 
+$$
+\begin{align*}
+&E\left[(Y - \hat{Y})^2\right]\\[2ex] 
+&\text{[using $Y=f(X)+\epsilon$]}\\[2ex]
+&=E\left[(f(X) + \epsilon - \hat{f}(X))^2\right]\\[2ex]
+&=E\left[((f(X)- \hat{f}(X)) + \epsilon )^2\right]\\[2ex]
+&\text{[binomial formula]}\\[2ex]
+&=E\left[\left(f(X) -\hat{f}(X)\right)^2 + 2\left(f(X) -\hat{f}(X)\right)\epsilon + \epsilon^2\right]\\[2ex] 
+&\text{[using that $X$ and $\hat{f}$ are fixed]}\\[2ex]
+% &=E\left[\left(f(X) -\hat{f}(X)\right)^2\right] - 2E\left[\left(f(X) -\hat{f}(X)\right)\epsilon\right] + E\left[\epsilon^2\right] \\[2ex] 
+&=\left(f(X) -\hat{f}(X)\right)^2 + 2\left(f(X) -\hat{f}(X)\right) E\left[\epsilon\right] + E\left[\epsilon^2\right] \\[2ex] 
+&\text{[using that $E(\epsilon)=0$ and $E(\epsilon^2)=Var(\epsilon)=\sigma^2$]}\\[2ex]
+&=\left(f(X) -\hat{f}(X)\right)^2 + 2\left(f(X) -\hat{f}(X)\right) \cdot 0 + Var\left(\epsilon\right) \\[2ex]
+&=\underbrace{\left(f(X) -\hat{f}(X)\right)^2}_{\text{reducable}} + \underbrace{Var\left(\epsilon\right)}_{\text{irreducable}}
+\end{align*}
+$$
+
+Thus, the variance of the irreducible prediction error equals the **lowest possible value** of the mean squared (prediction) error, i.e. 
+$$
+E\left[(Y - \hat{Y})^2\right]\geq Var\left(\epsilon\right). 
+$$
+
+
+The same can be done for the local version of the MSE: 
+$$
+\begin{align*}
+&E\left[(Y - \hat{Y})^2|X=x_0\right]\\[2ex] 
+&\text{[using $Y=f(X)+\epsilon$]}\\[2ex]
+&=E\left[(f(X) + \epsilon - \hat{f}(X))^2\right]\\[2ex]
+&=E\left[((f(X)- \hat{f}(X)) + \epsilon )^2\right]\\[2ex]
+&\text{[binomial formula]}\\[2ex]
+&=E\left[\left(f(X) -\hat{f}(X)\right)^2 + 2\left(f(X) -\hat{f}(X)\right)\epsilon + \epsilon^2\right]\\[2ex] 
+&\text{[using that $X$ and $\hat{f}$ are fixed]}\\[2ex]
+% &=E\left[\left(f(X) -\hat{f}(X)\right)^2\right] - 2E\left[\left(f(X) -\hat{f}(X)\right)\epsilon\right] + E\left[\epsilon^2\right] \\[2ex] 
+&=\left(f(X) -\hat{f}(X)\right)^2 + 2\left(f(X) -\hat{f}(X)\right) E\left[\epsilon\right] + E\left[\epsilon^2\right] \\[2ex] 
+&\text{[using that $E(\epsilon)=0$ and $E(\epsilon^2)=Var(\epsilon)=\sigma^2$]}\\[2ex]
+&=\left(f(X) -\hat{f}(X)\right)^2 + 2\left(f(X) -\hat{f}(X)\right) \cdot 0 + Var\left(\epsilon\right) \\[2ex]
+&=\underbrace{\left(f(X) -\hat{f}(X)\right)^2}_{\text{reducable}} + \underbrace{Var\left(\epsilon\right)}_{\text{irreducable}}
+\end{align*}
+$$
+
+
+
+
+For a really good estimate $\hat{f}$ of $f,$ we expect that $\hat{f}(X)\approx f(X)$ such that
+$$
+E\left[(Y - \hat{Y})^2\right] \approx \underbrace{Var\left(\epsilon\right)}_{\text{irreducable}}.
+$$
+For a bad estimate $\hat{f}$ of $f,$ however, we expect that  
+$$
+E\left[(Y - \hat{Y})^2\right] \gg \underbrace{Var\left(\epsilon\right)}_{\text{irreducable}}.
+$$
+
+Connecting the **global test MSE** with the population MSE:
+
+
+The unknown MSE $E\left[(Y - \hat{Y})^2\right]$ can be estimated using the **global test MSE:**
+$$
+E\left[(Y - \hat{Y})^2\right] \approx \widehat{\operatorname{MSE}}_{\text{Test}}.
+$$
+
+Thus, if $\hat{f}$ is a really good estimate of $f,$ i.e. if $\hat{f}(X_i^{\text{Test}})\approx f(X_i^{\text{Test}}),$ then 
+$$
+\begin{align*}
+\widehat{\operatorname{MSE}}_{\text{Test}}
+&=\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}\left(Y_{i} - \hat{f}(X_{i}^{\text{Test}})\right)^2\\
+&\approx\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}\left(Y_{i}^{\text{Test}} - f(X_{i}^{\text{Test}})\right)^2\\
+&=\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}(\epsilon_{i}^{\text{Test}})^2\\
+&=\hat{\sigma}^2\\ 
+&\approx \sigma^2. 
+\end{align*}
+$$
+For a bad estimate $\hat{f}$ of $f,$ however, we expect that  
+$$
+\begin{align*}
+\widehat{\operatorname{MSE}}_{\text{Test}}
+&=\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}\left(Y_{i} - \hat{f}(X_{i}^{\text{Test}})\right)^2\\
+&\gg \sigma^2. 
+\end{align*}
+$$
+
+
+::: {.callout-important}
+
+The training data MSE is **not able** to estimate the mean squared (prediction) error 
+$$
+E\left[(Y - \hat{Y})^2\right].
+$$
+:::
+
+
+<br> --></section></section><section id="in-class-coding-exercises" class="level2" data-number="4.8"><h2 data-number="4.8" class="anchored" data-anchor-id="in-class-coding-exercises">
+<span class="header-section-number">4.8</span> In Class Coding Exercises</h2>
+<p>Consider the following regression model: <span class="math display">\[\begin{align*}
+Y_i
+&amp; = f(X_i)+ \epsilon_i\\
+&amp; = 5+ 3\sin(2\pi\,X_i) + \epsilon_i,
+\end{align*}\]</span> where the training data has a sample size of <span class="math inline">\(n_{\text{Train}}=100,\)</span> the error term is iid normal <span class="math display">\[
+\epsilon_i\overset{\text{iid}}{\sim}\mathcal{N}(0,1),,\quad i=1,\dots,n_{\text{Train}},
+\]</span> and the predictor values are deterministic and equidistant, i.e., <span class="math display">\[
+X_i=\frac{i}{n_{\text{Train}}},\quad i=1,\dots,n_{\text{Train}}.
+\]</span></p>
+<p><strong>Problems:</strong></p>
+<ol type="a">
+<li><p>Program the KNN-Regression estimator <span class="math inline">\(\hat{f}_K(x_0).\)</span> Compute the KNN-Regression estimation <span class="math inline">\(\hat{f}_K(x_0)\)</span> for <span class="math inline">\(K=5\)</span> and <span class="math inline">\(x_0 = 0.25.\)</span> Compare the result with the true regression function value <span class="math inline">\(f(0.25).\)</span></p></li>
+<li><p>Compute the KNN-Regression estimation for <span class="math inline">\(K=5\)</span> and a <em>dense</em> <span class="math inline">\(x\)</span>-grid between 0 and 1 (e.g.&nbsp;<code>c(1:1000)/1000</code>) and compare the results with the true regression function values using a plot.</p></li>
+<li><p><strong>Approximating the local bias, variance, and mean squared estimation error:</strong> Generate <span class="math inline">\(B=1000\)</span> estimation results <span class="math display">\[
+\hat{f}_{K,1}(x_0),\hat{f}_{K,2}(x_0),\dots,\hat{f}_{K,B}(x_0)
+\]</span> for <span class="math inline">\(x_0 = 0.25\)</span> and <span class="math inline">\(K\in\{1,2,\dots,35\}.\)</span></p></li>
+</ol>
+<ul>
+<li>Plot the estimation results <span class="math inline">\(\hat{f}_{K,1}(x_0),\hat{f}_{K,2}(x_0),\dots,\hat{f}_{K,B}(x_0)\)</span> along with their sample mean and the true value of <span class="math inline">\(f(0.25)\)</span> for <span class="math inline">\(K=5,\)</span> <span class="math inline">\(K=15,\)</span> and <span class="math inline">\(K=30.\)</span>
+</li>
+<li>Use the <span class="math inline">\(B\)</span> simulated estimation results to approximate the true bias of <span class="math inline">\(\hat{f}_{K}(x_0)\)</span> for <span class="math inline">\(K\in\{1,2,\dots,35\}.\)</span>
+</li>
+<li>Use the <span class="math inline">\(B\)</span> simulated estimation results to approximate the true variance of <span class="math inline">\(\hat{f}_{K}(x_0)\)</span> for <span class="math inline">\(K\in\{1,2,\dots,35\}.\)</span>
+</li>
+<li>Use the <span class="math inline">\(B\)</span> simulated estimation results to approximate to true mean squared estimation error of <span class="math inline">\(\hat{f}_{K}(x_0)\)</span> for <span class="math inline">\(K\in\{1,2,\dots,35\}.\)</span>
+</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Approximating the local (<span class="math inline">\(x_0\)</span>-specific) Bias, Variance, and Mean Squared Estimation Error using simulated data
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The empirical bias <span class="math display">\[
+\begin{align*}
+\frac{1}{B}\sum_{j=1}^B\hat{f}_{K,j}(x_0)-f(x_0)
+&amp;\approx E\left(\hat{f}_{K}(x_0)\right)-f(x_0)=\operatorname{Bias}\left(\hat{f}_{K}(x_0)\right)
+\end{align*}
+\]</span> approximates the true bias of <span class="math inline">\(\hat{f}_{K}(x_0).\)</span></p>
+<p>The empirical variance <span class="math display">\[
+\begin{align*}
+\frac{1}{B}\sum_{j=1}^B\left(\hat{f}_{K,j}(x_0)-\frac{1}{B}\sum_{j=1}^B\hat{f}_{K,j}(x_0)\right)^2
+&amp;\approx Var\left[\hat{f}_{K}(x_0)\right]
+\end{align*}
+\]</span> approximates the true variance of <span class="math inline">\(\hat{f}_{K}(x_0).\)</span></p>
+<p>The empirical mean squared <em>estimation</em> error<br><span class="math display">\[
+\begin{align*}
+\frac{1}{B}\sum_{j=1}^B\left(\hat{f}_{K,j}(x_0)-f(x_0)\right)^2
+&amp;\approx E\left[\left(\hat{f}_{K}(x_0)-f(x_0)\right)^2\right]
+\end{align*}
+\]</span> approximates the true mean squared <em>estimation</em> error of <span class="math inline">\(\hat{f}_{K}(x_0).\)</span></p>
+</div>
+</div>
+<ol start="4" type="a">
+<li>Generate one realization of <span class="math inline">\(n_{Train}=100\)</span> training data points from the above defined non-parametric data generating process. Estimate the globally optimal <span class="math inline">\(K\)</span> using LOOCV.</li>
+</ol>
+<!-- 
+## Assessing Model Accuracy of Nonparametric Regression
+
+A fair and reliable assessment of the model accuracy requires **testing data**, i.e., data which comes from the same data generating process as the **training data**, but which was not used to compute (train) the estimator. 
+
+Let 
+$$
+\{(X_{1}^{\text{Test}},Y_{1}^{\text{Test}}),(X_{2}^{\text{Test}},Y_{2}^{\text{Test}}),\dots,(X_{n_{\text{Test}}}^{\text{Test}},Y_{n_{\text{Test}}}^{\text{Test}})\},
+$${#eq-trainingsample}
+denote the **test data random sample**, where 
+$$
+(X_{i}^{\text{Test}},Y_{i}^{\text{Test}})\overset{\text{iid}}{\sim}(X,Y),\quad i=1,\dots,n_{\text{Test}}.
+$$ 
+with $(X,Y)$ being defined by the general regression model 
+$$
+Y=f(X)+\epsilon.
+$$ 
+
+
+That is, the new test data is a **random sample**, which ...
+
+1. is independent of the training data random sample 
+2. has the same distribution as the training data random sample
+
+The observed realization 
+$$
+\{(X_{1,obs}^{\text{Test}},Y_{1,obs}^{\text{Test}}),(X_{2,obs}^{\text{Test}},Y_{2,obs}^{\text{Test}}),\dots,(X_{n_{\text{Test}},obs}^{\text{Test}},Y_{n_{\text{Test}},obs}^{\text{Test}})\},
+$$
+of the test data random sample is used to check the accuracy of the estimate $\hat{f}.$ 
+
+::: {.callout-important}
+In the following, we will often supress the subscript "obs", since often both points of view, the random variables points of view, and the observed realizations points of view make sense.
+:::
+--></section><section id="exercises" class="level2" data-number="4.9"><h2 data-number="4.9" class="anchored" data-anchor-id="exercises">
+<span class="header-section-number">4.9</span> Exercises</h2>
+<ul>
+<li><p><a href="https://www.dropbox.com/scl/fi/df0xgp99t3gskg53picvc/Ch4_Exercises1.pdf?rlkey=j5iome3qr5s6yst8lai2xtma4&amp;st=qbdsrh9q&amp;dl=0">Exercises for Chapter 4</a></p></li>
+<li><p><a href="https://www.dropbox.com/scl/fi/1ymyos344i1gzjhd3kwjt/Ch4_Exercises_with_Solutions1.pdf?rlkey=uenhjeuq7wvm8eeptyh18kfes&amp;st=bsefvrxn&amp;dl=0">Exercises for Chapter 4 with Solutions</a></p></li>
+</ul>
+
+
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="./Ch_MatrixAlgebra.html" class="pagination-link" aria-label="Matrix Algebra">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Matrix Algebra</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./Ch5_Classification.html" class="pagination-link" aria-label="Classification">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Classification</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

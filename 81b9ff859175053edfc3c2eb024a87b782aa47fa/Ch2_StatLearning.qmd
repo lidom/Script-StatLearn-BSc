@@ -1,0 +1,1044 @@
+# Statistical Learning {#sec-SL}
+
+> Reading: Chapter 2 of our course textbook [An Introduction to Statistical Learning](https://www.statlearning.com/) 
+
+
+<!-- 
+#### `R`-Codes for this Chapter {-}
+
+* Introduction to `R`: [Ch1_0_Rcodes.R](https://www.dropbox.com/scl/fi/blo6pct6sxbb70jv5iss0/Ch1_0_Rcodes.R?rlkey=ipkll1fy8tyuubhb646mmy6r5&dl=0)
+* `R`-codes for Coding Challenge Nr 1 (replicating Fig. 2.9): [Ch1_1_Rcodes.R](https://www.dropbox.com/scl/fi/8dtu5kje5am70l2dh6w9b/Ch1_1_Rcodes.R?rlkey=o6ucjdql0f88d9wcopj0q0esa&dl=0)
+* `R`-codes for Coding Challenge Nr 2 (KNN-classification): [Ch1_2_Rcodes.R](https://www.dropbox.com/scl/fi/p7rm2ziytfl68s2h6i4gf/Ch1_2_Rcodes.R?rlkey=5rgl4y9xbxejafi32oe1baoza&dl=0)  
+-->
+
+## What is Statistical Learning? 
+
+Suppose that we observe a quantitative response $Y\in\mathbb{R}$ and $p$
+different predictors, $X_1\in\mathbb{R}, X_2\in\mathbb{R}, \dots, X_p\in\mathbb{R}.$ 
+
+We assume that there is some relationship between $Y$ and 
+$$
+X = (X_1, X_2, \dots, X_p),
+$$ 
+which can be written in the very general form 
+$$
+Y = f(X) + \epsilon. 
+$$
+
+* $f$ is some fixed but unknown function of $X = (X_1, X_2, \dots, X_p):$
+* $\epsilon$ a random error term fulfilling the following two assumptions:  
+  * $\epsilon$ and $X$ are independent of each other (this can be relaxed for linear models; see Chapter 4)
+  * $\epsilon$ has mean zero $E(\epsilon)=0$ and variance $Var(\epsilon)=\sigma^2>0.$ 
+
+In this formulation, $f$ represents the *systematic* information that $X$ provides about $Y.$
+
+In essence, **statistical learning** refers to a set of approaches for estimating the unknown function $f.$ 
+
+In this chapter we outline some of the key theoretical concepts that arise in estimating $f,$ as well as tools for evaluating the estimates obtained.
+
+#### **Why Estimate $f$?** {-}
+
+There are **two main reasons** that we may wish to estimate $f$: 
+
+* prediction and 
+* inference. 
+
+
+In the following, we discuss each in turn.
+
+
+#### **Prediction** {-}
+
+In many situations, a set of inputs $X$ are readily available, but the output $Y$ cannot be easily obtained. In this setting, since the error term averages to zero, we can predict $Y$ using
+$$
+\hat{Y} = \hat{f}(X),
+$$
+
+* $\hat{f}$  represents our estimate for $f$ 
+* $\hat{Y}$  represents the resulting prediction for $Y$ 
+
+In this setting, $\hat{f}$ is often treated as a **black box**, in the sense that one is not typically concerned with the exact form of $\hat{f},$ provided that it yields accurate predictions for $Y.$
+
+
+**Example:** As an example, suppose that $(X_1, X_2, \dots, X_p)$ are characteristics of a patient's blood sample that can be easily measured in a lab, and $Y$ is a variable encoding the patient's risk for a severe adverse reaction to a particular drug. It is natural to seek to predict $Y$ using $X,$ since we can then avoid giving the drug in question to patients who are at high risk of an adverse reaction--that is, patients for whom the estimate of $Y$ is high.
+
+
+#### **Accuracy of a Prediction** {-}
+
+The accuracy of $\hat{Y}$ as a prediction for $Y$ depends on two quantities: 
+
+* the **reducible error**, i.e. the difference between $\hat{f}$ and $f$ and 
+* the **irreducible error**, i.e. the error term $\epsilon.$ 
+
+In general, $\hat{f}$ will not be a perfect estimate for $f,$ and this inaccuracy will introduce some error. This error is **reducible**, because we can potentially improve the accuracy of $\hat{f}$ by using the most appropriate statistical learning technique to estimate $f.$ 
+
+However, even if it were possible to form a perfect estimate for
+$f,$ so that our estimated response took the form 
+$$
+\hat{Y} = f (X), 
+$$
+our prediction would still have some error in it! This is because $Y$ is also a function of $\epsilon$ which, by definition, cannot be predicted using $X.$ Therefore, variability associated with $\epsilon$ also affects the accuracy of our predictions. This is known as the **irreducible error**, because no matter how well we estimate $f,$ we cannot reduce the error introduced by $\epsilon.$
+
+
+
+Consider a **given** estimate $\hat{f}$ and a **given** set of predictors $X,$ which yields the prediction $\hat{Y} = \hat{f}(X).$ That is, assume for a moment that both $\hat{f}$ and $X$ are **fixed**, so that the only variability comes from $\epsilon.$ Then, it is easy to show that
+$$
+\begin{align*}
+\overbrace{E\left[(Y - \hat{Y})^2\right]}^{\text{Mean Squared (Prediction) Error}}
+=\underbrace{\left(f(X) -\hat{f}(X)\right)^2}_{\text{reducable}} + \underbrace{Var\left(\epsilon\right)}_{\text{irreducable}}, 
+\end{align*}
+$${#eq-MSEDecompFixed}
+where 
+
+* $E\left[(Y - \hat{Y})^2\right]$ represents the expected value, of the squared difference between the predicted $\hat{Y}=\hat{f}(X)$ and actual value of $Y,$ 
+* and $Var(\epsilon)$ represents the variance associated with the error term $\epsilon.$
+
+
+Derivation of @eq-MSEDecompFixed for a **given** $\hat{f}$ and a **given** $X;$ i.e. only $\epsilon$ is random: 
+$$
+\begin{align*}
+&E\left[(Y - \hat{Y})^2\right]\\[2ex] 
+&\text{[using $Y=f(X)+\epsilon$]}\\[2ex]
+&=E\left[(f(X) + \epsilon - \hat{f}(X))^2\right]\\[2ex]
+&=E\left[((f(X)- \hat{f}(X)) + \epsilon )^2\right]\\[2ex]
+&\text{[binomial formula]}\\[2ex]
+&=E\left[\left(f(X) -\hat{f}(X)\right)^2 + 2\left(f(X) -\hat{f}(X)\right)\epsilon + \epsilon^2\right]\\[2ex] 
+&\text{[using that $X$ and $\hat{f}$ are fixed]}\\[2ex]
+% &=E\left[\left(f(X) -\hat{f}(X)\right)^2\right] - 2E\left[\left(f(X) -\hat{f}(X)\right)\epsilon\right] + E\left[\epsilon^2\right] \\[2ex] 
+&=\left(f(X) -\hat{f}(X)\right)^2 + 2\left(f(X) -\hat{f}(X)\right) E\left[\epsilon\right] + E\left[\epsilon^2\right] \\[2ex] 
+&\text{[using that $E(\epsilon)=0$ and $E(\epsilon^2)=Var(\epsilon)=\sigma^2$]}\\[2ex]
+&=\left(f(X) -\hat{f}(X)\right)^2 + 2\left(f(X) -\hat{f}(X)\right) \cdot 0 + Var\left(\epsilon\right) \\[2ex]
+&=\underbrace{\left(f(X) -\hat{f}(X)\right)^2}_{\text{reducable}} + \underbrace{Var\left(\epsilon\right)}_{\text{irreducable}}
+\end{align*}
+$$
+
+Variance of the irreducible prediction error equals the lowest possible value of the mean squared (prediction) error, i.e. 
+$$
+Var\left(\epsilon\right)\leq E\left[(Y - \hat{Y})^2\right]. 
+$$
+
+
+::: {.callout-tip}
+The focus of this course is on techniques for estimating $f$ with the aim of **minimizing the reducible error**. 
+::: 
+
+
+## Inference {-}
+
+
+We are often interested in *understanding* the association between $Y$ and $X_1,\dots,X_p.$ In this situation we wish to estimate $f,$ but our goal is not necessarily to make predictions for $Y.$ Now $\hat{f}$ cannot be treated as a black box, because we need to know its exact form. In this setting, one may be interested in answering the following questions:
+
+* Which predictors are associated with the response? 
+* What is the relationship between the response and each predictor?
+* Can the relationship between $Y$ and each predictor be adequately summarized using a *linear equation*, or is the relationship more complicated? 
+
+
+::: {.callout-tip}
+*Inference* typically means inference about **model parameters**. 
+:::
+
+::: {.callout-tip}
+In this course, we will see a number of examples that fall into the **prediction setting** (Classification), the **inference setting** (Linear Regression), or a **combination** of the two.
+:::
+
+
+## How Do We Estimate $f$?
+
+
+**Setup:** Consider the general regression model
+$$
+Y=f(X)+\epsilon,
+$${#eq-GRegMod}
+where 
+$$
+X=(X_{1}, \dots,X_{p})
+$$
+is a multivariate ($p$-dimensional) predictor. 
+
+Let 
+$$
+\{(X_1,Y_1),(X_2,Y_2),\dots,(X_n,Y_n)\},
+$${#eq-randomsample}
+be a **random sample** from @eq-GRegMod, i.e.
+
+
+::: {.callout}
+
+# Random Sample: 
+
+<br>
+
+The set of random variables 
+$$
+\{(X_1,Y_1),(X_2,Y_2),\dots,(X_n,Y_n)\},
+$$
+is called a **random sample** if
+
+1. The multivariate, $p+1$ dimensional, random vectors 
+$$
+(X_i,Y_i)\in\mathbb{R}^{p+1}\quad\text{and}\quad (X_j,Y_j)\in\mathbb{R}^{p+1}
+$$
+are **independent** of each other for all $i=1,\dots,n$ and $j=1,\dots,n$ with $i\neq j.$<br><br>
+2. The multivariate, $p+1$ dimensional, random vectors $(X_i,Y_i)\in\mathbb{R}^{p+1},$ $i=1,\dots,n,$ have all the **same distribution** as $(X,Y),$ i.e.
+$$
+(X_i,Y_i)\sim(X,Y)
+$$
+for all $i=1,\dots,n.$ <br>
+:::
+
+The random sample @eq-randomsample is thus a set of $n$ many **independent and identically distributed (iid)** multivariate random variables
+$$
+\{(X_1,Y_1),(X_2,Y_2),\dots,(X_n,Y_n)\}
+$$
+with 
+$$
+(X_i,Y_i)\overset{\text{iid}}{\sim} (X,Y),\quad i=1,\dots,n.
+$$
+
+
+An observed **realization** of the random sample will be denoted using lowercase letters 
+$$
+\{(x_1,y_1),(x_2,y_2),\dots,(x_n,y_n)\}.
+$$
+These $n$ observations are called **training data** because we will use these  observations to train/learn $\hat{f}$, i.e., to compute the estimate $\hat{f}$ of the unknown $f.$ 
+
+
+<!-- Besides the training data, we may also have access to **testing data**
+$$
+\{(x_{01},y_{01}),(x_{02},y_{02})\dots,(x_{0m},y_{0m})\}.
+$$
+-->
+
+
+::: {.callout-note}
+
+## Goal of Statistical Learning
+
+Our goal is to find (i.e. learn from training data) a function $\hat{f}$ such that 
+$$
+Y \approx \hat{f}(X) 
+$$
+for ***any*** observed realization of $(X, Y).$ 
+
+That is, the estimate $\hat{f}$ needs to provide good approximations 
+$$
+y_{i} \approx \hat{f}(x_{i})
+$$
+**not only** for the observed training data points 
+$$
+(x_i,y_i),\quad i=1,\dots,n,
+$$ 
+**but also** for any possible *new* realization $(x_{new},y_{new})$ of $(X,Y)$
+$$
+y_{new} \approx \hat{f}(x_{new}).
+$$
+
+Fitting the noise (irreducible component) in the training data will typically lead to bad approximations of new observations of a test data set. 
+
+![](images/Traintest.png)
+<br>
+<center>
+![](images/test_vs_train.jpeg)
+</center>
+:::
+
+Broadly speaking, most statistical learning methods for this task can be characterized as either 
+
+* **parametric** or 
+* **non-parametric**. 
+
+In the following, we discuss each in turn.
+
+
+
+### Parametric Methods {-}
+
+
+Parametric methods involve a **two-step model-based estimation approach:**
+
+1. First, we make an assumption about the functional form, or shape,
+of $f.$ For example, a very simple, but often used assumption is that $f$ is a linear function, i.e.
+$$
+f(X) = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p.
+$${#eq-linmodeq}
+
+2. After a model has been selected, we need a procedure that uses the
+training data to fit or train the model. For example, in the case of the linear model @eq-linmodeq, we need to estimate the parameters $\beta_0,\beta_1,\dots,\beta_p$ such that 
+$$
+Y \approx \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p
+$$
+
+Most common estimation technique: **(Ordinary) Least Squares (OLS)**
+
+
+The parametric model-based approach reduces the problem of estimating $f$ down to one of estimating a *finite* set of parameters $\beta_0,\beta_1,\dots,\beta_p.$ 
+
+* **Pro:** Simple to estimate
+* **Con:** Possible model misspecification (Why should we know the true shape/form of $f$?)
+
+We can try to address the problem of model misspecification by choosing flexible models that can fit many different possible functional forms for $f.$ 
+
+**But:** Fitting a more flexible model requires estimating a greater number of parameters (large $p$). These more complex models can lead to a phenomenon known as **overfitting** the data, which essentially means they follow the errors/noise too closely. 
+
+::: {.callout-tip}
+These issues (model-flexibility and overfitting) are discussed through-out this course.
+::: 
+
+
+Examples: 
+
+* Simple linear regression model 
+* Multiple linear regression model 
+
+
+### Non-Parametric Methods {-}
+
+Non-parametric methods (e.g. $K$ nearest neighbor regression) do not make explicit assumptions about the functional form of $f.$ Instead, they make qualitative assumptions on $f$ such as, for instance, requiring that $f$ is a *smooth* (e.g. two times continuously differentiable) function. 
+
+* **Pro:** By avoiding the assumption of a particular parametric functional form for $f,$ non-parametric methods have the potential to accurately fit a wider range of possible shapes for $f.$
+
+* **Con:** Non-parametric methods require a large number of observations to obtain an accurate estimate for $f;$ far more observations than is typically needed for a parametric approach if the parametric model assumption is correct. (Non-parametric methods are "data-hungry".)
+
+Examples: 
+
+* Spline regression methods (smoothing splines or regression splines)
+* $K$ nearest neighbor regression
+
+
+### Trade-Off Between Prediction Accuracy and Model Interpretability
+
+One might reasonably ask the following question: 
+
+>  Why would we ever choose to use a more restrictive method instead of a very flexible approach?
+
+If we are mainly **interested in inference**, then **restrictive models** are much more interpretable. For instance, when inference is the goal, the linear model may be a good choice since it will be quite easy to understand the relationship between $Y$ and $X_1,\dots,X_p.$ <br>
+By contrast, very flexible approaches, such as purely non-parametric methods, can lead to such complicated estimates of $f$ that it is difficult to understand how any individual predictor $X_j$ is associated with the response $Y.$
+
+In some settings, we are only **interested in prediction**, and the interpretability of the predictive model is simply not of interest. For instance, if we seek to develop an algorithm to predict the price of a stock, our sole requirement for the algorithm is that it predict accurately. In such settings, we might expect that it will be best to use the most flexible model available. Right?<br> 
+Surprisingly, this is not always the case! We will often obtain more accurate predictions using a less flexible method. This phenomenon, which may seem counterintuitive at first glance, has to do with the potential for **overfitting** in highly flexible methods. 
+
+
+### Supervised versus Unsupervised Learning
+
+Most statistical learning problems fall into one of two categories: 
+
+* supervised 
+* unsupervised 
+
+In supervised learning problems, we observe for each predictor $x_i,$ $i=1,\dots,n,$ also a response $y_i.$
+
+In unsupervised learning problems, we only observe the predictor  $x_i,$ $i=1,\dots,n,$ but not the associated responses $y_i.$
+
+
+Supervised learning methods: 
+
+* regression analysis
+* logistic regression
+* lasso
+* ridge regression 
+
+Unsupervised learning methods: 
+
+* cluster analysis (clustering); for instance, using the $K$-means algorithm
+
+
+### Regression Versus Classification Problems
+
+
+Variables can be characterized as either *quantitative* or *qualitative* (also known as categorical).
+
+**Quantitative:** Quantitative variables take on numerical values. Examples include a person’s age, height, or income, the value of a house, and categorical the price of a stock. 
+
+**Qualitative/Categorial:** Examples of qualitative variables include a person's marital status (married or not), the brand of product purchased (brand A, B, or C), whether a person defaults on a debt (yes or no), or a cancer diagnosis (Acute Myelogenous Leukemia, Acute Lymphoblastic Leukemia, or No Leukemia).
+
+
+We tend to refer to problems with a *quantitative response* as **regression problems**, while those involving a *qualitative response* are often referred to as **classification problems**. 
+
+
+However, the distinction (regression vs. classification) is not always that crisp. Least squares linear regression is used with a quantitative response, whereas logistic regression is typically used with a qualitative (two-class, or binary). Thus, despite its name, logistic regression is a classification method. But since it estimates class probabilities, it can be thought of as a regression method as well. Some statistical methods, such as K-nearest neighbors can be used in the case of either quantitative or qualitative responses.
+
+
+## Assessing Model Accuracy
+
+It is an important task to decide for any given set of data which method produces the best results. Selecting the best approach can be one of the most challenging parts of performing statistical learning in practice.
+
+Let 
+$$
+\{(X_{01},Y_{01}),(X_{02},Y_{02}),\dots,(X_{0m},Y_{0m})\},
+$${#eq-trainingsample}
+denote the **test data random sample**, where 
+$$
+(X_{0i},Y_{0i})\overset{\text{iid}}{\sim}(X,Y),\quad i=1,\dots,m.
+$$ 
+with $(X,Y)$ being defined by the general regression model 
+$$
+Y=f(X)+\epsilon
+$$ 
+as in @eq-GRegMod. 
+
+That is, the new test data is **random sample**, which ...
+
+1. is independent of the training data random sample @eq-randomsample
+2. has the same distribution as the training data random sample @eq-randomsample
+
+The observed realization 
+$$
+\{(x_{01},y_{01}),(x_{02},y_{02}),\dots,(x_{0m},y_{0m})\},
+$$
+of the test data random sample is used to check the accuracy of the estimate $\hat{f}.$ 
+
+
+
+### Measuring the Quality of Fit {#sec-mqfit}
+
+In the regression setting, the most commonly-used measure is the mean squared (prediction) error (MSE). 
+
+The global training data MSE is given by
+\begin{align*}
+\widehat{\operatorname{MSE}}_{\text{train}}=\frac{1}{n}\sum_{i=1}^n\left(y_i - \hat{f}(x_i)\right)^2,
+\end{align*}
+where 
+
+* $\hat{f}$ is computed from the training data
+* $\hat{f}(x_i)$ is the prediction that $\hat{f}$ gives for the $i$th training data observation. 
+
+In general, however, we do not really care how well the method works on the training data. We are interested in the accuracy of the predictions that we obtain when we apply our method to **previously unseen test data**. 
+
+<!-- In fact, a very flexible (e.g. non-parametric) estimation method will tend to overfit the training data such that $y_i\approx \hat{f}(x_i)$ for all $i=1,\dots,n$ resulting in a training MSE that is close to zero since $\hat{f}(x_i)$ fits also the errors $\epsilon_i.$ -->
+
+
+<!-- **Example:** Suppose that we are interested in developing an algorithm to predict a stock’s price based on previous stock returns. We can train the method using stock returns from the past 6 months. But we don't really care how well our method predicts last week's stock price. We instead care about how well it will predict tomorrow's price
+or next month's price.  -->
+
+<!-- **Example:** Suppose that we have clinical measurements (e.g. weight, blood pressure, height, age, family history of disease) for a number of patients, as well as information about whether each patient has diabetes. We can use these patients to train a statistical learning method to predict risk of diabetes based on clinical measurements. In practice, we want this method to accurately predict diabetes risk for future patients based on their clinical measurements.  -->
+
+Thus, we want to choose the method that gives the **lowest *test* MSE**, as opposed to the lowest *training* MSE. 
+
+
+### Local Test MSE {-}
+
+Let $\hat{f}$ be computed from the training data $\{(x_1,y_1),\dots,(x_n,y_n)\}.$ And let 
+$$
+\{(x_{0},y_{01}),(x_{0},y_{02})\dots,(x_{0},y_{0m})\}
+$$
+denote the set of $m$ **test data points** $y_{01},\dots,y_{0m}$ for **one given predictor value** $x_0.$ 
+
+This type of $x_0$-specific test data is a realization of a **conditional random sample** given $X=x_0,$
+$$
+(x_{0},Y_{0i})\overset{\text{iid}}{\sim}(X,Y)|X=x_0,\quad i=1,\dots,m.
+$$ 
+This test data random sample is independent of the training data random sample whose realization was used to compute $\hat{f}.$
+
+Then, the **point-wise test MSE** at $X=x_0$ is given by,
+\begin{align*}
+\widehat{\operatorname{MSE}}_{\text{test}}(x_0)= \frac{1}{m}\sum_{i=1}^m\left(y_{0i} - \hat{f}(x_{0})\right)^2.
+\end{align*}
+
+
+### Global Test MSE {-}
+
+Typically, however, we want that a method has **globally**, i.e. for all predictor values in the range of $X$, a low test MSE (not only at a certain given value $x_0$). Let 
+$$
+\{(x_{01},y_{01}),(x_{02},y_{02})\dots,(x_{0m},y_{0m})\}
+$$
+denote the set of $m$ test data points with different predictor values $x_{01},\dots,x_{0m}$ in the range of $X$. This type of test data is a realization of a random sample 
+$$
+(X_{0i},Y_{0i})\overset{\text{iid}}{\sim}(X,Y),\quad i=1,\dots,m.
+$$ 
+This test data random sample is independent of the training data random sample whose realization was used to compute $\hat{f}.$
+
+
+
+Then, the **global test MSE** is given by,
+$$
+\begin{align*}
+\widehat{\operatorname{MSE}}_{\text{test}}=\frac{1}{m}\sum_{i=1}^m\left(y_{0i} - \hat{f}(x_{0i})\right)^2.
+\end{align*}
+$$
+
+Note that if $\hat{f}$ is a really good estimate of $f,$ i.e. if $\hat{f}\approx f,$ then 
+$$
+\begin{align*}
+\widehat{\operatorname{MSE}}_{\text{test}}
+&=\frac{1}{m}\sum_{i=1}^m\left(y_{0i} - \hat{f}(x_{0i})\right)^2\\
+&\approx\frac{1}{m}\sum_{i=1}^m\left(y_{0i} - f(x_{0i})\right)^2\\
+&=\frac{1}{m}\sum_{i=1}^m\epsilon_{0i}^2\\
+&=\hat{\sigma}^2\\ 
+&\approx \sigma^2 
+\end{align*}
+$$
+estimates the variance of the error term $Var(\epsilon)=\sigma^2,$ i.e., the **irreducible error component**. 
+
+
+<br>
+
+### Global Training and Test MSE in Nonparametric Smoothing Spline Regression {-}
+
+Figure 2.9 shows training and test MSEs for smoothing spline (`R` command `smooth.spline()`) estimates $\hat{f}$ in the case of 
+
+* a moderately complex $f$ 
+* a moderate signal-to-noise ratio $\frac{Var(f(X))}{Var(\epsilon)}$
+
+![](images/Fig_2_9.png)
+
+<br>
+
+Figure 2.10 shows training and test MSEs for smoothing spline estimates $\hat{f}$ in the case of 
+
+* a very simple $f$ 
+* a moderate signal-to-noise ratio $\frac{Var(f(X))}{Var(\epsilon)}$
+
+![](images/Fig_2_10.png)
+
+<br>
+
+Figure 2.11 shows training and test MSEs for smoothing spline estimates $\hat{f}$ in the case of 
+
+* a moderately complex $f$
+* a very large signal-to-noise ratio $\frac{Var(f(X))}{Var(\epsilon)}$
+
+![](images/Fig_2_11.png)
+
+<br>
+
+
+
+
+In practice, one can usually compute the training MSE with relative ease, but estimating the test MSE is considerably more difficult because usually no test data are available. 
+
+As the three examples in Figures 2.9, 2.10, and 2.11 of our textbook illustrate, the flexibility level corresponding to the model with the minimal test MSE can vary considerably. 
+
+Throughout this book, we discuss a variety of approaches that can be used in practice to estimate the minimum point of the test MSE. 
+
+One important method is **cross-validation**, which is a method for estimating the test MSE using the training data.
+
+
+
+### The Bias-Variance Trade-Off
+
+The U-shape observed in the test MSE curves (Figures 2.9-2.11) turns out to be the result of two competing properties of statistical learning methods: **bias** and **variance**.
+
+* Let $\hat{f}$ be estimated from the training data random sample
+$$
+\{(X_1,Y_1),\dots,(X_n,Y_n)\},
+$$
+$$
+(X_i,Y_i)\overset{\text{iid}}{\sim}(X,Y),\quad i=1,\dots,n.
+$$
+I.e., since $\hat{f}$ is based on the random variables in the random sample, $\hat{f}$ is it self a random variable. (A realized observation of the training data random sample yields a realized observation of $\hat{f}$.)  
+
+* Let $x_0$ denote a given value of the predictor $X$
+
+* Let 
+$$
+\{(x_{0},Y_{01}),\dots,(x_0,Y_{0m})\}
+$$
+$$
+(x_{0},Y_{0i})\overset{\text{iid}}{\sim}(X,Y)|X=x_0,\quad i=1,\dots,m.
+$$
+be the conditional **test data** random sample given $X=x_0.$
+
+<!-- * Let 
+$$
+Y_0=f(x_0)+\epsilon
+$$ 
+be the response random variable defined for the given predictor value $x_0.$ 
+* Let $Y_{01},\dots,Y_{0m}$ be all independently and identically distributed as $Y_0;$ shortly
+$$
+Y_{01},\dots,Y_{0m}\overset{\text{iid}}{\sim}Y_0.
+$$  
+* Realizations of $Y_{01},\dots,Y_{0m}$ generate the test data at the predictor value $x_0.$ -->
+
+One can show that the expected test MSE at a given predictor value $x_0$ can be decomposed as following: 
+
+One can show that $\widehat{\operatorname{MSE}}_{test}(x_0)$ is an **unbiased estimator** of the true (unknown) Mean Squared (Prediction) Error of $\hat{f}(x_0)$
+$$
+\operatorname{MSE}(x_0)=\underbrace{E\left[\left(f(x_0)-\hat{f}(x_0)\right)^2\right]+\sigma^2}_{\text{Mean Squared Prediction Error of $\hat{f}(x_0)$}},
+$$ 
+i.e., that
+$$
+E\left[\widehat{\operatorname{MSE}}_{test}(x_0)\right]=\underbrace{E\left[\left(f(x_0)-\hat{f}(x_0)\right)^2\right]+\sigma^2}_{=\operatorname{MSE}(x_0)}
+$${#eq-MSEUnbiased}
+
+
+::: {.callout}
+
+# Proof of @eq-MSEUnbiased:
+$$
+\begin{align*}
+E\left[\widehat{\operatorname{MSE}}_{test}(x_0)\right] 
+& =E\left[\frac{1}{m}\sum_{i=1}^m\left(Y_{0i}- \hat{f}(x_0)\right)^2\right]\\[2ex]
+& \text{By the linearity of $E()$:}\\[2ex]
+& =\frac{1}{m}\sum_{i=1}^mE\left[\left(Y_{0i}- \hat{f}(x_0)\right)^2\right]\\[2ex]
+& =\frac{1}{m}\,\sum_{i=1}^m\,E\left[\left(Y_{01}- \hat{f}(x_0)\right)^2\right]\\[2ex]
+& \text{Using that $Y_{0i}$ and $\hat{f}$ are iid across $i=1,\dots,m$:}\\[2ex]
+& =\frac{1}{m}\,E\left[\left(Y_{01}- \hat{f}(x_0)\right)^2\right]\,\sum_{i=1}^m 1\\[2ex]
+& =\frac{1}{m}\,m\,E\left[\left(Y_{01}- \hat{f}(x_0)\right)^2\right]\\[2ex]
+& =E\left[\left(Y_{01}- \hat{f}(x_0)\right)^2\right]\\[2ex]
+& \text{Using that}\;Y_{01}=f(x_0)+\epsilon_{01}\\[2ex]
+& =E\left[\left(f(x_0) + \epsilon_{01} - \hat{f}(x_0)\right)^2\right]\\[2ex]
+& =E\left[\left(f(x_0)- \hat{f}(x_0)\right)^2 +2\left(f(x_0)- \hat{f}(x_0)\right)\epsilon_{01} + \epsilon_{01}^2 \right]\\[2ex]
+& =E\left[\left(f(x_0)- \hat{f}(x_0)\right)^2\right]\\[2ex] 
+&+ \underbrace{2E\left[\left(f(x_0)- \hat{f}(x_0)\right)\right]\overbrace{E\left[\epsilon_{01}\right]}^{=0}}_{\text{using independence between training (in $\hat{f}$) and testing data}}\\[2ex] 
+&+ \underbrace{E\left[\epsilon_{01}^2 \right]}_{=Var(\epsilon_{01})}\\[2ex]
+& =\underbrace{E\left[\left(f(x_0)- \hat{f}(x_0)\right)^2\right]}_{\text{Mean Squared Estimation Error of $\hat{f}(x_0)$}}+0+Var(\epsilon_{01})\\[2ex] 
+& =\underbrace{E\left[\left(f(x_0)- \hat{f}(x_0)\right)^2\right]}_{\text{reducable}}+\overbrace{\underbrace{Var(\epsilon_{01})}_{\text{irreducable}}}^{=\sigma^2}\\[2ex] 
+\end{align*}
+$$
+:::
+
+
+<!-- The **expected MSE** at $x_0,$ 
+$$
+E\left[\operatorname{MSE}_{test}(x_0)\right],
+$$ 
+refers to the average test MSE that we would obtain if we repeatedly estimated $f$ using training data set, and evaluated each at $x_0.$  
+-->
+
+<!-- 
+::: {.callout-note}
+A computed value of $\operatorname{MSE}_{test}(x_0)$ (as done in the coding challenge) is not able to consistently approximate $E\left[\operatorname{MSE}_{test}(x_0)\right].$
+
+However, to get information about Bias and Variance of a method, we need to approximate $E\left[\operatorname{MSE}_{test}(x_0)\right].$ This will be (among others) the topic of  @sec-resamplingmethods.
+::: 
+-->
+
+
+The mean squared estimation error of $\hat{f}(x_0)$ can be further decomposed into a variance component and a squared bias component, i.e.
+$$
+E\left[\left(f(x_0) - \hat{f}(x_0)\right)^2\right] = 
+Var\left(\hat{f}(x_0)\right) + \left[\operatorname{Bias}\left(\hat{f}(x_0)\right)\right]^2
+$${#eq-MSEBiasVar}
+
+
+
+#### Variance of $\hat{f}$ at $x_0$ {-}
+$$
+Var(\hat{f}(x_0))=E\left[\left(\hat{f}(x_0) - E\left[\hat{f}(x_0)\right]\right)^2\right]
+$$
+**Variance** refers to the amount by which $\hat{f}$ would change if we estimated it using a different training data set. Since the training data are used to fit the statistical learning method, different training data sets will result in a different $\hat{f}.$ Ideally the estimate for $f$ should not vary too much between training sets. However, if a method has high variance then small changes in the training data can result in large changes in $\hat{f}.$ In general, more flexible statistical methods have higher variance.
+
+
+
+
+#### Bias of $\hat{f}$ at $x_0$ {-}
+$$
+\operatorname{Bias}(\hat{f}(x_0))=E\left[\hat{f}(x_0)\right] - f(x_0)
+$$
+**Bias** refers to the error that is introduced by approximating a real-life problem, which may be extremely complicated, by a much simpler model. Generally, more flexible methods result in less bias. As a general rule, as we use more flexible methods, the variance will increase and the bias will decrease---and vice versa. 
+
+
+
+
+::: {.callout}
+
+# Proof of @eq-MSEBiasVar:
+
+<br>
+
+$$
+\begin{align*}
+&   E\left[\left(f(x_0) - \hat{f}(x_0)\right)^2\right]\\[2ex]
+& = E\left[\left(\hat{f}(x_0) - f(x_0)\right)^2\right]\\[2ex]
+&\text{Adding $0=E[\hat{f}(x_0)] - E[\hat{f}(x_0)]$ yields}\\[2ex]
+& = E\left[\left(\left\{\hat{f}(x_0) - E[\hat{f}(x_0)]\right\} - \left\{ f(x_0)- E[\hat{f}(x_0)]\right\}\right)^2\right]\\[2ex]
+& = \overbrace{E\left[\left\{\hat{f}(x_0) - E[\hat{f}(x_0)]\right\}^2\right]}^{=Var\left(\hat{f}(x_0)\right)} + \overbrace{E\left[\left\{ f(x_0)- E[\hat{f}(x_0)]\right\}^2\right]}^{=\left\{E[\hat{f}(x_0)] - f(x_0) \right\}^2}\\[2ex]
+& \;\; -2\;\; \underbrace{E\left[\left\{\hat{f}(x_0) - E[\hat{f}(x_0)]\right\} \cdot 
+                 \left\{ f(x_0)- E[\hat{f}(x_0)]\right\}\right]}_{=E\left[\hat{f}(x_0)f(x_0)
+                                                                         -\hat{f}(x_0)E\left[\hat{f}(x_0)\right]
+                                                                         -     f(x_0) E\left[\hat{f}(x_0)\right]
+                                                                         +\left(E\left[\hat{f}(x_0)\right]\right)^2\right]}\\[2ex]
+& = Var\left(\hat{f}(x_0)\right) + \Big\{\;\overbrace{E[\hat{f}(x_0)] - f(x_0)}^{=\operatorname{Bias}\left(\hat{f}(x_0)\right)}\; \Big\}^2\\[2ex]
+& \;\; -2\;\; \underbrace{E\left[\hat{f}(x_0)f(x_0) -\hat{f}(x_0)E\left[\hat{f}(x_0)\right]
+                                                                         -     f(x_0) E\left[\hat{f}(x_0)\right]
+                                                                         +\left(E\left[\hat{f}(x_0)\right]\right)^2\right]}_{= 0
+                                                                         }\\[2ex]                  
+% = E\left[\hat{f}(x_0)\right]f(x_0) - \left(E\left[\hat{f}(x_0)\right]\right)^2 - f(x_0) E\left[\hat{f}(x_0)\right]+\left(E\left[\hat{f}(x_0)\right]\right)^2                                                                          
+& = \underbrace{Var\left(\hat{f}(x_0)\right) + \left[\operatorname{Bias}\left(\hat{f}(x_0)\right)\right]^2}_{\text{reducible}} 
+\end{align*}
+$$
+:::
+
+Thus, to minimize the expected test MSE, we need to select a statistical learning method that *simultaneously* achieves **low variance** and **low bias**. 
+
+
+Note that 
+$$
+Var\left(\hat{f}(x_0)\right)\geq 0
+$$ 
+and that 
+$$
+\left[\operatorname{Bias}\left(\hat{f}(x_0)\right)\right]^2\geq 0.
+$$
+Thus, the expected test MSE can never lie below of $Var(\epsilon),$ i.e.
+$$
+\begin{align*}
+E\left[\widehat{\operatorname{MSE}}_{test}(x_0)\right] 
+=\operatorname{MSE}(x_0)
+%& =E\left[\left(Y_0- \hat{f}(x_0)\right)^2\right]
+\geq Var\left(\epsilon\right)=\sigma^2.
+\end{align*}
+$$
+
+
+
+
+::: {.callout}
+
+The overall, i.e., **global** MSE can be computed by averaging the local $\operatorname{MSE}(x_0)$ over all possible values of $x_0,$ i.e.
+$$
+E(\operatorname{MSE}(X)) = \int f_X(x)\operatorname{MSE}(x) dx.
+$$
+
+We can estimate the global MSE using 
+$$
+\widehat{\operatorname{MSE}}_{test} = \frac{1}{m}\sum_{i=1}^m\left(y_{0i}-\hat{f}(x_{0i})\right)^2.
+$$
+:::
+
+<!-- $$
+E\left[E[(Y_0- \hat{f}(X))^2|X]\right]
+$$ -->
+
+
+
+
+
+![](images/Fig_2_12.png)
+
+
+
+## Assignment
+
+
+<!-- Task: Generate artificial training and test data to replicate both plots of Figure 2.9.    -->
+
+Task: Generate artificial training and test data to **compute**  *and*  **visualize** global training/test MSE results similar to those shown in Figure 2.9. (i.e. moderately complex $f$ and moderate signal-to-noise ratio).   
+
+Hints: 
+
+1. Use the following true function $f$:
+
+`true_f <- function(x){4 + 0.025 * x + 2* sin(10 + x * 2 * pi / 110)}`
+
+2. Use a Gaussian error term $\epsilon\sim\mathcal{N}(0,1)$:
+
+`e_vec  <- rnorm(n) # sample size n`
+
+3. Use a uniform predictor $X\sim\mathcal{U}[0,100]$:
+
+`x_vec  <- runif(n, min = 0, max = 100) # sample size n`
+
+4. For fitting $f$ use: 
+
+   1. Simple linear regression (two parameters, i.e. `df=2`)
+   2. Nonparametric spline regression (`smooth.spline()`) with a small degree of freedom parameter around `df = 5`
+   3. Nonparametric spline regression (`smooth.spline()`) with a large degree of freedom parameter around `df = 20`
+
+4. To produce a plot similar to the right plot in Figure 2.9. it is sufficient to visualize the values corresponding to the six square-shaped points and the value corresponding to the dashed line.
+
+
+
+**Link to your personal assignment repository:**</br>
+[https://classroom.github.com/a/Oc5oS4l-](https://classroom.github.com/a/Oc5oS4l-)
+
+
+Write up everything in **one** PDF document, e.g. using quarto and the provided `Template.qmd` file. 
+
+Upload your PDF file to your assignment repository. Make sure that your PDF file names your (first, and last) name and the name of your GitHub account.
+
+
+
+## Self-Study: Exercises 
+
+Prepare the following exercises of **Chapter 2** in our course textbook `ISLR`: 
+
+- Exercise 8
+- Exercise 9
+
+
+### Solutions
+
+#### Exercise 8: {-}
+
+This exercise relates to the College data set, which can be found in the file `College.csv` ([LINK-TO-DATA](https://www.statlearning.com/s/College.csv)). It contains a number of variables for $777$ different universities and colleges in the US. The variables are:
+
+-   **Private** : Public/private indicator
+-   **Apps** : Number of applications received
+-   **Accept** : Number of applicants accepted
+-   **Enroll** : Number of new students enrolled
+-   **Top10perc** : New students from top 10% of high school class
+-   **Top25perc** : New students from top 25% of high school class
+-   **F.Undergrad** : Number of full-time undergraduates
+-   **P.Undergrad** : Number of part-time undergraduates
+-   **Outstate** : Out-of-state tuition
+-   **Room.Board** : Room and board costs
+-   **Books** : Estimated book costs
+-   **Personal** : Estimated personal spending
+-   **PhD** : Percent of faculty with Ph.D.'s
+-   **Terminal** : Percent of faculty with terminal degree
+-   **S.F.Ratio** : Student/faculty ratio
+-   **perc.alumni** : Percent of alumni who donate
+-   **Expend** : Instructional expenditure per student
+-   **Grad.Rate** : Graduation rate
+
+**8. a)** Use the `read.csv()` function to read the data into `R`. Call the loaded data college. Make sure that you have the directory set to the correct location for the data.
+
+**Answer:**
+
+```{r}
+# Store data into dataframe college
+college <- read.csv("DATA/College.csv")
+
+# Print first 10 rows and first 5 collumns of the data
+college[c(1:10),c(1:5)]
+```
+
+**8. b)** Look at the data using the `fix()` function.
+
+**Answer:**
+
+The `fix()` command allows you to look at the data and change values in the data in a spread-sheet like format. 
+
+
+We can do some additional data-wrangling:<br>
+You should notice that the first column is just the name of each university. We don't really want `R` to treat this as data. However, it may be handy to have these names for later. Try the following commands:
+
+```{r}
+# Store row names
+rownames(college) <- college[,1]
+
+# pops up a window for data visualization
+# fix(college)
+
+# Alteratively you can use: 
+# View(college)
+```
+
+You should see that there is now a row.names column with the name of each university recorded. This means that `R` has given each row a name corresponding to the appropriate university. `R` will not try to perform calculations on the row names. However, we still need to eliminate the first column in the data where the names are stored. Try:
+
+```{r}
+# Eliminates first column (containing the row names)
+college <- college[,-1]
+# fix(college)
+```
+
+Now you should see that the first data column is `Private`. Note that another column labeled row.names now appears before the Private column. However, this is not a data column but rather the name that R is giving to each row.
+
+**8. c. i)** Use the `summary()` function to produce a numerical summary of the variables in the data set.
+
+**Answer:**
+
+```{r}
+summary(college[, 1:5])
+```
+
+
+**8. c. ii)** Use the `pairs()` function to produce a scatterplot matrix of the 2nd to 10th column or variables of the data. Recall that you can reference the 2nd to 10th column of a matrix `A` using `A[,2:10]`.
+
+**Answer:**
+
+```{r}
+pairs(x = college[,2:10])
+```
+
+**8. c. iii)** Use the `boxplot()` function to produce side-by-side boxplots of `Outstate` versus `Private`.
+
+**Answer:**
+
+```{r}
+boxplot(Outstate~Private, 
+        data = college, 
+        xlab = "Private", 
+        ylab = "Outstate")
+```
+
+
+> `Outstate`-Variable explained: The `Outstate`-variable is the tuition fee charged from non-resident students. (Many US colleges charge high tuition fees from non-resident students.) 
+
+
+**8. c. iv)** Create a new qualitative variable, called `Elite`, by binning the `Top10perc` variable. We are going to divide universities into two groups based on whether or not the proportion of students coming from the top 10% of their high school classes exceeds 50%.
+
+```{r}
+# Creating a vector called ELite with only "No" entrances amounting the number of college rows
+Elite <- rep("No",nrow(college))
+
+# Replacing "No" with "Yes" if the proportion of students coming from the top 10% of their HS classes exceeds 50%.
+Elite[college$Top10perc > 50] <- "Yes"
+
+# Encode a vector as a factor
+Elite <- as.factor(Elite)
+
+# Add Elite variable to our current dataset "college"
+college <- data.frame(college, Elite)
+```
+
+Use the `summary()` function to see how many elite universities there are. Now use the `boxplot()` function to produce side-by-side boxplots of Outstate versus Elite.
+
+
+**Answer:**
+
+```{r}
+summary(college$Elite)
+```
+
+There are $78$ elite Universities. The boxplots of `Outstate` versus Elite-Status are generated as following:
+
+```{r}
+#| scrolled: false
+boxplot(Outstate ~ Elite, 
+        data = college, xlab="Elite", ylab="Outstate")
+```
+
+**8. c. v)** Use the `hist()` function to produce some histograms with differing numbers of bins for a few of the quantitative variables. You may find the command `par(mfrow=c(2,2))` useful: it will divide the print window into four regions so that four plots can be made simultaneously. Modifying the arguments to this function will divide the screen in other ways.
+
+**Answer:**
+
+```{r}
+par(mfrow=c(2,2))
+hist(college$Apps,     breaks=50, xlim=c(0,25000), 
+     xlab = "", main="Apps")
+hist(college$Enroll,   breaks=25, xlab = "", main="Enroll")
+hist(college$Expend,   breaks=25, xlab = "", main="Expend")
+hist(college$Outstate,            xlab = "", main="Outstate")
+```
+
+Remember: 
+
+* **Enroll:** Number of new students enrolled
+* **Expend:** Instructional expenditure per student
+* **Outstate:** Out-of-state tuition
+
+
+#### Exercise 9: {-}
+
+This exercise involves the Auto data set. Make sure that the missing values have been removed from the data.
+
+```{r}
+# Store data into dataframe college
+Auto <- read.csv("DATA/Auto.csv", header=T, na.strings="?")
+
+# Remove missing values from the data
+Auto <- na.omit(Auto)
+
+# Print first 10 rows of the data
+print(Auto[c(1:10),])
+
+# Find more info on the variables here:
+# library(ISLR2)
+# ?Auto
+```
+
+
+* **mpg:** miles per gallon
+* **cylinders:** Number of cylinders between 4 and 8
+* **displacement:** Engine displacement (cu. inches)
+* **horsepower:** Engine horsepower
+* **weight:** Vehicle weight (lbs.)
+* **acceleration:** Time to accelerate from 0 to 60 mph (sec.)
+* **year:** Model year (modulo 100)
+* **origin:** Origin of car (1. American, 2. European, 3. Japanese)
+* **name:** Vehicle name
+
+
+**9. a)** Which of the predictors are quantitative, and which are qualitative?
+
+**Answer:**
+
+```{r}
+# Summarize dataset
+summary(Auto)
+```
+
+- **Quantitative predictors:** `mpg`, `cylinders`, `displacement`, `horsepower`, `weight`, `acceleration`, `year` 
+- **Qualitative predictors:** `name`, `origin`
+
+**9. b)** What is the range of each quantitative predictor? You can answer this using the `range()` function.
+
+**Answer:**
+
+```{r}
+# apply the range function to the first seven columns of Auto
+ranges <- sapply(Auto[, 1:7], range)
+# print to console
+ranges
+
+# adding row names:
+row.names(ranges) <- c("min", "max")
+ranges
+```
+
+**9. c)** What is the mean and standard deviation of each quantitative predictor?
+
+**Answer:**
+
+```{r}
+# compute the means and round to 2 decimal places 
+mean <- sapply(Auto[,1:7], mean)
+mean <- sapply(mean, round, 2)
+
+# compute the standard deviations (sd) and round to 2 decimal places 
+sd <- sapply(Auto[, 1:7], sd)
+sd <- sapply(sd,round,2)
+
+# print mean values 
+mean
+# print sd values 
+sd
+```
+
+**9.d)** Now remove the 10th through 85th observations. What is the range, mean, and standard deviation of each predictor in the subset of the data that remains?
+
+**Answer:**
+
+```{r}
+# remove observations and store them 
+newAuto = Auto[-(10:85),]
+
+# Re-do exercises 9. b) and 9.c)
+# This time, create an empty Matrix "Results" to store the results
+Results <- matrix(NA, nrow = 4, ncol = 7, 
+                  dimnames = list(c("Mean", "SD", "Min", "Max"),# row names 
+                                  c(colnames(newAuto[,1:7])))) # column names
+
+# Compute and store the results
+Results[1,] <- sapply(newAuto[, 1:7], mean)
+Results[2,] <- sapply(newAuto[, 1:7], sd)  
+Results[3,] <- sapply(newAuto[, 1:7], min)
+Results[4,] <- sapply(newAuto[, 1:7], max)
+
+# Round to 0 decimal and print
+round(Results, digits = 0)
+```
+
+**9. e)** Using the full data set, investigate the predictors graphically, using scatterplots or other tools of your choice. Create some plots highlighting the relationships among the predictors. Comment on your findings.
+
+**Answer:**
+
+```{r}
+pairs(Auto[, -9]) # remove the character-variable 'name'
+```
+
+Findings: 
+
+- higher `weight` is related with lower `mpg` 
+- higher `weight` is related with higher `displacement` 
+- higher `weight` is related with higher `horsepower`
+- higher `horsepower` is related with lower `acceleration`
+- higher model `years` are related with higher `mpg`
+
+**9. f)** Suppose that we wish to predict gas mileage (`mpg`) on the basis of the other variables. Do your plots suggest that any of the other variables might be useful in predicting `mpg`? Justify your answer.
+
+**Answer:**
+
+Yes, there are multiple potentially useful predictor variables. 
+
+All of the *quantitative* variables show some sort of relation (either linear or non-linear) with `mpg` and hence, they might be useful in predicting `mpg`. 
+
+Moreover, the qualitative variable `origin` might also be useful in predicting `mpg`: cars originated from region 1, 2, and 3 are  associated with lower, intermediate, higher `mpg` values. 
+
+
+
+
+
+

@@ -1,0 +1,400 @@
+## Solutions
+
+### Exercise 3 {-}
+
+We now review k-fold cross-validation.
+
+**3 a)** Explain how k-fold cross-validation is implemented.
+
+**Answer:**
+
+k-fold cross-validation is implemented by taking the set of $n$ observations and randomly splitting into $K$ non-overlapping groups of roughly equal group-size (approx. $n/K$). To compute the $k$-th $(k=1,2,\dots,K)$ test MSE estimate, group $k$ is used as a validation set and the remainder as a training set. The test error is estimated by averaging the $K$ resulting test MSE estimates.
+
+**3 b)** What are the advantages and disadvantages of $k$-fold cross-validation relative to: 
+
+i) the validation set approach?
+
+ii) LOOCV?
+
+**Answer:**
+
+The **validation set** approach is conceptually simple and easily implemented as you are simply partitioning the existing training data into two sets. However, there are two drawbacks: 
+
+1. The estimate of the test MSE can be highly variable/instable; i.e. may strongly depend on which observations are included in the training and validation sets. 
+
+2. The validation set error rate may tend to overestimate the test MSE for the actual model fit on the entire data set since the training set has a relatively small sample size in comparison to the actual data size $n$.
+
+**LOOCV** is a special case of k-fold cross-validation with $k = n$. Thus, LOOCV is the computationally most expensive cross-validation method since the model must be fit $n$ times. Also, LOOCV has higher variance, but lower bias, than k-fold CV: On the one hand, the LOOCV cross-validation samples are highly correlated; one the other hand, the cross-validation samples are having sample sizes roughly equal to the actual sample size $(n-1\approx n).$
+
+<!-- 
+### Exercise 4 {-}
+
+Suppose that we use some statistical learning method to make a prediction for the response $Y$ for a *particular* value of the predictor $X$. Carefully describe how we might estimate the standard deviation of our prediction.
+
+**Answer:**
+
+We can estimate the standard deviation of our prediction by using the bootstrap approach. 
+
+Let $\hat{Y} = \hat{f}(X)$ denote the prediction of $Y$ for the given $X$. The bootstrap approach works by repeatedly ($B$ many times) sampling $n$ observations (with replacement) from the original data set, and to compute new prediction results for each re-sampled bootstrap datasets. This yields to $B$ many bootstrap predictions: 
+$$
+\hat{f}^*_1(X), \hat{f}^*_2(X), \dots, \hat{f}^*_B(X).
+$$
+
+Using these bootstrap predictions we can compute the standard deviation of our prediction by computing 
+$$
+\sqrt{\frac{1}{B}\sum^B_{b=1}\left(\hat{f}^*_b(X)-\left(\frac{1}{B}\sum_{r=1}^B\hat{f}^*_r(X)\right)\right)^2}.
+$$ 
+-->
+
+
+### Exercise 5 {-}
+
+In Chapter 4, we used logistic regression to predict the probability of `default` using `income` and `balance` on the `Default` dataset. We will now estimate the test error of this logistic regression model using the validation set approach. Do not forget to set a random seed before beginning your analysis.
+
+**5 a)** Fit a logistic regression model that uses `income` and `balance` to predict `default`.
+
+**Answer:**
+
+```{r}
+library("ISLR2")
+
+# Attaching the data set
+attach(Default) 
+
+# Estimate a GLM model where "family=binomial" selects a logistic regression
+glm.fit <- glm(default ~ income + balance, 
+                data   = Default, 
+                family = binomial)
+
+# Use summary function to print the results
+summary(glm.fit)
+```
+
+
+**5 b)** Using the validation set approach, estimate the test error of this model. In order to do this, you must perform the following steps: 
+
+1. Split the sample set into a training set and a validation set.
+
+2. Fit a multiple logistic regression model using only the training observations.
+
+3. Obtain a prediction of default status for each individual in the validation set by computing the posterior probability of default for that individual, and classifying the individual to the default category if the posterior probability is greater than $0.5$.
+
+4. Compute the validation set error, which is the fraction of the observations in the validation set that are misclassified.
+
+
+**Answer:**
+
+```{r}
+## We are going to do similar tasks several times in this exercise. 
+## Therefore, it's convenient to build a function:
+
+fun5b <- function(){
+    # sample(): takes a sample of the specified size from the elements of x using either with or without replacement.
+    n     <- dim(Default)[1]
+    train <- sample(x = n, size = round(n/2, 0), replace = FALSE)
+    
+    # logistic function fit (training dataset)
+    glm.fit <- glm(default ~ income + balance, 
+        data   = Default, 
+        family = binomial, 
+        subset = train)
+    
+    # predictions (test dataset)
+    glm.pred  <- rep("No", times = round(n/2, 0))
+    glm.probs <- predict(glm.fit, Default[-train, ], 
+                         type = "response")
+    glm.pred[glm.probs > 0.5] <- "Yes"
+    
+    # return the test (prediction) error rate 
+    return(mean(glm.pred != Default[-train, ]$default))
+}
+
+## set seed
+set.seed(1110)
+
+## compute test prediction error using the 
+## programmed validation set approach
+fun5b()
+```
+
+**Answer:** There is a 2.62% test error rate from the validation set approach.
+
+**5 c)** Repeat the process in (b) three times, using three different splits of the observations into a training set and a validation set. Comment on the results obtained.
+
+```{r}
+fun5b()
+fun5b()
+fun5b()
+```
+
+**Answer:** The estimates of the test error rates are in the range of 2.5% and 2.8% and are varying with respect to the different training and validation set splittings. 
+
+**5 d)** Now consider a logistic regression model that predicts the probability of default using `income`, `balance`, and a dummy variable for `student`. Estimate the test error for this model using the validation set approach. Comment on whether or not including a dummy variable for `student` leads to a reduction in the test error rate.
+
+**Answer:** 
+
+```{r}
+set.seed(1)
+
+# generate our training data
+n     <- dim(Default)[1]
+train <- sample(n, round(n/2, 0))
+
+# run regression on the training data subset
+glm.fit <- glm(default ~ income + balance + student, 
+                data   = Default, 
+                family = binomial, 
+                subset = train)
+
+# test sample predictions
+glm.pred <- rep("No", times = round(n/2, 0))
+
+# fill with our predictions
+glm.probs <- predict(glm.fit, Default[-train, ], 
+                    type = "response")
+glm.pred[glm.probs > 0.5] <- "Yes"
+
+# test (prediction) error rate 
+mean(glm.pred != Default[-train, ]$default)
+```
+
+**Answer:** 
+
+The test error rate is 2.6%. Thus adding the `student` dummy variable to our specification doesn't appear to reduce the test error rate.
+
+<!-- 
+
+### Exercise 6 {-}
+
+We continue to consider the use of a logistic regression model to predict the probability of `default` using `income` and `balance` on the `Default` data set. In particular, we will now compute estimates for the standard errors of the `income` and `balance` logistic regression coefficients in two different ways: (1) using the bootstrap, and (2) using the standard formula for computing the standard errors in the `glm()` function. Do not forget to set a random seed before beginning your analysis.
+
+**6 a)** Using the `summary()` and `glm()` functions, determine the estimated standard errors for the coefficients associated with `income` and `balance` in a multiple logistic regression model that uses both predictors.
+
+**Answer:** 
+
+```{r}
+# Same as in 5 a)
+
+# Estimate a generalized linear regression model using glm(), 
+# where the third function argument ('family') allows to specify 
+# distribution---here, 'binomial' since our independent variable
+# 'default' takes two values '0' and '1'
+
+glm.fit <- glm(default ~ income + balance, 
+                data   = Default, 
+                family = binomial)
+
+# Use summary function to print a summary of the the results
+summary(glm.fit)
+```
+
+Using the standard formula for the standard errors in logistic regression:
+
+* Estimated standard error of the parameter estimator `income`: $4.985 \cdot 10^{-06}$
+* Estimated standard error of the parameter estimator `balance`: $2.274\cdot 10^{-04}$
+
+
+**6 b)** Write a function, `boot_fn()`, that takes as input the `Default` data set as well as an `index` of the observations, and that outputs the coefficient estimates for `income` and `balance` in the multiple logistic regression model.
+
+**Answer:** 
+
+```{r}
+boot_fn <- function(data, index){
+    return(coef(glm(default ~ income + balance, 
+                    data   = data, 
+                    family = binomial, 
+                    subset = index)))
+}
+```
+
+**6 c)** Use the `boot()` function together with your `boot_fn()` function to estimate the standard errors of the logistic regression coefficients for `income` and `balance`.
+
+**Answer:** 
+
+```{r}
+# install.packages("boot")
+
+# Load the boot package
+library("boot")
+
+# Set seed
+set.seed(1)
+
+# The boot package provides extensive facilities for bootstrapping 
+# and related resampling methods. 
+boot(data = Default, statistic = boot_fn, R = 100)
+```
+
+**6 d)** Comment on the estimated standard errors obtained using the `glm()` function and using your bootstrap function.
+
+**Answer:** 
+
+
+* Estimated standard error (bootstrap version) of the parameter estimator `income`: $4.186 \cdot 10^{-06}$
+  * The bootstrap approach estimates slightly smaller std errors for `income` than the classic standard formula. 
+* Estimated standard error (bootstrap version) of the parameter estimator `balance`: $2.226\cdot 10^{-04}$
+  * The bootstrap approach and the standard formula yield essentially equal results. 
+
+-->
+
+### Exercise 8 {-}
+
+We will now perform cross-validation on a simulated data set.
+
+**8 a)** Generate a simulated data set as follows. 
+
+```{r}
+# set seed for rnorm function
+set.seed(1)
+
+# rnorm draws pseudo-random variables from a 
+# (standard) normal distribution
+x <- rnorm(100)
+y <- x - 2 * x^2 + rnorm(100)
+```
+
+In this data set, what is $n$ and what is $p$? Write out the model used to generate the data in equation form.
+
+**Answer:** 
+
+- The sample size: $n=100$
+
+- Number of predictors: $p=2$ 
+
+- Model: $Y_i= X_i -2 \, X_i^2 + \epsilon_i$ with i.i.d. errors $\epsilon_i \sim \mathcal{N}(0,1)$, $i=1,...,n=100$
+
+**8 b)** Create a scatterplot of $X$ against $Y$. Comment on what you find.
+
+**Answer:** 
+
+```{r}
+plot(x,y)
+```
+
+We can observe a quadratic relationship between $Y$ and $X.$ Moreover, $X$ ranges from about $-2$ to $2,$ while $Y$ ranges from about $-12$ to $2.$ The largest $Y$ values are observed for $X$ values around $0.$
+
+**8 c)** Set a random seed, and then compute the LOOCV errors that result from fitting the following four models using least squares:
+
+i. $Y = \beta_0 +\beta_1 X + \epsilon$
+
+ii. $Y = \beta_0 +\beta_1 X + \beta_2 X^2 + \epsilon$
+
+iii. $Y = \beta_0 +\beta_1 X + \beta_2 X^2 + \beta_3 X^3 + \epsilon$
+
+iv. $Y = \beta_0 +\beta_1 X + \beta_2 X^2 + \beta_3 X^3 + \beta_4 X^4 + \epsilon$
+
+
+**Answers:** 
+
+```{r}
+# call boot package (contains the cv.glm() function)
+library(boot)
+
+#set seed
+set.seed(1)
+
+# create data frame containing the simulated data for X and Y
+Sim_Data <- data.frame(x, y)
+```
+
+
+**8 c i)** 
+
+
+```{r}
+# i
+# Caution:
+# This performes linear regression (no 'family' argument specified)
+lm.fit_i <- glm(y ~ x, data = Sim_Data)
+
+# cv.glm calculates the estimated K-fold cross-validation prediction
+# error for generalized linear models (with K=n).
+# '$delta' selects a vector of length two: 
+# The first component is the raw cross-validation estimate of the 
+# prediction error. 
+# The second component is the adjusted cross-validation estimate. 
+# (The adjustment is designed to compensate for bias.)
+cv.glm(data   = Sim_Data, 
+       glmfit = lm.fit_i, 
+       K      = nrow(Sim_Data))$delta
+```
+
+**8 c ii)** 
+
+```{r}
+# ii 
+# see ?poly for infos on poly()
+lm.fit_ii <- glm(y ~ poly(x, 2, raw=TRUE), data = Sim_Data)
+cv.glm(Sim_Data, lm.fit_ii, K = nrow(Sim_Data))$delta
+```
+
+**8 c iii)** 
+
+```{r}
+# iii
+lm.fit_iii <- glm(y ~ poly(x, 3, raw=TRUE), data = Sim_Data)
+cv.glm(Sim_Data, lm.fit_iii, K = nrow(Sim_Data))$delta
+```
+
+**8 c iv)** 
+
+```{r}
+# iv
+lm.fit_iv <- glm(y ~ poly(x, 4, raw=TRUE), data = Sim_Data)
+cv.glm(Sim_Data, lm.fit_iv, K = nrow(Sim_Data))$delta
+```
+
+<!-- 
+**Conclusion:** The (correct) quadratic model has the smallest CV error.   
+-->
+
+**8. d)** Repeat (c) using another random seed, and report your results. Are your results the same as what you got in (c)? Why?
+
+```{r}
+set.seed(10)
+# i.
+lm.fit1 <- glm(y ~ x, data = Sim_Data)
+cv.glm(Sim_Data, lm.fit1)$delta
+# ii.
+lm.fit2 <- glm(y ~ poly(x, 2, raw=TRUE), data = Sim_Data)
+cv.glm(Sim_Data, lm.fit2)$delta
+# iii.
+lm.fit3 <- glm(y ~ poly(x, 3, raw=TRUE), data = Sim_Data)
+cv.glm(Sim_Data, lm.fit3)$delta
+# iv.
+lm.fit4 <- glm(y ~ poly(x, 4, raw=TRUE), data = Sim_Data)
+cv.glm(Sim_Data, lm.fit4)$delta
+```
+
+**Answer:** 
+
+The results are exactly the same, because LOOCV will be the same since it evaluates n folds of a single observation.
+
+**8 e)** Which of the models in (c) had the smallest LOOCV error? Is this what you expected? Explain your answer.
+
+**Answer:** 
+
+The quadratic polynomial had the lowest LOOCV test error rate. This was expected as it matches the true form of $Y$.
+
+**8 f)** Comment on the statistical significance of the coefficient estimates that results from fitting each of the models in (c) using least squares. Do these results agree with the conclusions drawn based on the cross-validation results?
+
+```{r}
+summary(lm.fit1)
+```
+
+```{r}
+summary(lm.fit2)
+```
+
+```{r}
+summary(lm.fit3)
+```
+
+```{r}
+summary(lm.fit4)
+```
+
+**Answer:** 
+
+The $p$-values only show statistical significance of the linear and the quadratic predictor, which agrees with the CV-results.
+

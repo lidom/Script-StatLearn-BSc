@@ -1,0 +1,373 @@
+### Solutions
+
+#### Exercise 7 {-} 
+
+The table below provides a training data set containing six observations, three predictors, and one qualitative response variable. Suppose we wish to use this data set to make a prediction for $Y$ when $X_1 = X_2 = X_3 = 0$ using K-nearest neighbors.
+
+| Obs. |$X_1$|$X_2$|$X_3$| $Y$   |
+|:----:|:---:|:---:|:---:|:-----:|
+|  1   |  0  |  3  |  0  |  Red  |
+|  2   |  2  |  0  |  0  |  Red  |
+|  3   |  0  |  1  |  3  |  Red  |
+|  4   |  0  |  1  |  2  | Green |
+|  5   | −1  |  0  |  1  | Green |
+|  6   |  1  |  1  |  1  |  Red  |
+
+
+**7. a)** Compute the Euclidean distance between each observation and the test point, $X_1 = X_2 = X_3 = 0$.
+
+
+**Answer:**
+
+```{r}
+# Outcome
+Y    <- c("red", "red", "red", "green", "green", "red")
+# Predictor values
+obs1 <- c( 0, 3, 0)
+obs2 <- c( 2, 0, 0)
+obs3 <- c( 0, 1, 3)
+obs4 <- c( 0, 1, 2)
+obs5 <- c(-1, 0, 1)
+obs6 <- c( 1, 1, 1)
+
+# Test Point
+obs0 <- c(0, 0, 0)
+
+# Create a Vector Dist_vec to store the results
+Dist <- numeric(length = 6)
+
+# Compute and store the Euclidean distances
+Dist[1] <- sqrt(sum((obs1-obs0)^2)) 
+Dist[2] <- sqrt(sum((obs2-obs0)^2)) 
+Dist[3] <- sqrt(sum((obs3-obs0)^2)) 
+Dist[4] <- sqrt(sum((obs4-obs0)^2)) 
+Dist[5] <- sqrt(sum((obs5-obs0)^2)) 
+Dist[6] <- sqrt(sum((obs6-obs0)^2))  
+
+# Print the results
+Dist
+```
+
+**7. b)** What is your prediction with $K = 1$? Why?
+
+**Answer:**
+
+```{r}
+which.min(Dist)
+
+Y[which.min(Dist)]
+```
+
+Closest $K=1$ neighbor is `obs5` and thus, our prediction is `Green` because `Green` is the $Y$ value associated to `obs5`.
+
+**7. c)** What is your prediction with $K = 3$? Why?
+
+**Answer:**
+
+```{r}
+order(Dist)[1:3]
+
+Y[order(Dist)[1:3]]
+```
+
+Closest $K=3$ neighbors are:
+
+*  `obs5` with $Y=$`green`
+*  `obs6` with $Y=$`red`
+*  `obs2` with $Y=$`red`
+
+This leads to the following local (at $X_1=X_2=X_3=0)$ relative frequencies: 
+
+* for `green`: $1/K=1/3$
+* for `red`: $2/K=2/3$
+
+Thus, our prediction for $X_1=X_2=X_3=0$ is `Red`.
+
+**7. d)** If the Bayes decision boundary in this problem is highly nonlinear, then would we expect the best value for $K$ to be large or small? Why?
+
+**Answer:**
+
+<!-- A large value of K means that the $Y$-values from a large neighborhood are contributing to the prediction at one chosen $X$-point. This requires that the neighborhood consists of relatively similar $Y$-values.  -->
+
+
+In the case of a highly nonlinear decision boundary, the neighborhoods of similar $Y$-values close to the boundary become generally small. Therefore, also $K$ must be chosen relatively small so that we can capture more of the non-linear decision boundary. 
+
+
+#### Exercise 8: {-}
+
+This exercise relates to the College data set, which can be found in the file `College.csv` ([LINK-TO-DATA](https://www.statlearning.com/s/College.csv)). It contains a number of variables for $777$ different universities and colleges in the US. The variables are:
+
+-   **Private** : Public/private indicator
+-   **Apps** : Number of applications received
+-   **Accept** : Number of applicants accepted
+-   **Enroll** : Number of new students enrolled
+-   **Top10perc** : New students from top 10% of high school class
+-   **Top25perc** : New students from top 25% of high school class
+-   **F.Undergrad** : Number of full-time undergraduates
+-   **P.Undergrad** : Number of part-time undergraduates
+-   **Outstate** : Out-of-state tuition
+-   **Room.Board** : Room and board costs
+-   **Books** : Estimated book costs
+-   **Personal** : Estimated personal spending
+-   **PhD** : Percent of faculty with Ph.D.'s
+-   **Terminal** : Percent of faculty with terminal degree
+-   **S.F.Ratio** : Student/faculty ratio
+-   **perc.alumni** : Percent of alumni who donate
+-   **Expend** : Instructional expenditure per student
+-   **Grad.Rate** : Graduation rate
+
+**8. a)** Use the `read.csv()` function to read the data into `R`. Call the loaded data college. Make sure that you have the directory set to the correct location for the data.
+
+**Answer:**
+
+```{r}
+# Store data into dataframe college
+college <- read.csv("DATA/College.csv")
+
+# Print first 10 rows and first 5 collumns of the data
+college[c(1:10),c(1:5)]
+```
+
+**8. b)** Look at the data using the `fix()` function.
+
+**Answer:**
+
+The `fix()` command allows you to look at the data and change values in the data in a spread-sheet like format. 
+
+
+We can do some additional data-wrangling:<br>
+You should notice that the first column is just the name of each university. We don't really want `R` to treat this as data. However, it may be handy to have these names for later. Try the following commands:
+
+```{r}
+# Store row names
+rownames(college) <- college[,1]
+
+# pops up a window for data visualization
+# fix(college)
+
+# Alteratively you can use: 
+# View(college)
+```
+
+You should see that there is now a row.names column with the name of each university recorded. This means that `R` has given each row a name corresponding to the appropriate university. `R` will not try to perform calculations on the row names. However, we still need to eliminate the first column in the data where the names are stored. Try:
+
+```{r}
+# Eliminates first column (containing the row names)
+college <- college[,-1]
+# fix(college)
+```
+
+Now you should see that the first data column is `Private`. Note that another column labeled row.names now appears before the Private column. However, this is not a data column but rather the name that R is giving to each row.
+
+**8. c. i)** Use the `summary()` function to produce a numerical summary of the variables in the data set.
+
+**Answer:**
+
+```{r}
+summary(college[, 1:5])
+```
+
+
+**8. c. ii)** Use the `pairs()` function to produce a scatterplot matrix of the 2nd to 10th column or variables of the data. Recall that you can reference the 2nd to 10th column of a matrix `A` using `A[,2:10]`.
+
+**Answer:**
+
+```{r}
+pairs(x = college[,2:10])
+```
+
+**8. c. iii)** Use the `boxplot()` function to produce side-by-side boxplots of `Outstate` versus `Private`.
+
+**Answer:**
+
+```{r}
+boxplot(Outstate~Private, 
+        data = college, 
+        xlab = "Private", 
+        ylab = "Outstate")
+```
+
+
+> `Outstate`-Variable explained: The `Outstate`-variable is the tuition fee charged from non-resident students. (Many US colleges charge high tuition fees from non-resident students.) 
+<!-- Schools' reasoning for charging higher out-of-state tuition is because non-resident students' come from families who haven't paid tax dollars to the state.  -->
+
+
+**8. c. iv)** Create a new qualitative variable, called `Elite`, by binning the `Top10perc` variable. We are going to divide universities into two groups based on whether or not the proportion of students coming from the top 10% of their high school classes exceeds 50%.
+
+```{r}
+# Creating a vector called ELite with only "No" entrances amounting the number of college rows
+Elite <- rep("No",nrow(college))
+
+# Replacing "No" with "Yes" if the proportion of students coming from the top 10% of their HS classes exceeds 50%.
+Elite[college$Top10perc > 50] <- "Yes"
+
+# Encode a vector as a factor
+Elite <- as.factor(Elite)
+
+# Add Elite variable to our current dataset "college"
+college <- data.frame(college, Elite)
+```
+
+Use the `summary()` function to see how many elite universities there are. Now use the `boxplot()` function to produce side-by-side boxplots of Outstate versus Elite.
+
+
+**Answer:**
+
+```{r}
+summary(college$Elite)
+```
+
+There are $78$ elite Universities. The boxplots of `Outstate` versus Elite-Status are generated as following:
+
+```{r}
+#| scrolled: false
+boxplot(Outstate ~ Elite, 
+        data = college, xlab="Elite", ylab="Outstate")
+```
+
+**8. c. v)** Use the `hist()` function to produce some histograms with differing numbers of bins for a few of the quantitative variables. You may find the command `par(mfrow=c(2,2))` useful: it will divide the print window into four regions so that four plots can be made simultaneously. Modifying the arguments to this function will divide the screen in other ways.
+
+**Answer:**
+
+```{r}
+par(mfrow=c(2,2))
+hist(college$Apps,     breaks=50, xlim=c(0,25000), 
+     xlab = "", main="Apps")
+hist(college$Enroll,   breaks=25, xlab = "", main="Enroll")
+hist(college$Expend,   breaks=25, xlab = "", main="Expend")
+hist(college$Outstate,            xlab = "", main="Outstate")
+```
+
+Remember: 
+
+* **Enroll:** Number of new students enrolled
+* **Expend:** Instructional expenditure per student
+* **Outstate:** Out-of-state tuition
+
+
+#### Exercise 9: {-}
+
+This exercise involves the Auto data set. Make sure that the missing values have been removed from the data.
+
+```{r}
+# Store data into dataframe college
+Auto <- read.csv("DATA/Auto.csv", header=T, na.strings="?")
+
+# Remove missing values from the data
+Auto <- na.omit(Auto)
+
+# Print first 10 rows of the data
+print(Auto[c(1:10),])
+
+# Find more info on the variables here:
+# library(ISLR2)
+# ?Auto
+```
+
+
+* **mpg:** miles per gallon
+* **cylinders:** Number of cylinders between 4 and 8
+* **displacement:** Engine displacement (cu. inches)
+* **horsepower:** Engine horsepower
+* **weight:** Vehicle weight (lbs.)
+* **acceleration:** Time to accelerate from 0 to 60 mph (sec.)
+* **year:** Model year (modulo 100)
+* **origin:** Origin of car (1. American, 2. European, 3. Japanese)
+* **name:** Vehicle name
+
+
+**9. a)** Which of the predictors are quantitative, and which are qualitative?
+
+**Answer:**
+
+```{r}
+# Summarize dataset
+summary(Auto)
+```
+
+- **Quantitative predictors:** `mpg`, `cylinders`, `displacement`, `horsepower`, `weight`, `acceleration`, `year` 
+- **Qualitative predictors:** `name`, `origin`
+
+**9. b)** What is the range of each quantitative predictor? You can answer this using the `range()` function.
+
+**Answer:**
+
+```{r}
+# apply the range function to the first seven columns of Auto
+ranges <- sapply(Auto[, 1:7], range)
+# print to console
+ranges
+
+# adding row names:
+row.names(ranges) <- c("min", "max")
+ranges
+```
+
+**9. c)** What is the mean and standard deviation of each quantitative predictor?
+
+**Answer:**
+
+```{r}
+# compute the means and round to 2 decimal places 
+mean <- sapply(Auto[,1:7], mean)
+mean <- sapply(mean, round, 2)
+
+# compute the standard deviations (sd) and round to 2 decimal places 
+sd <- sapply(Auto[, 1:7], sd)
+sd <- sapply(sd,round,2)
+
+# print mean values 
+mean
+# print sd values 
+sd
+```
+
+**9.d)** Now remove the 10th through 85th observations. What is the range, mean, and standard deviation of each predictor in the subset of the data that remains?
+
+**Answer:**
+
+```{r}
+# remove observations and store them 
+newAuto = Auto[-(10:85),]
+
+# Re-do exercises 9. b) and 9.c)
+# This time, create an empty Matrix "Results" to store the results
+Results <- matrix(NA, nrow = 4, ncol = 7, 
+                  dimnames = list(c("Mean", "SD", "Min", "Max"),# row names 
+                                  c(colnames(newAuto[,1:7])))) # column names
+
+# Compute and store the results
+Results[1,] <- sapply(newAuto[, 1:7], mean)
+Results[2,] <- sapply(newAuto[, 1:7], sd)  
+Results[3,] <- sapply(newAuto[, 1:7], min)
+Results[4,] <- sapply(newAuto[, 1:7], max)
+
+# Round to 0 decimal and print
+round(Results, digits = 0)
+```
+
+**9. e)** Using the full data set, investigate the predictors graphically, using scatterplots or other tools of your choice. Create some plots highlighting the relationships among the predictors. Comment on your findings.
+
+**Answer:**
+
+```{r}
+pairs(Auto[, -9]) # remove the character-variable 'name'
+```
+
+Findings: 
+
+- higher `weight` is related with lower `mpg` 
+- higher `weight` is related with higher `displacement` 
+- higher `weight` is related with higher `horsepower`
+- higher `horsepower` is related with lower `acceleration`
+- higher model `years` are related with higher `mpg`
+
+**9. f)** Suppose that we wish to predict gas mileage (`mpg`) on the basis of the other variables. Do your plots suggest that any of the other variables might be useful in predicting `mpg`? Justify your answer.
+
+**Answer:**
+
+Yes, there are multiple potentially useful predictor variables. 
+
+All of the *quantitative* variables show some sort of relation (either linear or non-linear) with `mpg` and hence, they might be useful in predicting `mpg`. 
+
+Moreover, the qualitative variable `origin` might also be useful in predicting `mpg`: cars originated from region 1, 2, and 3 are  associated with lower, intermediate, higher `mpg` values. 
