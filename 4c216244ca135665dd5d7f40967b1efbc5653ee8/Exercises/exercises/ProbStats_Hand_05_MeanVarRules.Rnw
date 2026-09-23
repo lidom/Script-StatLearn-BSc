@@ -1,0 +1,61 @@
+<<echo=FALSE, results=hide>>=
+## DATA GENERATION
+mu_X  <- sample(seq(400, 800, by = 50), 1)   # expected monthly sales (units)
+sd_X  <- sample(c(40, 50, 60, 80), 1)        # SD of monthly sales
+price <- sample(c(12, 15, 20, 25), 1)        # EUR per unit
+fix_c <- sample(c(2000, 3000, 4000), 1)      # fixed costs per month
+mu_Y  <- sample(seq(200, 400, by = 50), 1)   # expected monthly sales of 2nd product
+
+mu_C  <- sample(c(15, 18, 20, 22), 1)        # temperature in Celsius
+sd_C  <- sample(c(3, 4, 5), 1)
+
+## SOLUTIONS
+E_P   <- price * mu_X - fix_c
+Var_P <- price^2 * sd_X^2
+SD_P  <- price * sd_X
+E_F   <- 1.8 * mu_C + 32
+SD_F  <- 1.8 * sd_C
+Var_P_txt <- format(Var_P, big.mark = "{,}", scientific = FALSE)
+@
+
+\begin{question}
+\textbf{Calculation rules for mean and variance}
+
+The monthly sales $X$ (in units) of a product are random with $E(X)=\Sexpr{mu_X}$ and $\operatorname{SD}(X)=\Sexpr{sd_X}$. Each unit is sold for \Sexpr{price}~EUR, and the fixed costs are \Sexpr{fix_c}~EUR per month. The monthly profit is thus
+$$
+\Pi = \Sexpr{price}\,X - \Sexpr{fix_c}.
+$$
+
+\begin{parts}
+\item Compute the expected monthly profit $E(\Pi)$.
+\item Compute $\operatorname{Var}(\Pi)$ and $\operatorname{SD}(\Pi)$. Why do the fixed costs not matter here?
+\item The company sells a second product with monthly sales $Y$ and $E(Y)=\Sexpr{mu_Y}$. What is the expected total number of units sold, $E(X+Y)$? Do you need to assume that $X$ and $Y$ are independent?
+\item The daily maximum temperature $C$ (in degrees Celsius) in July has mean $E(C)=\Sexpr{mu_C}$ and standard deviation $\operatorname{SD}(C)=\Sexpr{sd_C}$. In degrees Fahrenheit, the temperature is $F = 1.8\,C + 32$. Compute $E(F)$ and $\operatorname{SD}(F)$.
+\item Let $X$ be any random variable with mean $\mu_X$ and standard deviation $\sigma_X>0$. Show that the standardized random variable
+$
+Z = \frac{X-\mu_X}{\sigma_X}
+$
+has $E(Z)=0$ and $\operatorname{Var}(Z)=1$.
+\end{parts}
+\end{question}
+
+\begin{solution}
+\begin{parts}
+\item $E(\Pi) = \Sexpr{price}\cdot E(X) - \Sexpr{fix_c} = \Sexpr{price}\cdot \Sexpr{mu_X} - \Sexpr{fix_c} = \Sexpr{E_P}$~EUR.
+\item $\operatorname{Var}(\Pi) = \Sexpr{price}^2\cdot\operatorname{Var}(X) = \Sexpr{price^2}\cdot \Sexpr{sd_X^2} = \Sexpr{Var_P_txt}$~EUR$^2$ and $\operatorname{SD}(\Pi) = \Sexpr{price}\cdot \Sexpr{sd_X} = \Sexpr{SD_P}$~EUR.\\
+The fixed costs only shift the profit by a constant. A constant shift moves the whole distribution but does not change how much the values spread around the mean: $\operatorname{Var}(aX+b)=a^2\operatorname{Var}(X)$.
+\item $E(X+Y) = E(X) + E(Y) = \Sexpr{mu_X} + \Sexpr{mu_Y} = \Sexpr{mu_X + mu_Y}$ units. This rule holds for \emph{any} two random variables; independence is not needed.
+\item $E(F) = 1.8\cdot \Sexpr{mu_C} + 32 = \Sexpr{E_F}$ and $\operatorname{SD}(F) = 1.8\cdot \Sexpr{sd_C} = \Sexpr{SD_F}$ degrees Fahrenheit.
+\item Write $Z = aX + b$ with $a = 1/\sigma_X$ and $b = -\mu_X/\sigma_X$. Then
+$$
+E(Z) = \frac{1}{\sigma_X}E(X) - \frac{\mu_X}{\sigma_X} = \frac{\mu_X}{\sigma_X} - \frac{\mu_X}{\sigma_X} = 0
+\quad\text{and}\quad
+\operatorname{Var}(Z) = \frac{1}{\sigma_X^2}\operatorname{Var}(X) = \frac{\sigma_X^2}{\sigma_X^2} = 1.
+$$
+\end{parts}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{string}
+%% \exsolution{nil}
+%% \exname{ProbStats_Hand_05_MeanVarRules}

@@ -1,0 +1,100 @@
+\begin{question}
+Let $y \in \mathbb{R}^n$, $X$ be a $n \times (p+1)$
+matrix, $b \in \mathbb{R}^{(p+1)}$ and let
+$$
+f(b) = (y - X b)^{\top}(y - X b).
+$$
+Compute the following derivatives of $f(b)$ with respect to $b$:
+\begin{answerlist}
+\item 
+$$
+  \frac{\partial f(b)}{\partial b}, \quad 
+$$ 
+\item
+$$
+  \frac{\partial^2 f(b)}{\partial b \partial b^{\top}},
+$$ 
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+The function $f(b)$ maps $b\in\mathbb{R}^{(p+1)}$ to the scalar $f(b)\in\mathbb{R}$. To see that $f(b)$ is a scalar, observe that
+\begin{align*}
+f(b)
+&= (y - Xb)^{\top}(y - Xb)\\ 
+&= (y^{\top} - (Xb)^{\top})(y - Xb)\\ 
+&= y^{\top}y - \underbrace{y^{\top}Xb}_{(i)} - \underbrace{(Xb)^{\top}y}_{(ii)} + \underbrace{(Xb)^{\top} Xb}_{(iii)} 
+\end{align*}
+where
+$$
+\begin{array}{lrl}
+(i) & y^{\top}Xb &= (X^{\top}y)^{\top}b\\[2ex]
+(ii) & \underbrace{(Xb)^{\top}y}_{(1\times 1)} &= \underbrace{((Xb)^{\top}y)^{\top}}_{(1\times 1)}\qquad\Big|\left[\text{Scalars are always symmetric}\right]\\
+    & &= y^{\top}(Xb)\\
+    & &= (y^{\top}X)b\\
+    & &= (X^{\top}y)^{\top}b\\[2ex]
+(iii) & (Xb)^{\top} Xb &= (Xb)^{\top} Xb\\    
+&&=b^{\top} X^{\top}X b.
+\end{array}
+$$
+Thus, we can write $f(b)$ as
+\begin{align*}
+f(b)
+&= y^{\top}y - 2(X^{\top}y)^{\top} b + b^{\top} X^{\top}Xb 
+\end{align*}
+\begin{answerlist}
+\item Derivative rule (i) of our script:
+$$
+\frac{\partial a^{\top}b}{\partial b}=a\quad\text{here:}\quad 
+\frac{\partial (X^{\top}y)^{\top}b}{\partial b}=X^{\top}y
+$$
+Derivative rule (ii) of our script:
+$$
+\frac{\partial b^{\top}Ab}{\partial b}=(A+A^{\top})b \underbrace{ = 2Ab}_{\text{if $A$ symmetric}}
+$$
+Here:
+$$
+\frac{\partial b^{\top}(X^{\top}X)b}{\partial b}=((X^{\top}X) + (X^{\top}X)^{\top})b = \underbrace{((X^{\top}X) + (X^{\top}X))}_{\text{since $X^{\top}X$ is symmetric}}b = 2X^{\top}Xb
+$$
+Thus, 
+\begin{align*}
+\frac{\partial f(b)}{\partial b} 
+&= 
+\overbrace{\frac{\partial y^{\top}y          }{\partial b}}^{=0} - 
+2\overbrace{\frac{\partial (X^{\top}y)^{\top} b}{\partial b}}^{=X^{\top}y} + 
+\overbrace{\frac{\partial b^{\top} X^{\top}Xb}{\partial b}}^{=2X^{\top}Xb}\\
+&= 2X^{\top}Xb - 2X^{\top}y
+\end{align*}
+\item Derivative rule (iii) of our script (Hessian of a sandwich form function):
+$$
+\frac{\partial^2(b^{\top}Ab)}{\partial b\partial b^{\top}}=A+A^{\top}\underbrace{ = 2A}_{\text{if $A$ symmetric}}
+$$
+Here:
+$$
+\frac{\partial^2 b^{\top} X^{\top}Xb}{\partial b\partial b^{\top}} = X^{\top}X + (X^{\top}X)^{\top}  = 2X^{\top}X\quad\text{since $X^{\top}X$ is symmetric}
+$$
+Thus
+\begin{align*}
+\frac{\partial^2 f(b)}{\partial b\partial b^{\top}} 
+&= 
+\frac{\partial^2 }{\partial b\partial b^{\top}}\left(y^{\top}y - 2(X^{\top}y)^{\top} b\right) + 
+\underbrace{\frac{\partial^2 b^{\top} X^{\top}Xb}{\partial b\partial b^{\top}}}_{=2X^{\top}X}\\
+&= 
+\frac{\partial }{\partial b^{\top}}\left(\frac{\partial}{\partial b}\left(y^{\top}y - 2(X^{\top}y)^{\top} b\right)\right) + 
+2X^{\top}X\\
+&= 
+\frac{\partial }{\partial b^{\top}}\left(- 2X^{\top}y\right) + 2X^{\top}X\\
+&=2X^{\top}X
+\end{align*}
+Note: 
+$$
+\frac{\partial^2 f(b)}{\partial b\partial b^{\top}} = 2 X^{\top}X > 0 
+$$
+if $X$ has full column rank $\operatorname{rank}(X)=p+1$.
+\end{answerlist}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{0}
+%% \exname{Ex_Ch3_1}

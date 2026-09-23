@@ -1,0 +1,36 @@
+\begin{question}
+\textbf{Conditional mean}
+
+The joint probability mass function $p_{Y,X}(y,x)=P(Y=y,\,X=x)$ of two discrete random variables $Y\in\{0,1,2\}$ and $X\in\{0,1\}$ is given by
+\begin{center}
+\begin{tabular}{c|ccc}
+ & $Y=0$ & $Y=1$ & $Y=2$\\ \hline
+$X=0$ & 0.10 & 0.20 & 0.10\\
+$X=1$ & 0.30 & 0.20 & 0.10
+\end{tabular}
+\end{center}
+What is the conditional mean $E(Y\mid X=1)$?
+\begin{answerlist}
+\item $0.667$
+\item $0.400$
+\item $0.800$
+\item $1.000$
+\item $0.600$
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+\begin{answerlist}
+\item True. $p_X(1)=0.30+0.20+0.10=0.60$, so the conditional pmf is $p_{Y\mid X}(y\mid 1) = 0.5,\ 1/3,\ 1/6$ for $y=0,1,2$. Thus $E(Y\mid X=1) = 0\cdot 0.5 + 1\cdot\tfrac13 + 2\cdot\tfrac16 = \tfrac23\approx 0.667$.
+\item False. $0\cdot0.30+1\cdot0.20+2\cdot0.10=0.4$ uses the joint probabilities; they must first be divided by $p_X(1)=0.6$.
+\item False. This is the unconditional mean $E(Y)=0\cdot0.4+1\cdot0.4+2\cdot0.2=0.8$.
+\item False. This is $E(Y\mid X=0)$.
+\item False. This is $p_X(1)$, the probability that $X=1$.
+\end{answerlist}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{10000}
+%% \exshuffle{TRUE}
+%% \exname{ProbStats_MC_11_ConditionalMean}

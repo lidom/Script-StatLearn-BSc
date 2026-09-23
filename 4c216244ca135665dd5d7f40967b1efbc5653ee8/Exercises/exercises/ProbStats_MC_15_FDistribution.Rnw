@@ -1,0 +1,28 @@
+\begin{question}
+\textbf{F-distribution}
+
+Let $W_1\sim\chi^2_3$ and $W_2\sim\chi^2_{10}$ be independent, and let $Z_1, Z_2$ be independent standard normal random variables. Which random variable has an $F_{3,10}$ distribution?
+\begin{answerlist}
+\item $\dfrac{W_1/3}{W_2/10}$
+\item $\dfrac{W_1}{W_2}$
+\item $\dfrac{W_1+W_2}{13}$
+\item $\dfrac{W_2/10}{W_1/3}$
+\item $\dfrac{Z_1}{Z_2}$
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+\begin{answerlist}
+\item True. The ratio of two independent chi-squared random variables, each divided by its degrees of freedom, is $F$-distributed; the numerator's degrees of freedom come first.
+\item False. Both chi-squared variables must be divided by their degrees of freedom.
+\item False. A sum of independent chi-squared variables is again chi-squared distributed ($\chi^2_{13}$); dividing by 13 does not give an $F$-distribution.
+\item False. This ratio has an $F_{10,3}$ distribution (the order of the degrees of freedom matters).
+\item False. The $F$-distribution is built from chi-squared (i.e., squared normal) variables, not from normal ones.
+\end{answerlist}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{10000}
+%% \exshuffle{TRUE}
+%% \exname{ProbStats_MC_15_FDistribution}

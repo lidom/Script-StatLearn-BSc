@@ -29,7 +29,7 @@ Some examples include:
 2. An online banking service must be able to determine whether a transaction being performed on the site is fraudulent, on the basis of the user's IP address, past transaction history, and so forth.
 3. On the basis of DNA sequence data for a number of patients with and without a given disease, a biologist would like to figure out which DNA mutations are deleterious (disease-causing) and which are not.
 
-One of the running example for this chapter: The (simulated) `Default` data set which is part of the [online resources](https://www.statlearning.com/resources-second-edition) of our textbook `ISLR`, and which is also contained in the `R` package `ISLR2`.
+One of the running example for this chapter: The (simulated) `Default` data set which is part of the [online resources](https://www.statlearning.com/resources-second-edition) of our textbook `ISLR`, and which is also contained in the R package `ISLR2`.
 ![](images/Fig_4_1.png)
 
 
@@ -1299,7 +1299,7 @@ $$
 $$ 
 for all possible threshold values (from zero to one). 
 
-The following `R`-codes provides a "by hand" implementation of a plot of the ROC curve for LDA applied to the `Default`-dataset.
+The following R code provides a "by hand" implementation of a plot of the ROC curve for LDA applied to the `Default`-dataset.
 ```{r}
 #| label: fig-ROC
 #| fig-cap: The ROC curve traces out two types of error as we vary the threshold value for the posterior probability of default. The actual thresholds are often not shown. Here, however, we show them using a color code from yellow [threshold = 1] to purple [threshold = 0]. The ideal ROC curve hugs the top left corner, indicating a high true positive rate and a low false positive rate. The dotted line represents the "no information" classifier; this is what we would expect if student status and credit card balance are not associated with probability of default.
@@ -1514,7 +1514,7 @@ we can use ...
 * a univariate parametric distribution assumption. Examples: 
    * A normal distribution $X_j|Y=k \sim \mathcal{N}(\mu_{jk},\sigma_{jk}).$ 
    * Alternative parametric distributions: Exponential, $\chi^2$-distribution, Gamma distribution, etc. 
-* non-parametric kernel density estimation (for quantitative predictors) using the `R`-function `density()`
+* non-parametric kernel density estimation (for quantitative predictors) using the R function `density()`
 * simple relative frequency (for qualitative predictors)
    * Example: Student status $x\in\{\texttt{Yes},\texttt{No}\}$
    $$
@@ -1749,7 +1749,7 @@ $$
 p(X) =  \frac {\exp(-6 + 0.05\cdot 40 + 3.5)} {1 + \exp(-6 + 0.05\cdot 40 + 3.5)} = \frac {\exp(-0.5)} {1 + \exp(-0.5)} = 37.75\%
 $$
 
-Calculations in `R`:
+Calculations in R:
 ```{r}
 ( exp(-0.5) )/( 1 + exp(-0.5) )
 ```
@@ -2263,7 +2263,7 @@ mean(knn_pred != crime01.test)
 
 
 
-## Self-Study: `R`-Lab Classification
+## Self-Study: R Lab Classification
 
 
 ### The Stock Market Data
@@ -2327,7 +2327,7 @@ Next, we will fit a logistic regression model in order to predict `Direction` us
 
 The `glm()` function  can be used to fit many types of generalized linear models, including logistic regression. 
 
-The syntax of the `glm()` function is similar to that of  `lm()`,  except that we must pass in the argument `family = binomial` in order to tell `R` to run a logistic regression rather than some other type of generalized linear model.
+The syntax of the `glm()` function is similar to that of  `lm()`,  except that we must pass in the argument `family = binomial` in order to tell R to run a logistic regression rather than some other type of generalized linear model.
 
 
 ```{r chunk4}
@@ -2350,7 +2350,7 @@ summary(glm.fits)$coef[, 4]
 
 
 
-The `predict()` function can be used to predict the probability that the market will go up, given values of the predictors. The `type = "response"` option tells `R` to output probabilities of the form $P(Y=1|X)$, as opposed to other information such as the logit. If no data set is supplied to the `predict()` function, then  the probabilities are computed for the training data that was used to fit the logistic regression model. Here we have printed only the first ten probabilities. 
+The `predict()` function can be used to predict the probability that the market will go up, given values of the predictors. The `type = "response"` option tells R to output probabilities of the form $P(Y=1|X)$, as opposed to other information such as the logit. If no data set is supplied to the `predict()` function, then  the probabilities are computed for the training data that was used to fit the logistic regression model. Here we have printed only the first ten probabilities. 
 
 
 ```{r chunk6}
@@ -2360,7 +2360,7 @@ glm.probs[1:4]
 ```
 
 
-We know that these values correspond to the probability of the market going up, rather than down, because the `contrasts()` function indicates that `R` has created a dummy variable with a 1 for `Up`.
+We know that these values correspond to the probability of the market going up, rather than down, because the `contrasts()` function indicates that R has created a dummy variable with a 1 for `Up`.
 
 
 ```{r}
@@ -2540,7 +2540,7 @@ predict(glm.fits,
 
 Now we will perform LDA on the `Smarket` data. 
 
-In `R`, we fit an LDA model using the  `lda()` function, which is part of the `MASS` library. 
+In R, we fit an LDA model using the  `lda()` function, which is part of the `MASS` library. 
 
 The syntax for the `lda()` function is identical to that of `lm()`, and to that of `glm()` except for the absence of the `family` option. 
 
@@ -2617,7 +2617,7 @@ max(lda.pred$posterior[, 1])
 
 ### Quadratic Discriminant Analysis
 
-We will now fit a QDA model to the `Smarket` data. QDA is  implemented in `R` using the `qda()` function, which is also part of the `MASS` library. The syntax is identical to that of `lda()`.
+We will now fit a QDA model to the `Smarket` data. QDA is  implemented in R using the `qda()` function, which is also part of the `MASS` library. The syntax is identical to that of `lda()`.
 
 ```{r chunk20}
 qda.fit <- qda(Direction ~ Lag1 + Lag2, data = Smarket,
@@ -2639,7 +2639,7 @@ This  suggests that the quadratic form assumed by QDA may capture the true relat
 
 ### Naive Bayes
 
-Next, we fit a naive Bayes model to the `Smarket` data. Naive Bayes is implemented in `R` using the `naiveBayes()` function, which is part of the `e1071` library. The syntax is identical to that of `lda()` and `qda()`. This rather simple implementation of the naive Bayes classifier models uses a univariate Gaussian distribution for each quantitative predictor. 
+Next, we fit a naive Bayes model to the `Smarket` data. Naive Bayes is implemented in R using the `naiveBayes()` function, which is part of the `e1071` library. The syntax is identical to that of `lda()` and `qda()`. This rather simple implementation of the naive Bayes classifier models uses a univariate Gaussian distribution for each quantitative predictor. 
 
 ```{r chunk22}
 ## install.packages("e1071") 
@@ -2696,7 +2696,7 @@ test.X          <- cbind(Lag1, Lag2)[!train, ]
 train.Direction <- Direction[train]
 ```
 
-Now the `knn()` function can be used to predict the market's movement for the dates in 2005. We set a random seed before we apply `knn()` because if several observations are tied as nearest neighbors, then `R` will randomly break the tie. Therefore, a seed must be set in order to ensure reproducibility of results.
+Now the `knn()` function can be used to predict the market's movement for the dates in 2005. We set a random seed before we apply `knn()` because if several observations are tied as nearest neighbors, then R will randomly break the tie. Therefore, a seed must be set in order to ensure reproducibility of results.
 
 ```{r chunk27}
 set.seed(1)
@@ -2940,7 +2940,7 @@ plot(coef.hours, xlab = "Hour", ylab = "Coefficient",
     col = "blue", pch = 19, type = "o")
 ```
 
-We can once again use the `predict()` function to obtain the fitted values (predictions) from this Poisson regression model. However, we must use the argument `type = "response"` to specify that we want `R` to output $\exp(\hat\beta_0 + \hat\beta_1 X_1 + \ldots +\hat\beta_p X_p)$ rather than $\hat\beta_0 + \hat\beta_1 X_1 + \ldots + \hat\beta_p X_p$, which it will output by default.
+We can once again use the `predict()` function to obtain the fitted values (predictions) from this Poisson regression model. However, we must use the argument `type = "response"` to specify that we want R to output $\exp(\hat\beta_0 + \hat\beta_1 X_1 + \ldots +\hat\beta_p X_p)$ rather than $\hat\beta_0 + \hat\beta_1 X_1 + \ldots + \hat\beta_p X_p$, which it will output by default.
 
 ```{r chunk45}
 plot(predict(mod.lm2), predict(mod.pois, type = "response"))

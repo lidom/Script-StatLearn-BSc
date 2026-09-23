@@ -1,0 +1,63 @@
+\begin{question}
+\textbf{Density function}
+
+The delay $X$ (in hours) of a parcel delivery is a continuous random variable with density function
+$$
+f_X(x) = \begin{cases} c\cdot x & \text{for } 0 \leq x \leq 2\\ 0 & \text{otherwise,}\end{cases}
+$$
+where $c>0$ is a constant.
+
+\begin{parts}
+\item Determine $c$ such that $f_X$ is a valid density function.
+\item Compute the probability that the delay is between 30 minutes and 90 minutes, i.e., $P(0.5\leq X\leq 1.5)$.
+\item Derive the cumulative distribution function $F_X(x)=P(X\leq x)$ for all $x\in\mathbb{R}$. Use it to compute $P(X > 1)$.
+\item Compute the expected delay $E(X)$.
+\item Compute $\operatorname{Var}(X)$ and $\operatorname{SD}(X)$.\\
+\emph{Hint:} It is often easier to use $\operatorname{Var}(X) = E(X^2) - \big(E(X)\big)^2$, where $E(X^2)=\int_{-\infty}^{\infty}x^2 f_X(x)\,dx$.
+\item Another delay $V$ (in hours) has the density $f_V(v)=4$ for $0\leq v\leq 0.25$ and $f_V(v)=0$ otherwise. Is this a valid density, even though $f_V(v)>1$? Explain.
+\end{parts}
+\end{question}
+
+\begin{solution}
+\begin{parts}
+\item A density must integrate to one:
+$$
+1 = \int_{0}^{2} c\,x\,dx = c\left[\frac{x^2}{2}\right]_0^2 = c\cdot 2
+\quad\Rightarrow\quad c = \frac{1}{2}.
+$$
+Since $c>0$, also $f_X(x)\geq 0$ for all $x$.
+\item
+$$
+P(0.5\leq X\leq 1.5) = \int_{0.5}^{1.5} \frac{x}{2}\,dx = \left[\frac{x^2}{4}\right]_{0.5}^{1.5} = \frac{2.25}{4} - \frac{0.25}{4} = 0.5.
+$$
+\item For $0\leq x\leq 2$:
+$
+F_X(x) = \int_0^x \frac{t}{2}\,dt = \frac{x^2}{4}.
+$
+Thus
+$$
+F_X(x) = \begin{cases} 0 & x<0\\ x^2/4 & 0\leq x\leq 2\\ 1 & x>2.\end{cases}
+$$
+$P(X>1) = 1 - P(X\leq 1) = 1 - F_X(1) = 1 - \frac{1}{4} = 0.75.$
+\item
+$$
+E(X) = \int_0^2 x\cdot\frac{x}{2}\,dx = \left[\frac{x^3}{6}\right]_0^2 = \frac{8}{6} = \frac{4}{3}\approx 1.33 \text{ hours}.
+$$
+\item
+$
+E(X^2) = \int_0^2 x^2\cdot\frac{x}{2}\,dx = \left[\frac{x^4}{8}\right]_0^2 = 2,
+$
+so
+$$
+\operatorname{Var}(X) = 2 - \left(\frac{4}{3}\right)^2 = 2-\frac{16}{9} = \frac{2}{9}\approx 0.222
+\quad\text{and}\quad
+\operatorname{SD}(X)=\sqrt{2/9}\approx 0.471 \text{ hours}.
+$$
+\item Yes. $f_V(v)\geq 0$ for all $v$, and $\int_0^{0.25} 4\,dv = 4\cdot 0.25 = 1$. A density value is \emph{not} a probability; only areas under the density are probabilities. Therefore, density values larger than one are no problem.
+\end{parts}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{string}
+%% \exsolution{nil}
+%% \exname{ProbStats_Hand_03_Density}

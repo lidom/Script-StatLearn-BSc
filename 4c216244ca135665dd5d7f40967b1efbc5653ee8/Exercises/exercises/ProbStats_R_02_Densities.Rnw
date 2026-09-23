@@ -1,0 +1,50 @@
+\begin{question}
+\textbf{Densities in R}
+
+\begin{parts}
+\item The delay $X$ (in hours) of a parcel delivery has the density $f_X(x)=x/2$ for $0\leq x\leq 2$ and $f_X(x)=0$ otherwise. Use the R function \texttt{integrate()} to check that $f_X$ integrates to one, and to compute $P(0.5\leq X\leq 1.5)$ and $E(X)=\int x f_X(x)\,dx$.
+\item Plot the density $f_X$ with \texttt{curve()} for $x\in[-0.5, 2.5]$.
+\item Generate $n=200$ realizations of a normal random variable with mean $1.6$ and variance $2$ using \texttt{rnorm()}.
+\item Estimate the density of your realizations with a histogram (\texttt{hist(..., freq = FALSE)}) and with a kernel density estimator (\texttt{density()}). Add the true density using \texttt{curve()} and \texttt{dnorm()}.
+\item Repeat (c) and (d) with $n=20$ and with $n=5000$. What do you observe?
+\end{parts}
+\end{question}
+
+\begin{solution}
+\begin{parts}
+\item
+<<echo=TRUE>>=
+f_X <- function(x) ifelse(x >= 0 & x <= 2, x / 2, 0)
+integrate(f_X, lower = 0,   upper = 2)$value     # total probability
+integrate(f_X, lower = 0.5, upper = 1.5)$value   # P(0.5 <= X <= 1.5)
+integrate(function(x) x * f_X(x), lower = 0, upper = 2)$value  # E(X)
+@
+\item
+\setkeys{Gin}{width=0.5\textwidth}
+<<densplot, echo=TRUE, fig=TRUE, height=3.5, width=5, eps=FALSE>>=
+curve(f_X(x), from = -0.5, to = 2.5, n = 501,
+      xlab = "x", ylab = "f_X(x)", lwd = 2)
+@
+
+\item
+<<echo=TRUE>>=
+n <- 200
+x <- rnorm(n, mean = 1.6, sd = sqrt(2))   # sd = square root of the variance
+@
+\item
+\setkeys{Gin}{width=0.55\textwidth}
+<<kdeplot, echo=TRUE, fig=TRUE, height=3.5, width=6, eps=FALSE>>=
+hist(x, freq = FALSE, main = "", col = "lightgray", border = "white",
+     ylim = c(0, 0.35))
+lines(density(x), lwd = 2, col = "blue")                        # kernel density estimate
+curve(dnorm(x, mean = 1.6, sd = sqrt(2)), add = TRUE, lwd = 2, lty = 2)  # true density
+@
+
+\item With $n=20$, the histogram and the kernel density estimate are rough and can be quite far from the true density. With $n=5000$, both estimates are very close to the true density: the estimates converge to the true density as $n\to\infty$.
+\end{parts}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{string}
+%% \exsolution{nil}
+%% \exname{ProbStats_R_02_Densities}

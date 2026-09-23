@@ -1550,7 +1550,7 @@ legend("topright",
        lwd    = 2, bty = "n")
 ```
 
-`R` provides four functions for any distribution: 
+R provides four functions for any distribution: 
 
 * `d` (density)
 * `p` (cdf)
@@ -1570,11 +1570,11 @@ qnorm(p = 0.975, mean = 0, sd = 1)# z such that P(Z <= z) = 0.975
 The normal distribution occupies a central place in statistics for two reasons: 
 
 1. Many natural measurements (heights, exam scores, some measurement errors) are ***approximately*** normally distributed. 
-2. The **Central Limit Theorem** guarantees that the sum 
+2. The **Central Limit Theorem (CLT)** guarantees that the sum 
 $$
 \sum_{i=1}^n X_i = X_1 + X_2 + \dots + X_n
 $$ 
-of a large number ($n\to\infty$) of independent random variables is approximately normally distributed, **regardless of the original distribution** of the $X_i$'s. This result underpins the inference methods we develop in the next chapter. 
+of a large number ($n\to\infty$) of independent random variables is approximately normally distributed, **regardless of the original distribution 🤯** of the $X_i$'s. This result underpins the inference methods we develop in the next chapter. 
 
 * 3Blue1Brown has a good video on the CLT: [CLT-Video](https://youtu.be/zeJD6dqJ5lo)
 

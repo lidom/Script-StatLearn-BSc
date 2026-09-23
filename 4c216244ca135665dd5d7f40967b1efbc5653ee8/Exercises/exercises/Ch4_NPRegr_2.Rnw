@@ -1,0 +1,55 @@
+\begin{question}
+\textbf{Curse of Dimensionality:} The accuracy of nonparametric methods typically deteriorates as the dimension $p\geq 1$ of the predictor variables $X_i=(X_{i1},\dots,X_{ip})^\top$ increases. This phenomenon is known as the "curse of dimensionality". The reason for this problem is the ``emptiness'' of high-dimensional spaces. To illustrate this, consider the case of a $p$-dimensional predictor variable $X_i=(X_{i1},\dots,X_{ip})^\top$, with standard normal components $X_{ij}\sim\mathcal{N}(0,1)$ for all $j=1,\dots,p$ all independent from each other; i.e.~$X_{ij}$ and $X_{ik}$ are independent for all $j\neq k$. 
+\begin{answerlist}
+\item Consider the case of $p=1$: Compute the probability that $X_i$ lies in the interval $[-1,1]$. 
+\item Consider the case of $p=2$: Compute the probability that $X_i$ lies in the square $[-1,1]^2$. 
+\item Consider the general case of $p\geq 1$: Compute the probability that $X_i$ lies in $[-1,1]^p$. 
+\item Consider a sample size of $n=100$. How many data points do you expect to see in $[-1,1]^{p}$ for $p\in\{1,5,15\}$?
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+\begin{answerlist}
+
+\item For $p=1$, we have $X_i=X_{i1}\sim\mathcal{N}(0,1)$. Thus, we need to compute
+\begin{align*}
+\mathbb{P}(-1\leq X_{i1}\leq 1)
+&=\Phi(1)-\Phi(-1)\\
+&=2\Phi(1)-1\\
+&\approx 2\cdot 0.841 -1 = 0.682,
+\end{align*}
+where $\Phi$ denotes the cumulative distribution function of the standard normal distribution.
+
+\item For $p=2$, we have $X_i=(X_{i1},X_{i2})^\top$ with $X_{i1}\sim\mathcal{N}(0,1)$ and $X_{i2}\sim\mathcal{N}(0,1)$, where $X_{i1}$ and $X_{i2}$ are independent of each other. Thus, we need to compute
+\begin{align*}
+  \mathbb{P}(-1\leq X_{i1}\leq 1\quad\text{and}\quad-1\leq X_{i2}\leq 1)
+&=\mathbb{P}(-1\leq X_{i1}\leq 1) \cdot \mathbb{P}(-1\leq X_{i2}\leq 1)\\
+&=(2\Phi(1)-1)^2\\ 
+&\approx (2\cdot 0.841 -1)^2 = 0.465,
+\end{align*}
+
+\item For $p\geq 1$, we have that
+\begin{align*}
+&\mathbb{P}\left(-1\leq X_{i1}\leq 1\quad\text{and}\quad-1\leq X_{i2}\leq 1\quad\text{and}\quad \dots\quad\text{and}\quad -1\leq X_{ip}\leq 1\right)\\
+&=\mathbb{P}(-1\leq X_{i1}\leq 1) \cdot \mathbb{P}(-1\leq X_{i2}\leq 1) \cdot \ldots \cdot \mathbb{P}(-1\leq X_{ip}\leq 1)\\
+&=(2\Phi(1)-1)^p \\
+&\approx (2\cdot 0.841 -1)^p
+\end{align*}
+
+\item The expected number of data points in $[-1,1]^{p}$ is given by
+$$
+n \cdot (2\Phi(1)-1)^{p} \approx 100 (2\cdot 0.841 -1)^{p}.
+$$
+Thus 
+\begin{itemize}
+\item for $p=1$, we expect to see approximately $100 \cdot (2\cdot 0.841 -1)^{1} = 68.2$ data points,
+\item for $p=5$, we expect to see approximately $100 \cdot (2\cdot 0.841 -1)^{5} = 14.6$ data points, and
+\item for $p=5$, we expect to see approximately $100 \cdot (2\cdot 0.841 -1)^{15} = 0.3$ data points.
+\end{itemize}
+\end{answerlist}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{0}
+%% \exname{Ex_Ch4_2}

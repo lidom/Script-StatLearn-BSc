@@ -1,0 +1,57 @@
+\begin{question}
+Let $X$ be a $n \times (p+1)$ matrix. Show that
+$X^{\top} X$ is positive semi-definite. Under which
+condition is $X^{\top} X$ positive definite?
+\end{question}
+
+\begin{solution}
+\begin{itemize}
+\item For positive semi-definiteness, we need to check whether
+$$
+c^{\top}X^{\top}Xc\geq 0\quad \text{for all vectors}\quad c\in\mathbb{R}^{p+1}.
+$$
+
+
+The $((p+1)\times (p+1))$ matrix $X^{\top} X$ is positive semi-definite, because for any vector $c \in \mathbb{R}^{p+1}$ we have
+\begin{align*}
+\underbrace{c^{\top} X^{\top}}_{(1\times n)}\; \underbrace{X c}_{(n\times 1)} 
+& = \overbrace{(X c)^{\top}}^{=:y^{\top}} \overbrace{(X c)}^{=:y} \\
+& = y^{\top}y\\
+& = \sum_{i=1}^n y_i^2 \geq 0.
+\end{align*}
+\item The $((p+1)\times (p+1))$ matrix $X^{\top}X$ is positive definite, if
+$$
+c^{\top}X^{\top}Xc > 0\quad \text{for all \textbf{nonzero} vectors}\quad c\in\mathbb{R}^{p+1}.
+$$
+That is, the $((p+1)\times (p+1))$ matrix $X^{\top}X$ is \textbf{not} positive definite, if there exists at least one nonzero $((p+1)\times 1)$ vector $c\neq 0$ such that
+$$
+c^{\top}X^{\top}Xc = (Xc)^{\top} \; (Xc) = \underset{(1\times 1)}{0}.
+$$
+The product $(Xc)^{\top} \; (Xc)$ is zero if one of the factors is zero; i.e.~if
+\begin{align*}
+\underset{(n\times 1)}{Xc} & = \underset{(n\times 1)}{0}\\
+\underbrace{\begin{pmatrix}
+x_{11}&x_{12}&\dots&x_{1(p+1)}\\
+\vdots&\vdots&&\vdots\\
+x_{n1}&x_{12}&\dots&x_{n(p+1)}
+\end{pmatrix}}_{(n\times (p+1))}\underset{((p+1)\times 1)}{c}& = \underset{(n\times 1)}{0}\\
+\underbrace{\begin{pmatrix}
+x_{1}&x_{2}&\dots&x_{(p+1)}\\
+\end{pmatrix}}_{(n\times (p+1))}\underset{((p+1)\times 1)}{c}& = \underset{(n\times 1)}{0}\\
+\underset{(n\times 1)}{x_1} \underset{(1\times 1)}{c_1} + 
+\underset{(n\times 1)}{x_2} \underset{(1\times 1)}{c_2} + \dots + 
+\underset{(n\times 1)}{x_{(p+1)}} \underset{(1\times 1)}{c_{(p+1)}} = \underset{(n\times 1)}{0}
+\end{align*}
+for a nonzero $((p+1)\times 1)$ vector $c\neq 0$.\\
+
+Thus, $X^{\top}X$ is positive definite, if the ($n\times (p+1)$) matrix $X$ has full column rank, i.e.~if 
+$$
+\operatorname{rank}(X)=p+1.
+$$ 
+\end{itemize}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{0}
+%% \exname{Ex_Ch3_1}

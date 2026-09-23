@@ -1145,7 +1145,7 @@ Likewise, one can select the tuning parameter $K$ in KNN classification by minim
 <!-- 
 ### Global Training and Test MSE in Nonparametric Smoothing Spline Regression {-}
 
-Figure 2.9 shows training and test MSEs for smoothing spline (`R` command `smooth.spline()`) estimates $\hat{f}$ in the case of 
+Figure 2.9 shows training and test MSEs for smoothing spline (R command `smooth.spline()`) estimates $\hat{f}$ in the case of 
 
 * a moderately complex $f$ 
 * a moderate signal-to-noise ratio $\frac{Var(f(X))}{Var(\epsilon)}$

@@ -1,0 +1,57 @@
+\begin{question}
+\textbf{Law of Large Numbers}
+
+Let $D$ denote the result of rolling a fair die, $D\in\{1,2,3,4,5,6\}$, with $E(D)=3.5$.
+
+\begin{parts}
+\item Use R to simulate $n=1000$ rolls of a fair die with \texttt{sample()}.
+\item Compute the running sample means
+$$
+\bar D_{m,\operatorname{obs}} = \frac{1}{m}\sum_{i=1}^m D_{i,\operatorname{obs}}\quad\text{for}\quad m=1,2,\dots,1000,
+$$
+and plot them against $m$. Add a horizontal line at $E(D)=3.5$.\\
+\emph{Hint:} \texttt{cumsum(d) / seq\_along(d)} computes all running means at once.
+\item Repeat (a) and (b) a few times. What changes from repetition to repetition, and what does not?
+\item Now consider a loaded die with $P(D=6)=0.5$ and $P(D=k)=0.1$ for $k=1,\dots,5$. Compute $E(D)$ for this die by hand. Repeat (a) and (b) for the loaded die and check your result.
+\end{parts}
+\end{question}
+
+\begin{solution}
+\begin{parts}
+\item
+<<echo=TRUE>>=
+n <- 1000
+d <- sample(1:6, size = n, replace = TRUE)
+head(d)
+@
+\item
+\setkeys{Gin}{width=0.6\textwidth}
+<<llnplot, echo=TRUE, fig=TRUE, height=3.5, width=6, eps=FALSE>>=
+running_mean <- cumsum(d) / seq_along(d)
+plot(running_mean, type = "l", ylim = c(1, 6),
+     xlab = "Number of rolls m", ylab = "Running sample mean")
+abline(h = 3.5, lty = 2, col = "red", lwd = 2)
+@
+
+\item The path of the running means changes in every repetition; in particular, for small $m$ the running means fluctuate strongly. But in every repetition, the running mean settles down close to $E(D)=3.5$ as $m$ gets large. This is the Law of Large Numbers: $\bar D_{m,\operatorname{obs}} \to E(D)$ as $m\to\infty$.
+\item
+$$
+E(D) = (1+2+3+4+5)\cdot 0.1 + 6\cdot 0.5 = 1.5 + 3 = 4.5.
+$$
+\setkeys{Gin}{width=0.6\textwidth}
+<<llnplot2, echo=TRUE, fig=TRUE, height=3.5, width=6, eps=FALSE>>=
+d_loaded <- sample(1:6, size = n, replace = TRUE,
+                   prob = c(0.1, 0.1, 0.1, 0.1, 0.1, 0.5))
+plot(cumsum(d_loaded) / seq_along(d_loaded), type = "l", ylim = c(1, 6),
+     xlab = "Number of rolls m", ylab = "Running sample mean")
+abline(h = 4.5, lty = 2, col = "red", lwd = 2)
+@
+
+The running means now settle down close to $4.5$.
+\end{parts}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{string}
+%% \exsolution{nil}
+%% \exname{ProbStats_R_06_LLN}

@@ -1,0 +1,66 @@
+<<echo=FALSE, results=hide>>=
+## DATA GENERATION
+n <- 6
+repeat {
+  x <- sample(2:12, size = n, replace = TRUE)
+  if (sum(x) %% n == 0 && var(x) > 2) break   # integer mean keeps hand calculation simple
+}
+x_vec <- paste(x, collapse = ", ")
+
+## SOLUTIONS
+x_bar  <- mean(x)
+dev    <- x - x_bar
+dev2   <- dev^2
+s2     <- var(x)
+s      <- sd(x)
+x_bar_eur <- format(1000 * x_bar,     big.mark = "{,}", scientific = FALSE)
+s2_eur    <- format(round(1e6 * s2), big.mark = "{,}", scientific = FALSE)
+s_eur     <- format(round(1000 * s), big.mark = "{,}", scientific = FALSE)
+@
+
+\begin{question}
+\textbf{Sample mean and sample variance}
+
+A bakery records its daily revenue (in 1000 EUR) on $n=\Sexpr{n}$ randomly selected days:
+$$
+X_{1,\operatorname{obs}},\dots,X_{\Sexpr{n},\operatorname{obs}} = \Sexpr{x_vec}.
+$$
+
+\begin{parts}
+\item Compute the sample mean $\bar X_{\operatorname{obs}}$ by hand.
+\item Compute the sample variance $\hat\sigma^2_{X,\operatorname{obs}}$ and the sample standard deviation $\hat\sigma_{X,\operatorname{obs}}$ by hand.
+\item The bakery wants to report the revenue in EUR instead of 1000 EUR. How do the sample mean, the sample variance and the sample standard deviation change?
+\item Is $\bar X_{\operatorname{obs}}$ equal to the true mean $E(X)$ of the daily revenue? Explain.
+\end{parts}
+\end{question}
+
+\begin{solution}
+\begin{parts}
+\item $\bar X_{\operatorname{obs}} = \frac{1}{\Sexpr{n}}(\Sexpr{paste(x, collapse = " + ")}) = \frac{\Sexpr{sum(x)}}{\Sexpr{n}} = \Sexpr{x_bar}$.
+\item Deviations from the sample mean:
+\begin{center}
+\begin{tabular}{c|cccccc}
+$X_{i,\operatorname{obs}}$ & \Sexpr{paste(x, collapse = " & ")}\\ \hline
+$X_{i,\operatorname{obs}}-\bar X_{\operatorname{obs}}$ & \Sexpr{paste0("$", dev, "$", collapse = " & ")}\\
+$(X_{i,\operatorname{obs}}-\bar X_{\operatorname{obs}})^2$ & \Sexpr{paste(dev2, collapse = " & ")}
+\end{tabular}
+\end{center}
+$$
+\hat\sigma^2_{X,\operatorname{obs}} = \frac{1}{n-1}\sum_{i=1}^n (X_{i,\operatorname{obs}}-\bar X_{\operatorname{obs}})^2 = \frac{\Sexpr{sum(dev2)}}{\Sexpr{n-1}} = \Sexpr{fmt(s2, 2)},
+\qquad
+\hat\sigma_{X,\operatorname{obs}} = \sqrt{\Sexpr{fmt(s2, 2)}} \approx \Sexpr{fmt(s, 2)}.
+$$
+Note that the deviations $X_{i,\operatorname{obs}}-\bar X_{\operatorname{obs}}$ always sum to zero.
+\item Multiplying all values by $a=1000$ multiplies the sample mean and the sample standard deviation by $1000$, and the sample variance by $1000^2$:
+$\bar X_{\operatorname{obs}} = \Sexpr{x_bar_eur}$~EUR,
+$\hat\sigma^2_{X,\operatorname{obs}} \approx \Sexpr{s2_eur}$~EUR$^2$,
+$\hat\sigma_{X,\operatorname{obs}} \approx \Sexpr{s_eur}$~EUR.
+(These are the sample versions of the rules $E(aX+b)=aE(X)+b$, $\operatorname{Var}(aX+b)=a^2\operatorname{Var}(X)$ and $\operatorname{SD}(aX+b)=|a|\operatorname{SD}(X)$.)
+\item No (or only by chance). $\bar X_{\operatorname{obs}}$ is an \emph{estimate} of the usually unknown $E(X)$, computed from one particular sample of $n=\Sexpr{n}$ days. A different sample of days would give a different value (sampling variability). By the Law of Large Numbers, $\bar X_{\operatorname{obs}}$ gets close to $E(X)$ when $n$ is large.
+\end{parts}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{string}
+%% \exsolution{nil}
+%% \exname{ProbStats_Hand_06_SampleMoments}

@@ -1,0 +1,67 @@
+<<echo=FALSE, results=hide>>=
+## DATA GENERATION
+mu    <- sample(c(200, 250, 300), 1)   # target filling (ml)
+sigma <- sample(c(4, 5), 1)            # SD (ml)
+lower <- mu - sample(c(8, 10, 12), 1)  # lower tolerance
+d     <- 5                             # half-width of interval in (b)
+
+## SOLUTIONS (z-values have two decimals, so a standard normal table can be used)
+z_low  <- (lower - mu) / sigma
+P_low  <- pnorm(z_low)
+z_d    <- d / sigma
+P_int  <- 2 * pnorm(z_d) - 1
+q05    <- mu - 1.645 * sigma
+mu_new <- lower + 2.326 * sigma
+@
+
+\begin{question}
+\textbf{The normal distribution}
+
+A machine fills coffee into cups. The filled amount $X$ (in ml) is normally distributed,
+$X\sim\mathcal{N}(\mu,\sigma^2)$ with $\mu=\Sexpr{mu}$ and $\sigma=\Sexpr{sigma}$.
+Let $\Phi(z)=P(Z\leq z)$ denote the cdf of the standard normal distribution $Z\sim\mathcal{N}(0,1)$. Use a table of $\Phi$ and the following quantiles: $\Phi(-1.645)=0.05$ and $\Phi(-2.326)=0.01$.
+
+\begin{parts}
+\item Compute the probability that a cup contains less than \Sexpr{lower}~ml.
+\item Compute the probability that a cup contains between \Sexpr{mu-d}~ml and \Sexpr{mu+d}~ml.\\
+\emph{Hint:} By symmetry, $\Phi(-z) = 1-\Phi(z)$.
+\item Which amount is undercut by only 5\% of all cups? That is, find $x$ such that $P(X\leq x)=0.05$.
+\item The company wants that at most 1\% of all cups contain less than \Sexpr{lower}~ml. The standard deviation $\sigma=\Sexpr{sigma}$ cannot be changed, but the machine's mean $\mu$ can be adjusted. How large must $\mu$ be at least?
+\end{parts}
+\end{question}
+
+\begin{solution}
+Standardizing gives $Z=(X-\mu)/\sigma\sim\mathcal{N}(0,1)$.
+\begin{parts}
+\item
+$$
+P(X<\Sexpr{lower}) = P\left(Z < \frac{\Sexpr{lower}-\Sexpr{mu}}{\Sexpr{sigma}}\right) = \Phi(\Sexpr{fmt(z_low, 2)}) \approx \Sexpr{fmt(P_low, 4)}.
+$$
+\item
+\begin{align*}
+P(\Sexpr{mu-d}\leq X\leq \Sexpr{mu+d})
+&= P\left(-\tfrac{\Sexpr{d}}{\Sexpr{sigma}}\leq Z\leq \tfrac{\Sexpr{d}}{\Sexpr{sigma}}\right)
+= \Phi(\Sexpr{fmt(z_d, 2)}) - \Phi(-\Sexpr{fmt(z_d, 2)})\\
+&= 2\,\Phi(\Sexpr{fmt(z_d, 2)}) - 1 \approx 2\cdot \Sexpr{fmt(pnorm(z_d), 4)} - 1 = \Sexpr{fmt(P_int, 4)}.
+\end{align*}
+\item We need the 5\% quantile of $X$. Since $\Phi(-1.645)=0.05$,
+$$
+0.05 = P(X\leq x) = \Phi\left(\frac{x-\Sexpr{mu}}{\Sexpr{sigma}}\right)
+\quad\Rightarrow\quad
+\frac{x-\Sexpr{mu}}{\Sexpr{sigma}} = -1.645
+\quad\Rightarrow\quad
+x = \Sexpr{mu} - 1.645\cdot \Sexpr{sigma} \approx \Sexpr{fmt(q05, 2)}\text{ ml}.
+$$
+\item We need $P(X<\Sexpr{lower}) = \Phi\big((\Sexpr{lower}-\mu)/\Sexpr{sigma}\big) \leq 0.01 = \Phi(-2.326)$. Since $\Phi$ is increasing, this requires
+$$
+\frac{\Sexpr{lower}-\mu}{\Sexpr{sigma}} \leq -2.326
+\quad\Leftrightarrow\quad
+\mu \geq \Sexpr{lower} + 2.326\cdot\Sexpr{sigma} \approx \Sexpr{fmt(mu_new, 2)}\text{ ml}.
+$$
+\end{parts}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{string}
+%% \exsolution{nil}
+%% \exname{ProbStats_Hand_09_Normal}

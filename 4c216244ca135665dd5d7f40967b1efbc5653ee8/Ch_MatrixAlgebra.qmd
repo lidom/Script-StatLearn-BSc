@@ -180,7 +180,7 @@ $$
 A = \begin{aligned}         \left(\begin{matrix}1 & 2 \\ 2 & 4 \end{matrix}\right)\end{aligned}.
 $$
 
-### Matrices in `R`
+### Matrices in R
 
 ```{r}
 A = matrix(c(1,4,7,2,5,8), nrow = 3, ncol = 2)
@@ -264,7 +264,7 @@ $$
 
 ### Element-by-Element Operations in R
 
-Basic arithmetic operations work on an element-by-element basis in `R`:
+Basic arithmetic operations work on an element-by-element basis in R:
 
 ```{r}
 A = matrix(c(2,1,3,0,5,2), ncol=2)
@@ -334,9 +334,9 @@ $$
 \end{matrix}\right).
 $$
 
-#### Vector Multiplication in `R`
+#### Vector Multiplication in R
 
-For vector multiplication in `R`, we use the operator `%*%` (recall that
+For vector multiplication in R, we use the operator `%*%` (recall that
 `*` is already reserved for element-wise multiplication). Let's
 implement some multiplications.
 
@@ -395,7 +395,7 @@ $$
 = \left(\begin{matrix}-1 & 2 \\ -3 & 0 \\ -5 & 4 \end{matrix}\right).\end{aligned}
 $$
 
-The `%*%` operator is used in `R` for matrix-matrix multiplications:
+The `%*%` operator is used in R for matrix-matrix multiplications:
 
 ```{r}
 A = matrix(c(1,0,2,0,1,1), ncol=2)
@@ -560,7 +560,7 @@ iii) $\mathop{\mathrm{rank}}(A B) = \min(\mathop{\mathrm{rank}}(A), \mathop{\mat
 iv) $\mathop{\mathrm{rank}}(A) = \mathop{\mathrm{rank}}(A^{\top} A) = \mathop{\mathrm{rank}}(A A^{\top})$.
 :::
 
-We can use the `qr()` function to extract the rank in `R`. Let's compute
+We can use the `qr()` function to extract the rank in R. Let's compute
 the rank of the matrices 
 $$
 A = \begin{pmatrix}
@@ -637,7 +637,7 @@ $$
 $$
 :::
 
-In `R`, we have the `det()` function to compute the determinant:
+In R, we have the `det()` function to compute the determinant:
 
 ```{r}
 det(A)
@@ -721,7 +721,7 @@ A A^{-1} = I
 $$ 
 with [Gaussian elimination](https://math.libretexts.org/Bookshelves/Algebra/Algebra_and_Trigonometry_1e_(OpenStax)/11%3A_Systems_of_Equations_and_Inequalities/11.06%3A_Solving_Systems_with_Gaussian_Elimination). 
 
-`R` can compute the inverse matrix quickly using the function `solve()`:
+R can compute the inverse matrix quickly using the function `solve()`:
 
 ```{r}
 A_inf <- solve(A) # inverse of A
@@ -790,7 +790,7 @@ A = \begin{pmatrix}
 1 & 2 & 3 \\ 3 & 9 & 1 \\ 0 & 11 & 5
 \end{pmatrix} \quad \Rightarrow \quad \mathop{\mathrm{tr}}(A) = 1+9+5 = 15
 $$ 
-In `R`we have
+In R we have
 
 ```{r}
 A = matrix(c(1,3,0,2,9,11,3,1,5), nrow=3)
@@ -1075,7 +1075,7 @@ which is called the **spectral decomposition** of $A$. The
 matrix of eigenvalues can be written as
 $\Lambda = V^{\top} A V$.
 
-#### Eigendecomposition in `R`
+#### Eigendecomposition in R
 
 The function `eigen()` computes the eigenvalues and corresponding
 eigenvectors.
@@ -1148,7 +1148,7 @@ Let's compute the Cholesky decomposition of
 $$
 B = \begin{pmatrix} 1 & -0.5 & 0.6 \\ -0.5 & 1 & 0.25 \\ 0.6 & 0.25 & 1 \end{pmatrix}
 $$ 
-using the `R` function `chol()`:
+using the R function `chol()`:
 
 ```{r}
 B = matrix(c(1, -0.5, 0.6, -0.5, 1, 0.25, 0.6, 0.25, 1), ncol=3)

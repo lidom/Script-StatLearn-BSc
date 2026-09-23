@@ -71,7 +71,7 @@ is then a very good estimate of the (unknown) true $\operatorname{SE}(\hat\alpha
 
 Indeed, by the law of large numbers this sample standard deviation consistently estimates the true $\operatorname{SE}(\hat\alpha)$ as $B\to\infty,$ provided that we sample from the **true** population distribution $F_{(X,Y)}.$ 
 
-`R` code for doing this Monte Carlo simulation:
+R code for doing this Monte Carlo simulation:
 ```{r}
 suppressPackageStartupMessages(library("MASS")) # for mvrnorm()
 
@@ -617,7 +617,7 @@ The $p$-values only show statistical significance of the linear and the quadrati
 
 
 
-## Self-Study: `R`-Lab Resampling Methods
+## Self-Study: R Lab Resampling Methods
 
 In this lab, we explore the resampling techniques covered in this chapter. Some of the commands in this lab may take a while to run on your computer.
 
@@ -625,7 +625,7 @@ In this lab, we explore the resampling techniques covered in this chapter. Some 
 
 We explore the use of the validation set approach in order to estimate the test error rates that result from fitting various linear models on the `Auto` data set.
 
-Before we begin, we use the `set.seed()` function in order to set a for `R`'s random number generator, so that the (pseudo) random data splits are reproducible. 
+Before we begin, we use the `set.seed()` function in order to set a for R's random number generator, so that the (pseudo) random data splits are reproducible. 
 
 We begin by using the `sample()` function to split the set of observations into two halves, by selecting a random subset of $196$ observations out of the original $392$ observations. We  refer to these observations as the training set.
 
@@ -773,7 +773,7 @@ We illustrate the use of the bootstrap revisiting the portfolio choice example f
 
 #### Estimating the Accuracy of a Statistic of Interest
 
-One of the great advantages of the bootstrap approach is that it can be applied in almost all situations. No complicated mathematical calculations are required. Performing a bootstrap analysis in `R` entails only two steps: 
+One of the great advantages of the bootstrap approach is that it can be applied in almost all situations. No complicated mathematical calculations are required. Performing a bootstrap analysis in R entails only two steps: 
 
 * First, we must create a function that computes the statistic of
 interest. 
@@ -792,7 +792,7 @@ alpha_fn <- function(data, index) {
 }
 ```
 
-This function returns an  estimate for $\alpha$ based on applying @eq-alpha to the observations indexed by the argument `index`. For instance, the following command tells `R` to estimate $\alpha$ using all of the $100$ observations.
+This function returns an  estimate for $\alpha$ based on applying @eq-alpha to the observations indexed by the argument `index`. For instance, the following command tells R to estimate $\alpha$ using all of the $100$ observations.
 ```{r chunk12}
 alpha_fn(data  = Portfolio, 
          index = 1:100) # complete original dataset

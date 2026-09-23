@@ -1,0 +1,56 @@
+\begin{question}
+\textbf{Joint, marginal and conditional distributions}
+
+An online shop classifies its customers by $X\in\{0,1\}$, where $X=0$ denotes a new customer and $X=1$ a returning customer. Let $Y\in\{1,2,3\}$ denote the number of items a customer buys. The joint probability mass function $p_{Y,X}(y,x)=P(Y=y,\,X=x)$ is given by
+\begin{center}
+\begin{tabular}{c|ccc}
+ & $Y=1$ & $Y=2$ & $Y=3$\\ \hline
+$X=0$ & 0.20 & 0.15 & 0.05\\
+$X=1$ & 0.10 & 0.25 & 0.25
+\end{tabular}
+\end{center}
+For discrete random variables, all formulas for densities carry over with sums instead of integrals. For instance, the conditional pmf is $p_{Y\mid X}(y\mid x) = p_{Y,X}(y,x)/p_X(x)$.
+
+\begin{parts}
+\item Check that $p_{Y,X}$ is a valid joint probability mass function.
+\item Compute the marginal pmfs $p_X(x)$ and $p_Y(y)$.
+\item Compute the conditional pmf of $Y$ given $X=0$, and the conditional pmf of $Y$ given $X=1$.
+\item Compute the conditional means $E(Y\mid X=0)$ and $E(Y\mid X=1)$, as well as the unconditional mean $E(Y)$. Interpret the results.
+\item Are $Y$ and $X$ independent? Justify your answer.
+\end{parts}
+\end{question}
+
+\begin{solution}
+\begin{parts}
+\item All entries are non-negative, and $0.20+0.15+0.05+0.10+0.25+0.25 = 1$.
+\item Marginal pmfs are row and column sums:
+$$
+p_X(0) = 0.20+0.15+0.05 = 0.40,\qquad p_X(1) = 0.10+0.25+0.25 = 0.60,
+$$
+$$
+p_Y(1) = 0.30,\qquad p_Y(2) = 0.40,\qquad p_Y(3) = 0.30.
+$$
+\item Divide each row by its row sum:
+\begin{center}
+\begin{tabular}{c|ccc}
+ & $y=1$ & $y=2$ & $y=3$\\ \hline
+$p_{Y\mid X}(y\mid 0)$ & $0.20/0.40=0.500$ & $0.15/0.40=0.375$ & $0.05/0.40=0.125$\\
+$p_{Y\mid X}(y\mid 1)$ & $0.10/0.60\approx0.167$ & $0.25/0.60\approx0.417$ & $0.25/0.60\approx0.417$
+\end{tabular}
+\end{center}
+Each row sums to one; a conditional pmf is itself a proper pmf.
+\item
+\begin{align*}
+E(Y\mid X=0) &= 1\cdot 0.500 + 2\cdot 0.375 + 3\cdot 0.125 = 1.625,\\
+E(Y\mid X=1) &= 1\cdot \tfrac{1}{6} + 2\cdot \tfrac{5}{12} + 3\cdot \tfrac{5}{12} = \tfrac{27}{12} = 2.25,\\
+E(Y) &= 1\cdot 0.30 + 2\cdot 0.40 + 3\cdot 0.30 = 2.
+\end{align*}
+On average, new customers buy $1.625$ items and returning customers $2.25$ items. The conditional mean $E(Y\mid X=x)$ as a function of $x$ is the regression function: it tells us how the average number of items changes with the customer type.
+\item No. For independence we would need $p_{Y,X}(y,x) = p_Y(y)\,p_X(x)$ for \emph{all} $(y,x)$. But, e.g., $p_{Y,X}(1,0) = 0.20 \neq p_Y(1)\,p_X(0) = 0.30\cdot 0.40 = 0.12$. Equivalently: the conditional pmfs in (c) differ from each other (and from $p_Y$), so knowing $X$ changes the distribution of $Y$.
+\end{parts}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{string}
+%% \exsolution{nil}
+%% \exname{ProbStats_Hand_08_JointConditional}

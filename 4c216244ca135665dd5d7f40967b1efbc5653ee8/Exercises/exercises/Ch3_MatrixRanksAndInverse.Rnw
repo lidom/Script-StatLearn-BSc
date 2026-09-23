@@ -1,0 +1,144 @@
+\begin{question}
+
+\begin{enumerate}
+\item Determine the rank of the following matrix:
+$$
+A =
+\begin{bmatrix}
+  1 & 0 & 3  & 2 \\
+  5 & 0 & -1 & -6 \\
+  4 & 0 & 2  & -2 \\
+\end{bmatrix}
+$$
+
+\item Determine the rank of the following matrix:
+$$
+B = 
+\begin{bmatrix}
+  1 & -1 \\
+  -1 & 0 \\
+\end{bmatrix}
+$$
+
+
+\item Compute the inverse of the following matrix:
+$$
+C =
+\begin{bmatrix}
+4 & 7\\
+2 & 6\\
+\end{bmatrix}
+$$
+\end{enumerate}
+\end{question}
+
+
+
+
+
+
+\begin{solution}
+% \begin{itemize}
+% \item The rank of a matrix can be defined as the maximal number of linearly independent columns of the matrix.
+% \item If $\bm A$ is a $(n\times m)$ dimensional matrix, then $\operatorname{rank}(\bm A)\leq \min\{m,n\}$.
+% \item The column rank and the row rank are always equal. So, it is sufficient to check either the columns or the rows.
+% \item A column vector is said to be linearly dependent if it can be written as a linear combination of the other column vectors.
+% \item A $(n\times n)$ matrix is invertible if it has full rank $n$. 
+% \end{itemize}
+
+\textbf{Remember:}
+% A set of column vectors $\{\mathbf{v}_1,\dots,\mathbf{v}_p\}$ is said to be linearly independent if the vector equation
+% $$
+% c_1\mathbf{v}_1+\dots+c_p\mathbf{v}_p=0
+% $$
+% has only the trivial solution $c_1=\dots=c_p=0$. Otherwise, the set of column vectors is linearly dependent.
+
+\begin{enumerate}
+\item  The $(3\times 4)$ Matrix $A$ has rank 2, i.e., there are two linear dependencies: 
+\begin{itemize}
+\item A first linear dependency is due to the zero vector in the second column, $A_2$, of $A$. The vector equation
+$$
+c_1 A_1+\dots+c_p A_p=0
+$$
+is here fulfilled, for instance, by $c_1=c_3=c_4=0$ and any $c_2\neq 0$.
+\item A second linear dependency is due to the fact that the first column, $A_1$, of $A$ multiplied by $-1$ plus the third column, $A_3$, of $A$ equals the fourth column, $A_4$, of $A$. I.e., the vector equation
+$$
+c_1 A_1+\dots+c_p A_p=0
+$$
+is here fulfilled by $c_1=-1$, $c_2=0$, $c_3=1$, $c_4=-1$.
+\end{itemize}
+
+\item The $(2\times 2)$ Matrix $B$ has rank 2 since both column vectors, $B_1$ and $B_2$, are linearly independent.
+
+\bigskip
+
+\textbf{Side-Note:} One can compute the rank of a matrix using \textsf{R} as following:
+<<echo=TRUE>>=
+# install.packages("Matrix")
+library("Matrix")
+A <- rbind(c(1, 0, 3, 2),
+           c(5, 0,-1,-6),
+           c(4, 0, 2,-2))
+B <- rbind(c(1, -1),
+           c(-1, 0))
+rankMatrix(A)[1]
+rankMatrix(B)[1]
+@
+
+
+
+\item Generally, the inverse of a $(2\times 2)$ matrix is given by
+$$
+\begin{bmatrix}
+a & b\\
+c & d\\
+\end{bmatrix}^{-1} 
+= \frac{1}{ad - bc} 
+\begin{bmatrix}
+d  & -b\\
+-c & a\\
+\end{bmatrix},
+$$
+where $ad - bc$ is the determinant of the matrix, which has to be non-zero, otherwise the matrix is not invertible.  
+
+\bigskip
+
+The inverse of $C$ is given by
+\begin{align*}
+\begin{bmatrix}
+4 & 7\\
+2 & 6\\
+\end{bmatrix}^{-1} 
+& = \frac{1}{4\cdot 6 - 7\cdot 2} 
+\begin{bmatrix}
+6  & -7\\
+-2 & 4\\
+\end{bmatrix}\\
+&=\frac{1}{10}
+\begin{bmatrix}
+6  & -7\\
+-2 & 4\\
+\end{bmatrix}\\
+&=
+\begin{bmatrix}
+0.6  & -0.7\\
+-0.2 & 0.4\\
+\end{bmatrix}
+\end{align*}
+
+\textbf{Side-Note:} One can compute the inverse of a matrix using \textsf{R} as following:
+<<echo=TRUE>>=
+C <- rbind(c(4, 7),
+           c(2, 6))
+solve(C)
+@
+
+
+\end{enumerate}
+\end{solution}
+
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{0}
+%% \exname{Ch3_MatrixRanksAndInverse}

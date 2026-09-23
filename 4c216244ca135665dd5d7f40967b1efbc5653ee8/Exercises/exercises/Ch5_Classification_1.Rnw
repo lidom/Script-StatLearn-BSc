@@ -1,0 +1,70 @@
+<<>>=
+# Set seed for reproducibility
+set.seed(123)
+
+# Sample size
+n <- 100000
+
+# Generate predictor
+X <- rnorm(n, mean = 0, sd = 1)
+
+# True coefficients
+beta_0 <- -2.4
+beta_1 <- 0.8
+
+# Generate probabilities
+p <- 1 / (1 + exp(-(beta_0 + beta_1 * X)))
+
+# Generate binary outcome
+Y <- rbinom(n, size = 1, prob = p)
+
+# Fit logistic regression
+fit <- glm(Y ~ X, family = binomial)
+
+# Parameter estimates
+
+beta_hat_0 <- round(fit$coefficients, 1)[1]
+beta_hat_1 <- round(fit$coefficients, 1)[2]
+@
+
+
+\begin{question}
+A researcher fits a logistic regression model to predict a binary outcome variable $Y\in\{0,1\}$ using a single $(p=1)$ predictor variable $X$.\\[1ex] %The model is thus specified as follows:
+The values of the parameter estimates are $\hat\beta_0=\Sexpr{beta_hat_0}$ and $\hat\beta_1=\Sexpr{beta_hat_1}$.
+\begin{answerlist}
+\item Write down the fitted logistic regression model for $\widehat{P}(Y=1|X=x)$.
+\item Compute the value $x$ of the predictor such that $\widehat{P}(Y=1|X=x)=\widehat{P}(Y=0|X=x)$.
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+\begin{answerlist}
+\item The fitted logistic regression model for $\widehat{P}(Y=1|X=x)$ is given by
+\begin{align*}
+\widehat{P}(Y=1|X=x)
+&=\frac{1}{1+\exp(-(\hat\beta_0+\hat\beta_1 x))}\\
+&=\frac{1}{1+\exp(-(\Sexpr{beta_hat_0}+\Sexpr{beta_hat_1} \cdot x))}.
+\end{align*}
+
+\item To compute the value $x$ of the predictor such that $\widehat{P}(Y=1|X=x)=\widehat{P}(Y=0|X=x)$, observe that
+\begin{align*}
+\widehat{P}(Y=1|X=x) &= \widehat{P}(Y=0|X=x) = 0.5
+\end{align*}
+holds true. Thus, we have to solve the equation
+\begin{align*}
+\widehat{P}(Y=1|X=x)                                                 & = 0.5\\
+\Leftrightarrow\quad \frac{1}{1+\exp(-(\hat\beta_0+\hat\beta_1 x))}  & = 0.5\\
+\Leftrightarrow\quad \exp(-(\hat\beta_0+\hat\beta_1 x))              & = 1\\
+\Leftrightarrow\quad -(\hat\beta_0+\hat\beta_1 x)                    & = \ln(1)\\
+\Leftrightarrow\quad -\hat\beta_0-\hat\beta_1 x                      & = 0\\
+\Leftrightarrow\quad \frac{-\hat\beta_0}{\hat\beta_1}                & = x\\
+\Leftrightarrow\quad \frac{\Sexpr{-1*beta_hat_0}}{\Sexpr{beta_hat_1}}& = x\\
+\Leftrightarrow\quad \Sexpr{-1*beta_hat_0/beta_hat_1}                & = x\\
+\end{align*}
+\end{answerlist}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{0}
+%% \exname{Ex_Ch5_1}

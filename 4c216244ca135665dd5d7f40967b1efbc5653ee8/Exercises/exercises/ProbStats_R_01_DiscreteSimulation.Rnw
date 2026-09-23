@@ -1,0 +1,65 @@
+\begin{question}
+\textbf{Simulating a discrete random variable}
+
+The number of customer complaints $W$ that a small company receives per day has the probability mass function
+\begin{center}
+\begin{tabular}{c|ccccc}
+$w_k$ & 0 & 1 & 2 & 3 & 4\\ \hline
+$p_W(w_k)$ & 0.10 & 0.25 & 0.30 & 0.20 & 0.15
+\end{tabular}
+\end{center}
+
+\begin{parts}
+\item Compute $E(W)=\sum_k w_k\,p_W(w_k)$ and $\operatorname{Var}(W)=\sum_k (w_k-E(W))^2\,p_W(w_k)$ in R using the vectors \texttt{w <- 0:4} and \texttt{p <- c(0.10, 0.25, 0.30, 0.20, 0.15)}.
+\item Use \texttt{sample()} to simulate the number of complaints on $n=1000$ days.
+\item Estimate the pmf by relative frequencies and compare with the true pmf. Draw a bar plot of the relative frequencies with \texttt{barplot()}.
+\item Compute the sample mean and the sample variance of your simulated data and compare them with the true values from (a).
+\item Repeat (b)--(d) with $n=20$ days. What do you observe?
+\end{parts}
+\end{question}
+
+\begin{solution}
+\begin{parts}
+\item
+<<echo=TRUE>>=
+w <- 0:4
+p <- c(0.10, 0.25, 0.30, 0.20, 0.15)
+EW   <- sum(w * p)
+VarW <- sum((w - EW)^2 * p)
+c(EW, VarW)
+@
+\item
+<<echo=TRUE>>=
+n     <- 1000
+w_sim <- sample(w, size = n, replace = TRUE, prob = p)
+@
+\item
+\setkeys{Gin}{width=0.55\textwidth}
+<<barplot, echo=TRUE, fig=TRUE, height=3.5, width=6, eps=FALSE>>=
+p_hat <- table(factor(w_sim, levels = w)) / n
+rbind(p_hat, p)
+barplot(p_hat, xlab = "Number of complaints", ylab = "Relative frequency")
+@
+
+The relative frequencies are close to the true probabilities.
+\item
+<<echo=TRUE>>=
+mean(w_sim)
+var(w_sim)
+@
+Both are close to $E(W)=2.05$ and $\operatorname{Var}(W)=1.4475$.
+\item
+<<echo=TRUE>>=
+w_sim20 <- sample(w, size = 20, replace = TRUE, prob = p)
+table(factor(w_sim20, levels = w)) / 20
+mean(w_sim20)
+var(w_sim20)
+@
+With only $n=20$ days, the estimates are much further away from the true values, and they change a lot from simulation to simulation. The larger $n$, the more precise the estimates (Law of Large Numbers).
+\end{parts}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{string}
+%% \exsolution{nil}
+%% \exname{ProbStats_R_01_DiscreteSimulation}

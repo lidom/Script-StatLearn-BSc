@@ -1,0 +1,28 @@
+\begin{question}
+\textbf{Independence}
+
+Let $Y$ and $X$ be two continuous random variables with joint density $f_{Y,X}$, marginal densities $f_Y$ and $f_X$, and conditional density $f_{Y\mid X}$. Which statement is correct?
+\begin{answerlist}
+\item If $Y$ and $X$ are independent, then $f_{Y\mid X}(y\mid x) = f_Y(y)$ for all $y$ and $x$.
+\item If $\operatorname{Cor}(X,Y)=0$, then $Y$ and $X$ are always independent.
+\item If $Y$ and $X$ are independent, then $f_{Y,X}(y,x) = f_Y(y) + f_X(x)$.
+\item If $Y$ and $X$ are independent, then $\operatorname{Cor}(X,Y)=1$.
+\item $Y$ and $X$ are independent if $E(Y)=E(X)$.
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+\begin{answerlist}
+\item True. Under independence, knowing $X=x$ does not change the distribution of $Y$.
+\item False. A correlation of zero only means that there is no \emph{linear} association; a non-linear relationship may still exist.
+\item False. Independence means that the joint density is the \emph{product} $f_Y(y)\cdot f_X(x)$.
+\item False. Independent random variables have correlation $0$ (not $1$).
+\item False. Equal means say nothing about whether the variables are related.
+\end{answerlist}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{10000}
+%% \exshuffle{TRUE}
+%% \exname{ProbStats_MC_12_Independence}

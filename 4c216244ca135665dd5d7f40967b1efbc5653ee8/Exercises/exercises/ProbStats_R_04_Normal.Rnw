@@ -1,0 +1,55 @@
+\begin{question}
+\textbf{The normal distribution in R}
+
+A machine fills coffee into cups. The filled amount $X$ (in ml) is normally distributed with $\mu=200$ and $\sigma=5$.
+
+\begin{parts}
+\item Use \texttt{pnorm()} to compute $P(X<190)$ and $P(195\leq X\leq 205)$.
+\item Use \texttt{qnorm()} to find the amount $x$ that is undercut by only 5\% of all cups.
+\item Standardize: compute $P(X<190)$ a second time using \texttt{pnorm()} with its default arguments \texttt{mean = 0} and \texttt{sd = 1}.
+\item Simulate $10{,}000$ fillings with \texttt{rnorm()}. Estimate $P(X<190)$ and the 5\% quantile from the simulated values (\emph{hint:} \texttt{mean()} of a logical vector and \texttt{quantile()}), and compare with (a) and (b).
+\item Plot the densities of $\mathcal{N}(200, 5^2)$, $\mathcal{N}(210, 5^2)$ and $\mathcal{N}(200, 10^2)$ in one plot using \texttt{curve()} and \texttt{dnorm()}. How do $\mu$ and $\sigma$ change the shape?
+\end{parts}
+\end{question}
+
+\begin{solution}
+\begin{parts}
+\item
+<<echo=TRUE>>=
+pnorm(190, mean = 200, sd = 5)
+pnorm(205, mean = 200, sd = 5) - pnorm(195, mean = 200, sd = 5)
+@
+\item
+<<echo=TRUE>>=
+qnorm(0.05, mean = 200, sd = 5)
+@
+\item
+<<echo=TRUE>>=
+pnorm((190 - 200) / 5)
+@
+\item
+<<echo=TRUE>>=
+x_sim <- rnorm(10000, mean = 200, sd = 5)
+mean(x_sim < 190)          # relative frequency of cups below 190 ml
+quantile(x_sim, 0.05)      # empirical 5% quantile
+@
+Both are close to the exact values from (a) and (b).
+\item
+\setkeys{Gin}{width=0.55\textwidth}
+<<normplot, echo=TRUE, fig=TRUE, height=3.5, width=6, eps=FALSE>>=
+curve(dnorm(x, mean = 200, sd = 5),  from = 170, to = 240,
+      lwd = 2, xlab = "x", ylab = "Density")
+curve(dnorm(x, mean = 210, sd = 5),  add = TRUE, lwd = 2, col = "red")
+curve(dnorm(x, mean = 200, sd = 10), add = TRUE, lwd = 2, col = "blue")
+legend("topright", legend = c("N(200, 25)", "N(210, 25)", "N(200, 100)"),
+       col = c("black", "red", "blue"), lwd = 2, bty = "n")
+@
+
+Changing $\mu$ shifts the bell curve (location); a larger $\sigma$ makes it wider and flatter (spread).
+\end{parts}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{string}
+%% \exsolution{nil}
+%% \exname{ProbStats_R_04_Normal}

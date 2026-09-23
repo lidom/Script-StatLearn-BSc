@@ -1,0 +1,85 @@
+\begin{question}
+
+Consider the matrix
+$$
+X =
+\begin{bmatrix}
+  X_1'\\ 
+  X_2'\\
+  \vdots \\
+  X_n'\\
+\end{bmatrix}
+% \begin{bmatrix}
+%   X_1 & X_2 & \cdots & X_n \\
+% \end{bmatrix}',
+$$
+where $X_1,X_2,\ldots,X_n\in\R^K$ are column vectors. Show that
+$$
+\sum_{i=1}^{n} X_iX'_i = X'X\,.
+$$
+
+\end{question}
+
+\begin{solution}
+
+First, let us check how $X$ looks like and what dimension this matrix has:
+\begin{align*}
+X &=
+% \begin{bmatrix}
+%   \underset{(K\times 1)}{X_1} & \underset{(K\times 1)}{X_2} & \cdots & \underset{(K\times 1)}{X_n} \\
+% \end{bmatrix}'\\
+% &=
+\begin{bmatrix}
+  \underset{(1\times K)}{X_1'} \\ 
+  \underset{(1\times K)}{X_2'} \\
+  \vdots \\
+  \underset{(1\times K)}{X_n'} \\
+\end{bmatrix}
+=
+%\underset{(n\times K)}{
+\begin{bmatrix}
+  X_{11}&\cdots&X_{1K} \\ 
+  \vdots&\ddots      &\vdots \\
+  X_{n1}&\cdots&X_{nK} \\ 
+\end{bmatrix}%}
+\end{align*}
+OK, $X$ is a $(n \times K)$ matrix. 
+
+\bigskip
+
+Now, we can show that $X'X=\sum_{i=1}^nX_iX_i'$:
+\begin{align*}
+\underset{(K\times K)}{X'X}
+=& 
+\begin{bmatrix}
+  X_1'\\ 
+  X_2'\\
+  \vdots \\
+  X_n'\\
+\end{bmatrix}'\; 
+\begin{bmatrix}
+  X_1'\\ 
+  X_2'\\
+  \vdots \\
+  X_n'\\
+\end{bmatrix}\\  
+=& \begin{bmatrix}
+  \underset{(K\times 1)}{X_1} & \underset{(K\times 1)}{X_2} & \cdots & \underset{(K\times 1)}{X_n} \\
+\end{bmatrix}\; \begin{bmatrix}
+  \underset{(1\times K)}{X_1'} \\
+  \underset{(1\times K)}{X_2'} \\
+  \vdots\\
+  \underset{(1\times K)}{X_n'} \\
+\end{bmatrix}\\
+=&\underset{(K\times K)}{X_1X_1'}+\underset{(K\times K)}{X_2X_2'}+\cdots+\underset{(K\times K)}{X_nX_n'}\\
+=& \sum_{i=1}^{n}X_iX_i'
+\end{align*}
+
+
+\end{solution}
+
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{0}
+%% \exname{Ch3_MatrixTranspositionsAndSums}

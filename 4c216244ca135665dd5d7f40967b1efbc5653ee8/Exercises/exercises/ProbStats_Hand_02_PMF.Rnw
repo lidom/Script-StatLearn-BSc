@@ -1,0 +1,81 @@
+<<echo=FALSE, results=hide>>=
+## DATA GENERATION
+w <- 0:4
+probs_list <- list(c(0.10, 0.25, 0.30, 0.20, 0.15),
+                   c(0.15, 0.30, 0.25, 0.20, 0.10),
+                   c(0.05, 0.20, 0.35, 0.25, 0.15),
+                   c(0.20, 0.30, 0.25, 0.15, 0.10))
+p    <- probs_list[[sample(length(probs_list), 1)]]
+miss <- sample(2:4, 1)             # position of the unknown probability c
+p_shown <- fmt(p, 2)
+p_shown[miss] <- "$c$"
+
+cost_per  <- sample(c(20, 30, 40, 50), 1)   # EUR per complaint
+cost_fix  <- sample(c(100, 150, 200), 1)    # fixed EUR per day
+
+## SOLUTIONS
+c_val   <- p[miss]
+P_ge2   <- sum(p[w >= 2])
+P_le1   <- sum(p[w <= 1])
+EW      <- sum(w * p)
+VarW    <- sum((w - EW)^2 * p)
+SDW     <- sqrt(VarW)
+E_cost  <- cost_fix + cost_per * EW
+SD_cost <- cost_per * SDW
+@
+
+\begin{question}
+\textbf{Probability mass function, mean and variance}
+
+Let $W$ denote the number of customer complaints that a small company receives on a randomly chosen day. $W$ has the following probability mass function:
+\begin{center}
+\begin{tabular}{c|ccccc}
+$w_k$ & 0 & 1 & 2 & 3 & 4\\ \hline
+$p_W(w_k)$ & \Sexpr{p_shown[1]} & \Sexpr{p_shown[2]} & \Sexpr{p_shown[3]} & \Sexpr{p_shown[4]} & \Sexpr{p_shown[5]}
+\end{tabular}
+\end{center}
+
+\begin{parts}
+\item Determine $c$ such that $p_W$ is a valid probability mass function.
+\item Compute $P(W\geq 2)$ and $P(W\leq 1)$.
+\item Compute the expected number of complaints per day, $E(W)$.
+\item Compute the variance $\operatorname{Var}(W)$ and the standard deviation $\operatorname{SD}(W)$.
+\item Each complaint costs the company \Sexpr{cost_per}~EUR. In addition, the complaint hotline has fixed costs of \Sexpr{cost_fix}~EUR per day. Thus the daily costs are $K = \Sexpr{cost_fix} + \Sexpr{cost_per}\,W$. Compute $E(K)$ and $\operatorname{SD}(K)$.
+\end{parts}
+\end{question}
+
+\begin{solution}
+\begin{parts}
+\item The probabilities must add up to one:
+$c = 1 - (\text{sum of the other four probabilities}) = \Sexpr{fmt(c_val, 2)}$.
+\item $P(W\geq 2) = p_W(2)+p_W(3)+p_W(4) = \Sexpr{fmt(P_ge2, 2)}$ and
+$P(W\leq 1) = p_W(0)+p_W(1) = \Sexpr{fmt(P_le1, 2)}$.\\
+Check: $P(W\leq 1) = 1 - P(W\geq 2)$.
+\item
+$$
+E(W) = \sum_{k} w_k\,p_W(w_k)
+= 0\cdot \Sexpr{fmt(p[1],2)} + 1\cdot \Sexpr{fmt(p[2],2)} + 2\cdot \Sexpr{fmt(p[3],2)} + 3\cdot \Sexpr{fmt(p[4],2)} + 4\cdot \Sexpr{fmt(p[5],2)}
+= \Sexpr{fmt(EW, 2)}.
+$$
+\item
+\begin{align*}
+\operatorname{Var}(W) &= \sum_{k} (w_k - E(W))^2\,p_W(w_k)\\
+&= (0-\Sexpr{fmt(EW,2)})^2\cdot \Sexpr{fmt(p[1],2)} + (1-\Sexpr{fmt(EW,2)})^2\cdot \Sexpr{fmt(p[2],2)} + (2-\Sexpr{fmt(EW,2)})^2\cdot \Sexpr{fmt(p[3],2)}\\
+&\phantom{=}+ (3-\Sexpr{fmt(EW,2)})^2\cdot \Sexpr{fmt(p[4],2)} + (4-\Sexpr{fmt(EW,2)})^2\cdot \Sexpr{fmt(p[5],2)}\\
+&= \Sexpr{fmt(VarW, 4)},
+\end{align*}
+and $\operatorname{SD}(W) = \sqrt{\Sexpr{fmt(VarW, 4)}} \approx \Sexpr{fmt(SDW, 3)}$.
+\item Using $E(aW+b) = a\,E(W)+b$ and $\operatorname{SD}(aW+b)=|a|\operatorname{SD}(W)$:
+$$
+E(K) = \Sexpr{cost_fix} + \Sexpr{cost_per}\cdot \Sexpr{fmt(EW,2)} = \Sexpr{fmt(E_cost, 2)}\text{ EUR},
+\qquad
+\operatorname{SD}(K) = \Sexpr{cost_per}\cdot \Sexpr{fmt(SDW,3)} \approx \Sexpr{fmt(SD_cost, 2)}\text{ EUR}.
+$$
+The fixed costs shift the mean, but do not affect the spread.
+\end{parts}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{string}
+%% \exsolution{nil}
+%% \exname{ProbStats_Hand_02_PMF}

@@ -1,0 +1,37 @@
+<<echo=FALSE, results=hide>>=
+repeat {
+  v <- sample(c(2, 3, 4, 5, 6, 9), 1)       # Var(X)
+  k <- sample(c(2, 3, 4), 1)                # factor (negative)
+  a <- sample(c(5, 8, 10), 1)               # shift
+  ans <- c(k^2 * v, -k * v, k^2 * v + a, k * v, -k * v + a)
+  if (!any(duplicated(ans))) break
+}
+questions <- paste0("$", ans, "$")
+explanations <- c(
+  paste0("$\\operatorname{Var}(aX+b) = a^2\\operatorname{Var}(X) = (-", k, ")^2\\cdot ", v, " = ", ans[1], "$."),
+  "The factor must be squared. (A variance can never be negative.)",
+  "A constant shift does not change the variance.",
+  "The factor must be squared.",
+  "The factor must be squared, and a constant shift does not change the variance.")
+@
+
+\begin{question}
+\textbf{Variance of a linear transformation}
+
+Let $X$ be a random variable with $\operatorname{Var}(X)=\Sexpr{v}$. What is $\operatorname{Var}(-\Sexpr{k}X + \Sexpr{a})$?
+<<echo=FALSE, results=tex>>=
+answerlist(questions)
+@
+\end{question}
+
+\begin{solution}
+<<echo=FALSE, results=tex>>=
+answerlist(c("True", rep("False", 4)), explanations)
+@
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{10000}
+%% \exshuffle{TRUE}
+%% \exname{ProbStats_MC_07_VarLinear}

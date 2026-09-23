@@ -1,0 +1,28 @@
+\begin{question}
+\textbf{Law of Large Numbers}
+
+Let $X_1,\dots,X_n$ be an i.i.d.\ random sample with mean $E(X_i)=\mu$. What does the Law of Large Numbers say?
+\begin{answerlist}
+\item The sample mean $\bar X_{\operatorname{obs}}$ gets close to $\mu$ as the sample size $n$ grows.
+\item For large $n$, every single observation $X_{i,\operatorname{obs}}$ is close to $\mu$.
+\item For $n\geq 30$, the sample mean $\bar X_{\operatorname{obs}}$ is exactly equal to $\mu$.
+\item The variance of each $X_i$ decreases as $n$ grows.
+\item For large $n$, the observations $X_{1,\operatorname{obs}},\dots,X_{n,\operatorname{obs}}$ are approximately normally distributed.
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+\begin{answerlist}
+\item True. $\bar X_{\operatorname{obs}}\to E(X_i)=\mu$ as $n\to\infty$.
+\item False. The single observations keep their spread $\operatorname{Var}(X_i)$; only their \emph{average} settles down.
+\item False. For any finite $n$, the sample mean is an estimate and (almost always) differs from $\mu$.
+\item False. The distribution of each $X_i$ does not depend on the sample size.
+\item False. The distribution of the observations does not change with $n$. (The Central Limit Theorem is about the distribution of \emph{sums/averages}, not of the single observations.)
+\end{answerlist}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{10000}
+%% \exshuffle{TRUE}
+%% \exname{ProbStats_MC_17_LLN}

@@ -1,0 +1,65 @@
+<<echo=FALSE, results=hide>>=
+## DATA GENERATION
+n <- 8
+x <- sample(1:7, size = n, replace = TRUE, prob = c(1, 3, 3, 2, 2, 1, 1))
+x_vec <- paste(x, collapse = ", ")
+
+## QUESTION/ANSWER GENERATION
+eval_pts <- c(0, 2, 3.5, 6, 10)
+F_hat    <- ecdf(x)
+F_vals   <- F_hat(eval_pts)
+counts   <- sapply(eval_pts, function(a) sum(x <= a))
+P_gt3    <- 1 - F_hat(3)
+@
+
+\begin{question}
+\textbf{Empirical cumulative distribution function}
+
+A mail-order company records the delivery times (in days) of $n=\Sexpr{n}$ randomly selected orders:
+$$
+X_{1,\operatorname{obs}},\dots,X_{\Sexpr{n},\operatorname{obs}} = \Sexpr{x_vec}.
+$$
+
+\begin{parts}
+\item Compute the empirical cdf
+$\widehat F_{X,\operatorname{obs}}(x) = \frac{1}{n}\sum_{i=1}^n \mathbf{1}(X_{i,\operatorname{obs}}\leq x)$
+at the points $x = \Sexpr{paste(eval_pts, collapse = ",\\ ")}$.
+\item Sketch the empirical cdf $\widehat F_{X,\operatorname{obs}}(x)$ for $x\in[0,8]$. Where does it jump, and how large are the jumps?
+\item Use the empirical cdf to estimate the probability that a delivery takes more than 3 days.
+\item Estimate the probability mass function $p_X(k)$, $k=1,\dots,7$, by relative frequencies.
+\end{parts}
+\end{question}
+
+\begin{solution}
+\begin{parts}
+\item Count the observations that are smaller than or equal to $x$ and divide by $n=\Sexpr{n}$:
+\begin{center}
+\begin{tabular}{c|ccccc}
+$x$ & \Sexpr{paste(eval_pts, collapse = " & ")}\\ \hline
+number of $X_{i,\operatorname{obs}}\leq x$ & \Sexpr{paste(counts, collapse = " & ")}\\
+$\widehat F_{X,\operatorname{obs}}(x)$ & \Sexpr{paste(fmt(F_vals, 3), collapse = " & ")}
+\end{tabular}
+\end{center}
+\item $\widehat F_{X,\operatorname{obs}}$ is a step function that starts at $0$ and ends at $1$. It jumps at each observed value; the jump height at a value $k$ equals (number of observations equal to $k$)$/n$. Between the observed values it is constant.
+\setkeys{Gin}{width=0.55\textwidth}
+<<ecdfplot, echo=FALSE, fig=TRUE, height=3.5, width=6, eps=FALSE>>=
+plot(F_hat, xlim = c(0, 8), main = "",
+     xlab = "Delivery time (days)", ylab = expression(hat(F)["X,obs"](x)))
+@
+
+\item $\widehat P_{\operatorname{obs}}(X>3) = 1-\widehat F_{X,\operatorname{obs}}(3) = \Sexpr{fmt(P_gt3, 3)}$.
+\item The relative frequencies are:
+\begin{center}
+\begin{tabular}{c|ccccccc}
+$k$ & 1 & 2 & 3 & 4 & 5 & 6 & 7\\ \hline
+$\hat p_{X,\operatorname{obs}}(k)$ & \Sexpr{paste(fmt(tabulate(x, nbins = 7)/n, 3), collapse = " & ")}
+\end{tabular}
+\end{center}
+These are exactly the jump heights of the empirical cdf.
+\end{parts}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{string}
+%% \exsolution{nil}
+%% \exname{ProbStats_Hand_04_ECDF}

@@ -1,0 +1,52 @@
+\begin{question}
+\begin{answerlist}
+\item Prove that 
+$$
+\bar{X} = \arg\min_{a\in\mathbb{R}}\sum_{i=1}^n\left(X_i - a\right)^2
+$$
+where $\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i$ is the sample mean of the iid random sample $\{X_1,\dots,X_n\}$.
+\item Prove that 
+$$
+\sum_{i=1}^n\left(X_i - \bar{X}\right)^2 \leq \sum_{i=1}^n\left(X_i - \mu\right)^2,
+$$
+where $\mu=E(X_i)$ is the population mean of $X_1,\dots,X_n$.
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+\begin{answerlist}
+\item Let 
+$$
+\operatorname{RSS}(a) = \sum_{i=1}^n\left(X_i - a\right)^2.
+$$
+Taking the derivative with respect to $a$ yields:
+\begin{align*}
+\operatorname{RSS}'(a) 
+&= \sum_{i=1}^n 2\left(X_i - a\right)(-1)\\
+&= -2\sum_{i=1}^n X_i + \sum_{i=1}^n2a\\
+&= -2\sum_{i=1}^n X_i + 2n a\\
+\end{align*}
+Setting $\operatorname{RSS}'(a)$ equal to zero determines the minimizing argument, say $\tilde{a}$, of $\operatorname{RSS}(a)$:
+\begin{align*}
+\operatorname{RSS}'(\tilde{a}) &\stackrel{!}{=} 0\\
+-2\sum_{i=1}^n X_i + 2n\tilde{a} &\stackrel{!}{=} 0
+\end{align*}
+Solving for $\tilde{a}$ yields:
+\begin{align*}
+-2\sum_{i=1}^n X_i + 2n\tilde{a} &= 0\\
+n\tilde{a} &= \sum_{i=1}^n X_i\\
+\tilde{a} &= \frac{1}{n}\sum_{i=1}^n X_i= \bar{X}\\
+\end{align*}
+Thus, the minimizing argument of $\operatorname{RSS}(a) = \sum_{i=1}^n\left(X_i - a\right)^2$ is $\tilde{a} = \bar{X}$.
+\item Since $\bar{X} = \arg\min_{a\in\mathbb{R}}\sum_{i=1}^n\left(X_i - a\right)^2$, it follows that
+$$
+\sum_{i=1}^n\left(X_i - \bar{X}\right)^2 \leq \sum_{i=1}^n\left(X_i - \mu\right)^2,
+$$
+where $\mu=E(X_i)$ is the population mean of $X_1,\dots,X_n$.
+\end{answerlist}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{0}
+%% \exname{Ex_Ch3_1}

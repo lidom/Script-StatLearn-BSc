@@ -1,0 +1,32 @@
+<<echo=FALSE, results=hide>>=
+nu  <- sample(3:12, 1)
+ans <- c(2 * nu, nu, nu^2, sqrt(2 * nu), 2)
+questions <- paste0("$", fmt(ans, 2), "$")
+explanations <- c(
+  paste0("For $W\\sim\\chi^2_\\nu$: $E(W)=\\nu$ and $\\operatorname{Var}(W)=2\\nu = ", 2 * nu, "$."),
+  "This is the mean $E(W)=\\nu$.",
+  "This is $\\nu^2$; the variance is $2\\nu$.",
+  "This is the standard deviation $\\sqrt{2\\nu}$.",
+  "The variance depends on the degrees of freedom: $\\operatorname{Var}(W)=2\\nu$.")
+@
+
+\begin{question}
+\textbf{Chi-squared distribution}
+
+Let $Z_1,\dots,Z_{\Sexpr{nu}}$ be independent standard normal random variables and $W = Z_1^2+\dots+Z_{\Sexpr{nu}}^2$. What is $\operatorname{Var}(W)$?
+<<echo=FALSE, results=tex>>=
+answerlist(questions)
+@
+\end{question}
+
+\begin{solution}
+<<echo=FALSE, results=tex>>=
+answerlist(c("True", rep("False", 4)), explanations)
+@
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{10000}
+%% \exshuffle{TRUE}
+%% \exname{ProbStats_MC_14_ChisqMoments}

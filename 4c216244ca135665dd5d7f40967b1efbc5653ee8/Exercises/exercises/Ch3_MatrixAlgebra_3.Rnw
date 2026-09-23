@@ -1,0 +1,25 @@
+\begin{question}
+Let $A$ be a nonsingular $(m\times m)$ matrix. Simplify the expression as far as possible:
+$$
+\bigg( \frac{1}{\sqrt 2} A^{-1} \bigg( \frac{1}{\sqrt 2} (A^\top)^\top + \frac{\sqrt 2}{2} A \bigg) \bigg)^{-1}.
+$$
+\end{question}
+
+\begin{solution}
+\begin{align*}
+\bigg( \frac{1}{\sqrt 2} A^{-1} \bigg( \frac{1}{\sqrt 2} (A^\top)^\top + \frac{\sqrt 2}{2} A \bigg) \bigg)^{-1}
+&=
+\bigg(\frac{1}{\sqrt 2} A^{-1} \bigg( \frac{1}{\sqrt 2} A + \frac{1}{\sqrt 2} A \bigg) \bigg)^{-1}\qquad\qquad \left|\text{\footnotesize Using $(A^\top)^\top=A$ and $\frac{\sqrt 2}{2}=\frac{1}{\sqrt{2}}$}\right.\\
+&=
+\bigg(\underbrace{\frac{1}{\sqrt 2} A^{-1}}_{=\sqrt{2}^{-1}A^{-1}} \underbrace{\bigg( \frac{1}{\sqrt 2} A + \frac{1}{\sqrt 2} A \bigg)}_{=\sqrt{2}A} \bigg)^{-1}\\
+&=
+\bigg(\sqrt{2}^{-1}A^{-1} \sqrt{2}A \bigg)^{-1}\\
+&=
+\bigg(1\cdot I_m\bigg)^{-1} = I_m^{-1} = I_m\\
+\end{align*}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{0}
+%% \exname{Ex_Ch3_1}

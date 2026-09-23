@@ -1,0 +1,63 @@
+<<>>=
+Y_vec <- c(3, 1, 4)
+X_mat <- cbind(c(1, 1, 1), 
+               c(-2, 0, -2))
+
+P_X   <- X_mat %*% solve(t(X_mat) %*% X_mat) %*% t(X_mat)
+M_X   <- (diag(3) - P_X)
+resid_true    <-  M_X %*% Y_vec
+resid_false_1 <-  P_X %*% Y_vec
+
+RSS_true    <- t(resid_true)    %*% resid_true
+RSS_false_1 <- t(resid_false_1) %*% resid_false_1
+RSS_false_2 <- sum(abs(resid_true))
+RSS_false_3 <- RSS_true +1 
+@
+\begin{question}
+\begin{answerlist}
+Consider the linear regression model $Y=X\beta+\epsilon$. Let 
+$$
+Y=\begin{pmatrix}
+\Sexpr{Y_vec[1]}\\\Sexpr{Y_vec[2]}\\\Sexpr{Y_vec[3]}
+\end{pmatrix}
+\qquad\text{and let}\qquad
+M_X=
+\begin{pmatrix}
+\Sexpr{format(M_X[1,1],nsmall=1)} & \Sexpr{format(M_X[1,2],nsmall=1)} & \Sexpr{format(M_X[1,3],nsmall=1)}\\
+\Sexpr{format(M_X[2,1],nsmall=1)} & \Sexpr{format(M_X[2,2],nsmall=1)} & \Sexpr{format(M_X[2,3],nsmall=1)}\\
+\Sexpr{format(M_X[3,1],nsmall=1)} & \Sexpr{format(M_X[3,2],nsmall=1)} & \Sexpr{format(M_X[3,3],nsmall=1)}\\
+\end{pmatrix}
+$$
+What is the value of the residual sum of squares $\sum_{i=1}^3e_i^2$\;? 
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+\begin{answerlist}
+\begin{align*}
+  e 
+  & = M_X Y\\
+  & = 
+\begin{pmatrix}
+   \Sexpr{format(M_X[1,1],nsmall=1)} & \Sexpr{format(M_X[1,2],nsmall=1)} & \Sexpr{format(M_X[1,3],nsmall=1)}\\
+   \Sexpr{format(M_X[2,1],nsmall=1)} & \Sexpr{format(M_X[2,2],nsmall=1)} & \Sexpr{format(M_X[2,3],nsmall=1)}\\
+   \Sexpr{format(M_X[3,1],nsmall=1)} & \Sexpr{format(M_X[3,2],nsmall=1)} & \Sexpr{format(M_X[3,3],nsmall=1)}\\
+\end{pmatrix}
+\begin{pmatrix}
+  \Sexpr{Y_vec[1]}\\\Sexpr{Y_vec[2]}\\\Sexpr{Y_vec[3]}
+\end{pmatrix}
+=\begin{pmatrix}
+\Sexpr{resid_true[1]}\\\Sexpr{resid_true[2]}\\\Sexpr{resid_true[3]}.
+\end{pmatrix}
+\end{align*}
+Thus, 
+$$
+\sum_{i=1}^3e_i^2=\Sexpr{resid_true[1]^2}+\Sexpr{resid_true[2]^2}+\Sexpr{resid_true[3]^2}=\Sexpr{format(RSS_true,    nsmall=1)}.
+$$
+\end{answerlist}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{0}
+%% \exname{Ex_Ch3_1}

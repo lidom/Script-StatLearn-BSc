@@ -1,0 +1,37 @@
+<<echo=FALSE, results=hide>>=
+repeat {
+  sx <- sample(2:5, 1); sy <- sample(2:6, 1)
+  r  <- sample(c(-0.6, -0.4, 0.3, 0.5, 0.75), 1)
+  cxy <- r * sx * sy
+  ans <- c(r, cxy / (sx^2 * sy^2), cxy / sx^2, cxy / sy^2, cxy / (sx^2 + sy^2))
+  if (!any(duplicated(round(ans, 3))) && all(abs(ans[-1]) <= 1)) break
+}
+questions <- paste0("$", fmt(ans, 3), "$")
+explanations <- c(
+  paste0("$\\operatorname{Cor}(X,Y) = \\frac{\\operatorname{Cov}(X,Y)}{\\sqrt{\\operatorname{Var}(X)\\operatorname{Var}(Y)}} = \\frac{", fmt(cxy, 2), "}{\\sqrt{", sx^2, "\\cdot ", sy^2, "}} = \\frac{", fmt(cxy, 2), "}{", sx * sy, "} = ", fmt(r, 3), "$."),
+  "The denominator is the \\emph{square root} of the product of the variances.",
+  "The covariance must be divided by both standard deviations.",
+  "The covariance must be divided by both standard deviations.",
+  "The denominator is $\\sqrt{\\operatorname{Var}(X)\\operatorname{Var}(Y)}$, not the sum of the variances.")
+@
+
+\begin{question}
+\textbf{Correlation}
+
+Two random variables $X$ and $Y$ have $\operatorname{Var}(X)=\Sexpr{sx^2}$, $\operatorname{Var}(Y)=\Sexpr{sy^2}$ and $\operatorname{Cov}(X,Y)=\Sexpr{fmt(cxy, 2)}$. What is $\operatorname{Cor}(X,Y)$?
+<<echo=FALSE, results=tex>>=
+answerlist(questions)
+@
+\end{question}
+
+\begin{solution}
+<<echo=FALSE, results=tex>>=
+answerlist(c("True", rep("False", 4)), explanations)
+@
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{10000}
+%% \exshuffle{TRUE}
+%% \exname{ProbStats_MC_09_Correlation}

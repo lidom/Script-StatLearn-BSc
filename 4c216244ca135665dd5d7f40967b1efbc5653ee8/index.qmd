@@ -24,7 +24,7 @@ timetable %>% kbl() %>%  kable_styling()
 ### Lecture Material {-}
 
 * This online script
-* [Folder containing `R`-Scripts](https://www.dropbox.com/scl/fo/c5rxk0uf3zc3roa4mombz/AJjYeMsnAKlLa1jvq0ypQD0?rlkey=p5z412wdz2pxsxb22gsafuq4e&st=4o7vrvsi&dl=0)
+* [Folder containing R scripts](https://www.dropbox.com/scl/fo/c5rxk0uf3zc3roa4mombz/AJjYeMsnAKlLa1jvq0ypQD0?rlkey=p5z412wdz2pxsxb22gsafuq4e&st=4o7vrvsi&dl=0)
 * [eWhiteboard](https://www.dropbox.com/scl/fi/nf1us6pjjdurwjap5ykff/eWhiteBoard_BA_annotated.pdf?rlkey=pqty2slk8rzcmnodi8ezk8h8z&st=r7cxnxj3&dl=0) 
 
 ### Literature {-}
@@ -37,7 +37,7 @@ timetable %>% kbl() %>%  kable_styling()
 ### Exam {-}
 
 * Not relevant for the exam:
-   * `R`-codes that generate plots. These codes may be useful for your Bachelor thesis, however, they are not useful for the exam. 
+   * R code that generates plots. These codes may be useful for your Bachelor thesis, however, they are not useful for the exam. 
 🧌
 <!-- ### Exam {-}
 

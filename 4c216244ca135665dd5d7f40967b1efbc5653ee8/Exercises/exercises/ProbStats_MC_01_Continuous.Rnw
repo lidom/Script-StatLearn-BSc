@@ -1,0 +1,28 @@
+\begin{question}
+\textbf{Continuous random variables}
+
+Which of the following random variables is a \emph{continuous} random variable?
+\begin{answerlist}
+\item The time (in minutes) until the next customer enters a shop.
+\item The number of customers who enter a shop within one hour.
+\item The number of defective items in a delivery of 100 items.
+\item The payment method $\in\{\texttt{cash}, \texttt{card}\}$ of the next customer.
+\item The result of rolling a die.
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+\begin{answerlist}
+\item True. Time can take any value in an interval, e.g., $[0,\infty)$.
+\item False. A count $\in\{0,1,2,\dots\}$ is discrete.
+\item False. A count $\in\{0,1,\dots,100\}$ is discrete.
+\item False. Only two possible values: discrete (and not even numeric).
+\item False. Only the six values $1,\dots,6$: discrete.
+\end{answerlist}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{10000}
+%% \exshuffle{TRUE}
+%% \exname{ProbStats_MC_01_Continuous}

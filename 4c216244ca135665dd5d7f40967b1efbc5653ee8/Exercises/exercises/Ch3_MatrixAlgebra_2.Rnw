@@ -1,0 +1,103 @@
+\begin{question}
+\begin{answerlist}
+\item Let $A B = C$, where $$
+    A = \begin{pmatrix} 1 & 0 \\ 2 & 2 \end{pmatrix}, \quad
+    C = \begin{pmatrix} 1 & 3 \\ 2 & 5 \end{pmatrix}.
+    $$ Compute $B$.
+\item Let 
+$\delta$ and $\gamma$ be $c \times 1$ vectors, 
+$X$ be a $d \times c$ matrix, and
+$Y$ be a $c \times d$ matrix. 
+Determine the orders of
+\begin{itemize}
+\item    $X Y$, 
+\item    $Y X$,
+\item    $\gamma^\top \gamma$,
+\item    $\gamma \gamma^\top$, and
+\item    $\delta^\top Y X \gamma$.
+\end{itemize}
+Under which conditions do the expressions $Y^{-1}$ and
+    $\delta^\top Y X + \gamma^\top \gamma$
+    exist?
+\item Compute $\mathop{\mathrm{tr}}(\lambda R^\top R)$ for
+    $\lambda \in \mathbb R$ and $$
+    R = \begin{pmatrix} \frac{1}{4} & \frac{\sqrt 3}{4} \\ \frac{\sqrt 3}{4} & \frac{3}{4} \end{pmatrix}.
+    $$
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+\begin{answerlist}
+\item To solve the equation 
+$$
+AB=C 
+$$
+for $B$, we multiply both sides by $A^{-1}$ from the left:
+\begin{align*}
+A^{-1}AB & =A^{-1}C\\
+B & =A^{-1}C,
+\end{align*}
+where $A^{-1}$ exists, because because $\det(A)=\det\begin{pmatrix} 1 & 0 \\ 2 & 2 \end{pmatrix}=1\cdot 2 - 2\cdot 0 = 2\neq 0$. We have
+$$
+A^{-1}=\frac{1}{2}\begin{pmatrix} 2 & 0 \\ -2 & 1 \end{pmatrix},
+$$
+Thus
+$$
+B=
+A^{-1} C = 
+\frac{1}{2}\begin{pmatrix} 2 & 0 \\ -2 & 1 \end{pmatrix}
+\begin{pmatrix} 1 & 3 \\ 2 & 5    \end{pmatrix}=
+\begin{pmatrix} 1 & 3 \\ 0 & -1/2 \end{pmatrix}.
+$$
+\item The orders of the expressions are as follows:
+\begin{itemize}
+\item    $\underset{(d\times c)}{X}\underset{(c\times d)}{Y}$ has order $(d\times d)$. 
+\item    $\underset{(c\times d)}{Y} \underset{(d\times c)}{X}$ has order $(c\times c)$.
+\item    $\underset{(1\times c)}{\gamma^\top} \underset{(c\times 1)}{\gamma}$ has order $(1\times 1)$; is a scalar.
+\item    $\underset{(c\times 1)}{\gamma}  \underset{(1\times c)}{\gamma^\top}$ is a matrix of order $(c\times c)$, and
+\item    $\underset{(1\times c)}{\delta^\top} \underset{(c\times c)}{Y X} \underset{(c\times 1)}{\gamma}$ has order $(1\times 1)$; i.e.~is a scalar.
+\end{itemize}
+$Y^{-1}$ exists if $Y$ is a square, nonsingular matrix. \\[2ex]
+$\delta^\top Y X + \gamma^\top \gamma$ exists if the terms have compatible orders/dimensions:
+$$
+\underbrace{\underset{(1\times c)}{\delta^\top} \underset{(c\times d)}{Y} \underset{(d\times c)}{X}}_{(1\times c)} + \underbrace{\underset{(1\times c)}{\gamma^\top} \underset{(c\times 1)}{\gamma}}_{(1\times 1)}
+$$
+Since $\gamma^\top\gamma$ is a scalar, it must hold that $c=1$.
+\item 
+\begin{align*}
+\lambda R^\top R 
+&= 
+\lambda 
+\begin{pmatrix} \frac{1}{4} & \frac{\sqrt 3}{4} \\ 
+\frac{\sqrt 3}{4} & \frac{3}{4} \end{pmatrix}^\top
+\begin{pmatrix} \frac{1}{4} & \frac{\sqrt 3}{4} \\ 
+\frac{\sqrt 3}{4} & \frac{3}{4} \end{pmatrix}\\
+&= 
+\lambda 
+\begin{pmatrix} \frac{1}{4} & \frac{\sqrt 3}{4} \\ 
+\frac{\sqrt 3}{4} & \frac{3}{4} \end{pmatrix}
+\begin{pmatrix} \frac{1}{4} & \frac{\sqrt 3}{4} \\ 
+\frac{\sqrt 3}{4} & \frac{3}{4} \end{pmatrix} \\
+&= 
+\lambda 
+\begin{pmatrix} \frac{1}{4}\cdot \frac{1}{4} + \frac{\sqrt 3}{4}\cdot \frac{\sqrt 3}{4} &\quad \frac{1}{4}\cdot \frac{\sqrt 3}{4}+\frac{\sqrt 3}{4}\cdot\frac{3}{4} \\ 
+\frac{\sqrt 3}{4}\cdot \frac{1}{4}  + \frac{3}{4}\cdot\frac{\sqrt 3}{4}&\quad \frac{\sqrt 3}{4}\cdot \frac{\sqrt 3}{4} +  \frac{3}{4}\cdot \frac{3}{4}\end{pmatrix}\\
+&= 
+\lambda 
+\begin{pmatrix} \frac{1}{4} & \frac{\sqrt 3}{4}\\ 
+\frac{\sqrt 3}{4}           & \frac{3}{4}\end{pmatrix}\\
+&= 
+\begin{pmatrix} \frac{\lambda}{4} & \frac{\sqrt{3}\;\lambda }{4}\\ 
+\frac{\sqrt{3}\;\lambda}{4}           & \frac{3\lambda}{4}\end{pmatrix}
+\end{align*}
+Thus
+$$
+\mathop{\mathrm{tr}}(\lambda R^\top R)=\frac{\lambda}{4}+\frac{3\lambda}{4}=\lambda.
+$$
+\end{answerlist}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{0}
+%% \exname{Ex_Ch3_1}

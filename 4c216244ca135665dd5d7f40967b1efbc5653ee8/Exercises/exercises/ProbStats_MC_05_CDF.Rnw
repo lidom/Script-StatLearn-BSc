@@ -1,0 +1,46 @@
+<<echo=FALSE, results=hide>>=
+repeat {
+  b  <- sample(c(4, 5, 10), 1)                 # support [0, b]
+  pr <- combn(1:(b - 1), 2)                   # all pairs x1 < x2 inside (0, b)
+  j  <- sample(ncol(pr), 1); x1 <- pr[1, j]; x2 <- pr[2, j]
+  F  <- function(x) (x / b)^2
+  ans <- c(F(x2) - F(x1),     # correct
+           F(x2),             # forgot to subtract
+           1 - F(x1),         # P(X > x1)
+           (x2 - x1) / b,     # treated as uniform
+           F(x2 - x1))        # F of the difference
+  if (!any(duplicated(round(ans, 4)))) break
+}
+questions <- paste0("$", fmt(ans, 4), "$")
+explanations <- c(
+  paste0("$P(", x1, "<X\\leq ", x2, ") = F_X(", x2, ") - F_X(", x1, ") = (", x2, "/", b, ")^2 - (", x1, "/", b, ")^2 = ", fmt(ans[1], 4), "$."),
+  paste0("This is $F_X(", x2, ")=P(X\\leq ", x2, ")$; the probability $P(X\\leq ", x1, ")$ must be subtracted."),
+  paste0("This is $1-F_X(", x1, ")=P(X> ", x1, ")$."),
+  "This would be correct for a constant density on the interval, but here $F_X$ is not linear.",
+  paste0("$F_X(", x2, "-", x1, ")$ is not the probability of the interval; use $F_X(", x2, ")-F_X(", x1, ")$."))
+@
+
+\begin{question}
+\textbf{Probabilities from a cdf}
+
+The continuous random variable $X$ has the cumulative distribution function
+$$
+F_X(x) = \begin{cases} 0 & x<0\\ (x/\Sexpr{b})^2 & 0\leq x\leq \Sexpr{b}\\ 1 & x>\Sexpr{b}.\end{cases}
+$$
+What is $P(\Sexpr{x1} < X \leq \Sexpr{x2})$?
+<<echo=FALSE, results=tex>>=
+answerlist(questions)
+@
+\end{question}
+
+\begin{solution}
+<<echo=FALSE, results=tex>>=
+answerlist(c("True", rep("False", 4)), explanations)
+@
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{10000}
+%% \exshuffle{TRUE}
+%% \exname{ProbStats_MC_05_CDF}

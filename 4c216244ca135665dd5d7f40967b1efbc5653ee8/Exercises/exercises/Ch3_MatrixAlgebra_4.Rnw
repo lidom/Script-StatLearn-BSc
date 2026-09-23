@@ -1,0 +1,102 @@
+\begin{question}
+Consider the $n \times (p+1)$ matrix $X$ with
+$\mathop{\mathrm{rank}}(X) = p+1$. Moreover, let
+$P_X = X (X^{\top} X)^{-1} X^{\top}$,
+and let $M_X = I_n - P_X$
+\begin{answerlist}
+\item Determine the order of the following matrices: 
+\begin{itemize}
+\item $I_n$
+\item $X^{\top} X$
+\item $P_X$
+\item $M_X$
+\end{itemize}
+\item Which matrices from (a) are symmetric?
+\item Which matrices from (a) are idempotent?
+\item Compute the trace of $I_n$ and $P_X$.
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+\begin{answerlist}
+\item Matrix orders/dimensions:
+\begin{itemize}
+\item $I_n$ is $n \times n$
+\item $X^{\top} X$ is $(p+1) \times (p+1)$
+\item $P_X$ is $n \times n$
+\item $M_X$ is $n \times n$
+\end{itemize}
+\item Checking symmetry for each matrix:
+\begin{itemize}
+\item $I_n^{\top}=I_n$, thus $I_n$ is symmetric.
+\item $({\color{red}X^{\top}}X)^{\top} = X^{\top}{\color{red}X^{\top}}^{\top} = X^{\top}X$, thus $X^{\top}X$ is symmetric.
+\item Check for $P_X$:
+\begin{align*}
+P_X^{\top} 
+& = \left(X (X^{\top} X)^{-1} {\color{red}X^{\top}}\right)^{\top} \\
+& = \left(\left(X(X^{\top} X)^{-1}\right) \left({\color{red}X^{\top}}\right)\right)^{\top} \\
+& = {\color{red}X^{\top}}^{\top} \left(X(X^{\top} X)^{-1}\right)^{\top}  \\
+& = {\color{red}X}   \left((X^{\top} X)^{-1}\right)^{\top}X^{\top}  \\
+& = {\color{red}X}   \left((X^{\top} X)^{\top}\right)^{-1} X^{\top}  \\
+& = {\color{red}X}   \left(X^{\top} X\right)^{-1} X^{\top}  = P_X
+\end{align*}
+Thus $P_X$ is symmetric.
+\item Check for $M_X$:
+\begin{align*}
+M_X^{\top} 
+& = \left(I_n - P_X\right)^{\top} \\
+& = I_n^{\top} - P_X^{\top} \\
+& = I_n - P_X = M_X 
+\end{align*}
+Thus $M_X$ is symmetric.
+\end{itemize}
+\item Checking which matrices are idempotent:
+\begin{itemize}
+\item $I_n I_n = I_n$, thus $I_n$ is idempotent.
+\item Generally, $(X^{\top}X)(X^{\top}X)\neq (X^{\top}X)$. 
+Example: 
+$$
+(X^{\top}X)(X^{\top}X)=
+\begin{pmatrix} 2 & 2 \\ 2 & 2 \end{pmatrix} 
+\begin{pmatrix} 2 & 2 \\ 2 & 2 \end{pmatrix} = 
+\begin{pmatrix} 8 & 8 \\ 8 & 8 \end{pmatrix}
+$$
+Thus, $X^{\top}X$ is generally not idempotent.
+\item Check for $P_X$:
+\begin{align*}
+P_XP_X 
+& = X (X^{\top} X)^{-1}\underbrace{X^{\top} \; X (X^{\top} X)^{-1}}_{I_{(p+1)}}X^{\top}\\
+& = X (X^{\top} X)^{-1} I_{(p+1)} X^{\top}\\
+& = X (X^{\top} X)^{-1} X^{\top} =P_X
+\end{align*}
+Thus $P_X$ is idempotent.
+\item Check for $M_X$:
+\begin{align*}
+M_XM_X 
+& = (I_n - P_X)(I_n - P_X)            \\
+& = I_nI_n - I_nP_X - P_XI_n + P_XP_X \\
+& = I_n    - P_X    - P_X    + P_XP_X \\
+& = I_n    - P_X    - P_X    + P_X    \\
+& = I_n    - P_X              = M_X
+\end{align*}
+Thus $M_X$ is idempotent.
+\end{itemize}
+\item Computing the trace of $I_n$ and $P_X$:
+\begin{itemize}
+\item $\text{tr}(I_n) = \text{tr}\begin{pmatrix}
+1     & 0    &\dots&0\\
+0     & 1    &\dots&0\\
+\vdots&\vdots&\ddots&\vdots\\
+0&0&\dots&1
+\end{pmatrix} = n$
+\item $\text{tr}(P_X) 
+= \underbrace{\text{tr}\left({\color{red}X} (X^{\top} X)^{-1} X^{\top}\right) 
+= \text{tr}\left((X^{\top} X)^{-1} X^{\top}{\color{red}X}\right)}_{\text{trace trick}} = \text{tr}(I_{(p+1)}) = p+1$
+\end{itemize}
+\end{answerlist}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{0}
+%% \exname{Ex_Ch3_1}

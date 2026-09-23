@@ -1,0 +1,39 @@
+<<echo=FALSE, results=hide>>=
+n <- 4
+repeat {
+  x <- sample(1:10, n, replace = TRUE)
+  if (sum(x) %% n == 0 && var(x) > 0) {
+    ss  <- sum((x - mean(x))^2)
+    ans <- c(ss / (n - 1), ss / n, sqrt(ss / (n - 1)), ss, ss / (n - 1) / n)
+    if (!any(duplicated(round(ans, 2)))) break
+  }
+}
+questions <- paste0("$", fmt(ans, 2), "$")
+explanations <- c(
+  paste0("$\\bar X_{\\operatorname{obs}} = ", mean(x), "$ and $\\hat\\sigma^2_{X,\\operatorname{obs}} = \\frac{1}{n-1}\\sum_{i=1}^n (X_{i,\\operatorname{obs}}-\\bar X_{\\operatorname{obs}})^2 = \\frac{", ss, "}{", n - 1, "} = ", fmt(ans[1], 2), "$."),
+  "The sample variance divides by $n-1$, not by $n$.",
+  "This is the sample standard deviation $\\hat\\sigma_{X,\\operatorname{obs}}$.",
+  "This is only the sum of squared deviations; it must be divided by $n-1$.",
+  "The sum of squared deviations must be divided by $n-1$ only (once).")
+@
+
+\begin{question}
+\textbf{Sample variance}
+
+We observe $n=\Sexpr{n}$ values: $X_{1,\operatorname{obs}},\dots,X_{\Sexpr{n},\operatorname{obs}} = \Sexpr{paste(x, collapse = ", ")}$. What is the sample variance $\hat\sigma^2_{X,\operatorname{obs}}$?
+<<echo=FALSE, results=tex>>=
+answerlist(questions)
+@
+\end{question}
+
+\begin{solution}
+<<echo=FALSE, results=tex>>=
+answerlist(c("True", rep("False", 4)), explanations)
+@
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{10000}
+%% \exshuffle{TRUE}
+%% \exname{ProbStats_MC_08_SampleVariance}

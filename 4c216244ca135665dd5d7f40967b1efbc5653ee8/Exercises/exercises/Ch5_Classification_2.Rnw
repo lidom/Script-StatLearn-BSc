@@ -1,0 +1,127 @@
+<<>>=
+Y_1 <- 0
+X_1 <- 0.2
+
+Y_2 <- 0
+X_2 <- 0.4
+
+Y_3 <- 1
+X_3 <- 0.6
+
+Y_4 <- 1
+X_4 <- 0.8
+
+Y_5 <- 1
+X_5 <- 1.0
+@
+
+
+\begin{question}
+Consider the following classifier $f$ for a binary outcome variable $Y\in\{0,1\}$ and a single $(p=1)$ predictor variable $X$,
+\begin{align*}
+f(x_0)
+&=\left\{
+\begin{array}{ll}
+1 & \text{if } P(Y=1|X=x_0) \geq 0.5 \\
+0 & \text{if } P(Y=1|X=x_0)   <  0.5 \\
+\end{array}
+\right.
+\end{align*}
+
+Let the true (usually unknown) conditional probability function be given by
+\begin{align*}
+P(Y=1|X=x_0)
+&=\left\{
+\begin{array}{ll}
+1 & \text{if } x_0 \geq 0.6\\
+0 & \text{if } x_0   <  0.6\\
+\end{array}
+\right.
+\end{align*}
+
+You have a training data set of size $n_{\text{Train}}=5$ generated according to the model above with $X_i=i/n_{\text{Train}}$:
+\begin{align*}
+ & \{(X_1,Y_1),(X_2,Y_2),(X_3,Y_3),(X_4,Y_4),(X_5,Y_5)\}\\
+=& \{(\Sexpr{X_1}, \Sexpr{Y_1}), (\Sexpr{X_2},\Sexpr{Y_2}),(\Sexpr{X_3},\Sexpr{Y_3}),(\Sexpr{X_4},\Sexpr{Y_4}),(\Sexpr{X_5},\Sexpr{Y_5})\}.
+\end{align*}
+
+You estimate $P(Y=1|X=x)$ using the KNN estimator 
+\begin{align*}
+\widehat{P}_K(Y = 1 | X = x_{0})
+&= \frac{1}{K}\sum_{i\in\mathcal{N}_0}I(Y_i = 1),
+\end{align*}
+applied to the training data set above. Given your estimation $\widehat{P}_K(Y = 1 | X = x_{0})$ you construct the classifier $\hat{f}_K$ as above by replacing the true conditional probability by its estimate $\widehat{P}_K(Y = 1 | X = x_{0})$.
+
+\begin{answerlist}
+\item What is the value of $\widehat{P}_K(Y = 1 | X = 0.4)$ for $K=1$ and $K=5$?
+\item What is the training error rate for $K=1$ and $K=5$?
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+\begin{answerlist}
+\item The value of $\widehat{P}_K(Y = 1 | X = 0.4)$ for $K=1$ is given by
+\begin{align*}
+\widehat{P}_{K=1}(Y = 1 | X = 0.4)
+&= \frac{1}{1}\sum_{i\in\mathcal{N}_0}I(Y_i = 1),
+\end{align*}
+where $\mathcal{N}_0=2$ such that
+\begin{align*}
+\widehat{P}_{K=1}(Y = 1 | X = 0.4) &= I(Y_2 = 1) = 0.
+\end{align*}
+The value of $\widehat{P}_K(Y = 1 | X = 0.4)$ for $K=5$ is given by
+\begin{align*}
+\widehat{P}_{K=5}(Y = 1 | X = 0.4)
+&= \frac{1}{5}\sum_{i\in\mathcal{N}_0}I(Y_i = 1),
+\end{align*}
+where $\mathcal{N}_0=\{1,2,3,4,5\}$ such that
+\begin{align*}
+\widehat{P}_{K=5}(Y = 1 | X = 0.4) 
+&= \frac{1}{5}\left(I(Y_1 = 1)+I(Y_2 = 1)+I(Y_3 = 1)+I(Y_4 = 1)+I(Y_5 = 1)\right)\\
+&= \frac{1}{5}\left(I(\Sexpr{Y_1} = 1)+I(\Sexpr{Y_2} = 1)+I(\Sexpr{Y_3} = 1)+I(\Sexpr{Y_4} = 1)+I(\Sexpr{Y_5} = 1)\right)\\
+&= \frac{1}{5}\left(\Sexpr{as.numeric(Y_1 == 1)} + 
+                    \Sexpr{as.numeric(Y_2 == 1)} +
+                    \Sexpr{as.numeric(Y_3 == 1)} + 
+                    \Sexpr{as.numeric(Y_4 == 1)} + 
+                    \Sexpr{as.numeric(Y_5 == 1)}\right)\\
+&= \frac{\Sexpr{sum(c(as.numeric(Y_1 == 1), as.numeric(Y_2 == 1), as.numeric(Y_3 == 1),as.numeric(Y_4 == 1),as.numeric(Y_5 == 1)))}}{5}\\
+&=\Sexpr{sum(c(as.numeric(Y_1 == 1), as.numeric(Y_2 == 1), as.numeric(Y_3 == 1),as.numeric(Y_4 == 1),as.numeric(Y_5 == 1)))/5}
+\end{align*}
+
+\item The training error rate for $K=1$ is given by
+\begin{align*}
+& \frac{1}{n_{\text{Train}}}\sum_{i=1}^{n_{\text{Train}}} I\left(Y_i \neq \hat{Y}_i\right),\quad\text{where}\quad \hat{Y}_i = \hat{f}_{K=1}(X_i)\\
+& \frac{1}{5}\left(I(0\neq \hat{f}_{K=1}(0.2))+I(0\neq \hat{f}_{K=1}(0.4))+I(1\neq \hat{f}_{K=1}(0.6))+I(1\neq \hat{f}_{K=1}(0.8))+I(1\neq \hat{f}_{K=1}(1.0))\right)\\
+& \frac{1}{5}\left(I(0\neq 0)+I(0\neq 0)+I(1\neq 1)+I(1\neq 1)+I(1\neq 1)\right)\\
+& \frac{1}{5}(0+0+0+0+0)=0,
+\end{align*}
+since 
+\begin{align*}
+\widehat{P}_{K=1}(Y = 1 | X = 0.2) &= 0 < 0.5    \quad\Rightarrow\quad \hat f_{K=1}(0.2) = 0\\
+\widehat{P}_{K=1}(Y = 1 | X = 0.4) &= 0 < 0.5    \quad\Rightarrow\quad \hat f_{K=1}(0.4) = 0\\
+\widehat{P}_{K=1}(Y = 1 | X = 0.6) &= 1 \geq 0.5 \quad\Rightarrow\quad \hat f_{K=1}(0.6) = 1\\
+\widehat{P}_{K=1}(Y = 1 | X = 0.8) &= 1 \geq 0.5 \quad\Rightarrow\quad \hat f_{K=1}(0.8) = 1\\
+\widehat{P}_{K=1}(Y = 1 | X = 1.0) &= 1 \geq 0.5 \quad\Rightarrow\quad \hat f_{K=1}(1.0) = 1.
+\end{align*}
+The training error rate for $K=5$ is given by
+\begin{align*}
+& \frac{1}{n_{\text{Train}}}\sum_{i=1}^{n_{\text{Train}}} I\left(Y_i \neq \hat{Y}_i\right),\quad\text{where}\quad \hat{Y}_i = \hat{f}_{K=5}(X_i)\\
+& \frac{1}{5}\left(I(0\neq \hat{f}_{K=5}(0.2))+I(0\neq \hat{f}_{K=5}(0.4))+I(1\neq \hat{f}_{K=5}(0.6))+I(1\neq \hat{f}_{K=5}(0.8))+I(1\neq \hat{f}_{K=5}(1.0))\right)\\
+& \frac{1}{5}\left(I(0\neq 1)+I(0\neq 1)+I(1\neq 1)+I(1\neq 1)+I(1\neq 1)\right)\\
+& \frac{1}{5}(1+1+0+0+0)=0.4,
+\end{align*}
+since 
+\begin{align*}
+\widehat{P}_{K=5}(Y = 1 | X = 0.2) &= 0.6 \geq 0.5 \quad\Rightarrow\quad \hat f_{K=5}(0.2) = 1\\
+\widehat{P}_{K=5}(Y = 1 | X = 0.4) &= 0.6 \geq 0.5 \quad\Rightarrow\quad \hat f_{K=5}(0.4) = 1\\
+\widehat{P}_{K=5}(Y = 1 | X = 0.6) &= 0.6 \geq 0.5 \quad\Rightarrow\quad \hat f_{K=5}(0.6) = 1\\
+\widehat{P}_{K=5}(Y = 1 | X = 0.8) &= 0.6 \geq 0.5 \quad\Rightarrow\quad \hat f_{K=5}(0.8) = 1\\
+\widehat{P}_{K=5}(Y = 1 | X = 1.0) &= 0.6 \geq 0.5 \quad\Rightarrow\quad \hat f_{K=5}(1.0) = 1.
+\end{align*}
+\end{answerlist}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{0}
+%% \exname{Ex_Ch5_1}

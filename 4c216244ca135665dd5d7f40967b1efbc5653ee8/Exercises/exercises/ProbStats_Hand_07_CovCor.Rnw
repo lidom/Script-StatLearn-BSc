@@ -1,0 +1,77 @@
+<<echo=FALSE, results=hide>>=
+## DATA GENERATION
+n <- 5
+repeat {
+  x <- sample(1:9, size = n)
+  y <- round(10 + 2 * x + sample(-4:4, size = n, replace = TRUE))
+  if (sum(x) %% n == 0 && sum(y) %% n == 0 && abs(cor(x, y)) < 0.99) break
+}
+x_vec <- paste(x, collapse = ", ")
+y_vec <- paste(y, collapse = ", ")
+
+## SOLUTIONS
+x_bar <- mean(x); y_bar <- mean(y)
+dx  <- x - x_bar; dy <- y - y_bar
+dxy <- dx * dy
+cov_xy <- cov(x, y)
+var_x  <- var(x); var_y <- var(y)
+cor_xy <- cor(x, y)
+cov_units <- format(round(1e6 * cov_xy), big.mark = "{,}", scientific = FALSE)
+@
+
+\begin{question}
+\textbf{Covariance and correlation}
+
+A retail chain records the advertising expenditures $X$ (in 1000 EUR) and the sales $Y$ (in 1000 units) of $n=\Sexpr{n}$ of its stores:
+\begin{center}
+\begin{tabular}{c|ccccc}
+Store $i$ & 1 & 2 & 3 & 4 & 5\\ \hline
+$X_{i,\operatorname{obs}}$ & \Sexpr{paste(x, collapse = " & ")}\\
+$Y_{i,\operatorname{obs}}$ & \Sexpr{paste(y, collapse = " & ")}
+\end{tabular}
+\end{center}
+
+\begin{parts}
+\item Compute the sample covariance $\widehat{\operatorname{Cov}}_{\operatorname{obs}}(X,Y)$ by hand.
+\item Compute the sample correlation $\widehat{\operatorname{Cor}}_{\operatorname{obs}}(X,Y)$ by hand and interpret it.
+\item Suppose the advertising expenditures are recorded in EUR (instead of 1000 EUR), and the sales in units (instead of 1000 units). How do the covariance and the correlation change?\\
+\emph{Hint:} $\operatorname{Cov}(a_X X + b_X,\, a_Y Y + b_Y) = a_X a_Y \operatorname{Cov}(X,Y)$.
+\item Does the result in (b) show that advertising \emph{causes} higher sales? Explain.
+\end{parts}
+\end{question}
+
+\begin{solution}
+\begin{parts}
+\item Sample means: $\bar X_{\operatorname{obs}} = \Sexpr{x_bar}$ and $\bar Y_{\operatorname{obs}} = \Sexpr{y_bar}$.
+\begin{center}
+\begin{tabular}{c|ccccc|c}
+$i$ & 1 & 2 & 3 & 4 & 5 & Sum\\ \hline
+$X_{i,\operatorname{obs}}-\bar X_{\operatorname{obs}}$ & \Sexpr{paste0("$", dx, "$", collapse = " & ")} & 0\\
+$Y_{i,\operatorname{obs}}-\bar Y_{\operatorname{obs}}$ & \Sexpr{paste0("$", dy, "$", collapse = " & ")} & 0\\
+$(X_{i,\operatorname{obs}}-\bar X_{\operatorname{obs}})(Y_{i,\operatorname{obs}}-\bar Y_{\operatorname{obs}})$ & \Sexpr{paste0("$", dxy, "$", collapse = " & ")} & \Sexpr{sum(dxy)}\\
+$(X_{i,\operatorname{obs}}-\bar X_{\operatorname{obs}})^2$ & \Sexpr{paste(dx^2, collapse = " & ")} & \Sexpr{sum(dx^2)}\\
+$(Y_{i,\operatorname{obs}}-\bar Y_{\operatorname{obs}})^2$ & \Sexpr{paste(dy^2, collapse = " & ")} & \Sexpr{sum(dy^2)}
+\end{tabular}
+\end{center}
+$$
+\widehat{\operatorname{Cov}}_{\operatorname{obs}}(X,Y) = \frac{1}{n-1}\sum_{i=1}^n (X_{i,\operatorname{obs}}-\bar X_{\operatorname{obs}})(Y_{i,\operatorname{obs}}-\bar Y_{\operatorname{obs}}) = \frac{\Sexpr{sum(dxy)}}{\Sexpr{n-1}} = \Sexpr{fmt(cov_xy, 2)}.
+$$
+\item With $\hat\sigma^2_{X,\operatorname{obs}} = \Sexpr{sum(dx^2)}/\Sexpr{n-1} = \Sexpr{fmt(var_x, 2)}$ and $\hat\sigma^2_{Y,\operatorname{obs}} = \Sexpr{sum(dy^2)}/\Sexpr{n-1} = \Sexpr{fmt(var_y, 2)}$:
+$$
+\widehat{\operatorname{Cor}}_{\operatorname{obs}}(X,Y) = \frac{\Sexpr{fmt(cov_xy, 2)}}{\sqrt{\Sexpr{fmt(var_x, 2)}\cdot \Sexpr{fmt(var_y, 2)}}} \approx \Sexpr{fmt(cor_xy, 3)}.
+$$
+The correlation is \Sexpr{if (cor_xy > 0) "positive" else "negative"} and \Sexpr{if (abs(cor_xy) > 0.7) "strong" else "moderate"}: stores with higher advertising expenditures tend to have \Sexpr{if (cor_xy > 0) "higher" else "lower"} sales. The points lie \Sexpr{if (abs(cor_xy) > 0.7) "close to" else "only roughly on"} a straight line.
+\item With $a_X = 1000$ and $a_Y=1000$, the covariance is multiplied by $1000\cdot 1000 = 10^6$, i.e., it becomes $\approx \Sexpr{cov_units}$. The covariance depends on the units of measurement.\\
+The correlation does not change, because the factors cancel:
+$$
+\frac{a_X a_Y\operatorname{Cov}(X,Y)}{\sqrt{a_X^2\operatorname{Var}(X)\,a_Y^2\operatorname{Var}(Y)}} = \operatorname{Cor}(X,Y)\quad\text{for } a_X,a_Y>0.
+$$
+This is why the correlation, and not the covariance, is used to judge the strength of a linear association.
+\item No. A correlation only describes a (linear) statistical association. For instance, the chain may spend more money on advertising in large stores in busy city centers, which also have more sales for other reasons (a confounder: store size or location). Moreover, $n=\Sexpr{n}$ stores is a very small sample, so the estimate is quite uncertain.
+\end{parts}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{string}
+%% \exsolution{nil}
+%% \exname{ProbStats_Hand_07_CovCor}

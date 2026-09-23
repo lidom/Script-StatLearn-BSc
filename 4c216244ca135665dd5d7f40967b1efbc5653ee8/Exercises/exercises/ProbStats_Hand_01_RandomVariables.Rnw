@@ -1,0 +1,34 @@
+\begin{question}
+\textbf{Random variables and their realizations}
+
+An online shop records the following variables for each of its customers:
+\begin{itemize}
+\item[(i)] time spent on the website (in minutes),
+\item[(ii)] number of items in the shopping basket,
+\item[(iii)] payment method $\in\{\texttt{credit card}, \texttt{PayPal}, \texttt{invoice}\}$,
+\item[(iv)] customer's body height (in cm),
+\item[(v)] whether the customer returns at least one item $\in\{\texttt{yes}, \texttt{no}\}$.
+\end{itemize}
+
+\begin{parts}
+\item Decide for each variable whether it is a discrete or a continuous random variable.
+\item For which of the variables does it make sense to compute a mean?
+\item Which tool describes the distribution of variable (i): a density function (pdf) or a probability mass function (pmf)? Which tool describes the distribution of variable (ii)? Which tool can be used for \emph{both} (i) and (ii)?
+\item Let $T_i$ denote the time that customer $i$ spends on the website. Explain the difference between $T_i$ and $T_{i,\operatorname{obs}}$. Which of the two is a fixed number?
+\end{parts}
+\end{question}
+
+\begin{solution}
+\begin{parts}
+\item Continuous: (i) time and (iv) body height; both can take any value in an interval.\\
+Discrete: (ii) number of items ($\{0,1,2,\dots\}$), (iii) payment method (three possible values) and (v) returns (two possible values).
+\item Only for numeric variables: (i), (ii) and (iv). The values of (iii) and (v) are categories, and the ``average payment method'' has no meaning. (If we code (v) as $1=\texttt{yes}$ and $0=\texttt{no}$, the mean of the 0/1 variable is the share of customers who return at least one item.)
+\item Variable (i) is continuous, so we use a density $f_T(t)$. Variable (ii) is discrete, so we use a pmf. The cumulative distribution function $F(x)=P(X\leq x)$ works for both, since it is defined for every numeric random variable, whether continuous or discrete.
+\item $T_i$ is a \emph{random variable}: before we observe customer $i$, the time spent is uncertain and could take many different values. $T_{i,\operatorname{obs}}$ is the \emph{realization}, i.e., the value we actually observed (for instance $T_{i,\operatorname{obs}}=4.3$ minutes). Only $T_{i,\operatorname{obs}}$ is a fixed number.
+\end{parts}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{string}
+%% \exsolution{nil}
+%% \exname{ProbStats_Hand_01_RandomVariables}

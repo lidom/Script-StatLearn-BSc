@@ -1,0 +1,174 @@
+\begin{question}
+
+Calculate the following sums and products (as far as they are defined):
+$$
+\begin{array}{lcl}
+\bm A = 3\cdot
+\begin{bmatrix}
+  1 & -2 \\
+  5 & 7 \\
+\end{bmatrix} & &
+\bm B =%
+\begin{bmatrix}
+  3 & 1 \\
+\end{bmatrix} +
+\begin{bmatrix}
+  -2 & -3 \\
+\end{bmatrix} \\[5ex]
+\bm C =%
+\begin{bmatrix}
+  3 & 1 \\
+  2 & 0 \\
+\end{bmatrix}
+\begin{bmatrix}
+  6 & 7 & -3\\
+  -2 & -1 & 4\\
+\end{bmatrix} & &
+\bm D = 6 +
+\begin{bmatrix}
+  3 & 7 \\
+  1 & 2 \\
+\end{bmatrix} \\[5ex]
+\bm E =%
+\begin{bmatrix}
+  -1 & 0 \\
+  1 & 2 \\
+\end{bmatrix}
+\begin{bmatrix}
+  1 & 2 \\
+\end{bmatrix} & &
+\bm F =%
+\begin{bmatrix}
+  3 \\
+  7 \\
+\end{bmatrix}
+\begin{bmatrix}
+  1 & 9 \\
+\end{bmatrix} \\[5ex]
+\bm G =%
+\begin{bmatrix}
+  -4 & 2 \\
+\end{bmatrix}
+\begin{bmatrix}
+  3  & 5 \\
+ -9  & 7 \\
+\end{bmatrix}
+\begin{bmatrix}
+  -3 \\ -9
+\end{bmatrix} & &
+\bm H =%
+\begin{bmatrix}
+  6 & 3 & -3\\
+  4 & 1 & 2 \\
+\end{bmatrix}'
+\begin{bmatrix}
+  1 & -8 & -4 \\
+  7 & 5 & 2 \\
+\end{bmatrix} \\[5ex]
+\end{array}
+$$
+
+\end{question}
+
+\begin{solution}
+
+It holds that
+\begin{eqnarray*}
+\bm A &=& 3\cdot
+\begin{bmatrix}
+  1 & -2 \\
+  5 & 7 \\
+\end{bmatrix} =
+\begin{bmatrix}
+  3 & -6 \\
+  15 & 21 \\
+\end{bmatrix} \\[1ex]
+\bm B &=&%
+\begin{bmatrix}
+  3 & 1 \\
+\end{bmatrix} +
+\begin{bmatrix}
+  -2 & -3 \\ 
+\end{bmatrix} =
+\begin{bmatrix}
+  1 & -2 \\
+\end{bmatrix} \\[1ex]
+\bm C &=&%
+\begin{bmatrix}
+  3 & 1 \\
+  2 & 0 \\
+\end{bmatrix}
+\begin{bmatrix}
+  6 & 7 & -3\\
+  -2 & -1 & 4 \\
+\end{bmatrix} =
+\begin{bmatrix}
+  16 & 20 & -5\\
+  12 & 14 & -6\\
+\end{bmatrix} \\[1ex]
+\bm F &=&%
+\begin{bmatrix}
+  3\\
+  7\\
+\end{bmatrix}
+\begin{bmatrix}
+  1 & 9 \\
+\end{bmatrix} =
+\begin{bmatrix}
+  3 & 27\\
+  7 & 63\\
+\end{bmatrix} \\[1ex]
+\bm G &=&
+\begin{bmatrix}
+  -4 & 2 \\
+\end{bmatrix}
+\begin{bmatrix}
+  3  & 5 \\
+ -9  & 7 \\
+\end{bmatrix}
+\begin{bmatrix}
+  -3 \\ -9 
+\end{bmatrix}=
+\begin{bmatrix}
+-30 & -6
+\end{bmatrix}
+\begin{bmatrix}
+-3 \\ -9
+\end{bmatrix}=
+144 \\
+\bm H &=&%
+\begin{bmatrix}
+  6 & 3 & -3\\
+  4 & 1 & 2 \\
+\end{bmatrix}'
+\begin{bmatrix}
+  1 & -8 & -4 \\
+  7 & 5 & 2 \\
+\end{bmatrix}=
+\begin{bmatrix}
+  6 & 4\\
+  3 & 1\\
+  -3 & 2\\
+\end{bmatrix}
+\begin{bmatrix}
+  1 & -8 & -4 \\
+  7 & 5 & 2 \\
+\end{bmatrix}\\
+&=&
+\begin{bmatrix}
+  34 & -28 & -16\\
+  10 & -19 & -10\\
+  11 & 34 & 16\\
+\end{bmatrix}
+\end{eqnarray*}
+
+The matrices $\bm D$ and $\bm E$ are not defined.
+
+
+\end{solution}
+
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{0}
+%% \exname{Ch3_1}

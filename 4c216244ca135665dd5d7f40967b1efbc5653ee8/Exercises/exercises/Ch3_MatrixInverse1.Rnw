@@ -1,0 +1,42 @@
+\begin{question}
+Show that
+$$
+(\bm A\bm B)^{-1} = \bm B^{-1}\bm A^{-1}
+$$
+for any two $(n\times n)$ matrices $\bm A$ and $\bm B$ that have full rank (i.e.\ $\rank(\bm A)=\rank(\bm B)=n$).
+\end{question}
+
+\begin{solution}
+\textbf{Remember:} The $(n\times n)$ matrix $\bm D^{-1}$ is called the inverse of a $(n\times n)$ matrix $\bm D$, if 
+$$
+\bm D^{-1} \bm D = \bm D \bm D^{-1} = \bm I_n.
+$$
+We are asked whether the inverse of $\bm A\bm B$, i.e. $(\bm A\bm B)^{-1}$, equals $\bm B^{-1}\bm A^{-1}$. So, we have to check the following two statements: 
+\begin{itemize} 
+\item[\textbf{1.}] $(\bm B^{-1}\bm A^{-1})(\bm A\bm B) = \bm I_n$
+\item[\textbf{2.}] $(\bm A\bm B)(\bm B^{-1}\bm A^{-1}) = \bm I_n$
+\end{itemize}
+
+\textbf{To 1.}
+$$
+(\bm B^{-1}\bm A^{-1})(\bm A\bm B) = \bm B^{-1}\,\underset{=\,\bm I_n}{\underbrace{\bm A^{-1}\bm A}}\,\bm B =
+\bm B^{-1}\bm B = \bm I_n
+$$
+
+
+\textbf{To 2.}
+$$
+(\bm A\bm B)(\bm B^{-1}\bm A^{-1}) = \bm A\,\underset{=\,\bm I_n}{\underbrace{\bm B\bm B^{-1}}}\,\bm A^{-1} =
+\bm A\bm A^{-1} = \bm I_n
+$$
+
+So, $(\bm B^{-1}\bm A^{-1})$ is indeed the inverse of $(\bm A\bm B)$, i.e., $(\bm A\bm B)^{-1}=(\bm B^{-1}\bm A^{-1})$. 
+
+
+\end{solution}
+
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{0}
+%% \exname{Ch3_3}

@@ -1,0 +1,35 @@
+\begin{question}
+Let $A$ and $B$ be two $(n\times n)$ matrices each with full rank; i.e. $A$ and $B$ are both invertible. Assume that $(B+A)$ is also invertible. Simplify the following two expressions as far as possible: 
+\begin{itemize}
+\item[a)]
+$(AB)'(B^{-1}A^{-1})'$
+\item[b)]
+$ (A(A^{-1}+B^{-1})B)(B+A)^{-1}$ 
+\end{itemize}
+\end{question}
+
+\begin{solution}
+\begin{itemize}
+\item[a)]
+$ (AB)'(B^{-1}A^{-1})' 
+= B'A'(A^{-1})'(B^{-1})' 
+= B'\,\underset{=\,I_n}{\underbrace{A'A'^{-1}}}\,B'^{-1} \,
+= \,\underset{=\,I_n}{\underbrace{B'B'^{-1}}}\,
+= I_n  $
+\item[b)]
+\begin{align*}
+(A(A^{-1}+B^{-1})B)(B+A)^{-1} 
+&= ((\,\underset{=\,I_n}{\underbrace{AA^{-1}}}\,+AB^{-1})B)(B+A)^{-1}\\ 
+&= (B+A\,\underset{=\,I_n}{\underbrace{B^{-1}B}}\,)(B+A)^{-1}\\
+&= \,(B+A)(B+A)^{-1}\, = I_n 
+\end{align*}
+\end{itemize}
+
+
+\end{solution}
+
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{0}
+%% \exname{Ch3_4}

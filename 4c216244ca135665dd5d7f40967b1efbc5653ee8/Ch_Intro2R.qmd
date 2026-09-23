@@ -1,0 +1,38 @@
+<!-- LTeX: language=en-US -->
+
+# Introduction to R {#sec-intro2R}
+
+Throughout this script we use the free software R for data analysis, simulation and plotting. The introduction to R is now a separate online book, which I also use in other courses:
+
+::: {.callout-note appearance="simple" icon="false"}
+## 💻 Coding Intro
+
+[**www.dliebl.com/Script-Coding-Intros/**](https://www.dliebl.com/Script-Coding-Intros/)
+
+For this course, you only need the part **Introduction to R**. The part on Python is optional.
+:::
+
+## What You Need for This Course
+
+Please work through the following chapters of the [Coding Intro](https://www.dliebl.com/Script-Coding-Intros/) before (or while) working on the next chapters of this script:
+
+1. [The first steps in R](https://www.dliebl.com/Script-Coding-Intros/R-01-Getting-Started.html)
+2. [Create and load data sets](https://www.dliebl.com/Script-Coding-Intros/R-02-Datasets.html)
+3. [Simple programming](https://www.dliebl.com/Script-Coding-Intros/R-03-Programming.html)
+4. [Functions](https://www.dliebl.com/Script-Coding-Intros/R-04-Functions.html)
+5. [Plotting in R](https://www.dliebl.com/Script-Coding-Intros/R-05-Plotting.html) (Not relevant for the exam, but important for writing your thesis.)
+6. [Monte Carlo simulations](https://www.dliebl.com/Script-Coding-Intros/R-06-Monte-Carlo-Simulations.html)
+7. [Regression analysis](https://www.dliebl.com/Script-Coding-Intros/R-07-Regression.html)
+
+The chapter [Some notes on useful packages](https://www.dliebl.com/Script-Coding-Intros/R-08-Notes-on-useful-packages.html) is only  optional. In this script, we use base R for computations and plots.
+
+## Self-Check
+
+You are well prepared for the following chapters if you can do the following in R:
+
+* create vectors and data frames, and select elements, e.g., `x[2]`, `x[x > 0]`, `data$column`,
+* read a data set from a `.csv` file with `read.csv()`,
+* compute simple summaries with `mean()`, `var()`, `sd()`, `sum()`, `table()`,
+* write a simple function and a `for` loop,
+* draw random numbers with `sample()` and `rnorm()`, and make them reproducible with `set.seed()`,
+* plot data with `plot()`, `hist()`, `lines()`, `abline()`, `curve()` and `legend()`.

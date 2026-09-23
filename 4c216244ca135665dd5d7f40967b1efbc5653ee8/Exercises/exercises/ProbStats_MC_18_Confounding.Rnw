@@ -1,0 +1,28 @@
+\begin{question}
+\textbf{Association and causation}
+
+In a sample of primary school children, shoe size and reading skills are strongly positively correlated. Which statement is correct?
+\begin{answerlist}
+\item The correlation is most likely driven by a confounder: older children have larger feet \emph{and} read better.
+\item Larger shoes cause better reading skills.
+\item Better reading skills cause larger feet.
+\item A strong correlation always implies a causal effect in at least one direction.
+\item Since the correlation is strong, the relationship cannot be explained by a third variable.
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+\begin{answerlist}
+\item True. Age influences both variables and creates the association (confounding). Among children of the same age, we would expect almost no correlation.
+\item False. The correlation only shows a statistical association, not a causal effect.
+\item False. The correlation only shows a statistical association, not a causal effect.
+\item False. Association is not causation; a confounder can create a strong correlation without any causal effect between the two variables.
+\item False. Confounders can create arbitrarily strong correlations.
+\end{answerlist}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{10000}
+%% \exshuffle{TRUE}
+%% \exname{ProbStats_MC_18_Confounding}

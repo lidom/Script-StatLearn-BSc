@@ -1,0 +1,68 @@
+\begin{question}
+\textbf{Empirical cdf, sample moments, covariance and correlation}
+
+A retail chain records the advertising expenditures $X$ (in 1000 EUR) and the sales $Y$ (in 1000 units) of $n=10$ of its stores:
+\begin{center}
+\begin{tabular}{c|cccccccccc}
+$X_{i,\operatorname{obs}}$ & 7 & 3 & 5 & 4 & 6 & 8 & 2 & 5 & 9 & 1\\
+$Y_{i,\operatorname{obs}}$ & 25 & 18 & 21 & 22 & 24 & 27 & 17 & 23 & 26 & 16
+\end{tabular}
+\end{center}
+
+\begin{parts}
+\item Store the data in a data frame with the two columns \texttt{advertising} and \texttt{sales}.
+\item Compute the sample means, the sample variances and the sample standard deviations of both variables with \texttt{mean()}, \texttt{var()} and \texttt{sd()}.
+\item Compute the sample variance of $X$ ``by hand'' in R, i.e., using only \texttt{sum()}, \texttt{length()} and \texttt{mean()}, and check that you get the same result as with \texttt{var()}.
+\item Compute and plot the empirical cdf of the sales with \texttt{ecdf()}. Use it to estimate the probability that a store sells more than 22,000 units.
+\item Draw a scatter plot of the data, and compute the sample covariance and the sample correlation with \texttt{cov()} and \texttt{cor()}.
+\item Convert advertising to EUR and sales to units, and recompute the covariance and the correlation. Explain the result.
+\end{parts}
+\end{question}
+
+\begin{solution}
+\begin{parts}
+\item
+<<echo=TRUE>>=
+stores <- data.frame(advertising = c(7, 3, 5, 4, 6, 8, 2, 5, 9, 1),
+                     sales       = c(25, 18, 21, 22, 24, 27, 17, 23, 26, 16))
+@
+\item
+<<echo=TRUE>>=
+mean(stores$advertising); var(stores$advertising); sd(stores$advertising)
+mean(stores$sales);       var(stores$sales);       sd(stores$sales)
+@
+\item
+<<echo=TRUE>>=
+x <- stores$advertising
+sum((x - mean(x))^2) / (length(x) - 1)
+@
+\item
+\setkeys{Gin}{width=0.5\textwidth}
+<<ecdfplot, echo=TRUE, fig=TRUE, height=3.5, width=5, eps=FALSE>>=
+F_hat <- ecdf(stores$sales)
+plot(F_hat, main = "", xlab = "Sales (1000 units)", ylab = "Empirical cdf")
+1 - F_hat(22)   # estimate of P(Y > 22)
+@
+
+\item
+\setkeys{Gin}{width=0.5\textwidth}
+<<scatter, echo=TRUE, fig=TRUE, height=3.5, width=5, eps=FALSE>>=
+plot(stores$advertising, stores$sales, pch = 19,
+     xlab = "Advertising (1000 EUR)", ylab = "Sales (1000 units)")
+cov(stores$advertising, stores$sales)
+cor(stores$advertising, stores$sales)
+@
+
+\item
+<<echo=TRUE>>=
+cov(1000 * stores$advertising, 1000 * stores$sales)
+cor(1000 * stores$advertising, 1000 * stores$sales)
+@
+The covariance is multiplied by $1000\cdot1000=10^6$, since $\operatorname{Cov}(a_X X,\, a_Y Y) = a_X a_Y\operatorname{Cov}(X,Y)$; it depends on the units of measurement. The correlation does not change, because it standardizes the covariance by the standard deviations.
+\end{parts}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{string}
+%% \exsolution{nil}
+%% \exname{ProbStats_R_03_Descriptive}

@@ -1,0 +1,37 @@
+<<echo=FALSE, results=hide>>=
+repeat {
+  s  <- sample(c(20, 40, 50, 80), 1)       # SD(X)
+  bb <- sample(c(3, 5, 12, 15), 1)         # price per unit
+  a  <- sample(c(500, 1000, 2000), 1)      # fixed costs
+  ans <- c(bb * s, bb * s - a, bb^2 * s, (bb * s)^2, s)
+  if (!any(duplicated(ans)) && all(ans > 0)) break
+}
+questions <- paste0("$", format(ans, big.mark = "{,}", scientific = FALSE, trim = TRUE), "$")
+explanations <- c(
+  paste0("$\\operatorname{SD}(aX+b)=|a|\\operatorname{SD}(X)$, thus $\\operatorname{SD}(\\Pi) = ", bb, "\\cdot ", s, " = ", ans[1], "$ EUR. The fixed costs do not affect the spread."),
+  "The constant (fixed costs) shifts the distribution but does not change its spread.",
+  "The factor must not be squared for the standard deviation (only for the variance).",
+  paste0("This is the variance $\\operatorname{Var}(\\Pi) = ", bb, "^2\\cdot ", s, "^2$, not the standard deviation."),
+  "Multiplying $X$ by a factor also multiplies its standard deviation by that factor.")
+@
+
+\begin{question}
+\textbf{Standard deviation of a linear transformation}
+
+The monthly sales $X$ (in units) of a product have standard deviation $\operatorname{SD}(X)=\Sexpr{s}$. The monthly profit (in EUR) is $\Pi = \Sexpr{bb}\,X - \Sexpr{a}$. What is $\operatorname{SD}(\Pi)$?
+<<echo=FALSE, results=tex>>=
+answerlist(questions)
+@
+\end{question}
+
+\begin{solution}
+<<echo=FALSE, results=tex>>=
+answerlist(c("True", rep("False", 4)), explanations)
+@
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{10000}
+%% \exshuffle{TRUE}
+%% \exname{ProbStats_MC_06_SDLinear}

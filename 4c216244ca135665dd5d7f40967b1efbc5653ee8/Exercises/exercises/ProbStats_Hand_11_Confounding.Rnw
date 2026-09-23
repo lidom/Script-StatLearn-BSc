@@ -1,0 +1,35 @@
+\begin{question}
+\textbf{Association is not causation}
+
+A kiosk next to an outdoor swimming pool records, for each day $i$, its ice cream sales $X_i$ (in 100 portions) and the number of visitors $Y_i$ of the swimming pool (in 100 persons). Consider the following DGP, where $Z_i$ is the daily maximum temperature (in degrees Celsius):
+\begin{align*}
+Z_i &\sim \mathcal{N}(22,\,5^2),\\
+X_i &= 2 + 0.5\,Z_i + u_i, \qquad u_i\sim\mathcal{N}(0,1),\\
+Y_i &= 1 + 0.3\,Z_i + v_i, \qquad v_i\sim\mathcal{N}(0,1),
+\end{align*}
+with $Z_i$, $u_i$ and $v_i$ independent of each other.
+
+\begin{parts}
+\item Does the number of pool visitors $Y_i$ depend on the ice cream sales $X_i$ in this DGP?
+\item Nevertheless, data from this DGP show a strong positive correlation between $X_i$ and $Y_i$. Explain why. What is the role of $Z_i$?
+\item Suppose we only use days with (almost) the same maximum temperature, e.g., between 24 and 26 degrees Celsius. What correlation between $X_i$ and $Y_i$ do you expect for these days? Explain.
+\item Compute $E(X_i)$ and $E(Y_i)$.
+\item Companies that spend a lot of money on management consultants have, on average, lower profits than other companies. Does this show that consultants are harmful? Give an alternative explanation.
+\end{parts}
+\end{question}
+
+\begin{solution}
+\begin{parts}
+\item No. $Y_i$ only depends on the temperature $Z_i$ and on $v_i$. Selling more ice cream does not bring more visitors to the pool.
+\item The temperature $Z_i$ is a \textbf{confounder}: it influences both $X_i$ and $Y_i$. On hot days, more ice cream is sold \emph{and} more people go to the pool; on cold days, both are low. This creates a strong positive association between $X_i$ and $Y_i$, although there is no causal effect of $X_i$ on $Y_i$.
+\item A correlation close to zero. If $Z_i$ is (almost) fixed, the remaining variation in $X_i$ comes from $u_i$ and the remaining variation in $Y_i$ from $v_i$. Since $u_i$ and $v_i$ are independent, there is (almost) no association left between $X_i$ and $Y_i$.
+\item Using $E(aZ+b)=aE(Z)+b$ and $E(X+Y)=E(X)+E(Y)$:
+$E(X_i) = 2 + 0.5\cdot 22 + E(u_i) = 2 + 11 + 0 = 13$ and $E(Y_i) = 1 + 0.3\cdot 22 + E(v_i) = 7.6$.
+\item No. Companies that are already in economic trouble are more likely to hire consultants. The low profits may thus be the reason for hiring consultants (reverse causality), or both may be driven by a third factor such as a crisis in the company's industry (confounder). The observed association alone cannot tell us the causal effect of consultants on profits.
+\end{parts}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{string}
+%% \exsolution{nil}
+%% \exname{ProbStats_Hand_11_Confounding}

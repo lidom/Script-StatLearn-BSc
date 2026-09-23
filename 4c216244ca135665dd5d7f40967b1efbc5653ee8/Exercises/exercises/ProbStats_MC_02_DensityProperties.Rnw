@@ -1,0 +1,28 @@
+\begin{question}
+\textbf{Properties of a density function}
+
+Let $f_X$ be the density function of a continuous random variable $X$. Which statement is correct?
+\begin{answerlist}
+\item $f_X(x)$ can take values larger than 1.
+\item $f_X(x) = P(X = x)$ for all $x$.
+\item $P(a\leq X\leq b) = f_X(b) - f_X(a)$ for all $a\leq b$.
+\item $f_X(x)$ can take negative values, as long as $\int_{-\infty}^{\infty} f_X(x)\,dx = 1$.
+\item $\int_{-\infty}^{\infty} f_X(x)\,dx$ can be any positive number.
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+\begin{answerlist}
+\item True. Density values are not probabilities; only areas under $f_X$ are. For instance, $f_X(x)=4$ for $0\leq x\leq 0.25$ (and 0 otherwise) is a valid density.
+\item False. For a continuous random variable, $P(X=x)=0$ for every single value $x$.
+\item False. This formula holds for the cdf: $P(a< X\leq b) = F_X(b)-F_X(a)$. For the density, we need the area $\int_a^b f_X(x)\,dx$.
+\item False. A density must be non-negative: $f_X(x)\geq 0$ for all $x$.
+\item False. The total area under a density is always exactly 1.
+\end{answerlist}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{10000}
+%% \exshuffle{TRUE}
+%% \exname{ProbStats_MC_02_DensityProperties}

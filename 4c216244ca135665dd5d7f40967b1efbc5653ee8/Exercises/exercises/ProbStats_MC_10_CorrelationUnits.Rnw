@@ -1,0 +1,28 @@
+\begin{question}
+\textbf{Covariance, correlation and units of measurement}
+
+For a sample of stores, the advertising expenditures $X$ are measured in 1000~EUR and the sales $Y$ in 1000~units. The sample covariance is $\widehat{\operatorname{Cov}}_{\operatorname{obs}}(X,Y)=4$ and the sample correlation is $\widehat{\operatorname{Cor}}_{\operatorname{obs}}(X,Y)=0.8$. Now, the advertising expenditures are measured in EUR instead (i.e., all $X$-values are multiplied by 1000). Which statement is correct?
+\begin{answerlist}
+\item The covariance becomes $4000$, and the correlation stays $0.8$.
+\item The covariance stays $4$, and the correlation stays $0.8$.
+\item The covariance becomes $4000$, and the correlation becomes $800$.
+\item The covariance becomes $4{,}000{,}000$, and the correlation stays $0.8$.
+\item The covariance becomes $4000$, and the correlation becomes $0.0008$.
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+\begin{answerlist}
+\item True. $\operatorname{Cov}(1000X, Y) = 1000\operatorname{Cov}(X,Y)$. The correlation does not depend on the units, since the factor 1000 cancels against the factor in $\operatorname{SD}(1000X)=1000\operatorname{SD}(X)$.
+\item False. The covariance depends on the units of measurement.
+\item False. A correlation always lies in $[-1,1]$; it does not change with the units.
+\item False. Only $X$ is rescaled, so the covariance is multiplied by $1000$, not by $1000^2$.
+\item False. The correlation does not change with the units.
+\end{answerlist}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{10000}
+%% \exshuffle{TRUE}
+%% \exname{ProbStats_MC_10_CorrelationUnits}

@@ -1,0 +1,60 @@
+\begin{question}
+\textbf{Simulating a confounder}
+
+Consider again the DGP for ice cream sales $X_i$ and swimming pool visitors $Y_i$, which are both driven by the daily maximum temperature $Z_i$:
+\begin{align*}
+Z_i &\sim \mathcal{N}(22,\,5^2),\\
+X_i &= 2 + 0.5\,Z_i + u_i, \qquad u_i\sim\mathcal{N}(0,1),\\
+Y_i &= 1 + 0.3\,Z_i + v_i, \qquad v_i\sim\mathcal{N}(0,1),
+\end{align*}
+with $Z_i$, $u_i$ and $v_i$ independent of each other.
+
+\begin{parts}
+\item Simulate $n=3650$ days (ten years) from this DGP.
+\item Draw a scatter plot of $(X_i,Y_i)$ and compute the sample correlation.
+\item Now only keep the days with a maximum temperature between 24 and 26 degrees Celsius. How many days are left? Compute the sample correlation between $X_i$ and $Y_i$ for these days and compare with (b).
+\item Color the points in your scatter plot from (b) by temperature group ($Z_i<18$, $18\leq Z_i\leq 26$, $Z_i>26$). What do you see?
+\end{parts}
+\end{question}
+
+\begin{solution}
+\begin{parts}
+\item
+<<echo=TRUE>>=
+n <- 3650
+Z <- rnorm(n, mean = 22, sd = 5)
+X <- 2 + 0.5 * Z + rnorm(n)
+Y <- 1 + 0.3 * Z + rnorm(n)
+@
+\item
+<<echo=TRUE>>=
+cor(X, Y)
+@
+The correlation is strongly positive, although $Y_i$ does not depend on $X_i$ in the DGP. The plot is shown in (d).
+\item
+<<echo=TRUE>>=
+similar_temp <- Z >= 24 & Z <= 26
+sum(similar_temp)
+cor(X[similar_temp], Y[similar_temp])
+@
+For days with (almost) the same temperature, the correlation is close to zero: once we hold the confounder $Z_i$ (approximately) fixed, there is (almost) no association left between $X_i$ and $Y_i$.
+\item
+\setkeys{Gin}{width=0.6\textwidth}
+<<confplot, echo=TRUE, fig=TRUE, height=4, width=6, eps=FALSE>>=
+temp_group <- cut(Z, breaks = c(-Inf, 18, 26, Inf))
+plot(X, Y, pch = 19, cex = 0.5,
+     col = c("blue", "gray", "red")[temp_group],
+     xlab = "Ice cream sales (100 portions)",
+     ylab = "Pool visitors (100 persons)")
+legend("topleft", legend = c("cold", "medium", "hot"),
+       col = c("blue", "gray", "red"), pch = 19, bty = "n")
+@
+
+Cold days (blue) have low ice cream sales \emph{and} few pool visitors; hot days (red) have high values of both. Within each temperature group, the point cloud shows much less of an upward trend. The overall positive association is created by the temperature.
+\end{parts}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{string}
+%% \exsolution{nil}
+%% \exname{ProbStats_R_08_Confounding}

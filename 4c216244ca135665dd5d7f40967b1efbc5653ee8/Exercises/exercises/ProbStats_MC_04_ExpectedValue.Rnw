@@ -1,0 +1,48 @@
+<<echo=FALSE, results=hide>>=
+w <- 1:4
+repeat {
+  p <- sample(c(0.1, 0.2, 0.3, 0.4), 4)       # a permutation, sums to 1
+  EW <- sum(w * p)
+  ans <- c(EW,                  # correct
+           mean(w),             # unweighted mean of the values
+           sum(w^2 * p),        # E(W^2)
+           w[which.max(p)],     # most likely value
+           sum(w * p) / 4)      # divided by the number of values
+  if (!any(duplicated(round(ans, 2)))) break
+}
+questions <- paste0("$", fmt(ans, 2), "$")
+explanations <- c(
+  paste0("$E(W)=\\sum_k w_k\\,p_W(w_k) = ", paste0(w, "\\cdot ", fmt(p, 1), collapse = " + "), " = ", fmt(EW, 2), "$."),
+  "This is the simple average of the possible values $1,2,3,4$; it ignores the probabilities.",
+  "This is $E(W^2)=\\sum_k w_k^2\\,p_W(w_k)$, not $E(W)$.",
+  "This is the most likely value (the mode), not the mean.",
+  "The sum $\\sum_k w_k\\,p_W(w_k)$ must not be divided by the number of values; the probabilities are already the weights.")
+@
+
+\begin{question}
+\textbf{Expected value of a discrete random variable}
+
+The number of items $W$ that a customer buys has the probability mass function
+\begin{center}
+\begin{tabular}{c|cccc}
+$w_k$ & 1 & 2 & 3 & 4\\ \hline
+$p_W(w_k)$ & \Sexpr{paste(fmt(p, 1), collapse = " & ")}
+\end{tabular}
+\end{center}
+What is $E(W)$?
+<<echo=FALSE, results=tex>>=
+answerlist(questions)
+@
+\end{question}
+
+\begin{solution}
+<<echo=FALSE, results=tex>>=
+answerlist(c("True", rep("False", 4)), explanations)
+@
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{schoice}
+%% \exsolution{10000}
+%% \exshuffle{TRUE}
+%% \exname{ProbStats_MC_04_ExpectedValue}

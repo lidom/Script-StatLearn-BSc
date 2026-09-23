@@ -1,0 +1,68 @@
+<<>>=
+hatBeta_0 <- 12
+hatBeta_1 <- 24
+hatBeta_2 <- 0.04
+hatBeta_3 <- 20
+hatBeta_4 <- 0.04
+hatBeta_5 <- -8
+@
+
+\begin{question}
+%\vspace*{1cm}
+Suppose we have a data set with dependent variable 
+$$
+Y = \texttt{``starting salary after graduation''}
+$$ 
+and four predictors 
+\begin{itemize}
+\item $X_1 = \texttt{GPA}$
+\item $X_2 = \texttt{IQ}$
+\item $X_3 = \texttt{Gender}$ ($1$ for Female and $0$ for Male)
+\item $X_4 = X_1X_2$ Interaction between \texttt{GPA} and \texttt{IQ}
+\item $X_5 = X_1X_3$ Interaction between \texttt{GPA} and \texttt{Gender}
+\end{itemize}
+Suppose we use least squares to fit the model and get the following estimates: 
+$$
+\hat{\beta}_0 = \Sexpr{hatBeta_0},\; 
+\hat{\beta}_1 = \Sexpr{hatBeta_1},\; 
+\hat{\beta}_2 = \Sexpr{hatBeta_2},\;
+\hat{\beta}_3 = \Sexpr{hatBeta_3},\; 
+\hat{\beta}_4 = \Sexpr{hatBeta_4},\;\;\text{ and }\;\; 
+\hat{\beta}_5 = \Sexpr{hatBeta_5}.
+$$
+Thus we have:
+$$
+\widehat{E}[Y|X] = \hat{f}(X) =  
+\Sexpr{hatBeta_0} 
+\Sexpr{ifelse(hatBeta_1 > 0,"+","-")} \Sexpr{abs(hatBeta_1)} \,\overbrace{\texttt{GPA}}^{X_1} 
+\Sexpr{ifelse(hatBeta_2 > 0,"+","-")} \Sexpr{abs(hatBeta_2)} \,\overbrace{\texttt{IQ}}^{X_2} 
+\Sexpr{ifelse(hatBeta_3 > 0,"+","-")} \Sexpr{abs(hatBeta_3)} \,\overbrace{\texttt{Gender}}^{X_3} 
+\Sexpr{ifelse(hatBeta_4 > 0,"+","-")} \Sexpr{abs(hatBeta_4)} \,\overbrace{\texttt{GPA}\cdot \texttt{IQ}}^{X_4=X_1\cdot X_2} 
+\Sexpr{ifelse(hatBeta_5 > 0,"+","-")} \Sexpr{abs(hatBeta_5)} \,\overbrace{\texttt{GPA}\cdot \texttt{Gender}}^{X_5=X_1\cdot X_3}
+$$
+Show that, for a fixed value of \texttt{IQ} and \texttt{GPA}, males earn more on average than females provided 
+\texttt{GPA} is greater than \Sexpr{format((hatBeta_0 + hatBeta_3 - hatBeta_0)/(hatBeta_1 - hatBeta_1 - hatBeta_5) , nsmall=2)}
+\end{question}
+
+\begin{solution}
+\begin{answerlist}
+  {\tiny\begin{align*}
+  \text{(male)} & > \text{(female)}\\
+     \Sexpr{hatBeta_0} + (\Sexpr{hatBeta_1}) X_1 + (\Sexpr{hatBeta_2}) X_2 + (\Sexpr{hatBeta_3})\cdot 0 + (\Sexpr{hatBeta_4}) X_4 + (\Sexpr{hatBeta_5})\cdot 0 \cdot X_1
+ & > \Sexpr{hatBeta_0} + (\Sexpr{hatBeta_1}) X_1 + (\Sexpr{hatBeta_2}) X_2 + (\Sexpr{hatBeta_3})\cdot 1 + (\Sexpr{hatBeta_4}) X_4 + (\Sexpr{hatBeta_5})\cdot 1 \cdot X_1\\
+     \Sexpr{hatBeta_0} + (\Sexpr{hatBeta_1}) X_1 + (\Sexpr{hatBeta_2}) X_2 +           0                + (\Sexpr{hatBeta_4}) X_4 +            0
+ & > \Sexpr{hatBeta_0} + (\Sexpr{hatBeta_1}) X_1 + (\Sexpr{hatBeta_2}) X_2 + (\Sexpr{hatBeta_3})        + (\Sexpr{hatBeta_4}) X_4 + (\Sexpr{hatBeta_5}) X_1\\
+     \Sexpr{hatBeta_0}             + (\Sexpr{hatBeta_1})             X_1 + (\Sexpr{hatBeta_2}) X_2 + (\Sexpr{hatBeta_4}) X_4 
+ & > \Sexpr{hatBeta_0 + hatBeta_3} + (\Sexpr{hatBeta_1 + hatBeta_5}) X_1 + (\Sexpr{hatBeta_2}) X_2 + (\Sexpr{hatBeta_4}) X_4\\
+     (\Sexpr{hatBeta_1 - hatBeta_1 - hatBeta_5}) X_1  
+ & >  \Sexpr{hatBeta_0 + hatBeta_3 - hatBeta_0}\\
+ X_1  
+ & >  \Sexpr{(hatBeta_0 + hatBeta_3 - hatBeta_0)/(hatBeta_1 - hatBeta_1 - hatBeta_5)} 
+  \end{align*}}
+\end{answerlist}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{0}
+%% \exname{Ex_Ch3_1}

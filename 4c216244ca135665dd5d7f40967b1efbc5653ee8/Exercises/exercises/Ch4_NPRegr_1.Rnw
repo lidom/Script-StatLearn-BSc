@@ -1,0 +1,155 @@
+<<>>=
+X_seq <- c(1:100)/100
+f     <- function(x) {5 + 3*sin(2*pi*x)}
+f     <- Vectorize(f)
+x_0   <- 0.25
+
+## Find the K nearest neighbors of x_0:
+K     <- 5
+IndexSet_K5 <- order(abs(X_seq - x_0) )[1:K]
+IndexSet_K5 <- sort(IndexSet_K5)
+
+mean_K5     <- sum(f(X_seq[IndexSet_K5]))/K
+
+
+K     <- 20
+IndexSet_K20 <- order(abs(X_seq - x_0) )[1:K]
+IndexSet_K20 <- sort(IndexSet_K20)
+
+mean_K20     <- sum(f(X_seq[IndexSet_K20]))/K
+@
+
+
+
+\begin{question}
+Consider the nonparametric regression model
+$$
+Y_i = f(X_i) + \epsilon_i, \quad i=1,\ldots,n,
+$$
+where $X_i=i/n$, the error terms $\epsilon_i$ are i.i.d.~with $E(\epsilon_i)=0$ and $Var(\epsilon_i)=\sigma^2>0$, and $f$ is an unknown smooth function. Suppose we estimate $f$ using the KNN-regression estimator
+$$
+\hat{f}_K(x_0)=\frac{1}{K}\sum_{i\in\mathcal{N}_0}Y_i.
+$$
+at a fixed point $x_0\in(0,1)$, where $\mathcal{N}_0$ is the set of indices corresponding to the $K$ nearest neighbors of $x_0$ among the design points $X_1,\ldots,X_n$.
+\begin{answerlist}
+\item Compute the bias $\text{Bias}(\hat{f}_K(x_0))=E(\hat{f}_K(x_0)) - f(x_0)$ of the KNN-regression estimator $\hat{f}_K(x_0)$.
+\item Compute the variance $Var(\hat{f}_K(x_0))$ of the KNN-regression estimator $\hat{f}_K(x_0)$.
+\item Now, let $f(x) = 5 + 3\sin(2\pi\,x)$, $\sigma^2=1$, and $n=100$.\\[1ex]
+Compute the bias of the KNN-regression estimator $\hat{f}_K(x_0)$ at $x_0=0.25$ for $K=5$ and $K=20$.
+\item Consider the same setup as in the previous question.\\[1ex] 
+Compute the variance of the KNN-regression estimator $\hat{f}_K(x_0)$ at $x_0=0.25$ for $K=5$ and $K=20$.
+\item Consider the same setup as in the previous question.\\[1ex] 
+Compute the local mean squared estimation error of the KNN-regression estimator $\hat{f}_K(x_0)$ at $x_0=0.25$ for $K=5$ and $K=20$.
+\item Consider the same setup as in the previous question.\\[1ex] 
+Compute the local mean squared prediction error of the KNN-regression estimator $\hat{f}_K(x_0)$ at $x_0=0.25$ for $K=5$ and $K=20$.
+\end{answerlist}
+\end{question}
+
+\begin{solution}
+\begin{answerlist}
+
+\item The bias of the KNN-regression estimator $\hat{f}_K(x_0)$ is given by
+\begin{align*}
+\text{Bias}(\hat{f}_K(x_0)) 
+&= E(\hat{f}_K(x_0)) - f(x_0)
+\end{align*}
+So, we mainly have to compute the mean $E(\hat{f}_K(x_0))$:
+\begin{align*}
+E(\hat{f}_K(x_0)) 
+&= E\left(\frac{1}{K}\sum_{i\in\mathcal{N}_0}Y_i\right)\\
+&= \frac{1}{K}\sum_{i\in\mathcal{N}_0}E\left(Y_i\right)\\
+&= \frac{1}{K}\sum_{i\in\mathcal{N}_0}E\left(f(X_i) + \epsilon_i\right)\\
+&= \frac{1}{K}\sum_{i\in\mathcal{N}_0}E\left(f(X_i)\right) + \frac{1}{K}\sum_{i\in\mathcal{N}_0}E\left(\epsilon_i\right)\\
+&= \frac{1}{K}\sum_{i\in\mathcal{N}_0}E\left(f(X_i)\right) + \frac{1}{K}\sum_{i\in\mathcal{N}_0}0\\
+&= \frac{1}{K}\sum_{i\in\mathcal{N}_0}E\left(f(i/n)\right)\\
+&= \frac{1}{K}\sum_{i\in\mathcal{N}_0}f(i/n)
+\end{align*}
+Thus, the bias is
+\begin{align*}
+\text{Bias}(\hat{f}_K(x_0))
+&= \frac{1}{K}\sum_{i\in\mathcal{N}_0}f(i/n) - f(x_0)
+\end{align*}
+
+\item The variance of the KNN-regression estimator $\hat{f}_K(x_0)$ is given by
+\begin{align*}
+Var(\hat{f}_K(x_0)) 
+& = Var\left(\frac{1}{K}\sum_{i\in\mathcal{N}_0}Y_i\right)\\
+& = \frac{1}{K^2}Var\left(\sum_{i\in\mathcal{N}_0}Y_i\right)\\
+& = \frac{1}{K^2}\sum_{i\in\mathcal{N}_0}Var\left(Y_i\right) \\
+& = \frac{1}{K^2}\sum_{i\in\mathcal{N}_0}Var\left(f(X_i)+\epsilon_i\right) \\
+& = \frac{1}{K^2}\sum_{i\in\mathcal{N}_0}Var\left(f(i/n)+\epsilon_i\right) \\
+& = \frac{1}{K^2}\sum_{i\in\mathcal{N}_0}Var\left(\epsilon_i\right) \\
+& = \frac{1}{K^2}\sum_{i\in\mathcal{N}_0}\sigma^2 \\
+& = \frac{K}{K^2}\sigma^2 \\
+& = \frac{1}{K}\sigma^2
+\end{align*}
+
+
+\item Given $f(X_i) = 5+ 3\sin(2\pi\,X_i),$ $x_0=0.25$, and $n=100$, we first identify the $K$ nearest neighbors of $x_0=0.25$. The design points are $X_i = i/100$ for $i=1,\ldots,100$. 
+\begin{itemize}
+\item The nearest neighbors of $x_0=0.25$ for $K=5$ are:\\[2ex]
+$X_{\Sexpr{IndexSet_K5[1]}}=\Sexpr{X_seq[IndexSet_K5[1]]}$, 
+$X_{\Sexpr{IndexSet_K5[2]}}=\Sexpr{X_seq[IndexSet_K5[2]]}$, 
+$X_{\Sexpr{IndexSet_K5[3]}}=\Sexpr{X_seq[IndexSet_K5[3]]}$, 
+$X_{\Sexpr{IndexSet_K5[4]}}=\Sexpr{X_seq[IndexSet_K5[4]]}$,  
+$X_{\Sexpr{IndexSet_K5[5]}}=\Sexpr{X_seq[IndexSet_K5[5]]}$.\\[2ex]
+Thus the bias for $K=5$ is
+\begin{align*}
+\text{Bias}(\hat{f}_5(0.25))
+&= \frac{1}{5}\big(f(\Sexpr{X_seq[IndexSet_K5[1]]}) + f(\Sexpr{X_seq[IndexSet_K5[2]]}) + f(\Sexpr{X_seq[IndexSet_K5[3]]}) + f(\Sexpr{X_seq[IndexSet_K5[4]]}) + f(\Sexpr{X_seq[IndexSet_K5[5]]})\big) - f(0.25)\\
+&= \Sexpr{round(mean_K5, 3)} - \Sexpr{round(f(x_0), 3)} 
+ = \Sexpr{round(round(mean_K5, 3) - round(f(x_0), 3), 3)}
+\end{align*}
+\item The nearest neighbors of $x_0=0.25$ for $K=20$ are:\\[2ex]
+$X_{\Sexpr{IndexSet_K20[1]}}=\Sexpr{X_seq[IndexSet_K20[1]]}$, 
+$X_{\Sexpr{IndexSet_K20[2]}}=\Sexpr{X_seq[IndexSet_K20[2]]}$, 
+$X_{\Sexpr{IndexSet_K20[3]}}=\Sexpr{X_seq[IndexSet_K20[3]]}$, \dots ,
+$X_{\Sexpr{IndexSet_K20[20]}}=\Sexpr{X_seq[IndexSet_K20[20]]}$.\\[2ex] 
+Thus the bias for $K=20$ is
+\begin{align*}
+\text{Bias}(\hat{f}_{20}(0.25))
+&= \frac{1}{20}\big(f(\Sexpr{X_seq[IndexSet_K20[1]]}) + f(\Sexpr{X_seq[IndexSet_K20[2]]}) + f(\Sexpr{X_seq[IndexSet_K20[3]]}) + \dots  + f(\Sexpr{X_seq[IndexSet_K20[20]]})\big) - f(0.25)\\
+&= \Sexpr{round(mean_K20, 3)} - \Sexpr{round(f(x_0), 3)} 
+ = \Sexpr{round(round(mean_K20, 3) - round(f(x_0), 3), 3)}
+\end{align*}
+\end{itemize}
+\item Given $\sigma^2=1$, the variance of the KNN-regression estimator $\hat{f}_K(x_0)$ for $K=5$ and $K=20$ are computed as follows:\\[2ex]
+\begin{itemize}
+\item For $K=5$: $Var(\hat{f}_K(x_0))=\frac{1}{K}\sigma^2 = \frac{1}{5}$\\[1ex]
+\item For $K=20$: $Var(\hat{f}_K(x_0))=\frac{1}{K}\sigma^2= \frac{1}{20}$
+\end{itemize}
+
+\item The local mean squared estimation error is given by
+$$
+\text{Bias}(\hat{f}_K(x_0))^2 + Var(\hat{f}_K(x_0)).
+$$
+Thus, for $x_0=0.25$ we have:\\[1ex] 
+\begin{itemize}
+\item For $K=5$: 
+$\Sexpr{round( (round(mean_K5, 3) - round(f(x_0), 3))^2, 5)} + \frac{1}{5} = 
+ \Sexpr{round( (round(mean_K5, 3) - round(f(x_0), 3))^2      + 0.2, 5)}$\\[1ex]
+\item For $K=20$: 
+$\Sexpr{round( (round(mean_K20, 3) - round(f(x_0), 3))^2, 5)} + \frac{1}{20}=
+ \Sexpr{round( (round(mean_K20, 3) - round(f(x_0), 3))^2      + 0.05, 5)}$
+\end{itemize}
+
+\item The local mean squared prediction error is given by
+$$
+\text{Bias}(\hat{f}_K(x_0))^2 + Var(\hat{f}_K(x_0)) + \sigma^2.
+$$
+Thus, for $x_0=0.25$ we have:\\[1ex] 
+\begin{itemize}
+\item For $K=5$: 
+$\Sexpr{round( (round(mean_K5, 3) - round(f(x_0), 3))^2, 5)} + \frac{1}{5} + 1 = 
+ \Sexpr{round( (round(mean_K5, 3) - round(f(x_0), 3))^2      + 0.2 + 1 , 5)}$\\[1ex]
+\item For $K=20$: 
+$\Sexpr{round( (round(mean_K20, 3) - round(f(x_0), 3))^2, 5)} + \frac{1}{20} + 1 =
+ \Sexpr{round( (round(mean_K20, 3) - round(f(x_0), 3))^2      + 0.05 + 1 , 5)}$
+\end{itemize}
+\end{answerlist}
+\end{solution}
+
+%% META-INFORMATION
+%% \extype{num}
+%% \exsolution{0}
+%% \exname{Ex_Ch4_1}
