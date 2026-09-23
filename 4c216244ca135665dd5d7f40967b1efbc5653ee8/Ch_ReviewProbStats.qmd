@@ -12,13 +12,13 @@ $$
 $$
 :::
 
-Regression analysis and statistics in general rests on a probabilistic framework: the data we observe are assumed to be realizations of some underlying random process. This chapter builds the vocabulary needed to make that idea precise. 
+Regression analysis, and statistics in general, rests on a probabilistic framework: the data we observe are assumed to be realizations of some underlying random process. This chapter builds the vocabulary needed to make that idea precise. 
 
-The central concept we work toward is the **data-generating process (DGP)**; i.e the probability model that we imagine produced the observed data. Understanding the DGP is the key to understanding what regression estimates, and what it cannot tell us.
+The central concept we work toward is the **data-generating process (DGP)**; i.e., the probability model that we imagine produced the observed data. Understanding the DGP is the key to understanding what regression estimates, and what it cannot tell us.
 
 ## Where Does Data Come From? {#sec-where-data}
 
-Suppose your class conducts a short test, admittedly a bit strange one: Each student measures the **length of their hair (in cm)** and performs a **jump and reach test** — jumping as high as possible and **recording the height reached (in cm)**. The result is a dataset with two columns and $n$ rows — one row per student.
+Suppose we run a small study — admittedly a somewhat strange one: for each of $n$ students we measure the **length of their hair (in cm)** and let them perform a **jump-and-reach test** — jumping as high as possible, where we **record the jump height (in cm)**. The result is a dataset with two columns and $n$ rows — one row per student.
 
 ![](images/reach-jump.gif){fig-align="center" width="40%"}
 
@@ -47,14 +47,14 @@ hairlength <- round(pmax(
 
 ## Generate the outcome Y: Y_i = beta1 + beta2*X_i + eps_i, with eps_i ~ N(0, sigma^2)
 
-jumpreach <- round(pmax(beta1 + beta2 * hairlength + rnorm(n, 0, sigma), 0), 2)
+jumpheight <- round(pmax(beta1 + beta2 * hairlength + rnorm(n, 0, sigma), 0), 2)
 
 gender01  <- ifelse(gender == "female", 1, 0)
 
 ## Data frame (the only thing we observe usually)
 jumptest_data <- data.frame(hairlength = hairlength,
-                            jumpreach  = jumpreach, 
-                            gender     = gender, 
+                            jumpheight = jumpheight,
+                            gender     = gender,
                             gender01   = gender01)
 
 write.csv(jumptest_data, file = "DATA/jumptest_data.csv", row.names = FALSE)
@@ -82,7 +82,7 @@ f_YgX <- function(y, x) dnorm(y, beta1 + beta2 * x, sigma)  ## conditional densi
 ```{r}
 #| label: tbl-class-data
 #| echo: false
-#| tbl-cap: "First six rows of the jump and reach test data set."
+#| tbl-cap: "First six rows of the jump-height data set."
 
 library("kableExtra")
 kbl(head(jumptest_data[,1:2]),
@@ -96,33 +96,33 @@ kbl(head(jumptest_data[,1:2]),
 
 Even from the first six rows, we see two things:
 
-1. There appears to be a pattern: shorter hair tends to go together with higher jump and reach scores.
-2. The relationship is noisy — knowing someone's hair length does not tell us exactly what jump and reach score they will achieve.
+1. There appears to be a pattern: shorter hair tends to go together with higher jump heights.
+2. The relationship is noisy — knowing someone's hair length does not tell us exactly what jump height they will achieve.
 
 @fig-class-scatter displays all $n = 30$ observations. The downward trend is visible, but so is the variability around it.
 
 ```{r}
 #| label: fig-class-scatter
-#| fig-cap: "Hair length and jump and reach scores for 30 students. A clear negative association is visible, but the relationship is not deterministic."
+#| fig-cap: "Hair length and jump height for 30 students. A clear negative association is visible, but the relationship is not deterministic."
 
-plot(jumptest_data$hairlength, jumptest_data$jumpreach,
+plot(jumptest_data$hairlength, jumptest_data$jumpheight,
      xlab = "Hair Length (cm)",
      ylab = "Jump Height (cm)",
      pch  = 19,
      col  = adjustcolor("steelblue", alpha.f = 0.7))
 ```
 
-🤔 **Now ask yourself:** What would happen if a *different* group of 30 students had filled in the survey? 
+🤔 **Now ask yourself:** What would happen if we ran the study again with a *different* group of 30 students? 
 
-🤓 You would get different hair lengths and different jump and reach scores for each student. The overall pattern might persist, but every individual number would change. The dataset is, in this sense, **random**: it is one particular outcome of a process that could have produced many different outcomes. Key-word: **sampling variability**
+🤓 You would get different hair lengths and different jump heights for each student. The overall pattern might persist, but every individual number would change. The dataset is, in this sense, **random**: it is one particular outcome of a process that could have produced many different outcomes. Keyword: **sampling variability**.
 
 This observation is the starting point of statistics. The data we observe are a **realization** of a random process. Had the process run differently (different students, a different year), we would have seen different data. The **data-generating process (DGP)** is the underlying probability model that governs this random process. Everything in this chapter builds toward a useful formulation of the DGP.
 
 ::: {.callout-note appearance="simple" icon="false"}
 ## Guiding Questions
 
-1. What mathematical objects describe the randomness in a single measurement, such as the jump and reach score of a randomly chosen student?
-2. How do we describe the *relationship* between two random measurements, such as hair length and jump and reach scores?
+1. What mathematical objects describe the randomness in a single measurement, such as the jump height of a randomly chosen student?
+2. How do we describe the *relationship* between two random measurements, such as hair length and jump height?
 3. What is a data-generating process, and how does it connect to the regression model in the next chapter?
 :::
 
@@ -133,7 +133,7 @@ The key mathematical concept is the **random variable**. You can view a random v
 
 A **random variable**, say $X,$ can give us values, for instance,
 
-* **numeric values:** $X\in\mathbb{R},$ i.e. any real number 
+* **numeric values:** $X\in\mathbb{R},$ i.e., any real number 
 * **qualitative values:** $X\in\{\texttt{red}, \texttt{blue}, \texttt{green}\}$ 
 
 The values occur based on an underlying (typically unknown) law: the **distribution** of the random variable $X.$ 
@@ -149,15 +149,15 @@ The subscript **"obs"** is a reminder that the value has been **obs**erved and i
 #### 🤸‍♀️ **Jump-Test Data Example** {-}
 
 
-* **Random Variable $Y$:** The jump and reach score of a randomly drawn student is a random variable, which we call $Y$. This random variable can take any non-negative value $\geq 0.$
-* **Random Variable $X$:** The hair length of a randomly drawn student is another random variable, $X$. This random variable can take any non-negative value $\geq 0.$
+* **Random Variable $Y$:** The jump height of a randomly drawn student is a random variable, which we call $Y$. It can take any value $\geq 0.$
+* **Random Variable $X$:** The hair length of a randomly drawn student is another random variable, $X$. It, too, can take any value $\geq 0.$
 
-Our class has $n$ students, indexed by $i = 1, \ldots, n$. The hair length and jump and reach score of student $i$ are the **random variable pairs** 
+Our study has $n$ students, indexed by $i = 1, \ldots, n$. The hair length and jump height of student $i$ are the **random variable pairs** 
 $$
 (Y_i, X_i),
 \qquad i = 1, \ldots, n.
 $$ 
-Once student $i$ fills in the survey, we record the **observed value pair**
+Once we have measured student $i$, we record the **observed value pair**
 $$
 (Y_{i,\operatorname{obs}}, X_{i,\operatorname{obs}}),
 \qquad i = 1, \ldots, n.
@@ -170,12 +170,12 @@ $$
 In our jump-test data set (@tbl-class-data) we have $n = 30$ students.
 
 
-@fig-hairlength-anim shows possible realizations of the random variable, I used to generate the hair length data in our jump test example. Each observed realization $(Y_{i,\operatorname{obs}},\, X_{i,\operatorname{obs}})$ corresponds to a possible realization of the underlying random variable pair $(Y_i,\, X_i,),$ of student $i=1,\dots,n$. The dashed black curves are the true (usually unknown) densities $f_X(x)$ and $f_Y(x)$: realizations tend to cluster where the densities are large.
+@fig-hairlength-anim shows possible realizations of the random variables that I used to generate the data in our jump-test example. Each observed pair $(Y_{i,\operatorname{obs}},\, X_{i,\operatorname{obs}})$ is one possible realization of the underlying random variable pair $(Y_i,\, X_i)$ of student $i=1,\dots,n$. The dashed black curves are the true (usually unknown) densities $f_X(x)$ and $f_Y(y)$: realizations tend to cluster where the densities are large.
 
 ```{r}
 #| label: fig-hairlength-anim
 #| echo: false
-#| fig-cap: "Sequential realizations of the paired random variables $(X_i, Y_i)$. **Top:** hair-length realizations drawn from the (usually unknown) mixture density $f_X(x)$ (dashed black). **Bottom:** the corresponding jump-and-reach realizations drawn from the (usually unknown) marginal density $f_Y(y)$ (dashed black). Each frame adds one student; the two panels are always in step."
+#| fig-cap: "Sequential realizations of the paired random variables $(X_i, Y_i)$. **Top:** hair-length realizations drawn from the (usually unknown) mixture density $f_X(x)$ (dashed black). **Bottom:** the corresponding jump-height realizations drawn from the (usually unknown) marginal density $f_Y(y)$ (dashed black). Each frame adds one student; the two panels are always in step."
 #| fig.show: animate
 #| animation.hook: gifski
 #| interval: 0.4
@@ -212,7 +212,7 @@ for (k in seq_len(n_anim)) {
   curve(f_Y(x),
         from = 0, to = 90,
         ylim = c(-0.004, 0.036),
-        xlab = "Jump & Reach (cm)",
+        xlab = "Jump Height (cm)",
         ylab = expression(f[Y](y)),
         lwd  = 2, lty  = 2, col  = "black",
         main = "",
@@ -243,16 +243,16 @@ $$
 (Y_{1},\, X_{1}),\, (Y_{2},\, X_{2}),\, \ldots,\, (Y_{n},\, X_{n}).
 $$ 
 
-The realizations are randomly drawn from an underlying (typically unknown) distribution(s).
+The realizations are randomly drawn from underlying (typically unknown) distributions.
 
-The main tools for characterizing the distributions of single random variables: 
+The main tools for characterizing the distributions of **single** random variables: 
 
 * **probability density function (pdf):** @sec-pdf 
 * **probability mass function (pmf):** @sec-pmf
 * **cumulative distribution function (cdf):** @sec-cdf
 * **univariate mean and variance:** @sec-moments
 
-The main tools for characterizing the distributions of multiple random variables: 
+The main tools for characterizing the distributions of **multiple** random variables: 
 
 * **joint and conditional distributions:** @sec-joint-conditional
 * **conditional means (regression):** @sec-regression-function
@@ -273,7 +273,7 @@ Examples of continuous random variables:
 
 * Age $A_i$ taking the values $A_i\geq 0$ [years, days, hours, minutes, seconds, etc.]
 * Height $H_i$ taking the values $H_i\geq 0$ [m, cm, mm, etc.]
-* Temperature $T_i$ taking values $-\infty < T_i < \infty$ [Degree Celcius]
+* Temperature $T_i$ taking values $-\infty < T_i < \infty$ [degrees Celsius]
 
 
 #### **Density Function** {-}
@@ -297,12 +297,12 @@ P(a \leq X \leq b) = \int_a^b f_X(x)\, dx
 $$
 
 ::: {.callout-note appearance="simple"}
-Note that the density value $f_X(x)$ is **not** itself a probability. Only **areas under $f_X$** correspond to probabilities. In fact, $f(x)$ can take values larger than 1.
+Note that the density value $f_X(x)$ is **not** itself a probability. Only **areas under $f_X$** correspond to probabilities. In fact, $f_X(x)$ can take values larger than 1.
 :::
 
 #### 💻 **Data Generation** {-} 
 
-If the true density is known, we can generate realizations on a the computer. For instance, in case of a normally distributed random variable (@sec-normal) with mean $1.6$ and variance $2,$ we can use the following code:
+If the true density is known (usually not the case), we can generate realizations on the computer. For instance, in case of a normally distributed random variable (@sec-normal) with mean $1.6$ and variance $2,$ we can use the following code:
 
 ```{r}
 n <- 12 # sample size (number of realizations)
@@ -332,17 +332,19 @@ Y_{1,\text{obs}}, \ldots, Y_{n,\text{obs}},
 $$ 
 we can estimate the underlying densities $f_X$ and $f_Y$ without assuming specific functional forms. Two standard estimators are:
 
-- The **histogram estimator** divides the range of the data into bins and estimates $f(x)$ by the relative frequency of observations falling into each bin. It is a step function. 
+- The **histogram estimator** divides the range of the data into bins and estimates $f_X$ and $f_Y$ by the relative frequency of observations falling into each bin. It is a step function. 
 ```{r}
 #| eval: false
 hist(jumptest_data$hairlength, freq = FALSE)# estimates f_X
-hist(jumptest_data$jumpreach,  freq = FALSE)# estimates f_Y
+hist(jumptest_data$jumpheight,  freq = FALSE)# estimates f_Y
 ``` 
 - The **kernel density estimator** places a small symmetric bump (a *kernel*) centered at each observation and sums them up. The result is a smooth curve. 
 ```{r}
 #| eval: false
-density(jumptest_data$hairlength) # estimates f_X
-density(jumptest_data$jumpreach)  # estimates f_Y
+density(jumptest_data$hairlength, 
+        bw = bw.SJ(jumptest_data$hairlength)) # estimates f_X
+density(jumptest_data$jumpheight,
+        bw = bw.SJ(jumptest_data$jumpheight))  # estimates f_Y
 ``` 
 
 Both of these (non-parametric) estimators converge to the true $f_X(x)$ and $f_Y(y)$ as $n \to \infty,$ if used correctly. 
@@ -358,18 +360,26 @@ together with the true **usually unknown** density $f_X$.
 #| echo: false
 #| fig-cap: "Two estimates of the usually unknown density $f_X(x)$ of hair lengths: the histogram estimate (bars) and the kernel density estimate (solid curve). The dashed black curve is the true (usually unknown) density $f_X(x)$."
 
+## Histogram and kernel density estimation (without plotting yet)
+hist_est <- hist(jumptest_data$hairlength, plot = FALSE)
+kde_est  <- density(jumptest_data$hairlength,
+                    bw = bw.SJ(jumptest_data$hairlength))
+
+## y-range covering both estimates and the true density
+x_grid <- seq(min(hist_est$breaks), max(hist_est$breaks), length.out = 500)
+y_max  <- max(hist_est$density, kde_est$y, f_X(x_grid))
+
 ## Histogram estimation
 hist(jumptest_data$hairlength,
      freq     = FALSE,
      col      = adjustcolor("steelblue", alpha.f = 0.4),
      border   = "white",
      xlab     = "Hair Length (cm)",
-     ylim     = c(0, 0.07),
+     ylim     = c(0, y_max * 1.05),
      main     = "")
 
 ## Kernel density estimation
-lines(density(jumptest_data$hairlength, adjust = 1.2),
-      lwd = 2, col = "steelblue")
+lines(kde_est, lwd = 2, col = "steelblue")
 
 curve(f_X(x), add = TRUE, col = "black", lwd = 2, lty = 2)
 legend("top",
@@ -385,26 +395,34 @@ legend("top",
 ```
 
 
-@fig-jumpreach-hist shows the estimation results based on the observed hair-length data
+@fig-jumpheight-hist shows the estimation results based on the observed jump-height data
 $$
 Y_{1,\text{obs}}, \ldots, Y_{n,\text{obs}}
 $$ 
 together with the true **usually unknown** density $f_Y$.
 
 ```{r}
-#| label: fig-jumpreach-hist
+#| label: fig-jumpheight-hist
 #| echo: false
-#| fig-cap: "Two estimates of the usually unknown density $f_Y(y)$ of jump and reach scores: the histogram estimate (bars) and the kernel density estimate (solid curve). The dashed black curve is the true (usually unknown) marginal density $f_Y(y)$."
+#| fig-cap: "Two estimates of the usually unknown density $f_Y(y)$ of jump heights: the histogram estimate (bars) and the kernel density estimate (solid curve). The dashed black curve is the true (usually unknown) marginal density $f_Y(y)$."
 
-hist(jumptest_data$jumpreach,
+## Histogram and kernel density estimation (without plotting yet)
+hist_est <- hist(jumptest_data$jumpheight, plot = FALSE)
+kde_est  <- density(jumptest_data$jumpheight,
+                    bw = bw.SJ(jumptest_data$jumpheight))
+
+## y-range covering both estimates and the true density
+y_grid <- seq(min(hist_est$breaks), max(hist_est$breaks), length.out = 500)
+y_max  <- max(hist_est$density, kde_est$y, f_Y(y_grid))
+
+hist(jumptest_data$jumpheight,
      freq   = FALSE,
      col    = adjustcolor("tomato", alpha.f = 0.4),
      border = "white",
      xlab   = "Jump Height (cm)",
-     ylim   = c(0, 0.03),
+     ylim   = c(0, y_max * 1.05),
      main   = "")
-lines(density(jumptest_data$jumpreach, adjust = 1.2),
-      lwd = 2, col = "tomato")
+lines(kde_est, lwd = 2, col = "tomato")
 curve(f_Y(x), add = TRUE, col = "black", lwd = 2, lty = 2)
 legend("top",
        legend = c("Histogram Estimate",
@@ -422,19 +440,19 @@ legend("top",
 ::: {.callout-note}
 # Summary: Density Function
 
-* 🤓 The probability density funciton (pdf) or short **density** allows describing the distribution of **continuous random variables**.
+* 🤓 The probability density function (pdf), or **density** for short, allows describing the distribution of **continuous random variables**.
 <br> 
 * 🙂 Densities are particularly intuitive to interpret: The realizations of a random variable tend to cluster at regions of high density.
 <br> 
-* 🙁 As long as we only look at ***marginal* densities** $f_X(x)$ or $f_Y(x),$ we cannot see a possible connection between the random variables $X$ and $Y.$ To see connections, we need 
-   * ***joint* densities** $f_{YX}$ (@sec-joint-conditional) or
+* 🙁 As long as we only look at ***marginal* densities** $f_X(x)$ or $f_Y(y),$ we cannot see a possible connection between the random variables $X$ and $Y.$ To see connections, we need 
+   * ***joint* densities** $f_{Y,X}$ (@sec-joint-conditional) or
    * **conditional means (regression)** (@sec-regression-function). 
 <br>
 * ⚒️ **Non-parametric estimation:** To estimate an unknown density function $f_X(x)$ we can use for instance a histogram or a kernel density estimator.
     * 🙂 Require no functional form assumption
     * 🙁 Inefficient estimation 
 <br>
-* ⚒️ **Parametric estimation:** If you know the general functional form of $f_X(x)$ you can improve the estimation result. For instance, if $f_X(x)$ is the density of a normal distribution, but you do not know the mean and variance parameters, you can focus on estimating these unknown parameters instead of estimating the total functional form; see @sec-sec-normal.
+* ⚒️ **Parametric estimation:** If you know the general functional form of $f_X(x)$ you can improve the estimation result. For instance, if $f_X(x)$ is the density of a normal distribution, but you do not know the mean and variance parameters, you can focus on estimating these unknown parameters instead of estimating the entire functional form; see @sec-normal.
     * 🙁 Requires a functional form assumption
     * 🙂 Efficient estimation    
 :::
@@ -451,14 +469,14 @@ is called a **discrete random variable.**
 
 Examples of discrete random variables:
 
-* Gender[^1] $G_i\in\{\texttt{female}, \text{male}\}$
+* Gender[^1] $G_i\in\{\texttt{female}, \texttt{male}\}$
 * Rolling a die $D_i\in\{1,2,3,4,5,6\}$
 * Eye color $C_i\in\{\texttt{blue}, \texttt{brown}, \texttt{hazel}, \texttt{green}, \texttt{gray}\}$
 * Number of coin flips required to get the first head, $N_i\in\{1,2,\dots\}$
 
 [^1]: In practice, gender and biological sex are measured in various ways depending on the research context. This example uses a binary coding for simplicity; real datasets may include additional categories or continuous measures.
 
-For discrete random variable a density function does *not* exist. There is no smooth curve whose area gives probabilities, because all probability is concentrated on isolated points.
+For a discrete random variable, a density function does *not* exist. There is no smooth curve whose area gives probabilities, because all probability is concentrated on isolated points.
 
 #### **Probability Mass Function** {-}
 
@@ -481,30 +499,31 @@ $$
 \sum_{k=1,2,\ldots} p_W(w_k) = 1
 $$
 **3. General Probabilities:**
+The probability that $W$ takes a value in a set $A$ is the sum of the corresponding pmf values:
 $$
-p_W(w_k) = P(W = w_k), \quad\text{for all}\quad k = 1, 2, \ldots
+P(W \in A) = \sum_{k:\, w_k \in A} p_W(w_k)
 $$
 
 ::: {.callout-note appearance="simple"}
-Unlike the density $f_X(x)$, the value $p_W(w_k)$ **is** itself a probability — the probability that $W$ realizes itself to the value $w_k.$
+Unlike the density $f_X(x)$, the value $p_W(w_k)$ **is** itself a probability — the probability that $W$ takes the value $w_k.$
 :::
 
 
 #### 💻 **Data Generation** {-} 
 
-If the true pmf is known, we can generate realizations on the computer. For instance, to generate realization of a random gender variable with two gender-outcomes 
+If the true pmf is known (usually not the case), we can generate realizations on the computer. For instance, to generate realizations of a random gender variable with the two outcomes 
 $$
-G_i\in\{\texttt{female}, \text{male}\}
+G_i\in\{\texttt{female}, \texttt{male}\}
 $$
 we can use the following code:
 
 ```{r}
-n <- 11 # sample size (number of die rolls)
+n <- 11 # sample size (number of realizations)
 
 gender_realizations <- sample(
     c("female", "male"),  # possible outcome values 
     size    = n,          # sample size
-    replace = TRUE,       # values can occure more than once
+    replace = TRUE,       # values can occur more than once
     prob    = c(1/2, 1/2) # probabilities for each outcome value
 )
 head(gender_realizations) # first six values
@@ -527,7 +546,7 @@ where $\mathbf{1}(\texttt{TRUE})=1$ and $\mathbf{1}(\texttt{FALSE})=0$ is the in
 
 #### 🤸‍♀️ **Jump-Test Data Example** {-}
 
-Let's say a third variable was recorded alongside hair length and jump and reach: a **gender indicator** $G_i$ called `gender` taking the value 
+Let's say a third variable was recorded alongside hair length and jump height: a **gender indicator** $G_i$ called `gender` taking the value 
 
 * $G_i = \texttt{male}$ if student $i$ is a male student 
 * $G_i = \texttt{female}$ if student $i$ is a female student
@@ -541,9 +560,9 @@ $$
 #| label: tbl-gender-data
 #| echo: false
 #| tbl-cap: "First six values of the observed gender variable."
-kbl(head(gender),
+kbl(head(jumptest_data$gender),
     col.names = c("Gender"),
-    align = c("r", "r")) |>
+    align = "r") |>
   kable_styling(bootstrap_options = c("striped", "hover"),
                 full_width = FALSE)
 ```
@@ -579,7 +598,7 @@ $$
 ```{r}
 #| label: fig-gender-pmf
 #| echo: false
-#| fig-cap: "Estimated probability mass function values $\\hat{p}_{G,\\operatorname{obs}}(\texttt{male})$ and $\\hat{p}_{G,\\operatorname{obs}}(\texttt{female})$ (purple bars). The dashed black line is the true pmf $p_G(\texttt{male}) = p_G(\texttt{female}) = 0.5$."
+#| fig-cap: "Estimated probability mass function values $\\hat{p}_{G,\\operatorname{obs}}(\\texttt{male})$ and $\\hat{p}_{G,\\operatorname{obs}}(\\texttt{female})$ (purple bars). The dashed black line is the true pmf $p_G(\\texttt{male}) = p_G(\\texttt{female}) = 0.5$."
 
 gender_probs <- as.numeric(table(jumptest_data$gender)) / length(jumptest_data$gender)
 
@@ -604,11 +623,11 @@ legend("topright",
 ::: {.callout-note}
 # Summary: Probability Mass Function
 
-* 🤓 The probability mass funciton (pmf) allows describing the distribution of **discrete random variables**. 
+* 🤓 The probability mass function (pmf) allows describing the distribution of **discrete random variables**. 
 <br> 
-* 🙂 Probability mass functions are to interpret: The realizations of a discrete random variable tend to take values that have a high probability. 
+* 🙂 Probability mass functions are easy to interpret: The realizations of a discrete random variable tend to take values that have a high probability. 
 <br> 
-* 🙁 As long as we only look at ***marginal* pmfs**, we cannot see a possible connections between two or more random variables. 
+* 🙁 As long as we only look at ***marginal* pmfs**, we cannot see a possible connection between two or more random variables. 
 <br>
 * ⚒️ **Non-parametric estimation:** To estimate an unknown pmf we can simply use relative frequencies.
 :::
@@ -621,7 +640,7 @@ $$
 F_X(x) = P(X \leq x).
 $$
 
-This definition works for any random variable, continuous, discrete, and even hybrid forms of random variables that are partly continuous and discrete. 
+This definition works for any random variable: continuous, discrete, and even hybrid ones that are partly continuous and partly discrete. 
 
 $F_X(x)$ tells us the probability that $X$ takes a value at most $x$. It has the following properties:
 
@@ -633,15 +652,15 @@ $$
 $$
 \lim_{x \to -\infty} F_X(x) = 0\quad\text{and}\quad \lim_{x \to +\infty} F_X(x) = 1.
 $$
-**3. $F(x)$ is Right-Continuous:**
+**3. $F_X(x)$ is Right-Continuous:**
 $$
 \lim_{x \to c+} F_X(x) = F_X(c),
 $$
-where $x \to c+$ means that $x$ goes to $c$ from the "right", i.e. coming from values larger than $c$.
+where $x \to c+$ means that $x$ goes to $c$ from the "right", i.e., coming from values larger than $c$.
 
 **4. For continuous $X$:** 
 $$
-F_X(x) = P(X \leq x) = \int_{-\infty}^x f_X(x)dx.
+F_X(x) = P(X \leq x) = \int_{-\infty}^x f_X(t)\, dt.
 $$
 and
 $$
@@ -656,23 +675,23 @@ where $F'_X(x)$ denotes the first derivative of $F_X(x).$
 In practice, the true cdf is **(typically) unknown**. Given the observed values, we estimate it with the **empirical cdf**, defined as the fraction of observations at most $x$:
 
 \begin{align*}
-\widehat{F}_{\operatorname{obs}}(x) 
+\widehat{F}_{X,\operatorname{obs}}(x) 
 & = \frac{\text{number of observations equal to or smaller than $x$}}{n}\\
 & = \frac{1}{n} \sum_{i=1}^{n} \mathbf{1}(X_{i,\operatorname{obs}} \leq x),
 \end{align*}
 where $\mathbf{1}(\texttt{TRUE})=1$ and $\mathbf{1}(\texttt{FALSE})=0$ is the indicator function. 
 
-The empirical cdf $\widehat{F}_{\operatorname{obs}}$ is a step function that converges to the true cdf $F$ as $n \to \infty$. 
+The empirical cdf $\widehat{F}_{X,\operatorname{obs}}$ is a step function that converges to the true cdf $F_X$ as $n \to \infty$. 
 
 
-In R, `ecdf()` computes the empirical cdf $\widehat{F}_{\operatorname{obs}}(x).$
+In R, `ecdf()` computes the empirical cdf $\widehat{F}_{X,\operatorname{obs}}(x).$
 
 
 #### 🤸‍♀️ **Jump-Test Data Example** {-}
 
 @fig-hairlength-ecdf shows 
 $$
-\widehat{F}_{X,\operatorname{obs}}  = \frac{1}{n} \sum_{i=1}^{n} \mathbf{1}(X_{i,\operatorname{obs}} \leq x),
+\widehat{F}_{X,\operatorname{obs}}(x)  = \frac{1}{n} \sum_{i=1}^{n} \mathbf{1}(X_{i,\operatorname{obs}} \leq x),
 $$ 
 based on the observed hair-length data
 $$
@@ -701,11 +720,11 @@ legend("topleft",
 ```
 
 
-@fig-jumpreach-ecdf shows 
+@fig-jumpheight-ecdf shows 
 $$
-\widehat{F}_{Y,\operatorname{obs}}  = \frac{1}{n} \sum_{i=1}^{n} \mathbf{1}(Y_{i,\operatorname{obs}} \leq x),
+\widehat{F}_{Y,\operatorname{obs}}(y)  = \frac{1}{n} \sum_{i=1}^{n} \mathbf{1}(Y_{i,\operatorname{obs}} \leq y),
 $$ 
-based on the observed jump and reach data
+based on the observed jump-height data
 $$
 Y_{1,\text{obs}}, \ldots, Y_{n,\text{obs}}
 $$ 
@@ -713,10 +732,10 @@ together with the true **usually unknown** cdf $F_Y$.
 
 
 ```{r}
-#| label: fig-jumpreach-ecdf
-#| fig-cap: "Empirical cdf $\\widehat{F}_{Y,\\operatorname{obs}}(y)$ of jump and reach scores (solid red step function). The dashed black curve is the true marginal cdf $F_Y(y)$."
+#| label: fig-jumpheight-ecdf
+#| fig-cap: "Empirical cdf $\\widehat{F}_{Y,\\operatorname{obs}}(y)$ of jump heights (solid red step function). The dashed black curve is the true marginal cdf $F_Y(y)$."
 
-plot(ecdf(jumptest_data$jumpreach),
+plot(ecdf(jumptest_data$jumpheight),
      xlab      = "Jump Height (cm)",
      ylab      = expression(hat(F)["Y,obs"](y)),
      main      = "",
@@ -737,25 +756,25 @@ legend("topleft",
 ::: {.callout-note appearance="simple"}
 # Summary: Distribution Function
 
-* 🤓 The cdf is well-defined for both continuous and discrete, and even for  **mixtures** of continuous and discrete random variables. The definition 
+* 🤓 The cdf is well-defined for continuous and discrete random variables, and even for **mixtures** of the two. The definition 
 $$
 F_X(x) = P(X \leq x)
 $$ 
 requires nothing more than a probability, and probabilities are always defined.
 <br> 
-* 🙁 As long as we only look at ***marginal* cdfs**, we cannot see a possible connections between two or more random variables. 
+* 🙁 As long as we only look at ***marginal* cdfs**, we cannot see a possible connection between two or more random variables. 
 <br>
 * ⚒️ **Non-parametric estimation:** To estimate an unknown cdf we can simply use relative frequencies.
 :::
 
 ## Mean and Variance {#sec-moments}
 
-Two following two parameters summarize a distribution more compactly than the full density: 
+The following two parameters summarize a distribution more compactly than the full density: 
 
-* **Mean:** The **expected value** or **mean** tells us something about the center (i.e. its location) of a distribution
-* **Variance:** The **variance** tells us something about how much the data spreads out around its mean.
+* **Mean:** The **expected value** or **mean** tells us something about the center, i.e., the **location**, of a distribution
+* **Variance:** The **variance** tells us something about how much the values **spread** out around the mean.
 
-❗ Mean (location) and variance (spread) are only important features of a distribution. Knowing both parameters does *not* give us the complete functional form of a distribution. 
+❗ Mean (location) and variance (spread) are only two particular features of a distribution. Knowing both parameters does *not* give us the complete functional form of a distribution. 
 
 ### Mean Value {-}
 
@@ -796,7 +815,7 @@ where $\sum_{k=1}^6 k = \frac{6\cdot(6+1)}{2}$ follows from the [Gaussian summat
 
 #### **Properties of the Expected Value** {-}
 
-The expected value is *linear*; i.e. for constants $a$ and $b$,
+The expected value is *linear*; i.e., for constants $a$ and $b$,
 $$
 E(aX + b) = a\, E(X) + b.
 $$
@@ -809,7 +828,7 @@ $$
 
 #### ⚒️ **Estimation** {-} 
 
-In practice, the true density $f_X$ and the true pmf $p_W$ are typically unknown — so neither formula can be evaluated directly to compute the true means $E(Y)$ and $E(W).$ 
+In practice, the true density $f_X$ and the true pmf $p_W$ are typically unknown — so neither formula can be evaluated directly to compute the true means $E(X)$ and $E(W).$ 
 
 Given observed realizations of a continuous random variable
 $$
@@ -841,7 +860,7 @@ $$
 $$
 W\in\{w_1,w_2,\dots\}
 $$ 
-only makes sense in cases where the values $w_1,w_2,\dots$ are numeric (e.g. rolling dice). 
+only makes sense in cases where the values $w_1,w_2,\dots$ are numeric (e.g., rolling a die). 
 
 #### 🤸‍♀️ **Jump-Test Data Example** {-}
 
@@ -861,17 +880,33 @@ $$
 \bar{Y}_{\operatorname{obs}} = \frac{1}{n} \sum_{i=1}^n Y_{i,\operatorname{obs}}
 $$
 
-In R, `mean()` computes sample means:
+In R, `mean()` computes the sample means: 
 
-* $\bar{X}_{\operatorname{obs}}=$`mean(jumptest_data$hairlength)` $=$ `r round(mean(jumptest_data$hairlength),1)`
-* $\bar{Y}_{\operatorname{obs}}=$`mean(jumptest_data$jumpreach)` $=$ `r round(mean(jumptest_data$jumpreach),1)`
+* $\bar{X}_{\operatorname{obs}}=$ `mean(jumptest_data$hairlength)` $=$ `r round(mean(jumptest_data$hairlength),1)`
+* $\bar{Y}_{\operatorname{obs}}=$ `mean(jumptest_data$jumpheight)` $=$ `r round(mean(jumptest_data$jumpheight),1)`
 
-Since we generated the data ourselves, we also know the true population means (usually unknown in practice):
+Since we generated the data ourselves, we also know the true population means — usually unknown in practice. So we can check that the estimates are doing a good job; both have values close to the true values:
 
-* $E(X)=$ `r 0.5*mu_X_m + 0.5*mu_X_f`
-* $E(Y)=$ `r 0.5*mu_Y_m + 0.5*mu_Y_f`
+| True (usually unknown) value | Estimated value |
+|:---|:---|
+| $E(X)=$ `r 0.5*mu_X_m + 0.5*mu_X_f` | $\bar{X}_{\operatorname{obs}}=$ `r round(mean(jumptest_data$hairlength),1)` |
+| $E(Y)=$ `r 0.5*mu_Y_m + 0.5*mu_Y_f` | $\bar{Y}_{\operatorname{obs}}=$ `r round(mean(jumptest_data$jumpheight),1)` |
 
-So, the estimates $\bar{X}_{\operatorname{obs}}$ and $\bar{Y}_{\operatorname{obs}}$ are doing a good job - both have values close to the true (usually unknown) values.
+::: {.callout-note appearance="simple"}
+## Law of Large Numbers
+
+This is not a lucky coincidence. The **Law of Large Numbers** guarantees that the sample means converge to the true means as the sample size grows,
+$$
+\bar{X}_{\operatorname{obs}} \longrightarrow E(X)
+\quad\text{and}\quad
+\bar{Y}_{\operatorname{obs}} \longrightarrow E(Y)
+\qquad\text{as}\quad n \to \infty.
+$$
+
+In other words: for largish sample sizes, we can consider $\bar{X}_{\operatorname{obs}}$ and $\bar{Y}_{\operatorname{obs}}$ as good estimates of the usually unknown $E(X)$ and $E(Y).$
+
+❗ However, they always remain *estimates* (think of them as guessing machines) of the true, usually unknown counterparts — with $n=30$ students, the guesses are good, but never exact.
+:::
 
 ### Variance and Standard Deviation {-}
 
@@ -904,15 +939,19 @@ For a discrete random variable $W$ with possible values $w_1, w_2, \ldots$ and p
 **Example:** The variance when rolling a fair die $D \in \{1,2,3,4,5,6\}$, where $E(D) = 3.5$, is
 \begin{align*}
 \text{Var}(D)
-&= (1-3.5)^2\cdot\tfrac{1}{6} + (2-3.5)^2\cdot\tfrac{1}{6} + (3-3.5)^2\cdot\tfrac{1}{6}+\\
-&+ (4-3.5)^2\cdot\tfrac{1}{6} + (5-3.5)^2\cdot\tfrac{1}{6} + (6-3.5)^2\cdot\tfrac{1}{6}\\
+&= (1-3.5)^2\cdot\tfrac{1}{6} + (2-3.5)^2\cdot\tfrac{1}{6} + (3-3.5)^2\cdot\tfrac{1}{6}\\
+&\phantom{=} + (4-3.5)^2\cdot\tfrac{1}{6} + (5-3.5)^2\cdot\tfrac{1}{6} + (6-3.5)^2\cdot\tfrac{1}{6}\\[2ex]
 &= \frac{1}{6}\cdot\big[(1-3.5)^2 + (2-3.5)^2 + (3-3.5)^2 \\
-&\phantom{\frac{1}{6}\cdot} + (4-3.5)^2 + (5-3.5)^2 + (6-3.5)^2\big]\\
-&= \frac{1}{6}\cdot\left[\frac{25}{4} + \frac{9}{4} + \frac{1}{4} + \frac{1}{4} + \frac{9}{4} + \frac{25}{4}\right]\\
-&= \frac{1}{6}\cdot\frac{25+9+1+1+9+25}{4}\\
+&\phantom{\frac{1}{6}\cdot} + (4-3.5)^2 + (5-3.5)^2 + (6-3.5)^2\big]\\[2ex]
+&= \frac{1}{6}\cdot\left[\frac{25}{4} + \frac{9}{4} + \frac{1}{4} + \frac{1}{4} + \frac{9}{4} + \frac{25}{4}\right]\\[2ex]
+&= \frac{1}{6}\cdot\frac{25+9+1+1+9+25}{4}\\[2ex]
 &= \frac{35}{12} \approx 2.92,
 \end{align*}
-so the standard deviation is $\text{SD}(D) = \sqrt{35/12} \approx 1.71$.
+so the standard deviation is 
+
+$$
+\text{SD}(D) = \sqrt{35/12} \approx 1.71.
+$$
 
 #### **Properties of Variance and Standard Deviation** {-}
 
@@ -949,8 +988,8 @@ In R, `var()` computes the sample variance and `sd()` computes the sample standa
 
 * $\hat\sigma_{X,\operatorname{obs}}^2=$ `var(jumptest_data$hairlength)` $=$ `r round(var(jumptest_data$hairlength),1)`
 * $\hat\sigma_{X,\operatorname{obs}}=$ `sd(jumptest_data$hairlength)` $=$ `r round(sd(jumptest_data$hairlength),1)`
-* $\hat\sigma_{Y,\operatorname{obs}}^2=$ `var(jumptest_data$jumpreach)` $=$ `r round(var(jumptest_data$jumpreach),1)`
-* $\hat\sigma_{Y,\operatorname{obs}}=$ `sd(jumptest_data$jumpreach)` $=$ `r round(sd(jumptest_data$jumpreach),1)`
+* $\hat\sigma_{Y,\operatorname{obs}}^2=$ `var(jumptest_data$jumpheight)` $=$ `r round(var(jumptest_data$jumpheight),1)`
+* $\hat\sigma_{Y,\operatorname{obs}}=$ `sd(jumptest_data$jumpheight)` $=$ `r round(sd(jumptest_data$jumpheight),1)`
 
 Since we generated the data ourselves, we also know the true population variances and standard deviations (usually unknown in practice):
 
@@ -987,7 +1026,7 @@ Note that $f_{Y,X}(y, x)$ is **not** itself a probability — it is a density. O
 :::
 
 
-### Marginal Densities Functions {-}
+### Marginal Density Functions {-}
 
 The **marginal densities** $f_Y$ and $f_X$ are recovered from $f_{Y,X}$ by integrating out the other variable:
 
@@ -1012,13 +1051,10 @@ If $X$ and $Y$ are **independent** (short notation: $Y \perp X$), knowing the va
 $$
 Y \perp X \;\Longleftrightarrow\; f_{Y,X}(y,x) = f_Y(y)\cdot f_X(x),
 $$
-which in turn implies 
+and, equivalently, to the joint cdf factoring as well:
 $$
 Y \perp X \;\Longleftrightarrow\; F_{Y,X}(y,x) = F_Y(y)\cdot F_X(x).
 $$
-
-From the scatter plot and the contours in @fig-joint-kde, we see that the cloud of points is not circular — high values of $X$ (hair length) tend to accompany low values of $Y$ (jump and reach scores). The joint distribution of $Y$ and $X$ is therefore not the same as drawing $Y$ and $X$ independently.
-
 
 
 #### 🤸‍♀️ **Jump-Test Data Example** {-}
@@ -1029,34 +1065,37 @@ $$
 $$
 we can estimate $f_{Y,X}$ non-parametrically using, for instance, the bivariate kernel density estimator. 
 
-The **bivariate kernel density estimator** extends the univariate kernel estimator to two dimensions: it places a two-dimensional symmetric bump at each observed pair and sums them up, producing a smooth surface over the plane. In R, `MASS::kde2d()` computes the bivariate kernel desntiy estimate from given data; `contour()` overlays its level curves on a scatter plot.
+The **bivariate kernel density estimator** extends the univariate kernel estimator to two dimensions: it places a two-dimensional symmetric bump at each observed pair and sums them up, producing a smooth surface over the plane. In R, `MASS::kde2d()` computes the bivariate kernel density estimate from given data; `contour()` overlays its level curves on a scatter plot.
 
 ```{r}
 #| label: fig-joint-kde
 #| fig-cap: "Scatter plot with contours of the bivariate kernel density estimate (solid red) and of the true (usually unknown) joint density $f_{Y,X}$ (dashed black)."
 
-kde <- MASS::kde2d(jumptest_data$jumpreach, jumptest_data$hairlength, n = 50)
+kde <- MASS::kde2d(jumptest_data$hairlength, jumptest_data$jumpheight, n = 50)
 
-## True joint density on a grid (x-axis = jumpreach = Y, y-axis = hairlength = X)
-push_grid <- seq(0, 80, length.out = 80)
+## True joint density on a grid (x-axis = hairlength = X, y-axis = jumpheight = Y)
 hair_grid <- seq(0, 50, length.out = 80)
-true_z    <- outer(push_grid, hair_grid,
-                   function(push, hair) f_YgX(push, hair) * f_X(hair))
+jump_grid <- seq(0, 80, length.out = 80)
+true_z    <- outer(hair_grid, jump_grid,
+                   function(hair, jump) f_YgX(jump, hair) * f_X(hair))
 
-plot(jumptest_data$jumpreach, jumptest_data$hairlength,
-     xlab = "Jump Height (cm)",
-     ylab = "Hair Length (cm)",
+plot(jumptest_data$hairlength, jumptest_data$jumpheight,
+     xlab = "Hair Length (cm)",
+     ylab = "Jump Height (cm)",
      pch  = 19,
      col  = adjustcolor("steelblue", alpha.f = 0.6))
-contour(kde, add = TRUE, col = "tomato", lwd = 1.5)
-contour(list(x = push_grid, y = hair_grid, z = true_z),
-        add = TRUE, col = "black", lwd = 1.5, lty = 2)
+contour(kde, add = TRUE, col = "tomato", lwd = 1.5, drawlabels = FALSE)
+contour(list(x = hair_grid, y = jump_grid, z = true_z),
+        add = TRUE, col = "black", lwd = 1.5, lty = 2,
+        nlevels = 8, drawlabels = FALSE)
 legend("topright",
        legend = c("Kernel Density Estimate",
                   expression(f["Y,X"])),
        col    = c("tomato", "black"),
        lty    = c(1, 2), lwd = 1.5, bty = "n")
 ```
+
+From the scatter plot and the contours in @fig-joint-kde, we see that the cloud of points is not circular — long hair (high values of $X$) tends to go together with low jump heights (low values of $Y$). The joint distribution of $Y$ and $X$ is therefore *not* the same as drawing $Y$ and $X$ independently of each other.
 
 
 
@@ -1088,9 +1127,9 @@ The covariance is symmetric:
 $$
 \text{Cov}(Y,X) = \text{Cov}(X,Y)
 $$
-Moreover, following calculus rule is often useful:
+Moreover, the following calculation rule is often useful:
 $$
-\text{Cov}(a_X X + b_X, a_Y Y + b_Y) = a_X a_Y \text{Cov}(X,Y) 
+\text{Cov}(a_X X + b_X, a_Y Y + b_Y) = a_X a_Y \text{Cov}(X,Y).
 $$
 
 The **correlation** standardizes the covariance to lie in $[-1, 1]$:
@@ -1103,11 +1142,23 @@ A correlation of $+1$ or $-1$ implies a perfect positive or negative linear rela
 
 In practice, the true $\text{Cov}(X, Y)$ and $\text{Cor}(X, Y)$ are **(typically) unknown** — they depend on the true joint distribution $f_{Y,X}$, which we do not observe.
 
+
+::: {.callout-tip}
+## 🎮 Your Turn: Guess the Correlation!
+
+How good is your eye for correlations? Before computing anything, take another look at the scatter plot of our jump-test data in @fig-class-scatter: which value would you guess for $\text{Cor}(X, Y)$? Note your guess down — we compute the estimate right below.
+
+Want to train your eye? Play a few rounds of [**Guess the Correlation**](https://guessthecorrelation.com/): you are shown a scatter plot and guess its correlation — the closer your guess, the more points you score.
+
+🤓 After a couple of rounds you will have a feeling for what a correlation of $-0.3$ looks like in comparison to one of $-0.9.$
+:::
+
+
 #### 🤸‍♀️ **Jump-Test Data Example** {-}
 
 Given observed data
 $$
-(X_{1,\operatorname{obs}},\, Y_{1,\operatorname{obs}}), \ldots, (X_{n,\operatorname{obs}},\, Y_{n,\operatorname{obs}}),
+(Y_{1,\operatorname{obs}},\, X_{1,\operatorname{obs}}), \ldots, (Y_{n,\operatorname{obs}},\, X_{n,\operatorname{obs}}),
 $$
 we can estimate them by their **sample counterparts**:
 
@@ -1121,20 +1172,20 @@ $$
 \widehat{\text{Cor}}_{\operatorname{obs}}(X, Y)
 = \frac{\widehat{\text{Cov}}_{\operatorname{obs}}(X, Y)}{\sqrt{\hat{\sigma}^2_{X,\operatorname{obs}}\, \hat{\sigma}^2_{Y,\operatorname{obs}}}},
 $$
-where $\hat{\sigma}^2_{X,\operatorname{obs}}$ and $\hat{\sigma}^2_{Y,\operatorname{obs}}$ are the sample standard deviations of $X$ and $Y$ respectively. 
+where $\hat{\sigma}^2_{X,\operatorname{obs}}$ and $\hat{\sigma}^2_{Y,\operatorname{obs}}$ are the sample variances of $X$ and $Y$, respectively. 
 
 
-In R, `cov()` and `cor()` can be used to compute the empirical (i.e. data based) estimates $\widehat{\text{Cov}}_{\operatorname{obs}}(X,Y)$ and $\widehat{\text{Cor}}_{\operatorname{obs}}(X,Y)$:
+In R, `cov()` and `cor()` can be used to compute the empirical (i.e., data-based) estimates $\widehat{\text{Cov}}_{\operatorname{obs}}(X,Y)$ and $\widehat{\text{Cor}}_{\operatorname{obs}}(X,Y)$:
 
-$\widehat{\text{Cov}}_{\operatorname{obs}}(X,Y)=$ `cov(hairlength, jumpreach)` $=$ $`r round(cov(jumptest_data$hairlength, jumptest_data$jumpreach), 2)`$
+$\widehat{\text{Cov}}_{\operatorname{obs}}(X,Y)=$ `cov(hairlength, jumpheight)` $=$ $`r round(cov(jumptest_data$hairlength, jumptest_data$jumpheight), 2)`$
 
-$\widehat{\text{Cor}}_{\operatorname{obs}}(X,Y)=$ `cor(hairlength, jumpreach)` $=$ $`r round(cor(jumptest_data$hairlength, jumptest_data$jumpreach), 2)`$
+$\widehat{\text{Cor}}_{\operatorname{obs}}(X,Y)=$ `cor(hairlength, jumpheight)` $=$ $`r round(cor(jumptest_data$hairlength, jumptest_data$jumpheight), 2)`$
 
 
 
 ### Conditional Distribution {-}
 
-The **conditional distribution** of $Y$ given $X = x$ is the distribution of jump and reach scores among all students whose hair length is exactly $x$ cm. It answers the question: once we know that $X_{\operatorname{obs}} = x$, what does the distribution of the jump and reach score $Y$ look like?
+The **conditional distribution** of $Y$ given $X = x$ is the distribution of jump heights among all students whose hair length is exactly $x$ cm. It answers the question: once we know that $X_{\operatorname{obs}} = x$, what does the distribution of the jump height $Y$ look like?
 
 For two continuous random variables with joint density $f_{Y,X}(y, x)$ and marginal density $f_X(x) > 0,$ the **conditional density of $Y$ given $X = x$** is
 
@@ -1142,7 +1193,7 @@ $$
 f_{Y \mid X}(y \mid x) = \frac{f_{Y,X}(y,\, x)}{f_X(x)}.
 $$
 
-For fixed $x$, $f_{Y \mid X}(\,\cdot \mid x)$ is a proper density in $y$: it is non-negative and integrates to 1. Intuitively, it is the cross-section of the joint density surface $f_{Y,X}$ at height $X = x$, rescaled so that the area under the slice equals 1.
+For fixed $x$, $f_{Y \mid X}(\,\cdot \mid x)$ is a proper density in $y$: it is non-negative and integrates to 1. Intuitively, it is the vertical slice through the joint density surface $f_{Y,X}$ at $X = x$, rescaled so that the area under the slice equals 1.
 
 The definition makes the link between joint and marginal densities concrete. Rearranging gives the **multiplication rule**:
 
@@ -1160,29 +1211,33 @@ That is, knowing $x$ tells us nothing about the distribution of $Y.$
 
 We can get a feel for the conditional distribution from data by splitting the observed pairs
 $$
-(X_{1,\operatorname{obs}}, Y_{1,\operatorname{obs}}), \ldots, (X_{n,\operatorname{obs}}, Y_{n,\operatorname{obs}})
+(Y_{1,\operatorname{obs}}, X_{1,\operatorname{obs}}), \ldots, (Y_{n,\operatorname{obs}}, X_{n,\operatorname{obs}})
 $$
-into groups by hair length and looking at the jump and reach distribution within each group.
+into groups by hair length and looking at the jump-height distribution within each group.
 
 ```{r}
 #| label: fig-conditional-hists
-#| fig-cap: "Conditional distribution of jump and reach scores for three hair-length groups. The dashed black curve in each panel shows the true (usually unknown) conditional density $f_{Y\\mid X}(y\\mid x)$ evaluated at the within-group mean hair lengths $x$."
+#| fig-cap: "Conditional distribution of jump heights for three hair-length groups. The dashed black curve in each panel shows the true (usually unknown) conditional density $f_{Y\\mid X}(y\\mid x)$ evaluated at the within-group mean hair lengths $x$."
 #| fig-width: 10
 
-grp1 <- jumptest_data$jumpreach[jumptest_data$hairlength <= 10]
-grp2 <- jumptest_data$jumpreach[
-  jumptest_data$hairlength > 10 & jumptest_data$hairlength <= 25]
-grp3 <- jumptest_data$jumpreach[jumptest_data$hairlength >  25]
+## Grouping conditions (TRUE/FALSE for each student)
+hair_short_cond  <- jumptest_data$hairlength <= 10
+hair_medium_cond <- jumptest_data$hairlength >  10 &
+                    jumptest_data$hairlength <= 25
+hair_long_cond   <- jumptest_data$hairlength >  25
 
-## Within-group mean hair length (conditioning point for true density)
-group_mid <- c(
-  mean(jumptest_data$hairlength[jumptest_data$hairlength <= 10]),
-  mean(jumptest_data$hairlength[
-    jumptest_data$hairlength > 10 & jumptest_data$hairlength <= 25]),
-  mean(jumptest_data$hairlength[jumptest_data$hairlength >  25]))
+## Jump and reach scores per hair-length group
+jump_hair_short  <- jumptest_data$jumpheight[hair_short_cond]
+jump_hair_medium <- jumptest_data$jumpheight[hair_medium_cond]
+jump_hair_long   <- jumptest_data$jumpheight[hair_long_cond]
+
+## Within-group mean hair length (conditioning point for the true density)
+hair_group_mean <- c(mean(jumptest_data$hairlength[hair_short_cond]),
+                     mean(jumptest_data$hairlength[hair_medium_cond]),
+                     mean(jumptest_data$hairlength[hair_long_cond]))
 
 par(mfrow = c(1, 3))
-hist(grp1,
+hist(jump_hair_short,
      freq   = FALSE,
      main   = "Hair in [0 cm, 10 cm]",
      xlab   = "Jump Height (cm)",
@@ -1190,9 +1245,9 @@ hist(grp1,
      border = "white",
      xlim   = c(0, 80),
      ylim   = c(0, 0.12))
-curve(f_YgX(x, group_mid[1]), add = TRUE, col = "black", lwd = 2, lty = 2)
+curve(f_YgX(x, hair_group_mean[1]), add = TRUE, col = "black", lwd = 2, lty = 2)
 
-hist(grp2,
+hist(jump_hair_medium,
      freq   = FALSE,
      main   = "Hair in (10 cm, 25 cm]",
      xlab   = "Jump Height (cm)",
@@ -1200,9 +1255,9 @@ hist(grp2,
      border = "white",
      xlim   = c(0, 80),
      ylim   = c(0, 0.12))
-curve(f_YgX(x, group_mid[2]), add = TRUE, col = "black", lwd = 2, lty = 2)
+curve(f_YgX(x, hair_group_mean[2]), add = TRUE, col = "black", lwd = 2, lty = 2)
 
-hist(grp3,
+hist(jump_hair_long,
      freq   = FALSE,
      main   = "Hair > 25 cm",
      xlab   = "Jump Height (cm)",
@@ -1210,11 +1265,11 @@ hist(grp3,
      border = "white",
      xlim   = c(0, 80),
      ylim   = c(0, 0.12))
-curve(f_YgX(x, group_mid[3]), add = TRUE, col = "black", lwd = 2, lty = 2)
+curve(f_YgX(x, hair_group_mean[3]), add = TRUE, col = "black", lwd = 2, lty = 2)
 par(mfrow = c(1, 1))
 ```
 
-The three histograms in @fig-conditional-hists have clearly different centers: the conditional distribution of jump and reach scores shifts downward as hair length increases. This is the conditional distribution $f_{Y|X}(y|x)$ in action.
+The three histograms in @fig-conditional-hists have clearly different centers: the conditional distribution of jump heights shifts downward as hair length increases. This is the conditional distribution $f_{Y|X}(y|x)$ in action.
 
 ### More than two Variables {-}
 
@@ -1228,12 +1283,12 @@ f_{Y, X_1, \ldots, X_K}(y, x_1, \ldots, x_K) \geq 0 \quad \text{for all } (y, x_
 $$
 **2. Total Probability:**
 $$
-\int \cdots \int f_{Y, X_1, \ldots, X_K}(y, x_1, \ldots, x_K)\, dx_K\, \cdots\, dx_1 \cdots dy = 1.
+\int \cdots \int f_{Y, X_1, \ldots, X_K}(y, x_1, \ldots, x_K)\, dx_K \cdots dx_1\, dy = 1.
 $$
 **3. General Probabilities:**
 \begin{align*}
-&P\!\left((Y, X) \in [a_Y,b_Y]\times[a_{X_1},b_{X_1}]\times\dots\times[a_{X_K},b_{X_K}]\right)\\
-&= \int_{a_Y}^{b_Y}\int_{a_{X_1}}^{b_{X_1}}\dots\int_{a_{X_K}}^{b_{X_K}}  f_{Y,X_1,\dots,X_k}(y, x_1,\dots,x_K)\, dx_K\dots dx_1 dy.
+&P\!\left((Y, X_1, \ldots, X_K) \in [a_Y,b_Y]\times[a_{X_1},b_{X_1}]\times\dots\times[a_{X_K},b_{X_K}]\right)\\
+&= \int_{a_Y}^{b_Y}\int_{a_{X_1}}^{b_{X_1}}\dots\int_{a_{X_K}}^{b_{X_K}}  f_{Y,X_1,\dots,X_K}(y, x_1,\dots,x_K)\, dx_K\dots dx_1\, dy.
 \end{align*}
 That is, the probability that a realization of $(Y, X_1, \ldots, X_K)$ falls into the rectangular region $[a_Y,b_Y]\times[a_{X_1},b_{X_1}]\times\dots\times[a_{X_K},b_{X_K}]$ equals the integral of $f_{Y, X_1, \ldots, X_K}$ over that region.
 
@@ -1246,28 +1301,28 @@ With $K+1$ variables, pairwise covariances are collected in the $(K+1)\times (K+
 
 $$
 \begin{pmatrix}
-\text{Var}(Y_1)      & \text{Cov}(Y_1,X_1)  & \cdots & \text{Cov}(Y_1,X_K) \\
-\text{Cov}(X_1,Y_1)  & \text{Var}(X_1)      & \cdots & \text{Cov}(X_1,X_K) \\
+\text{Var}(Y)        & \text{Cov}(Y,X_1)    & \cdots & \text{Cov}(Y,X_K) \\
+\text{Cov}(X_1,Y)    & \text{Var}(X_1)      & \cdots & \text{Cov}(X_1,X_K) \\
 \vdots               & \vdots               & \ddots & \vdots \\
-\text{Cov}(X_K,Y_1)  & \text{Cov}(X_K,X_1)  & \cdots & \text{Var}(X_K)
+\text{Cov}(X_K,Y)    & \text{Cov}(X_K,X_1)  & \cdots & \text{Var}(X_K)
 \end{pmatrix}.
 $$
 
 Standardizing each entry by the product of the corresponding standard deviations yields the **correlation matrix**: 
 $$
 \begin{pmatrix}
-1                    & \text{Cor}(Y_1,X_1)  & \cdots & \text{Cor}(Y_1,X_K) \\
-\text{Cor}(X_1,Y_1)  & 1                    & \cdots & \text{Cor}(X_1,X_K) \\
+1                    & \text{Cor}(Y,X_1)    & \cdots & \text{Cor}(Y,X_K) \\
+\text{Cor}(X_1,Y)    & 1                    & \cdots & \text{Cor}(X_1,X_K) \\
 \vdots               & \vdots               & \ddots & \vdots \\
-\text{Cor}(X_K,Y_1)  & \text{Cor}(X_K,X_1)  & \cdots & 1
+\text{Cor}(X_K,Y)    & \text{Cor}(X_K,X_1)  & \cdots & 1
 \end{pmatrix}.
 $$
 
-Typically, we do not know the covariance matrix, and thus also not the correlation matrix. In R, `cov()` and `cor()` accept a data frame or matrix and return the sample versions 
+Typically, we do not know the covariance matrix, and thus also not the correlation matrix. In R, `cov()` and `cor()` accept a data frame or matrix and return the sample versions.
 
 #### 🤸‍♀️ **Jump-Test Data Example** {-}
 
-Let denote the observed hair length data by
+Let us denote the observed hair length data by
 $$
 X_{i,1,\text{obs}}\quad i=1,2,\dots
 $$
@@ -1284,10 +1339,12 @@ X_{i,2,\text{obs}} = 1\quad\text{if person $i$ is female}
 $$
 
 ```{r}
+#| label: tbl-class-data-multi
 #| echo: false
-kbl(head(jumptest_data[,c(1,2,4)]),
-    col.names = c("Y: Jump Reach (cm)", "X1: Hair Length (cm)", "X2: Gender (1 = female, 0 = male)"),
-    align = c("r", "r")) |>
+#| tbl-cap: "First six rows of the jump-height data set with the additional gender predictor."
+kbl(head(jumptest_data[, c("jumpheight", "hairlength", "gender01")]),
+    col.names = c("Y: Jump Height (cm)", "X1: Hair Length (cm)", "X2: Gender (1 = female, 0 = male)"),
+    align = "r") |>
   kable_styling(bootstrap_options = c("striped", "hover"),
                 full_width = FALSE)
 ```
@@ -1303,28 +1360,30 @@ $$
 can be computed by 
 
 ```{r}
-cov(cbind(jumpreach, hairlength, gender01)) |> 
-round(digits = 2)
+cov(jumptest_data[, c("jumpheight", "hairlength", "gender01")]) |>
+  round(digits = 2)
 ```
 and
 $$
 \begin{pmatrix}
-1     & \widehat{\text{Cov}}_{\operatorname{obs}}(Y,X_1)& \widehat{\text{Cor}}_{\operatorname{obs}}(Y,X_2)\\ 
-\widehat{\text{Cor}}_{\operatorname{obs}}(X_1,Y) & 1  & \widehat{\text{Cov}}_{\operatorname{obs}}(X_1,X_2)\\
+1     & \widehat{\text{Cor}}_{\operatorname{obs}}(Y,X_1)& \widehat{\text{Cor}}_{\operatorname{obs}}(Y,X_2)\\ 
+\widehat{\text{Cor}}_{\operatorname{obs}}(X_1,Y) & 1  & \widehat{\text{Cor}}_{\operatorname{obs}}(X_1,X_2)\\
 \widehat{\text{Cor}}_{\operatorname{obs}}(X_2,Y) & \widehat{\text{Cor}}_{\operatorname{obs}}(X_2,X_1)  & 1
 \end{pmatrix}.
 $$
 can be computed by 
 
 ```{r}
-cor(cbind(jumpreach, hairlength, gender01)) |> 
-round(digits = 2)
+cor(jumptest_data[, c("jumpheight", "hairlength", "gender01")]) |>
+  round(digits = 2)
 ```
 
-You should, however, never trust single number. Always also **look at the data**! 
+You should, however, never trust a single number. Always also **look at the data**! 
 
 ```{r}
-pairs(cbind(jumpreach, hairlength, gender01), 
+#| label: fig-pairs
+#| fig-cap: "Pairwise scatter plots of the jump height $Y$, the hair length $X_1$, and the gender indicator $X_2$."
+pairs(jumptest_data[, c("jumpheight", "hairlength", "gender01")],
       lower.panel = NULL)
 ```
 
@@ -1343,7 +1402,7 @@ where $f_{X_1, \ldots, X_K}$ is the joint density of $X_1,\dots,X_K$.
 
 ## Conditional Mean: The Regression Function {#sec-regression-function}
 
-The **conditional mean** of $Y_i$ given $X_{i} = x$ is the expected jump and reach score for all students with observed hair length equal to $x$:
+The **conditional mean** of $Y_i$ given $X_{i} = x$ is the expected jump height for all students with observed hair length equal to $x$:
 $$
 E(Y \mid X = x) = \int_{-\infty}^{\infty} y\, f_{Y \mid X}(y \mid x)\, dy.
 $$
@@ -1356,49 +1415,64 @@ as a function of $x$, it is called the **regression function**. It describes how
 
 There are generally two types of estimation approaches: 
 
-* Making a parametric functional form assumption for the regression function $m(x) = E(Y \mid X = x),$ and then estimate the parameters (@sec-linearRegCh)
-* Making no parametric functional form assumptin and estimate $m(x) = E(Y \mid X = x)$ directly from the data, for instance, by estimating the conditional mean $\int_{-\infty}^{\infty} y\, f_{Y \mid X}(y \mid x)\, dy$ for different values of $x.$
+* Making a parametric functional form assumption for the regression function $m(x) = E(Y \mid X = x)$ and then estimating the parameters (@sec-linearRegCh)
+* Making no parametric functional form assumption and estimating $m(x) = E(Y \mid X = x)$ directly from the data, for instance, by estimating the conditional mean $\int_{-\infty}^{\infty} y\, f_{Y \mid X}(y \mid x)\, dy$ for different values of $x.$
 
 #### 🤸‍♀️ **Jump-Test Data Example** {-}
 
 When we do not want to make a parametric functional form assumption for the regression function $E(Y \mid X = x),$ we can take our three estimates of the conditional densities $f_{Y \mid X}(y \mid x)$ shown in @fig-conditional-hists: 
 
-* Group 1 **low jump reach scores:** 
-    * `grp1` contains jump reach scores in $[0,10]$ cm. 
-    * Average hair length in this group is $x=$ `group_mid[1]` $=$ `r round(group_mid[1], 2)`
+* Group 1 **short hair:** 
+    * `jump_hair_short` contains the jump heights of the students with hair length in $[0,10]$ cm. 
+    * Average hair length in this group is $x=$ `hair_group_mean[1]` $=$ `r round(hair_group_mean[1], 2)`
 
-* Group 2 **middle jump reach scores:**     
-    * `grp2` contains intermediate jump reach scores in $(10,25]$ cm. 
-    * Average hair length in this group is $x=$ `group_mid[2]` $=$ `r round(group_mid[2], 2)`
+* Group 2 **medium hair:**     
+    * `jump_hair_medium` contains the jump heights of the students with hair length in $(10,25]$ cm. 
+    * Average hair length in this group is $x=$ `hair_group_mean[2]` $=$ `r round(hair_group_mean[2], 2)`
 
-* Group 3 **high jump reach scores:**     
-    * `grp3` contains high jump reach scores $>25$ cm. 
-    * Average hair length in this group is $x=$ `group_mid[3]` $=$ `r round(group_mid[3], 2)`
+* Group 3 **long hair:**     
+    * `jump_hair_long` contains the jump heights of the students with hair length $>25$ cm. 
+    * Average hair length in this group is $x=$ `hair_group_mean[3]` $=$ `r round(hair_group_mean[3], 2)`
 
 That is, we can estimate the following three conditional means: 
 
-* $E(Y|X= `r round(group_mid[1], 2)` )  \approx \widehat{E}(Y|X= `r round(group_mid[1], 2)` )=$ `mean(grp1)` $=$ `r round(mean(grp1), 2)` 
-* $E(Y|X= `r round(group_mid[2], 2)` )  \approx \widehat{E}(Y|X= `r round(group_mid[2], 2)` )=$ `mean(grp2)` $=$ `r round(mean(grp2), 2)` 
-* $E(Y|X= `r round(group_mid[3], 2)` )  \approx \widehat{E}(Y|X= `r round(group_mid[3], 2)` )=$ `mean(grp3)` $=$ `r round(mean(grp3), 2)` 
+| True (usually unknown) quantity | Estimated value |
+|:---|:---|
+| $E(Y \mid X = `r round(hair_group_mean[1], 2)`) = m(`r round(hair_group_mean[1], 2)`)$ | $\widehat{m}(`r round(hair_group_mean[1], 2)`) = \widehat{E}(Y \mid X = `r round(hair_group_mean[1], 2)`) =$ `mean(jump_hair_short)` $=$ `r round(mean(jump_hair_short), 2)` |
+| $E(Y \mid X = `r round(hair_group_mean[2], 2)`) = m(`r round(hair_group_mean[2], 2)`)$ | $\widehat{m}(`r round(hair_group_mean[2], 2)`) = \widehat{E}(Y \mid X = `r round(hair_group_mean[2], 2)`) =$ `mean(jump_hair_medium)` $=$ `r round(mean(jump_hair_medium), 2)` |
+| $E(Y \mid X = `r round(hair_group_mean[3], 2)`) = m(`r round(hair_group_mean[3], 2)`)$ | $\widehat{m}(`r round(hair_group_mean[3], 2)`) = \widehat{E}(Y \mid X = `r round(hair_group_mean[3], 2)`) =$ `mean(jump_hair_long)` $=$ `r round(mean(jump_hair_long), 2)` |
 
+
+Let's look at these three estimated conditional means together with the full data set.
 
 ```{r}
 #| label: fig-cond-mean
-#| fig-cap: "Scatter plot with estimated conditional means for the three hair-length groups (red points) and the true (usually unknonw) regression function $E(Y\\mid X=x)$ (dashed black line). The estimated means track the true line closely."
+#| fig-cap: "Scatter plot with estimated conditional means for the three hair-length groups (red points) and the true (usually unknown) regression function $E(Y\\mid X=x)$ (dashed black line). The estimated means track the true line closely."
 
-cond_mean <- c(mean(grp1), mean(grp2), mean(grp3))
+cond_mean_jump <- c(mean(jump_hair_short), 
+                    mean(jump_hair_medium), 
+                    mean(jump_hair_long))
 
-plot(jumptest_data$hairlength, jumptest_data$jumpreach,
-     xlab = "Hair Length (cm)", ylab = "Jump Height (cm)",
+plot(x = jumptest_data$hairlength, 
+     y = jumptest_data$jumpheight,
+     xlab = "Hair Length (cm)", 
+     ylab = "Jump Height (cm)",
      pch  = 19, col = "grey70", axes = FALSE)
-axis(1, at = c(round(group_mid[1],2), 10, round(group_mid[2],2), 25, round(group_mid[3],2)))     
+axis(1, at = c(round(hair_group_mean[1],2), 
+               10, 
+               round(hair_group_mean[2],2), 
+               25, 
+               round(hair_group_mean[3],2)))     
 axis(2)
 box()
 abline(a = beta1, b = beta2, col = "black", lwd = 2, lty = 2)
 abline(v = c(10,25))
 mtext(c("Group 1", "Group 2", "Group 3"), side = 3, line = 0.5,
-      at = c(group_mid[1], group_mid[2], group_mid[3]))
-points(group_mid, cond_mean,
+      at = c(hair_group_mean[1], 
+             hair_group_mean[2], 
+             hair_group_mean[3]))
+points(x = hair_group_mean, 
+       y = cond_mean_jump,
        pch = 19,
        col = "tomato",
        cex = 1.8)
@@ -1412,12 +1486,15 @@ legend("topright",
        bty    = "n")
 ```
 
-The three estimated conditional means fall roughly on a line. This visual observation motivates parametrizing the regression function as straight line function:
-$$
-E(Y_i \mid X_i = x) = \beta_0 + \beta_1 x.
-$$
+The three estimated conditional means fall roughly on a line. This visual observation motivates **parametrizing the regression function** as a straight line:
 
-Provided that this functional form assumption is correct, we only have to estimate the unknown parameters $\beta_1$ and $\beta_2$ to get a good estimate of $E(Y_i \mid X_i = x).$
+\begin{align*}
+E(Y_i \mid X_i = x) 
+& = m(x)\\ 
+&= \beta_1 + \beta_2 x.
+\end{align*}
+
+Doing so, has a fundamental adavantage: Provided that this functional form assumption (parametrization) is correct, we only have to estimate the unknown parameters $\beta_1$ and $\beta_2$ to get a good estimate of $E(Y_i \mid X_i = x).$
 
 The next chapter (@sec-linearRegCh) develops the method for estimating $\beta_1$ and $\beta_2$ from the observed pairs 
 $$
@@ -1451,8 +1528,14 @@ The special case $\mu = 0$, $\sigma = 1$ is called the **standard normal distrib
 #| label: fig-normal-densities
 #| fig-cap: "Normal distributions with different means and standard deviations."
 
+## y-range covering the three densities (plus room for the legend)
+x_grid <- seq(-7, 9, length.out = 500)
+y_max  <- max(dnorm(x_grid, mean = 0, sd = 1),
+              dnorm(x_grid, mean = 2, sd = 1),
+              dnorm(x_grid, mean = 0, sd = 2))
+
 curve(dnorm(x, mean = 0, sd = 1),
-      xlim = c(-7, 9), ylim = c(0, 0.65),
+      xlim = c(-7, 9), ylim = c(0, y_max * 1.15),
       ylab = "Density", xlab = "x",
       col  = "steelblue", lwd = 2)
 curve(dnorm(x, mean = 2, sd = 1),
@@ -1467,20 +1550,42 @@ legend("topright",
        lwd    = 2, bty = "n")
 ```
 
-R provides four functions for any distribution: `d` (density), `p` (cdf), `q` (quantile), `r` (random draws). For the normal:
+`R` provides four functions for any distribution: 
+
+* `d` (density)
+* `p` (cdf)
+* `q` (quantile) 
+* `r` (random draws). 
+
+For the normal:
 
 ```{r}
 set.seed(42)
-rnorm(n = 5, mean = 0, sd = 1)       ## 5 random draws from N(0,1)
-dnorm(x = 0, mean = 0, sd = 1)       ## density at x = 0
-pnorm(q = 1.96, mean = 0, sd = 1)    ## P(Z <= 1.96)
-qnorm(p = 0.975, mean = 0, sd = 1)   ## z such that P(Z <= z) = 0.975
+rnorm(n = 3, mean = 0, sd = 1) # 3 random draws from N(0,1)
+dnorm(x = 0, mean = 0, sd = 1) # density at x = 0
+pnorm(q = 1.96, mean = 0, sd = 1) # P(Z <= 1.96)
+qnorm(p = 0.975, mean = 0, sd = 1)# z such that P(Z <= z) = 0.975
 ```
 
-The normal distribution occupies a central place in statistics for two reasons. First, many natural measurements (heights, exam scores, measurement errors) are approximately normally distributed. Second, the **Central Limit Theorem** guarantees that the average of a large number of independent random variables is approximately normally distributed, regardless of the original distribution. This result underpins the inference methods we develop in the next chapter.
+The normal distribution occupies a central place in statistics for two reasons: 
 
-A particularly useful fact for standardizing: if $X \sim \mathcal{N}(\mu, \sigma^2)$, then
+1. Many natural measurements (heights, exam scores, some measurement errors) are ***approximately*** normally distributed. 
+2. The **Central Limit Theorem** guarantees that the sum 
+$$
+\sum_{i=1}^n X_i = X_1 + X_2 + \dots + X_n
+$$ 
+of a large number ($n\to\infty$) of independent random variables is approximately normally distributed, **regardless of the original distribution** of the $X_i$'s. This result underpins the inference methods we develop in the next chapter. 
 
+* 3Blue1Brown has a good video on the CLT: [CLT-Video](https://youtu.be/zeJD6dqJ5lo)
+
+
+A particularly useful fact for standardizing: 
+
+If 
+$$
+X \sim \mathcal{N}(\mu, \sigma^2),
+$$ 
+then
 $$
 Z = \frac{X - \mu}{\sigma} \sim \mathcal{N}(0, 1).
 $$
@@ -1490,9 +1595,10 @@ $$
 Assuming normality means we assume $X \sim \mathcal{N}(\mu, \sigma^2)$. The distribution is then fully characterized by two **unknown parameters**, $\mu$ and $\sigma^2$, which we estimate from the observed values $X_{1,\operatorname{obs}}, \ldots, X_{n,\operatorname{obs}}$:
 
 $$
-\hat{\mu}_{\operatorname{obs}} = \bar{X}_{\operatorname{obs}} = \frac{1}{n}\sum_{i=1}^n X_{i,\operatorname{obs}},
-\qquad
-\hat{\sigma}^2_{\operatorname{obs}} = s^2 = \frac{1}{n-1}\sum_{i=1}^n
+\hat{\mu}_{\operatorname{obs}} = \bar{X}_{\operatorname{obs}} = \frac{1}{n}\sum_{i=1}^n X_{i,\operatorname{obs}}
+$$
+$$
+\hat{\sigma}^2_{\operatorname{obs}} = s_{\operatorname{obs}}^2 = \frac{1}{n-1}\sum_{i=1}^n
   (X_{i,\operatorname{obs}} - \bar{X}_{\operatorname{obs}})^2.
 $$
 
@@ -1506,7 +1612,9 @@ $$
   \exp\!\left\{-\frac{(x - \hat{\mu}_{\operatorname{obs}})^2}{2\hat{\sigma}^2_{\operatorname{obs}}}\right\}.
 $$
 
-This is a **parametric** approach: it assumes a specific functional form (the bell curve) and only estimates the two free parameters. The non-parametric estimators $\hat{f}_{X,\operatorname{obs}}^{\operatorname{hist}}$ and $\hat{f}_{X,\operatorname{obs}}^{\operatorname{kernel}}$ from @sec-pdf make no such functional form assumption. The trade-off is flexibility versus efficiency: parametric estimates use fewer degrees of freedom and can be more precise — but only if the assumed distribution is correct.
+This is a **parametric** approach: it assumes a specific functional form (the bell curve) and only estimates the two free parameters $\mu$ and $\sigma.$ 
+
+The non-parametric estimators $\hat{f}_{X,\operatorname{obs}}^{\operatorname{hist}}$ and $\hat{f}_{X,\operatorname{obs}}^{\operatorname{kernel}}$ from @sec-pdf make no such functional form assumption. The trade-off is flexibility versus efficiency: parametric estimates use fewer degrees of freedom and can be (much) more precise — but only if the assumed distribution is correct.
 
 @fig-hairlength-normal overlays $\hat{f}_{X,\operatorname{obs}}^{\operatorname{norm}}$ on the histogram of hair lengths. The bell curve does **not** fit well: the two peaks (one for short-haired, one for long-haired students) are a feature a single normal distribution cannot capture. This is a reminder that distributional assumptions should always be checked against the data.
 
@@ -1517,8 +1625,18 @@ This is a **parametric** approach: it assumes a specific functional form (the be
 mu_hat  <- mean(jumptest_data$hairlength)
 sig_hat <- sd(jumptest_data$hairlength)
 
+## Histogram heights without plotting (to find the needed y-range)
+hist_est <- hist(jumptest_data$hairlength, plot = FALSE)
+
+## y-range that covers the histogram and both density curves
+x_grid <- seq(min(hist_est$breaks), max(hist_est$breaks), length.out = 500)
+y_max  <- max(hist_est$density,
+              f_X(x_grid),
+              dnorm(x_grid, mean = mu_hat, sd = sig_hat))
+
 hist(jumptest_data$hairlength,
      freq     = FALSE,
+     ylim     = c(0, y_max * 1.05),
      col      = adjustcolor("steelblue", alpha.f = 0.4),
      border   = "white",
      xlab     = "Hair Length (cm)",
@@ -1541,25 +1659,37 @@ legend("topright",
 
 The **chi-squared distribution** with $\nu$ degrees of freedom, written $W \sim \chi^2_\nu$, is defined as the distribution of the sum of $\nu$ squared independent standard normal random variables:
 
+That is, if 
 $$
-W = Z_1^2 + Z_2^2 + \cdots + Z_\nu^2 \sim \chi^2_\nu,
-\quad Z_i \overset{\text{i.i.d.}}{\sim} \mathcal{N}(0,1).
+Z_1^2, Z_2^2, \cdots, Z_\nu^2
+$$
+are $\nu$ many independent standard normal $\mathcal{N}(0,1)$ distributed random variables, then
+$$
+W = Z_1^2 + Z_2^2 + \cdots + Z_\nu^2 \sim \chi^2_\nu.
 $$
 
-Key properties: the distribution is **right-skewed** with support on $[0, \infty)$. Its mean is $\nu$ and its variance is $2\nu$. As $\nu$ grows, the distribution becomes more symmetric and shifts rightward.
+Key properties: the distribution is **right-skewed** with support on $[0, \infty)$. 
+
+* Mean: $E(W)=\nu$ 
+* Variance: $\text{Var}(W)=2\nu$ 
+
+For larger degrees of freedoms parameters $\nu,$ the distribution becomes more symmetric and shifts rightward.
 
 ```{r}
 #| label: fig-chisq-densities
 #| fig-cap: "Chi-squared densities for various degrees of freedom. The distribution shifts right and becomes more symmetric as $\\nu$ increases."
 
-curve(dchisq(x, df = 1), xlim = c(0, 20), ylim = c(0, 0.5),
-      ylab = "Density", xlab = "x", col = 1, lwd = 2)
-for (df_val in c(2, 3, 5, 10)) {
-  curve(dchisq(x, df = df_val), add = TRUE, col = df_val, lwd = 2)
+df_vals <- c(1, 2, 3, 5, 10)
+df_cols <- c("black", "steelblue", "tomato", "darkgreen", "purple")
+
+curve(dchisq(x, df = df_vals[1]), xlim = c(0, 20), ylim = c(0, 0.5),
+      ylab = "Density", xlab = "x", col = df_cols[1], lwd = 2)
+for (k in 2:length(df_vals)) {
+  curve(dchisq(x, df = df_vals[k]), add = TRUE, col = df_cols[k], lwd = 2)
 }
 legend("topright",
-       legend = paste("ν =", c(1, 2, 3, 5, 10)),
-       col    = c(1, 2, 3, 5, 10),
+       legend = paste("ν =", df_vals),
+       col    = df_cols,
        lwd    = 2, bty = "n")
 ```
 
@@ -1568,14 +1698,14 @@ The chi-squared distribution arises naturally in regression analysis when testin
 
 ### The F-Distribution {#sec-fdistrib}
 
-The **F-distribution** with numerator degrees of freedom $m$ and denominator degrees of freedom $n$, written $Y \sim F_{m,n}$, is the distribution of the ratio of two independent chi-squared random variables each divided by their degrees of freedom:
+The **F-distribution** with numerator degrees of freedom $\nu_1$ and denominator degrees of freedom $\nu_2$, written $V \sim F_{\nu_1,\nu_2}$, is the distribution of the ratio of two independent chi-squared random variables, each divided by its degrees of freedom:
 
 $$
-Y = \frac{W_1/m}{W_2/n} \sim F_{m,n},
-\quad W_1 \sim \chi^2_m,\quad W_2 \sim \chi^2_n,\quad W_1 \perp W_2.
+V = \frac{W_1/\nu_1}{W_2/\nu_2} \sim F_{\nu_1,\nu_2},
+\quad W_1 \sim \chi^2_{\nu_1},\quad W_2 \sim \chi^2_{\nu_2},\quad W_1 \perp W_2.
 $$
 
-Like the chi-squared, the F-distribution has support on $[0, \infty)$ and is right-skewed. Its shape depends on both $m$ and $n$.
+Like the chi-squared distribution, the F-distribution has support on $[0, \infty)$ and is right-skewed. Its shape depends on both $\nu_1$ and $\nu_2$.
 
 ```{r}
 #| label: fig-f-densities
@@ -1607,13 +1737,13 @@ A **data-generating process (DGP)** is the complete probability model assumed to
 
 1. Which random variables are involved and what their distributions are.
 2. How different variables are related — in particular, the conditional distribution of the outcome $Y$ given the predictor(s) $X$.
-3. How the observations are drawn (usually: as independent draws from the same distribution).
+3. How the observations are drawn. Uusually: as independent draws from the same distribution.
 :::
 
-For a so-called **simple linear regression** (staight line), the DGP is written as
+For a so-called **simple linear regression** (straight line) with normal distributed error term, the DGP is written as
 
 $$
-Y_i = \beta_0 + \beta_1 X_i + \varepsilon_i,
+Y_i = \beta_1 + \beta_2 X_i + \varepsilon_i,
 \quad
 \varepsilon_i \overset{\text{i.i.d.}}{\sim} \mathcal{N}(0,\, \sigma^2),
 \quad i = 1, \ldots, n.
@@ -1622,15 +1752,15 @@ where
 
 * $Y_i$ is called the outcome or dependent variable
 * $X_i$ is called the predictor or regressor variable
-* $\varepsilon_i$ is a statistical "error" term that captures everything of $Y_i$ that is not explained by $ \beta_0 + \beta_1 X_i.$ Typically, we assume (hopefully it's true) that $E(\varepsilon_i|X_i)=0.$
+* $\varepsilon_i$ is a statistical "error" term that captures everything in $Y_i$ that is not explained by $\beta_1 + \beta_2 X_i.$ </br>Typically, we assume (hopefully it's true) that $E(\varepsilon_i|X_i)=0.$
 
 Moreover, often we assume an **independent and identically distributed (i.i.d.) sampling:** That is, we assume: 
 
-1. Each random pairs
+1. Any two pairs of random variables
 $$
-(Y_i, X_i)\quad\text{and}\quad(Y_j,X_j)\quad\with $i\neq j$
+(Y_i, X_i)\quad\text{and}\quad(Y_j,X_j)\quad\text{with } i\neq j
 $$
-are independent of each other; i.e., the realization of $(Y_i, X_i)$ is not affected by the realization of $(Y_j, X_j)$ for any $j\neq i.$  
+are independent of each other; i.e., the realization of $(Y_i, X_i)$ is not affected by and also does not affect the realization of $(Y_j, X_j)$ for any $j\neq i.$  
 2. All random pairs 
 $$
 (Y_i, X_i)\quad i=1,2,\dots,n
@@ -1644,21 +1774,28 @@ have the same distribution.
 
 ## The Usually Unknown Part of the DGP
 
-Usually, we do not know the underlying distributions of $(Y_i, X_i),$ but let us say we know them to be as following: 
+Usually, we do **not know** the underlying distributions of $(Y_i, X_i)$ and $\varepsilon_i.$ 
 
-* $X_i\sim\mathcal{U}[1,45]$ for all $i=1,2,\dots$
+But let us say we know them to be as follows: 
+
+* $X_i\sim 0.5\cdot\mathcal{N}(7,\,3^2) + 0.5\cdot\mathcal{N}(27,\,7^2)$ for all $i=1,2,\dots$ </br> I.e. the distribution of the $X_i$'s is 50/50 mixture of two normals.
 * $\beta_1=77$ and $\beta_2=-1.75$
 * $\varepsilon_i\sim\mathcal{N}(0,\sigma^2)$ with $\sigma = 5$
 
-such that the conditional distribution of $Y_i$ given $X_i$ is
+Given this, we know also the conditional distribution of $Y_i$ given $X_i\colon$ 
 
 $$
-Y_i |X_i \sim \mathcal{N}( \beta_0 + \beta_1 X_i , \sigma^2) 
+Y_i \mid X_i \sim \mathcal{N}( \beta_1 + \beta_2 X_i ,\, \sigma^2).
 $$
-
+I.e., once we know the realized value of $X_i=x,$ we know the conditional normal distribution of $Y_i$ given $X_i=x\colon$
+\begin{align*}
+Y_i \mid X_i = x 
+& \sim \mathcal{N}( \beta_1 + \beta_2 x ,\, \sigma^2)\\
+& \sim \mathcal{N}(77 -1.75 \cdot x ,\, 5^2)
+\end{align*}
 :::
 
-In parametric regression analysis, we aim for estimating the unknown parameters 
+In parametric regression analysis, we want to estimate the unknown parameters 
 
 * $\beta_1$, 
 * $\beta_2$, and 
@@ -1666,9 +1803,9 @@ In parametric regression analysis, we aim for estimating the unknown parameters
 
 based on one observed realization 
 $$
-(Y_{1,\text{obs}}, X_{1,\text{obs}}), \ldots, (Y_{n,\text{obs}}, X_{1,\text{obs}})
+(Y_{1,\text{obs}}, X_{1,\text{obs}}), \ldots, (Y_{n,\text{obs}}, X_{n,\text{obs}})
 $$
-of the so-called **(i.i.d) random sample**
+of the **(i.i.d.) random sample**
 $$
 (Y_1, X_1), \ldots, (Y_n, X_n).
 $$
@@ -1677,13 +1814,18 @@ $$
 
 ### Simulating from a DGP {-}
 
-Because the DGP specifies a complete probability model, we can **simulate** from it: we draw artificial data according to the model, with known parameter values. Simulation is a powerful pedagogical tool — it lets us see what data the DGP would produce if the parameters were known, and check whether our estimation methods recover those parameters.
+If we know all specifications of the DGP (in real data, we usually do not), we can **simulate** from it: we draw artificial data according to the model, with known parameter values. 
 
-The code below simulates jump and reach and hair-length data from a linear DGP with known $\beta_0$, $\beta_1$, and $\sigma$.
+Simulation is a powerful tool — it lets us 
+
+* see what data the DGP would produce if the parameters were known, 
+* check whether our estimation method is good in estimating the (usually unknown) parameters.
+
+The code below simulates jump-height and hair-length data from a linear DGP with known $\beta_1=77,$ $\beta_2=-1.75,$ and $\sigma=5.$
 
 ```{r}
 #| label: fig-dgp-simulation
-#| fig-cap: "Left: data simulated from a known DGP (red line = true regression function). Right: actual class survey data. The simulated data and the real data have a similar qualitative appearance."
+#| fig-cap: "Left: data simulated from a known DGP (red line = true regression function). Right: the observed data of our study. The simulated data and the observed data have a similar qualitative appearance."
 #| fig-width: 10
 #| fig-height: 5
 
@@ -1691,12 +1833,14 @@ set.seed(42)
 n_sim <- 200
 
 ## True DGP parameters
-beta1 <- 77     ## expected jump & reach when hair length = 0 (extrapolation)
-beta2 <- -1.75  ## each extra cm of hair reduces expected jump & reach by 1.75
-sigma <-  7     ## noise level (standard deviation of errors)
+beta1 <- 77     
+beta2 <- -1.75  
+sigma <-  5     
 
-## Simulate predictor values
-x_sim <- runif(n_sim, min = 1, max = 50)
+## Simulate predictor values from the two-component mixture
+grp_sim <- sample(c("long", "short"), size = n_sim, replace = TRUE)
+x_sim   <- pmax(ifelse(grp_sim == "long", rnorm(n_sim, 27, 7),
+                                          rnorm(n_sim,  7, 3)), 1)
 
 ## Simulate outcomes from the DGP
 eps_sim <- rnorm(n_sim, mean = 0, sd = sigma)
@@ -1715,21 +1859,27 @@ plot(x_sim, y_sim,
      pch  = 19, col = adjustcolor("steelblue", alpha.f = 0.4))
 lines(x_line, y_line, col = "tomato", lwd = 2)
 legend("topright",
-       legend = expression(E(Y ~ "|" ~ X == x) == beta[0] + beta[1] * x),
+       legend = expression(E(Y ~ "|" ~ X == x) == beta[1] + beta[2] * x),
        col = "tomato", lwd = 2, bty = "n")
 
-## Actual class data
-plot(jumptest_data$hairlength, jumptest_data$jumpreach,
+## Observed study data
+plot(jumptest_data$hairlength, jumptest_data$jumpheight,
      xlab = "Hair Length (cm)", ylab = "Jump Height (cm)",
-     main = "Class Survey Data",
+     main = "Observed Study Data",
      pch  = 19, col = adjustcolor("grey40", alpha.f = 0.7))
 
 par(mfrow = c(1, 1))
 ```
 
-The red line in the left panel is the **true regression function** $E(Y \mid X = x) = \beta_0 + \beta_1 x$. In the real problem (right panel), this line is unknown — we have to estimate it from data. Chapter @sec-linearRegCh shows how to do that using OLS.
+The red line in the left panel is the **true regression function** 
+$$
+E(Y \mid X = x) = \beta_1 + \beta_2 x.
+$$ 
+In the real problem (right panel), this line is unknown — we have to estimate it from data. Chapter @sec-linearRegCh shows how to do that using OLS.
 
-Notice that each point in the data falls at a vertical distance from the true line: the distance is the error $\varepsilon_i \sim \mathcal{N}(0, \sigma^2)$. Some students score higher on the jump and reach test than the regression line predicts ($\varepsilon_i > 0$); others score lower ($\varepsilon_i < 0$). The distribution of these deviations is normal with mean zero, which is the key assumption of the linear regression DGP.
+Notice that each simulated point in the left panel falls at a vertical distance from the true line: this distances are the realized values of the error terms $\varepsilon_i \sim \mathcal{N}(0, \sigma^2)$. 
+
+Some students jump higher than the regression line predicts ($\varepsilon_i > 0$); others score lower ($\varepsilon_i < 0$). 
 
 
 ### Random Samples and i.i.d. {#sec-iid}
@@ -1739,37 +1889,63 @@ The DGP above assumes that each observation is drawn **independently** and from 
 ::: {.callout-note}
 ## Random Sample
 
-A collection of observations $(X_1, Y_1), (X_2, Y_2), \ldots, (X_n, Y_n)$ is a **random sample** if:
+A collection of random variable pairs $(Y_1, X_1), (Y_2, X_2), \ldots, (Y_n, X_n)$ is a **random sample** if:
 
-1. **Independent:** Each pair $(X_i, Y_i)$ is independent of all other pairs $(X_j, Y_j)$ for $j \neq i$.
-2. **Identically distributed:** Every pair $(X_i, Y_i)$ is drawn from the same joint distribution $F_{X,Y}$.
+1. **Independent:** Each pair $(Y_i, X_i)$ is independent of all other pairs $(Y_j, X_j)$ for $j \neq i$.
+2. **Identically distributed:** Every pair $(Y_i, X_i)$ is drawn from the same joint distribution $F_{Y,X}$.
 :::
-
-In the class survey, the i.i.d. assumption is reasonable if: students filled in the questionnaire independently of each other (no copying, no groups), and each student can be regarded as a random draw from the same population (all business administration students at this university, say).
 
 The i.i.d. assumption is the default in cross-sectional studies, where we observe a large number of units (people, firms, countries) at a single point in time. It underpins the statistical properties of the OLS estimator that we derive in the next chapter.
 
 ::: {.callout-warning}
 ## Association Is Not Causation
 
-The slope $\beta_1 \approx -1.75$ in our DGP says that students who differ by 1 cm in hair length differ, on average, by $-1.75$ cm in jump and reach. But this is a **statistical association**, not a **causal** claim. Cutting your hair will not improve your jump and reach score.
+The slope $\beta_2 \approx -1.75$ in our DGP says that students who differ by 1 cm in hair length differ, on average, by $-1.75$ cm in jump height. But this is a **statistical association**, not a **causal** claim. Cutting your hair will not improve your jump height.
 
-The association in the data is almost entirely driven by an unobserved variable — **gender** — that affects both hair length and physical fitness. Statisticians call this **confounding**: a third variable that influences both $X$ and $Y$, creating a spurious correlation between them.
+The association in the data is almost entirely driven by an unobserved variable — **gender** — that affects (not causes) both hair length and physical strength. Statisticians call this **confounding**: a third variable that influences both $X$ and $Y$, creating a spurious correlation between them.
 
-This distinction — association versus causation — is one of the central themes of the next chapter. After introducing OLS and showing how to estimate and interpret $\hat\beta_1$, @sec-whatdoesbeta asks what $\hat\beta_1$ really tells us. The short answer is: it estimates a conditional association, which may or may not reflect a causal effect.
+This distinction — association versus causation — is one of the central themes of the next chapter. After introducing OLS and showing how to estimate and interpret $\hat\beta_2$, @sec-whatdoesbeta asks what $\hat\beta_2$ really tells us. The short answer is: it estimates a conditional association, which may or may not reflect a causal effect.
 :::
 
 
 ## Summary
 
+We started with a simple data set — hair lengths and jump heights of $n=30$ students — and asked where such data come from. The answer developed in this chapter: the observed numbers
+$$
+(Y_{1,\operatorname{obs}},\, X_{1,\operatorname{obs}}),\, \ldots,\, (Y_{n,\operatorname{obs}},\, X_{n,\operatorname{obs}})
+$$
+are one realization of random variable pairs $(Y_i, X_i)$ whose behavior is governed by a **data-generating process**.
+
+The tools we collected along the way:
+
+* **Single random variables** (@sec-rv): the **density** $f_X$ for continuous variables (@sec-pdf), the **probability mass function** $p_W$ for discrete ones (@sec-pmf), and the **cdf** $F_X$ for both (@sec-cdf). Each of them is usually unknown and has to be estimated — non-parametrically (histogram, kernel density estimate, relative frequencies, empirical cdf) or parametrically (@sec-normal).
+* **Summaries of a distribution** (@sec-moments): **mean** $E(X)$ for the location and **variance** $\text{Var}(X)$ for the spread, estimated by the sample mean and the sample variance.
+* **Two or more random variables** (@sec-joint-conditional): the **joint density** $f_{Y,X}$, the **marginal densities** $f_Y$ and $f_X$, **covariance** and **correlation** as summaries of co-movement, and the **conditional density** $f_{Y\mid X}(y \mid x)$, which describes the outcome $Y$ *within* a group of students that share the same hair length $x.$
+* **The regression function** (@sec-regression-function): the conditional mean $m(x) = E(Y \mid X = x)$ — the one object that the next chapter is all about.
+* **The DGP** (@sec-dgp): the complete probability model
+$$
+Y_i = \beta_1 + \beta_2 X_i + \varepsilon_i,
+\quad
+\varepsilon_i \overset{\text{i.i.d.}}{\sim} \mathcal{N}(0,\, \sigma^2),
+$$
+together with an **i.i.d. random sample** (@sec-iid). It is the bridge between probability theory and the data in your spreadsheet.
 
 ::: {.callout-note appearance="simple"}
-The Law of Large Numbers guarantees that $\bar{X}_{\operatorname{obs}}$ and $\bar{Y}_{\operatorname{obs}}$ converge to $E(X)$ and $E(Y)$  as $n \to \infty$. 
+## The One Thing to Take Along
 
-In other words, for largish sample sizes, we can consider the values of $\bar{X}_{\operatorname{obs}}$ and $\bar{Y}_{\operatorname{obs}}$ as good estimates of the usually unknown $E(X)$ and $E(Y).$ 
+Everything we observe is an **estimate** of something **usually unknown**:
 
-However, they are always only estimates (think like guessing machines) of the true (usually unknown) counterparts. 
+| Usually unknown truth | Estimate from data |
+|---|---|
+| $f_X(x)$, $p_G(g)$, $F_X(x)$ | histogram / kernel density estimate, relative frequencies, empirical cdf |
+| $E(X)$, $\text{Var}(X)$ | $\bar{X}_{\operatorname{obs}}$, $\hat{\sigma}^2_{X,\operatorname{obs}}$ |
+| $\text{Cov}(X,Y)$, $\text{Cor}(X,Y)$ | $\widehat{\text{Cov}}_{\operatorname{obs}}(X,Y)$, $\widehat{\text{Cor}}_{\operatorname{obs}}(X,Y)$ |
+| $E(Y \mid X = x) = \beta_1 + \beta_2 x$ | ⟵ this is what @sec-linearRegCh is about |
+
+The estimates in the right column are computed from *one* data set. Had we measured a different group of students, we would have obtained different numbers — this is the **sampling variability** we met at the very beginning of the chapter.
 :::
+
+In the next chapter we take the last row of that table seriously: we assume the linear DGP, estimate $\beta_1$ and $\beta_2$ by **ordinary least squares**, and ask how precise those estimates are — and what they do, and do not, tell us about cause and effect.
 
 
 ## References {-}

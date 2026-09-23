@@ -3,7 +3,7 @@ project:
   output-dir: docs
   
 book:
-  title: Statistical Learning for Business and Economics (B.Sc.) 
+  title: Statistical Learning for Business and Economics (B.Sc.)
   author: Prof. Dr. Dominik Liebl 
   date: last-modified
   date-format: "[Last Updated on] MMMM DD, YYYY"

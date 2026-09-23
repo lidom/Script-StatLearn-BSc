@@ -7,19 +7,25 @@
 suppressPackageStartupMessages(library("kableExtra"))
 suppressPackageStartupMessages(library("tidyverse"))
 
-timetable <- tibble("Mondays"      = c("Theory",      "Break",       "Theory",      "Open Coding Space"),
-                    "Time"         = c("14:15-15:45", "15:45-16:15", "16:15-17:15", "17:15-17:45"),
-                    "Lecture Hall" = c("Jur / Lecture Hall K"))
+timetable <- tibble("Event"   = c("Lecture",     "Break",       "Lecture/Exercise",  "Exercise"),
+                    "Day"     = c("Mo.",         "Mo.",         "Mo.",               "Fr."), 
+                    "Time"    = c("10:15-11:30", "11:30-11:45", "11:45-17:15",       "09:15-10:00"),
+                    "Room"    = c("U03",         "U03",         "U03",               "Zoom"))
            
 timetable %>% kbl() %>%  kable_styling()
 ```
+
+### Zoom Room {-}
+
+* [https://kuei.zoom-x.de/j/65027992619](https://kuei.zoom-x.de/j/65027992619)
+* Meeting ID: 650 2799 2619
 
 
 ### Lecture Material {-}
 
 * This online script
-* [Folder containing `R`-Scripts](https://www.dropbox.com/scl/fo/omfqxytalaiyx4kd0kv4o/AE7EhUu8W3dJPvaA_ETDlQM?rlkey=w6v0am29ypq38gt4xpzy230bj&st=8p60234i&dl=0)
-* [eWhiteboard](https://www.dropbox.com/scl/fi/vnzws3xkbs2ojd5mfcdxr/CASA_eWhiteboard_2526_annotated.pdf?rlkey=ny3rnruqrsyyy1j4i2z3rdoek&st=djjulif7&dl=0) 
+* [Folder containing `R`-Scripts](https://www.dropbox.com/scl/fo/c5rxk0uf3zc3roa4mombz/AJjYeMsnAKlLa1jvq0ypQD0?rlkey=p5z412wdz2pxsxb22gsafuq4e&st=4o7vrvsi&dl=0)
+* [eWhiteboard](https://www.dropbox.com/scl/fi/nf1us6pjjdurwjap5ykff/eWhiteBoard_BA_annotated.pdf?rlkey=pqty2slk8rzcmnodi8ezk8h8z&st=r7cxnxj3&dl=0) 
 
 ### Literature {-}
 
@@ -27,24 +33,12 @@ timetable %>% kbl() %>%  kable_styling()
 * [The Elements of Statistical Learning](https://hastie.su.domains/ElemStatLearn/)
 * Econometrics (Chapter 1) by Fumio Hayashi
 
-<!-- 
-* **To-Do List for October 9, 2023:** [To-Do List (PDF)](https://www.dropbox.com/scl/fi/oxf406ur56tq4wg5hm1dj/ToDo_List_4_Students.pdf?rlkey=juskpa6o9yx903yywpgatw5j7&dl=0) -->
 
-<!-- 
-### In-Class Coding Exercises 
+### Exam {-}
 
-Date | Accepted Submission 1 | Accepted Submission 2 | Accepted Submission 3
------|-----------------------|-----------------------|----------------------
-Oct. 20| | |
-
-
-* Submissions must be done until 6pm of the day of the in-class exercises.
-* Persons that already have an accepted submission are not allowed to submit again.
-* One accepted submission leads to one grading-step upgrade (e.g. from 1.7 to 1.3)
-* This lecture unit is experimental. Only if everyone   
--->
-
-
+* Not relevant for the exam:
+   * `R`-codes that generate plots. These codes may be useful for your Bachelor thesis, however, they are not useful for the exam. 
+🧌
 <!-- ### Exam {-}
 
 * Written exam (60 minutes)
