@@ -144,7 +144,7 @@ window.Quarto = {
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="./index.html" class="sidebar-logo-link">
-      <img src="./images/KU_Logo_2.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
+      <img src="./images/KU_Logo_Blau_M.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Statistical Learning for Business and Economics (B.Sc.)</a> 
         <div class="sidebar-tools-main">
@@ -168,7 +168,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Ch_Intro2R.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title"><code>R</code>-Lab: Introduction to <code>R</code></span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to R</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -185,27 +185,38 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Ch_MatrixAlgebra.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Matrix Algebra</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./Ch_NonParamRegression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Nonparametric Regression and Cross-Validation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Nonparametric Regression and Cross-Validation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Ch5_Classification.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Ch6_Bootstrap.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The Bootstrap</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The Bootstrap</span></span></a>
   </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch_MatrixAlgebra.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Matrix Algebra</span></span></a>
+  </div>
+</li>
+      </ul>
 </li>
     </ul>
 </div>
@@ -247,7 +258,7 @@ window.Quarto = {
   <ul class="collapse">
 <li><a href="#sec-normal" id="toc-sec-normal" class="nav-link" data-scroll-target="#sec-normal"><span class="header-section-number">2.6.1</span> The Normal Distribution</a></li>
   <li><a href="#sec-chisqdist" id="toc-sec-chisqdist" class="nav-link" data-scroll-target="#sec-chisqdist"><span class="header-section-number">2.6.2</span> The Chi-Squared Distribution</a></li>
-  <li><a href="#sec-fdistrib" id="toc-sec-fdistrib" class="nav-link" data-scroll-target="#sec-fdistrib"><span class="header-section-number">2.6.3</span> The F-Distribution</a></li>
+  <li><a href="#sec-fdistrib" id="toc-sec-fdistrib" class="nav-link" data-scroll-target="#sec-fdistrib"><span class="header-section-number">2.6.3</span> The <span class="math inline">\(F\)</span>-Distribution</a></li>
   </ul>
 </li>
   <li>
@@ -258,7 +269,7 @@ window.Quarto = {
   </ul>
 </li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">2.8</span> Summary</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
   </ul></nav>
     </div>
 <!-- main -->
@@ -596,9 +607,9 @@ P(a \leq X \leq b) = \int_a^b f_X(x)\, dx
 </section><section id="jump-test-data-example-1" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="jump-test-data-example-1">🤸‍♀️ <strong>Jump-Test Data Example</strong>
 </h4>
 <p>Given a sample of observations <span class="math display">\[
-X_{1,\text{obs}}, \ldots, X_{n,\text{obs}},
+X_{1,\operatorname{obs}}, \ldots, X_{n,\operatorname{obs}},
 \]</span> and <span class="math display">\[
-Y_{1,\text{obs}}, \ldots, Y_{n,\text{obs}},
+Y_{1,\operatorname{obs}}, \ldots, Y_{n,\operatorname{obs}},
 \]</span> we can estimate the underlying densities <span class="math inline">\(f_X\)</span> and <span class="math inline">\(f_Y\)</span> without assuming specific functional forms. Two standard estimators are:</p>
 <ul>
 <li>The <strong>histogram estimator</strong> divides the range of the data into bins and estimates <span class="math inline">\(f_X\)</span> and <span class="math inline">\(f_Y\)</span> by the relative frequency of observations falling into each bin. It is a step function.</li>
@@ -618,7 +629,7 @@ Y_{1,\text{obs}}, \ldots, Y_{n,\text{obs}},
 </div>
 <p>Both of these (non-parametric) estimators converge to the true <span class="math inline">\(f_X(x)\)</span> and <span class="math inline">\(f_Y(y)\)</span> as <span class="math inline">\(n \to \infty,\)</span> if used correctly.</p>
 <p><a href="#fig-hairlength-hist" class="quarto-xref">Figure&nbsp;<span>2.3</span></a> shows the estimation results based on the observed hair-length data <span class="math display">\[
-X_{1,\text{obs}}, \ldots, X_{n,\text{obs}}
+X_{1,\operatorname{obs}}, \ldots, X_{n,\operatorname{obs}}
 \]</span> together with the true <strong>usually unknown</strong> density <span class="math inline">\(f_X\)</span>.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -633,7 +644,7 @@ Figure&nbsp;2.3: Two estimates of the usually unknown density <span class="math 
 </div>
 </div>
 <p><a href="#fig-jumpheight-hist" class="quarto-xref">Figure&nbsp;<span>2.4</span></a> shows the estimation results based on the observed jump-height data <span class="math display">\[
-Y_{1,\text{obs}}, \ldots, Y_{n,\text{obs}}
+Y_{1,\operatorname{obs}}, \ldots, Y_{n,\operatorname{obs}}
 \]</span> together with the true <strong>usually unknown</strong> density <span class="math inline">\(f_Y\)</span>.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -753,9 +764,9 @@ G_i\in\{\texttt{female}, \texttt{male}\}
 <p>In practice, we typically know the values <span class="math inline">\(w_1,w_2,\dots\)</span> a discrete random variable <span class="math inline">\(W\)</span> can take, but the corresponding probabilities <span class="math inline">\(p_W\)</span> are <strong>(typically) unknown</strong>. Given the observed realizations <span class="math display">\[
 W_{1,\operatorname{obs}}, \ldots, W_{n,\operatorname{obs}},
 \]</span> we estimate the values of the pmf <span class="math inline">\(p_W(w_k)\)</span> using <strong>relative frequencies</strong>: <span class="math display">\[\begin{align*}
-\hat{p}_{W,\operatorname{obs}}(w_k)
-&amp;= \frac{\text{number of observations equal to } w_k}{n}\\
-&amp;= \frac{1}{n}\sum_{i=1}^n\mathbf{1}(W_{i,\text{obs}} = w_k)\quad\text{for all}\quad k = 1, 2, \ldots,
+\widehat{p}_{W,\operatorname{obs}}(w_k)
+&amp;= \frac{\text{number of observations equal to } w_k}{n}\\[2ex]
+&amp;= \frac{1}{n}\sum_{i=1}^n\mathbf{1}(W_{i,\operatorname{obs}} = w_k)\quad\text{for all}\quad k = 1, 2, \ldots,
 \end{align*}\]</span> where <span class="math inline">\(\mathbf{1}(\texttt{TRUE})=1\)</span> and <span class="math inline">\(\mathbf{1}(\texttt{FALSE})=0\)</span> is the indicator function.</p>
 </section><section id="jump-test-data-example-2" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="jump-test-data-example-2">🤸‍♀️ <strong>Jump-Test Data Example</strong>
 </h4>
@@ -767,7 +778,7 @@ W_{1,\operatorname{obs}}, \ldots, W_{n,\operatorname{obs}},
 <span class="math inline">\(G_i = \texttt{female}\)</span> if student <span class="math inline">\(i\)</span> is a female student</li>
 </ul>
 <p><a href="#tbl-gender-data" class="quarto-xref">Table&nbsp;<span>2.2</span></a> shows the first six values of the observed gender variable data <span class="math display">\[
-G_{1,\text{obs}},\dots,G_{n,\text{obs}}
+G_{1,\operatorname{obs}},\dots,G_{n,\operatorname{obs}}
 \]</span></p>
 <div class="cell" data-layout-align="center">
 <div id="tbl-gender-data" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
@@ -807,17 +818,17 @@ Table&nbsp;2.2: First six values of the observed gender variable.
 </div>
 <p>Since <span class="math inline">\(G_i\)</span> takes only two values <span class="math inline">\(\{\texttt{male},\texttt{female}\},\)</span> it is a <strong>discrete random variable</strong>, and its distribution is characterized by the (unknown) pmf values <span class="math inline">\(p_G(\texttt{male})\)</span> and <span class="math inline">\(p_G(\texttt{female}).\)</span></p>
 <p><a href="#fig-gender-pmf" class="quarto-xref">Figure&nbsp;<span>2.5</span></a> shows the estimation results <span class="math display">\[\begin{align*}
-\hat{p}_{G,\operatorname{obs}}(\texttt{male})
+\widehat{p}_{G,\operatorname{obs}}(\texttt{male})
 &amp;= \frac{\text{number of observations equal to } \texttt{male}}{n}\\[4pt]
-&amp;= \frac{1}{n}\sum_{i=1}^n\mathbf{1}(G_{i,\text{obs}} = \texttt{male})\\[4pt]
+&amp;= \frac{1}{n}\sum_{i=1}^n\mathbf{1}(G_{i,\operatorname{obs}} = \texttt{male})\\[4pt]
 &amp;= \texttt{sum(gender == "male") / length(gender)}\\[4pt]
 &amp;= 0.37
 \end{align*}\]</span></p>
 <p>and</p>
 <p><span class="math display">\[\begin{align*}
-\hat{p}_{G,\operatorname{obs}}(\texttt{female})
+\widehat{p}_{G,\operatorname{obs}}(\texttt{female})
 &amp;= \frac{\text{number of observations equal to } \texttt{female}}{n}\\[4pt]
-&amp;= \frac{1}{n}\sum_{i=1}^n\mathbf{1}(G_{i,\text{obs}} = \texttt{female})\\[4pt]
+&amp;= \frac{1}{n}\sum_{i=1}^n\mathbf{1}(G_{i,\operatorname{obs}} = \texttt{female})\\[4pt]
 &amp;= \texttt{sum(gender == "female") / length(gender)}\\[4pt]
 &amp;= 0.63
 \end{align*}\]</span> <br> together with the <strong>usually unknown</strong> true pmf values <span class="math display">\[
@@ -830,7 +841,7 @@ p_G(\texttt{male}) = p_G(\texttt{female}) = 0.5.
 <img src="Ch_ReviewProbStats_files/figure-html/fig-gender-pmf-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gender-pmf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.5: Estimated probability mass function values <span class="math inline">\(\hat{p}_{G,\operatorname{obs}}(\texttt{male})\)</span> and <span class="math inline">\(\hat{p}_{G,\operatorname{obs}}(\texttt{female})\)</span> (purple bars). The dashed black line is the true pmf <span class="math inline">\(p_G(\texttt{male}) = p_G(\texttt{female}) = 0.5\)</span>.
+Figure&nbsp;2.5: Estimated probability mass function values <span class="math inline">\(\widehat{p}_{G,\operatorname{obs}}(\texttt{male})\)</span> and <span class="math inline">\(\widehat{p}_{G,\operatorname{obs}}(\texttt{female})\)</span> (purple bars). The dashed black line is the true pmf <span class="math inline">\(p_G(\texttt{male}) = p_G(\texttt{female}) = 0.5\)</span>.
 </figcaption></figure>
 </div>
 </div>
@@ -880,7 +891,7 @@ f_X(x) = F'_X(x),
 <p>In practice, the true cdf is <strong>(typically) unknown</strong>. Given the observed values, we estimate it with the <strong>empirical cdf</strong>, defined as the fraction of observations at most <span class="math inline">\(x\)</span>:</p>
 <p><span class="math display">\[\begin{align*}
 \widehat{F}_{X,\operatorname{obs}}(x)
-&amp; = \frac{\text{number of observations equal to or smaller than $x$}}{n}\\
+&amp; = \frac{\text{number of observations equal to or smaller than $x$}}{n}\\[2ex]
 &amp; = \frac{1}{n} \sum_{i=1}^{n} \mathbf{1}(X_{i,\operatorname{obs}} \leq x),
 \end{align*}\]</span> where <span class="math inline">\(\mathbf{1}(\texttt{TRUE})=1\)</span> and <span class="math inline">\(\mathbf{1}(\texttt{FALSE})=0\)</span> is the indicator function.</p>
 <p>The empirical cdf <span class="math inline">\(\widehat{F}_{X,\operatorname{obs}}\)</span> is a step function that converges to the true cdf <span class="math inline">\(F_X\)</span> as <span class="math inline">\(n \to \infty\)</span>.</p>
@@ -890,7 +901,7 @@ f_X(x) = F'_X(x),
 <p><a href="#fig-hairlength-ecdf" class="quarto-xref">Figure&nbsp;<span>2.6</span></a> shows <span class="math display">\[
 \widehat{F}_{X,\operatorname{obs}}(x)  = \frac{1}{n} \sum_{i=1}^{n} \mathbf{1}(X_{i,\operatorname{obs}} \leq x),
 \]</span> based on the observed hair-length data <span class="math display">\[
-X_{1,\text{obs}}, \ldots, X_{n,\text{obs}}
+X_{1,\operatorname{obs}}, \ldots, X_{n,\operatorname{obs}}
 \]</span> together with the true <strong>usually unknown</strong> cdf <span class="math inline">\(F_X\)</span>.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/ecdf.html">ecdf</a></span><span class="op">(</span><span class="va">jumptest_data</span><span class="op">$</span><span class="va">hairlength</span><span class="op">)</span>,</span>
@@ -920,7 +931,7 @@ Figure&nbsp;2.6: Empirical cdf <span class="math inline">\(\widehat{F}_{X,\opera
 <p><a href="#fig-jumpheight-ecdf" class="quarto-xref">Figure&nbsp;<span>2.7</span></a> shows <span class="math display">\[
 \widehat{F}_{Y,\operatorname{obs}}(y)  = \frac{1}{n} \sum_{i=1}^{n} \mathbf{1}(Y_{i,\operatorname{obs}} \leq y),
 \]</span> based on the observed jump-height data <span class="math display">\[
-Y_{1,\text{obs}}, \ldots, Y_{n,\text{obs}}
+Y_{1,\operatorname{obs}}, \ldots, Y_{n,\operatorname{obs}}
 \]</span> together with the true <strong>usually unknown</strong> cdf <span class="math inline">\(F_Y\)</span>.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/ecdf.html">ecdf</a></span><span class="op">(</span><span class="va">jumptest_data</span><span class="op">$</span><span class="va">jumpheight</span><span class="op">)</span>,</span>
@@ -1002,9 +1013,9 @@ W\in\{w_1,w_2,\dots\}
 D\in\{1,2,3,4,5,6\}
 \]</span> is <span class="math display">\[\begin{align*}
 E(D)
-&amp; = 1 \cdot  \frac{1}{6} +  2 \cdot\frac{1}{6} + 3\cdot\frac{1}{6} + 4 \cdot\frac{1}{6} + 5 \cdot\frac{1}{6}+ 6 \cdot\frac{1}{6}\\
-&amp; = \frac{1}{6}\cdot(1+2+3+4+5+6)\\
-&amp; = \frac{1}{6} \cdot \sum_{k=1}^6 k \\
+&amp; = 1 \cdot  \frac{1}{6} +  2 \cdot\frac{1}{6} + 3\cdot\frac{1}{6} + 4 \cdot\frac{1}{6} + 5 \cdot\frac{1}{6}+ 6 \cdot\frac{1}{6}\\[2ex]
+&amp; = \frac{1}{6}\cdot(1+2+3+4+5+6)\\[2ex]
+&amp; = \frac{1}{6} \cdot \sum_{k=1}^6 k \\[2ex]
 &amp; = \frac{1}{6} \cdot \frac{6\cdot(6+1)}{2} = 3.5
 \end{align*}\]</span> where <span class="math inline">\(\sum_{k=1}^6 k = \frac{6\cdot(6+1)}{2}\)</span> follows from the <a href="https://de.wikipedia.org/wiki/Gau%C3%9Fsche_Summenformel">Gaussian summation formula</a>.</p>
 <section id="properties-of-the-expected-value" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="properties-of-the-expected-value"><strong>Properties of the Expected Value</strong></h4>
@@ -1018,18 +1029,18 @@ E(X + Y) = E(X) + E(Y).
 </h4>
 <p>In practice, the true density <span class="math inline">\(f_X\)</span> and the true pmf <span class="math inline">\(p_W\)</span> are typically unknown — so neither formula can be evaluated directly to compute the true means <span class="math inline">\(E(X)\)</span> and <span class="math inline">\(E(W).\)</span></p>
 <p>Given observed realizations of a continuous random variable <span class="math display">\[
-X_{1,\text{obs}},\dots,X_{n,\text{obs}}
+X_{1,\operatorname{obs}},\dots,X_{n,\operatorname{obs}}
 \]</span> we can estimate <span class="math inline">\(E(X)\)</span> by <span class="math display">\[
 \bar{X}_{\operatorname{obs}} = \frac{1}{n} \sum_{i=1}^n X_{i,\operatorname{obs}}.
 \]</span> Alternative notations: <span class="math display">\[
-\bar{X}_{\operatorname{obs}} = \hat{\mu}_{X,\operatorname{obs}} = \widehat{E}_{\operatorname{obs}}(X)
+\bar{X}_{\operatorname{obs}} = \widehat{\mu}_{X,\operatorname{obs}} = \widehat{E}_{\operatorname{obs}}(X)
 \]</span></p>
 <p>Given observed realizations of a discrete random variable <span class="math display">\[
-W_{1,\text{obs}},\dots,W_{n,\text{obs}}
+W_{1,\operatorname{obs}},\dots,W_{n,\operatorname{obs}}
 \]</span> we can estimate <span class="math inline">\(E(W)\)</span> by <span class="math display">\[
 \bar{W}_{\operatorname{obs}} = \frac{1}{n} \sum_{i=1}^n W_{i,\operatorname{obs}}.
 \]</span> Alternative notations: <span class="math display">\[
-\bar{W}_{\operatorname{obs}} = \hat{\mu}_{W,\operatorname{obs}} = \widehat{E}_{\operatorname{obs}}(W)
+\bar{W}_{\operatorname{obs}} = \widehat{\mu}_{W,\operatorname{obs}} = \widehat{E}_{\operatorname{obs}}(W)
 \]</span></p>
 <p>❗ Estimating the mean of a discrete random variable <span class="math display">\[
 W\in\{w_1,w_2,\dots\}
@@ -1097,7 +1108,7 @@ Law of Large Numbers
 <p>The <strong>variance</strong> of a continuous random variable <span class="math inline">\(X\)</span> with density <span class="math inline">\(f_X\)</span> is the expected squared deviation from its mean:</p>
 <p><span class="math display">\[\begin{align*}
 \sigma_X^2 = \text{Var}(X)
-&amp;= E\!\left[(X - \mu_X)^2\right]\\
+&amp;= E\!\left[(X - \mu_X)^2\right]\\[2ex]
 &amp;= \int_{-\infty}^{\infty} (x - \mu_X)^2\, f_X(x)\, dx.
 \end{align*}\]</span></p>
 <p>The <strong>standard deviation</strong> is <span class="math display">\[
@@ -1116,14 +1127,14 @@ Law of Large Numbers
 <p>For a discrete random variable <span class="math inline">\(W\)</span> with possible values <span class="math inline">\(w_1, w_2, \ldots\)</span> and probabilities <span class="math inline">\(p_W(w_k) = P(W = w_k)\)</span>, the integral becomes a sum:</p>
 <p><span class="math display">\[\begin{align*}
 \sigma_W^2 = \text{Var}(W)
-&amp;= E\!\left[(W - \mu_W)^2\right]\\
+&amp;= E\!\left[(W - \mu_W)^2\right]\\[2ex]
 &amp;= \sum_{k=1,2,\dots} (w_k - \mu_W)^2\, p_W(w_k).
 \end{align*}\]</span></p>
 <p><strong>Example:</strong> The variance when rolling a fair die <span class="math inline">\(D \in \{1,2,3,4,5,6\}\)</span>, where <span class="math inline">\(E(D) = 3.5\)</span>, is <span class="math display">\[\begin{align*}
 \text{Var}(D)
-&amp;= (1-3.5)^2\cdot\tfrac{1}{6} + (2-3.5)^2\cdot\tfrac{1}{6} + (3-3.5)^2\cdot\tfrac{1}{6}\\
+&amp;= (1-3.5)^2\cdot\tfrac{1}{6} + (2-3.5)^2\cdot\tfrac{1}{6} + (3-3.5)^2\cdot\tfrac{1}{6}\\[2ex]
 &amp;\phantom{=} + (4-3.5)^2\cdot\tfrac{1}{6} + (5-3.5)^2\cdot\tfrac{1}{6} + (6-3.5)^2\cdot\tfrac{1}{6}\\[2ex]
-&amp;= \frac{1}{6}\cdot\big[(1-3.5)^2 + (2-3.5)^2 + (3-3.5)^2 \\
+&amp;= \frac{1}{6}\cdot\big[(1-3.5)^2 + (2-3.5)^2 + (3-3.5)^2 \\[2ex]
 &amp;\phantom{\frac{1}{6}\cdot} + (4-3.5)^2 + (5-3.5)^2 + (6-3.5)^2\big]\\[2ex]
 &amp;= \frac{1}{6}\cdot\left[\frac{25}{4} + \frac{9}{4} + \frac{1}{4} + \frac{1}{4} + \frac{9}{4} + \frac{25}{4}\right]\\[2ex]
 &amp;= \frac{1}{6}\cdot\frac{25+9+1+1+9+25}{4}\\[2ex]
@@ -1144,22 +1155,22 @@ Law of Large Numbers
 <p>Given observed realizations <span class="math display">\[
 X_{1,\operatorname{obs}}, \ldots, X_{n,\operatorname{obs}},
 \]</span> we estimate <span class="math inline">\(\text{Var}(X)\)</span> by the <strong>sample variance</strong> <span class="math display">\[
-\hat{\sigma}^2_{X,\operatorname{obs}} = \widehat{\text{Var}}_{\operatorname{obs}}(X) = \frac{1}{n-1}\sum_{i=1}^n \bigl(X_{i,\operatorname{obs}} - \bar{X}_{\operatorname{obs}}\bigr)^2,
+\widehat{\sigma}^2_{X,\operatorname{obs}} = \widehat{\text{Var}}_{\operatorname{obs}}(X) = \frac{1}{n-1}\sum_{i=1}^n \bigl(X_{i,\operatorname{obs}} - \bar{X}_{\operatorname{obs}}\bigr)^2,
 \]</span> and <span class="math inline">\(\text{SD}(X)\)</span> by the <strong>sample standard deviation</strong> <span class="math display">\[
-\hat{\sigma}_{X,\operatorname{obs}} = \sqrt{\hat{\sigma}^2_{X,\operatorname{obs}}}.
+\widehat{\sigma}_{X,\operatorname{obs}} = \sqrt{\widehat{\sigma}^2_{X,\operatorname{obs}}}.
 \]</span> The divisor <span class="math inline">\(n-1\)</span> rather than <span class="math inline">\(n\)</span> corrects for the fact that <span class="math inline">\(\bar{X}_{\operatorname{obs}}\)</span> is itself estimated from the same data.</p>
 </section><section id="jump-test-data-example-5" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="jump-test-data-example-5">🤸‍♀️ <strong>Jump-Test Data Example</strong>
 </h4>
 <p>In R, <code><a href="https://rdrr.io/r/stats/cor.html">var()</a></code> computes the sample variance and <code><a href="https://rdrr.io/r/stats/sd.html">sd()</a></code> computes the sample standard deviation:</p>
 <ul>
 <li>
-<span class="math inline">\(\hat\sigma_{X,\operatorname{obs}}^2=\)</span> <code>var(jumptest_data$hairlength)</code> <span class="math inline">\(=\)</span> 144.6</li>
+<span class="math inline">\(\widehat\sigma_{X,\operatorname{obs}}^2=\)</span> <code>var(jumptest_data$hairlength)</code> <span class="math inline">\(=\)</span> 144.6</li>
 <li>
-<span class="math inline">\(\hat\sigma_{X,\operatorname{obs}}=\)</span> <code>sd(jumptest_data$hairlength)</code> <span class="math inline">\(=\)</span> 12</li>
+<span class="math inline">\(\widehat\sigma_{X,\operatorname{obs}}=\)</span> <code>sd(jumptest_data$hairlength)</code> <span class="math inline">\(=\)</span> 12</li>
 <li>
-<span class="math inline">\(\hat\sigma_{Y,\operatorname{obs}}^2=\)</span> <code>var(jumptest_data$jumpheight)</code> <span class="math inline">\(=\)</span> 516.6</li>
+<span class="math inline">\(\widehat\sigma_{Y,\operatorname{obs}}^2=\)</span> <code>var(jumptest_data$jumpheight)</code> <span class="math inline">\(=\)</span> 516.6</li>
 <li>
-<span class="math inline">\(\hat\sigma_{Y,\operatorname{obs}}=\)</span> <code>sd(jumptest_data$jumpheight)</code> <span class="math inline">\(=\)</span> 22.7</li>
+<span class="math inline">\(\widehat\sigma_{Y,\operatorname{obs}}=\)</span> <code>sd(jumptest_data$jumpheight)</code> <span class="math inline">\(=\)</span> 22.7</li>
 </ul>
 <p>Since we generated the data ourselves, we also know the true population variances and standard deviations (usually unknown in practice):</p>
 <ul>
@@ -1267,8 +1278,8 @@ Figure&nbsp;2.8: Scatter plot with contours of the bivariate kernel density esti
 <p>If large values of <span class="math inline">\(X\)</span> tend to go with large values of <span class="math inline">\(Y\)</span>, the covariance is positive. If large values of <span class="math inline">\(X\)</span> go with small values of <span class="math inline">\(Y\)</span>, it is negative (as in the jump-test example).</p>
 <p>Note that the covariance of <span class="math inline">\(X\)</span> with itself is just the variance of <span class="math inline">\(X\colon\)</span> <span class="math display">\[\begin{align*}
 \text{Cov}(X, X)
-&amp;= E\!\left[(X - E(X))(X - E(X))\right]\\
-&amp;= E\!\left[(X - E(X))^2\right]\\
+&amp;= E\!\left[(X - E(X))(X - E(X))\right]\\[2ex]
+&amp;= E\!\left[(X - E(X))^2\right]\\[2ex]
 &amp;=\text{Var}(X).
 \end{align*}\]</span> The covariance is symmetric: <span class="math display">\[
 \text{Cov}(Y,X) = \text{Cov}(X,Y)
@@ -1308,8 +1319,8 @@ Figure&nbsp;2.8: Scatter plot with contours of the bivariate kernel density esti
 \]</span></p>
 <p><span class="math display">\[
 \widehat{\text{Cor}}_{\operatorname{obs}}(X, Y)
-= \frac{\widehat{\text{Cov}}_{\operatorname{obs}}(X, Y)}{\sqrt{\hat{\sigma}^2_{X,\operatorname{obs}}\, \hat{\sigma}^2_{Y,\operatorname{obs}}}},
-\]</span> where <span class="math inline">\(\hat{\sigma}^2_{X,\operatorname{obs}}\)</span> and <span class="math inline">\(\hat{\sigma}^2_{Y,\operatorname{obs}}\)</span> are the sample variances of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, respectively.</p>
+= \frac{\widehat{\text{Cov}}_{\operatorname{obs}}(X, Y)}{\sqrt{\widehat{\sigma}^2_{X,\operatorname{obs}}\, \widehat{\sigma}^2_{Y,\operatorname{obs}}}},
+\]</span> where <span class="math inline">\(\widehat{\sigma}^2_{X,\operatorname{obs}}\)</span> and <span class="math inline">\(\widehat{\sigma}^2_{Y,\operatorname{obs}}\)</span> are the sample variances of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, respectively.</p>
 <p>In R, <code><a href="https://rdrr.io/r/stats/cor.html">cov()</a></code> and <code><a href="https://rdrr.io/r/stats/cor.html">cor()</a></code> can be used to compute the empirical (i.e., data-based) estimates <span class="math inline">\(\widehat{\text{Cov}}_{\operatorname{obs}}(X,Y)\)</span> and <span class="math inline">\(\widehat{\text{Cor}}_{\operatorname{obs}}(X,Y)\)</span>:</p>
 <p><span class="math inline">\(\widehat{\text{Cov}}_{\operatorname{obs}}(X,Y)=\)</span> <code>cov(hairlength, jumpheight)</code> <span class="math inline">\(=\)</span> <span class="math inline">\(-264.78\)</span></p>
 <p><span class="math inline">\(\widehat{\text{Cor}}_{\operatorname{obs}}(X,Y)=\)</span> <code>cor(hairlength, jumpheight)</code> <span class="math inline">\(=\)</span> <span class="math inline">\(-0.97\)</span></p>
@@ -1426,13 +1437,13 @@ f_{Y, X_1, \ldots, X_K}(y, x_1, \ldots, x_K) \geq 0 \quad \text{for all } (y, x_
 </section><section id="jump-test-data-example-9" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="jump-test-data-example-9">🤸‍♀️ <strong>Jump-Test Data Example</strong>
 </h4>
 <p>Let us denote the observed hair length data by <span class="math display">\[
-X_{i,1,\text{obs}}\quad i=1,2,\dots
+X_{i,1,\operatorname{obs}}\quad i=1,2,\dots
 \]</span> and the observed gender data by <span class="math display">\[
-X_{i,2,\text{obs}}\quad i=1,2,\dots,
+X_{i,2,\operatorname{obs}}\quad i=1,2,\dots,
 \]</span> where <span class="math display">\[
-X_{i,2,\text{obs}} = 0\quad\text{if person $i$ is male}
+X_{i,2,\operatorname{obs}} = 0\quad\text{if person $i$ is male}
 \]</span> <span class="math display">\[
-X_{i,2,\text{obs}} = 1\quad\text{if person $i$ is female}
+X_{i,2,\operatorname{obs}} = 1\quad\text{if person $i$ is female}
 \]</span></p>
 <div class="cell" data-layout-align="center">
 <div id="tbl-class-data-multi" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
@@ -1659,7 +1670,7 @@ Figure&nbsp;2.11: Scatter plot with estimated conditional means for the three ha
 <p>The three estimated conditional means fall roughly on a line. This visual observation motivates <strong>parametrizing the regression function</strong> as a straight line:</p>
 <p><span class="math display">\[\begin{align*}
 E(Y_i \mid X_i = x)
-&amp; = m(x)\\
+&amp; = m(x)\\[2ex]
 &amp;= \beta_1 + \beta_2 x.
 \end{align*}\]</span></p>
 <p>Doing so, has a fundamental adavantage: Provided that this functional form assumption (parametrization) is correct, we only have to estimate the unknown parameters <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span> to get a good estimate of <span class="math inline">\(E(Y_i \mid X_i = x).\)</span></p>
@@ -1717,7 +1728,7 @@ Figure&nbsp;2.12: Normal distributions with different means and standard deviati
 </div>
 </div>
 </div>
-<p><code>R</code> provides four functions for any distribution:</p>
+<p>R provides four functions for any distribution:</p>
 <ul>
 <li>
 <code>d</code> (density)</li>
@@ -1765,24 +1776,24 @@ X \sim \mathcal{N}(\mu, \sigma^2),
 \]</span> then <span class="math display">\[
 Z = \frac{X - \mu}{\sigma} \sim \mathcal{N}(0, 1).
 \]</span></p>
-<section id="estimating-the-normal-parameters-from-data" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="estimating-the-normal-parameters-from-data">Estimating the Normal Parameters from Data</h4>
+<section id="estimating-the-normal-parameters-from-data" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="estimating-the-normal-parameters-from-data"><strong>Estimating the Normal Parameters from Data</strong></h4>
 <p>Assuming normality means we assume <span class="math inline">\(X \sim \mathcal{N}(\mu, \sigma^2)\)</span>. The distribution is then fully characterized by two <strong>unknown parameters</strong>, <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span>, which we estimate from the observed values <span class="math inline">\(X_{1,\operatorname{obs}}, \ldots, X_{n,\operatorname{obs}}\)</span>:</p>
 <p><span class="math display">\[
-\hat{\mu}_{\operatorname{obs}} = \bar{X}_{\operatorname{obs}} = \frac{1}{n}\sum_{i=1}^n X_{i,\operatorname{obs}}
+\widehat{\mu}_{\operatorname{obs}} = \bar{X}_{\operatorname{obs}} = \frac{1}{n}\sum_{i=1}^n X_{i,\operatorname{obs}}
 \]</span> <span class="math display">\[
-\hat{\sigma}^2_{\operatorname{obs}} = s_{\operatorname{obs}}^2 = \frac{1}{n-1}\sum_{i=1}^n
+\widehat{\sigma}^2_{\operatorname{obs}} = s_{\operatorname{obs}}^2 = \frac{1}{n-1}\sum_{i=1}^n
   (X_{i,\operatorname{obs}} - \bar{X}_{\operatorname{obs}})^2.
 \]</span></p>
-<p>In R, <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code> computes <span class="math inline">\(\hat{\mu}_{\operatorname{obs}}\)</span> and <code><a href="https://rdrr.io/r/stats/cor.html">var()</a></code> computes <span class="math inline">\(\hat{\sigma}^2_{\operatorname{obs}}.\)</span></p>
-<p>Substituting <span class="math inline">\(\hat{\mu}_{\operatorname{obs}}\)</span> and <span class="math inline">\(\hat{\sigma}_{\operatorname{obs}}\)</span> into the normal density formula gives the <strong>fitted normal density estimator</strong></p>
+<p>In R, <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code> computes <span class="math inline">\(\widehat{\mu}_{\operatorname{obs}}\)</span> and <code><a href="https://rdrr.io/r/stats/cor.html">var()</a></code> computes <span class="math inline">\(\widehat{\sigma}^2_{\operatorname{obs}}.\)</span></p>
+<p>Substituting <span class="math inline">\(\widehat{\mu}_{\operatorname{obs}}\)</span> and <span class="math inline">\(\widehat{\sigma}_{\operatorname{obs}}\)</span> into the normal density formula gives the <strong>fitted normal density estimator</strong></p>
 <p><span class="math display">\[
-\hat{f}_{X,\operatorname{obs}}^{\operatorname{norm}}(x)
-= \frac{1}{\hat{\sigma}_{\operatorname{obs}}\sqrt{2\pi}}
-  \exp\!\left\{-\frac{(x - \hat{\mu}_{\operatorname{obs}})^2}{2\hat{\sigma}^2_{\operatorname{obs}}}\right\}.
+\widehat{f}_{X,\operatorname{obs}}^{\operatorname{norm}}(x)
+= \frac{1}{\widehat{\sigma}_{\operatorname{obs}}\sqrt{2\pi}}
+  \exp\!\left\{-\frac{(x - \widehat{\mu}_{\operatorname{obs}})^2}{2\widehat{\sigma}^2_{\operatorname{obs}}}\right\}.
 \]</span></p>
 <p>This is a <strong>parametric</strong> approach: it assumes a specific functional form (the bell curve) and only estimates the two free parameters <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma.\)</span></p>
-<p>The non-parametric estimators <span class="math inline">\(\hat{f}_{X,\operatorname{obs}}^{\operatorname{hist}}\)</span> and <span class="math inline">\(\hat{f}_{X,\operatorname{obs}}^{\operatorname{kernel}}\)</span> from <a href="#sec-pdf" class="quarto-xref"><span>Section 2.2.1</span></a> make no such functional form assumption. The trade-off is flexibility versus efficiency: parametric estimates use fewer degrees of freedom and can be (much) more precise — but only if the assumed distribution is correct.</p>
-<p><a href="#fig-hairlength-normal" class="quarto-xref">Figure&nbsp;<span>2.13</span></a> overlays <span class="math inline">\(\hat{f}_{X,\operatorname{obs}}^{\operatorname{norm}}\)</span> on the histogram of hair lengths. The bell curve does <strong>not</strong> fit well: the two peaks (one for short-haired, one for long-haired students) are a feature a single normal distribution cannot capture. This is a reminder that distributional assumptions should always be checked against the data.</p>
+<p>The non-parametric estimators <span class="math inline">\(\widehat{f}_{X,\operatorname{obs}}^{\operatorname{hist}}\)</span> and <span class="math inline">\(\widehat{f}_{X,\operatorname{obs}}^{\operatorname{kernel}}\)</span> from <a href="#sec-pdf" class="quarto-xref"><span>Section 2.2.1</span></a> make no such functional form assumption. The trade-off is flexibility versus efficiency: parametric estimates use fewer degrees of freedom and can be (much) more precise — but only if the assumed distribution is correct.</p>
+<p><a href="#fig-hairlength-normal" class="quarto-xref">Figure&nbsp;<span>2.13</span></a> overlays <span class="math inline">\(\widehat{f}_{X,\operatorname{obs}}^{\operatorname{norm}}\)</span> on the histogram of hair lengths. The bell curve does <strong>not</strong> fit well: the two peaks (one for short-haired, one for long-haired students) are a feature a single normal distribution cannot capture. This is a reminder that distributional assumptions should always be checked against the data.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mu_hat</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">jumptest_data</span><span class="op">$</span><span class="va">hairlength</span><span class="op">)</span></span>
 <span><span class="va">sig_hat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">jumptest_data</span><span class="op">$</span><span class="va">hairlength</span><span class="op">)</span></span>
@@ -1821,7 +1832,7 @@ Z = \frac{X - \mu}{\sigma} \sim \mathcal{N}(0, 1).
 <img src="Ch_ReviewProbStats_files/figure-html/fig-hairlength-normal-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hairlength-normal-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.13: Histogram of hair lengths with the fitted normal density <span class="math inline">\(\hat{f}_{X,\operatorname{obs}}^{\operatorname{norm}}\)</span> (dashed red) and the true mixture density <span class="math inline">\(f_X(x)\)</span> (solid black). The normal fit misses both peaks because the true distribution is a 50/50 mixture of two normal components — a reminder that distributional assumptions should always be checked.
+Figure&nbsp;2.13: Histogram of hair lengths with the fitted normal density <span class="math inline">\(\widehat{f}_{X,\operatorname{obs}}^{\operatorname{norm}}\)</span> (dashed red) and the true mixture density <span class="math inline">\(f_X(x)\)</span> (solid black). The normal fit misses both peaks because the true distribution is a 50/50 mixture of two normal components — a reminder that distributional assumptions should always be checked.
 </figcaption></figure>
 </div>
 </div>
@@ -1866,10 +1877,10 @@ Figure&nbsp;2.14: Chi-squared densities for various degrees of freedom. The dist
 </div>
 </div>
 </div>
-<p>The chi-squared distribution arises naturally in regression analysis when testing hypotheses about model coefficients. We will encounter it in <a href="Ch_LinearRegression.html#sec-multipleLR-inference" class="quarto-xref"><span>Section 3.3.6</span></a>.</p>
+<p>The chi-squared distribution arises naturally in regression analysis when testing hypotheses about model coefficients. We will encounter it in <a href="Ch_LinearRegression.html#sec-multipleLR-inference" class="quarto-xref"><span>Section 3.3.5</span></a>.</p>
 </section><section id="sec-fdistrib" class="level3" data-number="2.6.3"><h3 data-number="2.6.3" class="anchored" data-anchor-id="sec-fdistrib">
-<span class="header-section-number">2.6.3</span> The F-Distribution</h3>
-<p>The <strong>F-distribution</strong> with numerator degrees of freedom <span class="math inline">\(\nu_1\)</span> and denominator degrees of freedom <span class="math inline">\(\nu_2\)</span>, written <span class="math inline">\(V \sim F_{\nu_1,\nu_2}\)</span>, is the distribution of the ratio of two independent chi-squared random variables, each divided by its degrees of freedom:</p>
+<span class="header-section-number">2.6.3</span> The <span class="math inline">\(F\)</span>-Distribution</h3>
+<p>The <strong><span class="math inline">\(F\)</span>-distribution</strong> with numerator degrees of freedom <span class="math inline">\(\nu_1\)</span> and denominator degrees of freedom <span class="math inline">\(\nu_2\)</span>, written <span class="math inline">\(V \sim F_{\nu_1,\nu_2}\)</span>, is the distribution of the ratio of two independent chi-squared random variables, each divided by its degrees of freedom:</p>
 <p><span class="math display">\[
 V = \frac{W_1/\nu_1}{W_2/\nu_2} \sim F_{\nu_1,\nu_2},
 \quad W_1 \sim \chi^2_{\nu_1},\quad W_2 \sim \chi^2_{\nu_2},\quad W_1 \perp W_2.
@@ -1898,7 +1909,7 @@ Figure&nbsp;2.15: F-distribution densities for selected degrees of freedom.
 </div>
 </div>
 </div>
-<p>The F-distribution is used in regression for the <strong>F-test</strong>, which asks whether a set of predictors jointly explains variation in the outcome. We return to this in <a href="Ch_LinearRegression.html#sec-multipleLR-inference" class="quarto-xref"><span>Section 3.3.6</span></a>.</p>
+<p>The F-distribution is used in regression for the <strong>F-test</strong>, which asks whether a set of predictors jointly explains variation in the outcome. We return to this in <a href="Ch_LinearRegression.html#sec-multipleLR-inference" class="quarto-xref"><span>Section 3.3.5</span></a>.</p>
 </section></section><section id="sec-dgp" class="level2" data-number="2.7"><h2 data-number="2.7" class="anchored" data-anchor-id="sec-dgp">
 <span class="header-section-number">2.7</span> The Data-Generating Process</h2>
 <p>We now have all the building blocks to formalize the concept introduced in <a href="#sec-where-data" class="quarto-xref"><span>Section 2.1</span></a>.</p>
@@ -1929,9 +1940,11 @@ Y_i = \beta_1 + \beta_2 X_i + \varepsilon_i,
 \]</span> where</p>
 <ul>
 <li>
-<span class="math inline">\(Y_i\)</span> is called the outcome or dependent variable</li>
+<span class="math inline">\(Y_i\)</span> is called the <strong>outcome (or dependent) variable</strong>
+</li>
 <li>
-<span class="math inline">\(X_i\)</span> is called the predictor or regressor variable</li>
+<span class="math inline">\(X_i\)</span> is called the <strong>predictor (or independent) variable</strong>
+</li>
 <li>
 <span class="math inline">\(\varepsilon_i\)</span> is a statistical “error” term that captures everything in <span class="math inline">\(Y_i\)</span> that is not explained by <span class="math inline">\(\beta_1 + \beta_2 X_i.\)</span> Typically, we assume (hopefully it’s true) that <span class="math inline">\(E(\varepsilon_i|X_i)=0.\)</span>
 </li>
@@ -1987,7 +2000,7 @@ Y_i \mid X_i = x
 <li><span class="math inline">\(\sigma^2\)</span></li>
 </ul>
 <p>based on one observed realization <span class="math display">\[
-(Y_{1,\text{obs}}, X_{1,\text{obs}}), \ldots, (Y_{n,\text{obs}}, X_{n,\text{obs}})
+(Y_{1,\operatorname{obs}}, X_{1,\operatorname{obs}}), \ldots, (Y_{n,\operatorname{obs}}, X_{n,\operatorname{obs}})
 \]</span> of the <strong>(i.i.d.) random sample</strong> <span class="math display">\[
 (Y_1, X_1), \ldots, (Y_n, X_n).
 \]</span></p>
@@ -2085,13 +2098,13 @@ Random Sample
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Association Is Not Causation
+Correlation Is Not Causation
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The slope <span class="math inline">\(\beta_2 \approx -1.75\)</span> in our DGP says that students who differ by 1 cm in hair length differ, on average, by <span class="math inline">\(-1.75\)</span> cm in jump height. But this is a <strong>statistical association</strong>, not a <strong>causal</strong> claim. Cutting your hair will not improve your jump height.</p>
-<p>The association in the data is almost entirely driven by an unobserved variable — <strong>gender</strong> — that affects (not causes) both hair length and physical strength. Statisticians call this <strong>confounding</strong>: a third variable that influences both <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, creating a spurious correlation between them.</p>
-<p>This distinction — association versus causation — is one of the central themes of the next chapter. After introducing OLS and showing how to estimate and interpret <span class="math inline">\(\hat\beta_2\)</span>, <a href="Ch_LinearRegression.html#sec-whatdoesbeta" class="quarto-xref"><span>Section 3.7</span></a> asks what <span class="math inline">\(\hat\beta_2\)</span> really tells us. The short answer is: it estimates a conditional association, which may or may not reflect a causal effect.</p>
+<p>The slope <span class="math inline">\(\beta_2 \approx -1.75\)</span> in our DGP says that students who differ by 1 cm in hair length differ, on average, by <span class="math inline">\(-1.75\)</span> cm in jump height. But this is a <strong>statistical correlation</strong>, not a <strong>causal</strong> claim. Cutting your hair will not improve your jump height.</p>
+<p>The correlation in the data is almost entirely driven by an unobserved variable — <strong>gender</strong> or more precisely <strong>testosterone level</strong> — that correlates with <em>both</em> hair length and physical strength. Statisticians call this <strong>confounding</strong>: a third variable that influences both <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, creating a spurious correlation between them.</p>
+<p>This distinction — correlation versus causation — is one of the central themes of the next chapter. After introducing OLS and showing how to estimate and interpret <span class="math inline">\(\widehat\beta_2\)</span>, <a href="Ch_LinearRegression.html#sec-whatdoesbeta" class="quarto-xref"><span>Section 3.7</span></a> asks what <span class="math inline">\(\widehat\beta_2\)</span> really tells us. The short answer is: it estimates a statistical covariance, which may or may not reflect a causal effect.</p>
 </div>
 </div>
 </section></section><section id="summary" class="level2" data-number="2.8"><h2 data-number="2.8" class="anchored" data-anchor-id="summary">
@@ -2149,7 +2162,7 @@ The One Thing to Take Along
 <span class="math inline">\(E(X)\)</span>, <span class="math inline">\(\text{Var}(X)\)</span>
 </td>
 <td>
-<span class="math inline">\(\bar{X}_{\operatorname{obs}}\)</span>, <span class="math inline">\(\hat{\sigma}^2_{X,\operatorname{obs}}\)</span>
+<span class="math inline">\(\bar{X}_{\operatorname{obs}}\)</span>, <span class="math inline">\(\widehat{\sigma}^2_{X,\operatorname{obs}}\)</span>
 </td>
 </tr>
 <tr class="odd">
@@ -2170,7 +2183,7 @@ The One Thing to Take Along
 </div>
 </div>
 <p>In the next chapter we take the last row of that table seriously: we assume the linear DGP, estimate <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span> by <strong>ordinary least squares</strong>, and ask how precise those estimates are — and what they do, and do not, tell us about cause and effect.</p>
-</section><section id="references" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="references">References</h2>
+</section><section id="exercises" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="exercises">Exercises</h2>
 
 
 </section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
@@ -2737,8 +2750,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./Ch_Intro2R.html" class="pagination-link" aria-label="`R`-Lab: Introduction to `R`">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title"><code>R</code>-Lab: Introduction to <code>R</code></span></span>
+      <a href="./Ch_Intro2R.html" class="pagination-link" aria-label="Introduction to R">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to R</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

@@ -91,7 +91,7 @@ Y_i=\left\{
 \end{array}
 \right.
 $${#eq-binaryY}
-We could then fit a linear regression to this binary response, and predict drug overdose if $\hat{Y}_i > 0.5$ and stroke otherwise. In the binary case it is not hard to show that even if we flip the above coding, linear regression will produce the same final predictions.
+We could then fit a linear regression to this binary response, and predict drug overdose if $\widehat{Y}_i > 0.5$ and stroke otherwise. In the binary case it is not hard to show that even if we flip the above coding, linear regression will produce the same final predictions.
 
 #### **Binary Response** {-}
 
@@ -135,8 +135,8 @@ $$
 P(Y_i=1|X_i) 
 & \approx \widehat{P}(Y_i=1|X_i)\\[2ex]
 & = \widehat{E}(Y_i|X_i)\\[2ex] 
-& = \hat{Y}_i\\
-& = \hat\beta_0+ \hat\beta_1 X_{i1} + \dots + \hat\beta_p X_{ip}.
+& = \widehat{Y}_i\\[2ex]
+& = \widehat\beta_0+ \widehat\beta_1 X_{i1} + \dots + \widehat\beta_p X_{ip}.
 \end{align*}
 $$
 
@@ -147,7 +147,7 @@ $$
 The actual classification of an observation $i$ with predictor values $x_i\in\mathbb{R}^p$ is done using a certain probability threshold, such as $0.5$:
 
 $$
-\hat{f}(x_i) = 
+\widehat{f}(x_i) = 
 \left\{
   \begin{array}{l}
    1\quad\text{if}\quad\widehat{P}(Y_i=1|x_i)    > 0.5\\[2ex]
@@ -191,15 +191,15 @@ $$
 * Qualitative response $Y_i$ with categorical class labels. E.g. 
    * $Y_i\in\{\text{red},\text{blue}\}$
    * $Y_i\in\{\text{positive returns},\text{negative returns}\}$
-* The **classifier** $\hat{f}$ is computed from the training data.
+* The **classifier** $\widehat{f}$ is computed from the training data.
 * Predicted training data class labels: 
 $$
-\hat{Y}_i = \hat{f}(X_i)
+\widehat{Y}_i = \widehat{f}(X_i)
 $$
 
 The alternative to the training MSE (introduced in @sec-mqfit) is here the **training error rate**
 $$
-\frac{1}{{n_{\text{Train}}}}\sum_{i=1}^{n_{\text{Train}}} I(Y_i\neq \hat{Y}_i),\quad \hat{Y}_i = \hat{f}(X_i),
+\frac{1}{{n_{\text{Train}}}}\sum_{i=1}^{n_{\text{Train}}} I(Y_i\neq \widehat{Y}_i),\quad \widehat{Y}_i = \widehat{f}(X_i),
 $$
 which gives the relative frequency of false categorical predictions, 
 $$
@@ -216,13 +216,13 @@ denote $n_{\text{Test}}$ **test data** observations.
 
 The alternative to the test MSE is here the **test error rate**
 $$
-\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}} I(Y_{i}^{\text{Test}} \neq \hat{Y}_{i}^{\text{Test}}),
+\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}} I(Y_{i}^{\text{Test}} \neq \widehat{Y}_{i}^{\text{Test}}),
 $$
 where 
 $$
-\hat{Y}_{i}^{\text{Test}}=\hat{f}(X_{i}^{\text{Test}})
+\widehat{Y}_{i}^{\text{Test}}=\widehat{f}(X_{i}^{\text{Test}})
 $$ 
-is the predicted class label that results from applying the classifier $\hat{f}$ (computed from the training data) to the test observation $X_{i}^{\text{Test}}.$ 
+is the predicted class label that results from applying the classifier $\widehat{f}$ (computed from the training data) to the test observation $X_{i}^{\text{Test}}.$ 
 
 A good classifier is one for which the test error rate is small.
 
@@ -297,7 +297,7 @@ Y_i\in\{\text{Person $i$ pays back}, \text{Person $i$ does not pay back}\}
 $$
 The classification error 
 $$
-\hat{Y}_i=\text{Person $i$ pays back} \neq Y_i = \text{Person $i$ does not pay back}
+\widehat{Y}_i=\text{Person $i$ pays back} \neq Y_i = \text{Person $i$ does not pay back}
 $$
 can be very costly for a bank. So, it can make sense to classify a person with a certain predictor value $x_0$ to the "Person pays back"-class only if, for instance, 
 $$
@@ -357,14 +357,14 @@ where $I(\texttt{TRUE})=1$ and $I(\texttt{FALSE})=0.$
 
 Finally, KNN classifies the new subject with predictor value $X=x_0$ to that class $j$ which has the largest conditional probability, i.e.
 $$
-\hat{f}_K(x_0) = \arg\max_j \widehat{P}(Y=j|x_0).
+\widehat{f}_K(x_0) = \arg\max_j \widehat{P}(Y=j|x_0).
 $$
 
 ::: {.callout-tip icon="false"}
 # Example
 For instance, if $j\in\{\texttt{red},\texttt{blue},\texttt{green}\},$ then the classifier
 $$
-\hat{f}_K(x_0) = \arg\max_{j\in \{\texttt{red},\texttt{blue},\texttt{green}\}} \widehat{P}(Y=j|x_0).
+\widehat{f}_K(x_0) = \arg\max_{j\in \{\texttt{red},\texttt{blue},\texttt{green}\}} \widehat{P}(Y=j|x_0).
 $$
 assigns a new subject with predictor value $X=x_0$ to class $\texttt{blue}$ if 
 $$
@@ -417,11 +417,11 @@ Figures 2.15 and Figure 2.16 show the results for $K=10,$ $K=1,$ and $K=100.$
 
 Figure 2.17 shows the **training error rate**
 $$
-\frac{1}{{n_{\text{Train}}}}\sum_{i=1}^{n_{\text{Train}}} I(Y_i\neq \hat{Y}_i),\quad \hat{Y}_i = \hat{f}(X_i),
+\frac{1}{{n_{\text{Train}}}}\sum_{i=1}^{n_{\text{Train}}} I(Y_i\neq \widehat{Y}_i),\quad \widehat{Y}_i = \widehat{f}(X_i),
 $$
 and the **test error rate**
 $$
-\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}} I(Y_{i}^{\text{Test}} \neq \hat{Y}_{i}^{\text{Test}}),
+\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}} I(Y_{i}^{\text{Test}} \neq \widehat{Y}_{i}^{\text{Test}}),
 $$
 for different values of $1/K,$
 $$
@@ -473,7 +473,7 @@ can produce nonsense predictions with $p(X_i)\not\in[0,1];$ see the left panel o
 Logistic regression avoids this problem **by assuming** that $p(X_i)$ can be modeled using the [logistic function](https://en.wikipedia.org/wiki/Logistic_function),
 \begin{align*}
 p(X_i)
-&=\frac{e^{\beta_0+\beta_1 X_i}}{1+e^{\beta_0+\beta_1 X_i}}\\
+&=\frac{e^{\beta_0+\beta_1 X_i}}{1+e^{\beta_0+\beta_1 X_i}}\\[2ex]
 &=\frac{1}{1+e^{-(\beta_0+\beta_1 X_i)}}.
 \end{align*}
 To fit the parameters $\beta_0$ and $\beta_1$ we use an estimation method called **maximum likelihood**. 
@@ -544,10 +544,10 @@ But regardless of the value of $X_i$, if $\beta_1$ is positive then increasing $
 
 In logistic regression analysis, the unknown model parameters are estimated using *maximum likelihood*. 
 
-**Basic intuition:** Find estimates $\hat{\beta}_0$ and $\hat{\beta}_1$ such that the predicted probability $\hat{p}(X_i)$ for each person $i$ corresponds as close as possible to its observed $\texttt{default}_i$ status. I.e., choose $\hat{\beta}_0$ and $\hat{\beta}_1$ such that 
+**Basic intuition:** Find estimates $\widehat{\beta}_0$ and $\widehat{\beta}_1$ such that the predicted probability $\widehat{p}(X_i)$ for each person $i$ corresponds as close as possible to its observed $\texttt{default}_i$ status. I.e., choose $\widehat{\beta}_0$ and $\widehat{\beta}_1$ such that 
 
-* $\hat{p}(X_i)\approx 1\quad$ if $\quad\texttt{default}_i=\texttt{Yes}$ for person $i$ 
-* $\hat{p}(X_i)\approx 0\quad$ if $\quad\texttt{default}_i=\texttt{No}$ for person $i$
+* $\widehat{p}(X_i)\approx 1\quad$ if $\quad\texttt{default}_i=\texttt{Yes}$ for person $i$ 
+* $\widehat{p}(X_i)\approx 0\quad$ if $\quad\texttt{default}_i=\texttt{No}$ for person $i$
 
 simultaneously for all $i=1,\dots,n.$
 
@@ -569,9 +569,9 @@ $$
 \left(1-\frac{e^{b_0+b_1 X_i}}{1+e^{b_0+b_1 X_i}}\right)^{1-Y_i}\\[2ex]
 \end{align*}
 $$
-The estimates $\hat\beta_0$ and $\hat\beta_1$ are chosen to *maximize* this likelihood function, i.e.
+The estimates $\widehat\beta_0$ and $\widehat\beta_1$ are chosen to *maximize* this likelihood function, i.e.
 $$
-(\hat\beta_0,\hat\beta_1)=\arg\max_{(b_0,b_1)\in\mathbb{R}^2}\mathcal{L}(b_0,b_1).
+(\widehat\beta_0,\widehat\beta_1)=\arg\max_{(b_0,b_1)\in\mathbb{R}^2}\mathcal{L}(b_0,b_1).
 $$
 Typically, one does not maximize the **likelihood function** but the **log-likelihood function** 
 $$
@@ -584,11 +584,11 @@ $$
 %& = \ln\left(\prod_{i=1}^n 
 %\left(\frac{1}{1+e^{-b_0-b_1 x_i}}\right)^{y_i}
 %\left(1-\frac{1}{1+e^{-b_0-b_1 x_i}}\right)^{1-y_i}\right)\\[2ex]
-%&= \sum_{i=1}^n \Bigg( y_i \ln \left( \frac{1}{1 + \exp(-b_0-b_1 x_i)} \right)\\ 
+%&= \sum_{i=1}^n \Bigg( y_i \ln \left( \frac{1}{1 + \exp(-b_0-b_1 x_i)} \right)\\[2ex] 
 %&\qquad + (1 - y_i) \ln \left( 1 - \frac{1}{1 + \exp(-b_0-b_1 x_i)} \right) \Bigg) \\[2ex]
-%&= \sum_{i=1}^n \Bigg( y_i \ln \left( \frac{1}{1 + \exp(-b_0-b_1 x_i)} \right) \\
+%&= \sum_{i=1}^n \Bigg( y_i \ln \left( \frac{1}{1 + \exp(-b_0-b_1 x_i)} \right) \\[2ex]
 %&\qquad + (1 - y_i) \ln \left( \frac{\exp(-b_0-b_1 x_i)}{1 + \exp(-b_0-b_1 x_i)} \right) \Bigg) \\[2ex]
-%&= \sum_{i=1}^n \Bigg(\ln \left( \frac{\exp(-b_0-b_1 x_i)}{1 + \exp(-b_0-b_1 x_i)} \right)  \\
+%&= \sum_{i=1}^n \Bigg(\ln \left( \frac{\exp(-b_0-b_1 x_i)}{1 + \exp(-b_0-b_1 x_i)} \right)  \\[2ex]
 %&\qquad + y_i \left(\ln \left( \frac{1}{1 + \exp(-b_0-b_1 x_i)} \right)  -  \ln \left( \frac{\exp(-b_0-b_1 x_i)}{1 + \exp(-b_0-b_1 x_i)} \right)  \right) \Bigg) \\[2ex]
 &=\dots \text{rearranging terms} \dots \\[2ex]
 &= \sum_{i=1}^n \left( -\ln(1 + \exp(b_0 + b_1 X_i)) + Y_i (b_0 + b_1 X_i) \right).
@@ -596,9 +596,9 @@ $$
 $$
 which yields the same solutions, since the logarithm applies only a **monotonic** transformation. 
 
-Thus, the estimates $\hat\beta_0$ and $\hat\beta_1$ are chosen to *maximize* the log-likelihood function,
+Thus, the estimates $\widehat\beta_0$ and $\widehat\beta_1$ are chosen to *maximize* the log-likelihood function,
 $$
-(\hat\beta_0,\hat\beta_1)=\arg\max_{(b_0,b_1)\in\mathbb{R}^2}\ell(b_0,b_1).
+(\widehat\beta_0,\widehat\beta_1)=\arg\max_{(b_0,b_1)\in\mathbb{R}^2}\ell(b_0,b_1).
 $$
 
 In general, there is no analytical solution of this maximization problem and a solution must be found numerically, for instance, using the Newton-Raphon Algorithm.
@@ -606,8 +606,8 @@ In general, there is no analytical solution of this maximization problem and a s
 <!-- Computing the vector of partial derivatives (gradient) with respect to $b_0$ and $b_1$ and setting it to zero, determines the estimates,
 $$
 \begin{pmatrix}
-\left.\frac{\partial}{\partial b_0} \ell(b_0,b_1)\right|_{(b_0,b_1) = (\hat\beta_0,\hat\beta_0)}\\
-\left.\frac{\partial}{\partial b_1} \ell(b_0,b_1)\right|_{(b_0,b_1) = (\hat\beta_0,\hat\beta_0)} =
+\left.\frac{\partial}{\partial b_0} \ell(b_0,b_1)\right|_{(b_0,b_1) = (\widehat\beta_0,\widehat\beta_0)}\\
+\left.\frac{\partial}{\partial b_1} \ell(b_0,b_1)\right|_{(b_0,b_1) = (\widehat\beta_0,\widehat\beta_0)} =
 \begin{pmatrix}
 0\\
 0
@@ -626,7 +626,7 @@ result from fitting a logistic regression model on the `Default` data in order t
 
 **Interpretation:**
 
-* We see that $\hat\beta_1=0.0055$; this indicates that an increase in `balance` is associated with an increase in the probability of default. 
+* We see that $\widehat\beta_1=0.0055$; this indicates that an increase in `balance` is associated with an increase in the probability of default. 
   * To be precise, a one-unit increase in `balance` is associated with an increase in the log odds of default by 0.0055 units.
 * The $z$-statistic in Table 4.1 plays the same role as the $t$-statistic in the linear regression output: a large (absolute) value of the $z$-statistic indicates evidence against the null hypothesis $H_0: \beta_1= 0.$
 
@@ -640,9 +640,9 @@ Once the coefficients have been estimated, we can compute the probability of $Y=
 For example, using the coefficient estimates given in Table 4.1, we predict that the default probability for an individual with a $\texttt{balance}$-value of 1,000 [USD] is
 $$
 \begin{align*}
-\hat{p}(\texttt{balance}=1000)
+\widehat{p}(\texttt{balance}=1000)
 &=\widehat{P}(\texttt{default}=\texttt{Yes}|\texttt{balance}=1000)\\[2ex]
-%&=\frac{e^{\hat\beta_0+\hat\beta_1 \texttt{balance}}}{1+e^{\hat\beta_0+\hat\beta_1 \texttt{balance}}}\\[2ex]
+%&=\frac{e^{\widehat\beta_0+\widehat\beta_1 \texttt{balance}}}{1+e^{\widehat\beta_0+\widehat\beta_1 \texttt{balance}}}\\[2ex]
 &=\frac{e^{-10.6513+ 0.0055\times 1000}}{1+e^{-10.6513+ 0.0055\times 1000}}\\[2ex] 
 &= 0.00576 < 1\%
 \end{align*}
@@ -651,9 +651,9 @@ $$
 By contrast, the default probability for an individual with a $\texttt{balance}$-value of 2,000 [USD] is
 $$
 \begin{align*}
-\hat{p}(\texttt{balance}=2000)
+\widehat{p}(\texttt{balance}=2000)
 &=\widehat{P}(\texttt{default}=\texttt{Yes}|\texttt{balance}=2000)\\[2ex]
-%&=\frac{e^{\hat\beta_0+\hat\beta_1 \texttt{balance}}}{1+e^{\hat\beta_0+\hat\beta_1 \texttt{balance}}}\\[2ex]
+%&=\frac{e^{\widehat\beta_0+\widehat\beta_1 \texttt{balance}}}{1+e^{\widehat\beta_0+\widehat\beta_1 \texttt{balance}}}\\[2ex]
 &=\frac{e^{-10.6513+ 0.0055\times 2000}}{1+e^{-10.6513+ 0.0055\times 2000}}\\[2ex] 
 & = 0.586
 \end{align*}
@@ -661,7 +661,7 @@ $$
 and is thus much higher. 
 
 
-#### Qualitative Predictors: {-}
+#### **Qualitative Predictors:** {-}
 
 Similarly, one can do prediction using qualitative predictors such as 
 $$
@@ -677,7 +677,7 @@ $$
 &= 0.0431\\[4ex]
 &\widehat{P}(\texttt{default}=\texttt{Yes}|\texttt{student}=\texttt{No})\\[2ex]
 &=\frac{e^{-3.5041+0.4049\times 0}}{1+e^{-3.5041+0.4049\times 0}}\\[2ex] 
-&= 0.0292\\
+&= 0.0292\\[2ex]
 \end{align*}
 $$
 
@@ -695,7 +695,7 @@ $$
 p(X_i)
 &=\frac{e^{\beta_0+\beta_1 X_{i1}+\dots+\beta_p X_{ip}}}{1+e^{\beta_0+\beta_1 X_{i1}+\dots+\beta_p X_{ip}}}\\[2ex]
 \ln\left(\frac{p(X_i)}{1-p(X_i)}\right) 
-&= \beta_0+\beta_1 X_{i1}+\dots+\beta_p X_{ip},\\
+&= \beta_0+\beta_1 X_{i1}+\dots+\beta_p X_{ip},\\[2ex]
 \end{align*}
 $$
 where $X_i=(X_{i1},\dots,X_{ip})^\top,$ and where the unknown parameters $\beta_0,\dots,\beta_p$ are estimated by maximum likelihood.</br>
@@ -768,7 +768,7 @@ which is the counterpart to the log odds equation for $K=2$ (see @eq-logodds)
 
 Note that:
 
-* The predictions $\hat{p}_k(x)$, for $k=1,\dots,K$ do not depend on the choice of the baseline class. 
+* The predictions $\widehat{p}_k(x)$, for $k=1,\dots,K$ do not depend on the choice of the baseline class. 
 
 * However, interpretation of the coefficients in a multinomial logistic regression model must be done with care, since it is tied to the choice of baseline.
 
@@ -986,24 +986,24 @@ The **Linear Discriminant Analysis (LDA)** method approximates the Bayes classif
 The following estimators are used: 
 $$
 \begin{align*}
-\hat\pi_k    & = \frac{n_k}{n}\\[2ex]
-\hat\mu_k    
+\widehat\pi_k    & = \frac{n_k}{n}\\[2ex]
+\widehat\mu_k    
 & = \frac{1}{n_k}\sum_{i:y_i=k}x_i\\[2ex]
 & = \frac{1}{n_k} \sum_{i=1}^n x_iI(y_i=k)\\[2ex]
-\hat{\sigma}^2 & = \frac{1}{n-K}\sum_{k=1}^K\sum_{i:y_i=k}(x_i-\hat\mu_k)^2\\[2ex]
-& = \frac{1}{n-K}\sum_{k=1}^K\sum_{i=1}^n(x_i-\hat\mu_k)^2 I(y_i=k),
+\widehat{\sigma}^2 & = \frac{1}{n-K}\sum_{k=1}^K\sum_{i:y_i=k}(x_i-\widehat\mu_k)^2\\[2ex]
+& = \frac{1}{n-K}\sum_{k=1}^K\sum_{i=1}^n(x_i-\widehat\mu_k)^2 I(y_i=k),
 \end{align*}
 $$
-where the variance estimate $\hat\sigma$ pools the predictor $x_i$ values across all groups $k=1,\dots,K,$
+where the variance estimate $\widehat\sigma$ pools the predictor $x_i$ values across all groups $k=1,\dots,K,$
 and where $I()$ denotes the indicator function with $I(\text{true})=1$ and $I(\text{false})=0.$
 
 The LDA classifier assigns an observation $X=x$ to the class $k$ for which 
 $$
-\hat\delta_k(x)=x\cdot\frac{\hat\mu_k}{\hat\sigma^2} - \frac{\hat\mu_k^2}{2\hat\sigma^2} + \ln(\hat\pi_k)
+\widehat\delta_k(x)=x\cdot\frac{\widehat\mu_k}{\widehat\sigma^2} - \frac{\widehat\mu_k^2}{2\widehat\sigma^2} + \ln(\widehat\pi_k)
 $$
 is largest. 
 
-LDA is named **linear** since the discriminant functions $\hat\delta_k(x)$, $k=1,\dots,K$ are **linear functions of** $x.$
+LDA is named **linear** since the discriminant functions $\widehat\delta_k(x)$, $k=1,\dots,K$ are **linear functions of** $x.$
 
 
 Assumptions made by the LDA method:
@@ -1074,18 +1074,18 @@ is largest.
 The following estimators are used: 
 $$
 \begin{align*}
-\hat\pi_k    & = \frac{n_k}{n}\\[2ex]
-\hat\mu_k    
+\widehat\pi_k    & = \frac{n_k}{n}\\[2ex]
+\widehat\mu_k    
 & = \frac{1}{n_k}\sum_{i:y_i=k}x_i\\[2ex]
 & = \frac{1}{n_k}\sum_{i=1}^n x_iI(y_i=k)\\[2ex]
-\hat{\Sigma} 
-& = \frac{1}{n-pK}\sum_{k=1}^K\sum_{i:y_i=k}(x_i-\hat\mu_k)(x_i-\hat\mu_k)'\\[2ex]
-& = \frac{1}{n-pK}\sum_{k=1}^K\sum_{i=1}^n  (x_i-\hat\mu_k)(x_i-\hat\mu_k)' I(y_i=k),
+\widehat{\Sigma} 
+& = \frac{1}{n-pK}\sum_{k=1}^K\sum_{i:y_i=k}(x_i-\widehat\mu_k)(x_i-\widehat\mu_k)'\\[2ex]
+& = \frac{1}{n-pK}\sum_{k=1}^K\sum_{i=1}^n  (x_i-\widehat\mu_k)(x_i-\widehat\mu_k)' I(y_i=k),
 \end{align*}
 $$
 where 
 
-* $\hat\mu_k=(\hat\mu_{k1},\dots,\hat\mu_{kp})'$
+* $\widehat\mu_k=(\widehat\mu_{k1},\dots,\widehat\mu_{kp})'$
 * $x_i=(x_{i1},\dots,x_{ip})'$
 
 
@@ -1098,7 +1098,7 @@ is shown in the left-hand panel of Figure 4.6. The three ellipses represent regi
 ![](images/Fig_4_6.png)
 
 
-#### The `Default` data example {-}
+#### **The `Default` data example** {-}
 
 We can perform LDA on the `Default` data in order to predict whether or not an individual will default using the two ($p=2$) predictor variables
 
@@ -1223,7 +1223,7 @@ The small False Positive Rate of $0.2\%$ is good since this means that trustwort
 
 However, the high False Negative Rate of $75.7\%$ is very problematic for a bank since this means that the bank often does not detect the non-trustworthy "default" people. 
 
-#### Choosing the Classification Threshold {-}
+#### **Choosing the Classification Threshold** {-}
 
 If a "False Negative Event" costs the bank more than a "False Positive Event" (or vice versa), then the bank will want to adjust the classifying threshold of the classifier. 
 
@@ -1279,7 +1279,7 @@ For a credit card company, this slight increase in the overall error rate can be
 <!-- Such an adjustment of the threshold increases the overall error rate, and changes the False Positives and False Negatives. The latter can be advantageous in a cost-benefit analysis - even though the overall error rate is increased.   -->
 
 
-#### Classification Performance Measures {-}
+#### **Classification Performance Measures** {-}
 
 Table 4.6 and 4.7 summarize the different classification performance measures.
 
@@ -1295,7 +1295,7 @@ $$
 $$ 
 against the 
 $$
-\text{FP Rate}=\text{FP/N} \quad \text{($1-$ specificity or type I error)}
+\text{FP Rate}=\text{FP/N} \quad \text{($1-$ specificity or Type I error)}
 $$ 
 for all possible threshold values (from zero to one). 
 
@@ -1408,10 +1408,10 @@ where $\Sigma_k$ is a $(p\times p)$ covariance matrix for the $k$th class.
 Under this assumption, the Bayes classifier assigns an observation $X=x$ to the class for which 
 $$
 \begin{align*}
-&\delta_k(x)=\\
+&\delta_k(x)=\\[2ex]
 &= - \frac{1}{2}\left(x-\mu_k\right)'\Sigma_k^{-1}\left(x-\mu_k\right) 
    - \frac{1}{2}\ln\left(|\Sigma_k|\right)
-   + \ln(\pi_k)\\
+   + \ln(\pi_k)\\[2ex]
 &= - \frac{1}{2}x'    \Sigma_k^{-1}x
    + \frac{1}{2}x'    \Sigma_k^{-1}\mu_k
    - \frac{1}{2}\mu_k'\Sigma_k^{-1}\mu_k 
@@ -1427,17 +1427,17 @@ This classifier is called *quadratic* discriminant analysis since the predictor-
 The following estimators are used: 
 $$
 \begin{align*}
-\hat\pi_k    & = \frac{n_k}{n}\\[2ex]
-\hat\mu_k    
+\widehat\pi_k    & = \frac{n_k}{n}\\[2ex]
+\widehat\mu_k    
 & = \frac{1}{n_k}\sum_{i:y_i=k}x_i\\[2ex]
 & = \frac{1}{n_k} \sum_{i=1}^n x_iI(y_i=k)\\[2ex]
-\hat{\Sigma}_k & = \frac{1}{n_k-p}\sum_{i:y_i=k}(x_i-\hat\mu_k)(x_i-\hat\mu_k)'\\[2ex]
-& = \frac{1}{n_k-p}\sum_{i=1}^n(x_i-\hat\mu_k)(x_i-\hat\mu_k)' I(y_i=k),
+\widehat{\Sigma}_k & = \frac{1}{n_k-p}\sum_{i:y_i=k}(x_i-\widehat\mu_k)(x_i-\widehat\mu_k)'\\[2ex]
+& = \frac{1}{n_k-p}\sum_{i=1}^n(x_i-\widehat\mu_k)(x_i-\widehat\mu_k)' I(y_i=k),
 \end{align*}
 $$
 where 
 
-* $\hat\mu_k=(\hat\mu_{k1},\dots,\hat\mu_{kp})'$
+* $\widehat\mu_k=(\widehat\mu_{k1},\dots,\widehat\mu_{kp})'$
 * $x_i=(x_{i1},\dots,x_{ip})'$
 
 
@@ -1482,7 +1482,7 @@ where
 
 We have seen above, that estimating the prior probabilities $\pi_1,\dots,\pi_K$ is typically straight forward using the relative frequencies
 $$
-\hat\pi_k=\frac{n_k}{n},\quad k=1,\dots,K.
+\widehat\pi_k=\frac{n_k}{n},\quad k=1,\dots,K.
 $$ 
 However, estimating the $p$ dimensional density functions 
 $$
@@ -1518,7 +1518,7 @@ we can use ...
 * simple relative frequency (for qualitative predictors)
    * Example: Student status $x\in\{\texttt{Yes},\texttt{No}\}$
    $$
-   \hat{f}_{kj}(x)=\left\{
+   \widehat{f}_{kj}(x)=\left\{
     \begin{matrix}
     \frac{\#\text{students in group $k$}}{n_k}&\text{if }\; x=\texttt{Yes}\\
     1-\frac{\#\text{students in group $k$}}{n_k}&\text{if }\; x=\texttt{No}
@@ -1564,7 +1564,7 @@ P(Y_i=1|X_i=x)=(\sin(x \pi))^2 \cdot 0.9.
 
 (b) Partition the data into $n_{\text{Train}}=100$ training data and $n_{\text{Test}}=100$ data points. Compute the classification using an estimation of the simple linear regression model $Y_i=\beta_0+\beta_1X_{i}+\epsilon_i;$ i.e. using 
 $$
-\widehat{P}(Y_i=1|X_i)=\hat{\beta}_0+\hat{\beta}_1X_i.
+\widehat{P}(Y_i=1|X_i)=\widehat{\beta}_0+\widehat{\beta}_1X_i.
 $$
 What is the **test error rate**?
 
@@ -1601,7 +1601,7 @@ Prepare the following exercises of **Chapter 2 and 4** in our course textbook `I
 
 ### Solutions
 
-#### Exercise 7 (Chapter 2) {-} 
+#### **Exercise 7 (Chapter 2)** {-}
 
 The table below provides a training data set containing six observations, three predictors, and one qualitative response variable. Suppose we wish to use this data set to make a prediction for $Y$ when $X_1 = X_2 = X_3 = 0$ using K-nearest neighbors.
 
@@ -1729,7 +1729,7 @@ Suppose we collect data for a group of students in a statistics class with varia
 
 We fit a logistic regression and produce estimated coefficients:
 
-$$\hat{\beta}_0 = -6, \quad \hat{\beta}_1 = 0.05, \quad \hat{\beta}_2 = 1.$$
+$$\widehat{\beta}_0 = -6, \quad \widehat{\beta}_1 = 0.05, \quad \widehat{\beta}_2 = 1.$$
 
 **6 a)** Estimate the probability that a student who studies for $40$ h and has an `undergrad GPA` of $3.5$ gets an `A` in the class.
 
@@ -2557,8 +2557,8 @@ lda.fit
 
 The LDA output indicates that 
 
-* $\hat\pi_1=0.492$ and 
-* $\hat\pi_2=0.508$
+* $\widehat\pi_1=0.492$ and 
+* $\widehat\pi_2=0.508$
 
 That is, $49.2\%$ of the training observations correspond to days during which the market went down. 
 
@@ -2940,7 +2940,7 @@ plot(coef.hours, xlab = "Hour", ylab = "Coefficient",
     col = "blue", pch = 19, type = "o")
 ```
 
-We can once again use the `predict()` function to obtain the fitted values (predictions) from this Poisson regression model. However, we must use the argument `type = "response"` to specify that we want R to output $\exp(\hat\beta_0 + \hat\beta_1 X_1 + \ldots +\hat\beta_p X_p)$ rather than $\hat\beta_0 + \hat\beta_1 X_1 + \ldots + \hat\beta_p X_p$, which it will output by default.
+We can once again use the `predict()` function to obtain the fitted values (predictions) from this Poisson regression model. However, we must use the argument `type = "response"` to specify that we want R to output $\exp(\widehat\beta_0 + \widehat\beta_1 X_1 + \ldots +\widehat\beta_p X_p)$ rather than $\widehat\beta_0 + \widehat\beta_1 X_1 + \ldots + \widehat\beta_p X_p$, which it will output by default.
 
 ```{r chunk45}
 plot(predict(mod.lm2), predict(mod.pois, type = "response"))

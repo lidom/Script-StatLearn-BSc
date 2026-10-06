@@ -10,9 +10,9 @@ repeat {
 }
 questions <- paste0("$", fmt(ans, 2), "$")
 explanations <- c(
-  paste0("$\\bar X_{\\operatorname{obs}} = ", mean(x), "$ and $\\hat\\sigma^2_{X,\\operatorname{obs}} = \\frac{1}{n-1}\\sum_{i=1}^n (X_{i,\\operatorname{obs}}-\\bar X_{\\operatorname{obs}})^2 = \\frac{", ss, "}{", n - 1, "} = ", fmt(ans[1], 2), "$."),
+  paste0("$\\bar X_{\\operatorname{obs}} = ", mean(x), "$ and $\\widehat\\sigma^2_{X,\\operatorname{obs}} = \\frac{1}{n-1}\\sum_{i=1}^n (X_{i,\\operatorname{obs}}-\\bar X_{\\operatorname{obs}})^2 = \\frac{", ss, "}{", n - 1, "} = ", fmt(ans[1], 2), "$."),
   "The sample variance divides by $n-1$, not by $n$.",
-  "This is the sample standard deviation $\\hat\\sigma_{X,\\operatorname{obs}}$.",
+  "This is the sample standard deviation $\\widehat\\sigma_{X,\\operatorname{obs}}$.",
   "This is only the sum of squared deviations; it must be divided by $n-1$.",
   "The sum of squared deviations must be divided by $n-1$ only (once).")
 @
@@ -20,7 +20,7 @@ explanations <- c(
 \begin{question}
 \textbf{Sample variance}
 
-We observe $n=\Sexpr{n}$ values: $X_{1,\operatorname{obs}},\dots,X_{\Sexpr{n},\operatorname{obs}} = \Sexpr{paste(x, collapse = ", ")}$. What is the sample variance $\hat\sigma^2_{X,\operatorname{obs}}$?
+We observe $n=\Sexpr{n}$ values: $X_{1,\operatorname{obs}},\dots,X_{\Sexpr{n},\operatorname{obs}} = \Sexpr{paste(x, collapse = ", ")}$. What is the sample variance $\widehat\sigma^2_{X,\operatorname{obs}}$?
 <<echo=FALSE, results=tex>>=
 answerlist(questions)
 @

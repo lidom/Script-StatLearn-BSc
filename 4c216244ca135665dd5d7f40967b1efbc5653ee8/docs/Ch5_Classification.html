@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.5.57">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>5&nbsp; Classification – Computer-Aided Statistical Analysis (B.Sc.)</title>
+<title>5&nbsp; Classification – Statistical Learning for Business and Economics (B.Sc.)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -143,9 +143,9 @@ window.Quarto = {
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="./index.html" class="sidebar-logo-link">
-      <img src="./images/Uni_Bonn_Logo.jpeg" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
+      <img src="./images/KU_Logo_2.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Computer-Aided Statistical Analysis (B.Sc.)</a> 
+      <a href="./">Statistical Learning for Business and Economics (B.Sc.)</a> 
         <div class="sidebar-tools-main">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
@@ -167,19 +167,19 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Ch_Intro2R.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title"><code>R</code>-Lab: Introduction to <code>R</code></span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch_ReviewProbStats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Review of Probability and Statistics</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Ch_LinearRegression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Linear Regression</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Ch_MatrixAlgebra.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Matrix Algebra</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Linear Regression</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -199,6 +199,23 @@ window.Quarto = {
   <a href="./Ch6_Bootstrap.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The Bootstrap</span></span></a>
   </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch_MatrixAlgebra.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Matrix Algebra</span></span></a>
+  </div>
+</li>
+      </ul>
 </li>
     </ul>
 </div>
@@ -248,7 +265,7 @@ window.Quarto = {
   </ul>
 </li>
   <li>
-<a href="#self-study-r-lab-classification" id="toc-self-study-r-lab-classification" class="nav-link" data-scroll-target="#self-study-r-lab-classification"><span class="header-section-number">5.11</span> Self-Study: <code>R</code>-Lab Classification</a>
+<a href="#self-study-r-lab-classification" id="toc-self-study-r-lab-classification" class="nav-link" data-scroll-target="#self-study-r-lab-classification"><span class="header-section-number">5.11</span> Self-Study: R Lab Classification</a>
   <ul class="collapse">
 <li><a href="#the-stock-market-data" id="toc-the-stock-market-data" class="nav-link" data-scroll-target="#the-stock-market-data"><span class="header-section-number">5.11.1</span> The Stock Market Data</a></li>
   <li><a href="#logistic-regression-1" id="toc-logistic-regression-1" class="nav-link" data-scroll-target="#logistic-regression-1"><span class="header-section-number">5.11.2</span> Logistic Regression</a></li>
@@ -298,7 +315,7 @@ Points for future Revision:
 <li>An online banking service must be able to determine whether a transaction being performed on the site is fraudulent, on the basis of the user’s IP address, past transaction history, and so forth.</li>
 <li>On the basis of DNA sequence data for a number of patients with and without a given disease, a biologist would like to figure out which DNA mutations are deleterious (disease-causing) and which are not.</li>
 </ol>
-<p>One of the running example for this chapter: The (simulated) <code>Default</code> data set which is part of the <a href="https://www.statlearning.com/resources-second-edition">online resources</a> of our textbook <code>ISLR</code>, and which is also contained in the <code>R</code> package <code>ISLR2</code>. <img src="images/Fig_4_1.png" class="img-fluid"></p>
+<p>One of the running example for this chapter: The (simulated) <code>Default</code> data set which is part of the <a href="https://www.statlearning.com/resources-second-edition">online resources</a> of our textbook <code>ISLR</code>, and which is also contained in the R package <code>ISLR2</code>. <img src="images/Fig_4_1.png" class="img-fluid"></p>
 <p>Let’s take a first look at the a priori default rate in this dataset:</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://www.statlearning.com">"ISLR2"</a></span><span class="op">)</span><span class="op">)</span></span>
@@ -354,14 +371,14 @@ Y_i=\left\{
     0&amp;\quad\text{if }\texttt{default}_i=\texttt{No}\\
 \end{array}
 \right.
-\qquad(5.1)\]</span></span> We could then fit a linear regression to this binary response, and predict drug overdose if <span class="math inline">\(\hat{Y}_i &gt; 0.5\)</span> and stroke otherwise. In the binary case it is not hard to show that even if we flip the above coding, linear regression will produce the same final predictions.</p>
+\qquad(5.1)\]</span></span> We could then fit a linear regression to this binary response, and predict drug overdose if <span class="math inline">\(\widehat{Y}_i &gt; 0.5\)</span> and stroke otherwise. In the binary case it is not hard to show that even if we flip the above coding, linear regression will produce the same final predictions.</p>
 <section id="binary-response" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="binary-response"><strong>Binary Response</strong></h4>
 <p>For a binary response, <span class="math inline">\(Y_i\in\{0,1\},\)</span> as in <a href="#eq-binaryY" class="quarto-xref">Equation&nbsp;<span>5.1</span></a>, linear regression is not completely unreasonable. For the multiple linear regression model, we have that <span class="math display">\[
 \begin{align*}
 Y_i
 &amp;= \beta_0+ \beta_1 X_{i1}+\dots +\beta_p X_{ip} + \epsilon_i,
 \end{align*}
-\]</span> where, under the assumptions of <a href="Ch_LinearRegression.html" class="quarto-xref"><span>Chapter 2</span></a>, <span class="math display">\[
+\]</span> where, under the assumptions of <a href="Ch_LinearRegression.html" class="quarto-xref"><span>Chapter 3</span></a>, <span class="math display">\[
 E(\epsilon_i|X_i)=0.
 \]</span> Therefore, <span id="eq-LinProb1"><span class="math display">\[
 \begin{align*}
@@ -385,14 +402,14 @@ P(Y_i=1|X_i) &amp;=\beta_0+ \beta_1 X_{i1} +\dots +\beta_p X_{ip}
 P(Y_i=1|X_i)
 &amp; \approx \widehat{P}(Y_i=1|X_i)\\[2ex]
 &amp; = \widehat{E}(Y_i|X_i)\\[2ex]
-&amp; = \hat{Y}_i\\
-&amp; = \hat\beta_0+ \hat\beta_1 X_{i1} + \dots + \hat\beta_p X_{ip}.
+&amp; = \widehat{Y}_i\\[2ex]
+&amp; = \widehat\beta_0+ \widehat\beta_1 X_{i1} + \dots + \widehat\beta_p X_{ip}.
 \end{align*}
 \]</span></p>
 </section><section id="classification" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="classification"><strong>Classification</strong></h4>
 <p>The actual classification of an observation <span class="math inline">\(i\)</span> with predictor values <span class="math inline">\(x_i\in\mathbb{R}^p\)</span> is done using a certain probability threshold, such as <span class="math inline">\(0.5\)</span>:</p>
 <p><span class="math display">\[
-\hat{f}(x_i) =
+\widehat{f}(x_i) =
 \left\{
   \begin{array}{l}
    1\quad\text{if}\quad\widehat{P}(Y_i=1|x_i)    &gt; 0.5\\[2ex]
@@ -424,14 +441,14 @@ P(Y_i=1|X_i)
 <li><span class="math inline">\(Y_i\in\{\text{positive returns},\text{negative returns}\}\)</span></li>
 </ul>
 </li>
-<li>The <strong>classifier</strong> <span class="math inline">\(\hat{f}\)</span> is computed from the training data.</li>
+<li>The <strong>classifier</strong> <span class="math inline">\(\widehat{f}\)</span> is computed from the training data.</li>
 <li>Predicted training data class labels: <span class="math display">\[
-\hat{Y}_i = \hat{f}(X_i)
+\widehat{Y}_i = \widehat{f}(X_i)
 \]</span>
 </li>
 </ul>
 <p>The alternative to the training MSE (introduced in <a href="Ch_NonParamRegression.html#sec-mqfit" class="quarto-xref"><span>Section 4.3</span></a>) is here the <strong>training error rate</strong> <span class="math display">\[
-\frac{1}{{n_{\text{Train}}}}\sum_{i=1}^{n_{\text{Train}}} I(Y_i\neq \hat{Y}_i),\quad \hat{Y}_i = \hat{f}(X_i),
+\frac{1}{{n_{\text{Train}}}}\sum_{i=1}^{n_{\text{Train}}} I(Y_i\neq \widehat{Y}_i),\quad \widehat{Y}_i = \widehat{f}(X_i),
 \]</span> which gives the relative frequency of false categorical predictions, <span class="math display">\[
 I(\cdot)
 \]</span> is the indicator function with <span class="math inline">\(I(\text{true})=1\)</span> and <span class="math inline">\(I(\text{false})=0.\)</span></p>
@@ -439,10 +456,10 @@ I(\cdot)
 \{(Y_{1}^{\text{Test}},X_{1}^{\text{Test}}), (Y_{2}^{\text{Test}},X_{2}^{\text{Test}}),\dots, (Y_{n_{\text{Test}}}^{\text{Test}},X_{n_{\text{Test}}}^{\text{Test}})\}
 \]</span> denote <span class="math inline">\(n_{\text{Test}}\)</span> <strong>test data</strong> observations.</p>
 <p>The alternative to the test MSE is here the <strong>test error rate</strong> <span class="math display">\[
-\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}} I(Y_{i}^{\text{Test}} \neq \hat{Y}_{i}^{\text{Test}}),
+\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}} I(Y_{i}^{\text{Test}} \neq \widehat{Y}_{i}^{\text{Test}}),
 \]</span> where <span class="math display">\[
-\hat{Y}_{i}^{\text{Test}}=\hat{f}(X_{i}^{\text{Test}})
-\]</span> is the predicted class label that results from applying the classifier <span class="math inline">\(\hat{f}\)</span> (computed from the training data) to the test observation <span class="math inline">\(X_{i}^{\text{Test}}.\)</span></p>
+\widehat{Y}_{i}^{\text{Test}}=\widehat{f}(X_{i}^{\text{Test}})
+\]</span> is the predicted class label that results from applying the classifier <span class="math inline">\(\widehat{f}\)</span> (computed from the training data) to the test observation <span class="math inline">\(X_{i}^{\text{Test}}.\)</span></p>
 <p>A good classifier is one for which the test error rate is small.</p>
 </section><section id="sec-BayesClassifier" class="level2" data-number="5.4"><h2 data-number="5.4" class="anchored" data-anchor-id="sec-BayesClassifier">
 <span class="header-section-number">5.4</span> The Bayes Classifier</h2>
@@ -489,7 +506,7 @@ Classification threshold <span class="math inline">\(0.5\)</span>?
 <p>Example: <span class="math display">\[
 Y_i\in\{\text{Person $i$ pays back}, \text{Person $i$ does not pay back}\}
 \]</span> The classification error <span class="math display">\[
-\hat{Y}_i=\text{Person $i$ pays back} \neq Y_i = \text{Person $i$ does not pay back}
+\widehat{Y}_i=\text{Person $i$ pays back} \neq Y_i = \text{Person $i$ does not pay back}
 \]</span> can be very costly for a bank. So, it can make sense to classify a person with a certain predictor value <span class="math inline">\(x_0\)</span> to the “Person pays back”-class only if, for instance, <span class="math display">\[
 \widehat{P}(Y_i = \text{Person $i$ pays back}|X_i=x_0) \geq 0.9,
 \]</span> and otherwise classify this person to the “Person does not pay back”-class. This will reduce the frequency of miss-classifications when classifying into the “Person pays back”-class, and thus reduce the costs.</p>
@@ -526,7 +543,7 @@ P(Y = j | X = x_{0})
 \end{align}
 \]</span> where <span class="math inline">\(I(\texttt{TRUE})=1\)</span> and <span class="math inline">\(I(\texttt{FALSE})=0.\)</span></p>
 <p>Finally, KNN classifies the new subject with predictor value <span class="math inline">\(X=x_0\)</span> to that class <span class="math inline">\(j\)</span> which has the largest conditional probability, i.e. <span class="math display">\[
-\hat{f}_K(x_0) = \arg\max_j \widehat{P}(Y=j|x_0).
+\widehat{f}_K(x_0) = \arg\max_j \widehat{P}(Y=j|x_0).
 \]</span></p>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -539,7 +556,7 @@ Example
 </div>
 <div class="callout-body-container callout-body">
 <p>For instance, if <span class="math inline">\(j\in\{\texttt{red},\texttt{blue},\texttt{green}\},\)</span> then the classifier <span class="math display">\[
-\hat{f}_K(x_0) = \arg\max_{j\in \{\texttt{red},\texttt{blue},\texttt{green}\}} \widehat{P}(Y=j|x_0).
+\widehat{f}_K(x_0) = \arg\max_{j\in \{\texttt{red},\texttt{blue},\texttt{green}\}} \widehat{P}(Y=j|x_0).
 \]</span> assigns a new subject with predictor value <span class="math inline">\(X=x_0\)</span> to class <span class="math inline">\(\texttt{blue}\)</span> if <span class="math display">\[
 \begin{align*}
 \widehat{P}(Y=\texttt{blue}|x_0) &amp; &gt; \widehat{P}(Y=\texttt{red}|x_0)\\
@@ -575,9 +592,9 @@ Example
 <p><img src="images/Fig_2_16.png" class="img-fluid"></p>
 <p><br></p>
 <p>Figure 2.17 shows the <strong>training error rate</strong> <span class="math display">\[
-\frac{1}{{n_{\text{Train}}}}\sum_{i=1}^{n_{\text{Train}}} I(Y_i\neq \hat{Y}_i),\quad \hat{Y}_i = \hat{f}(X_i),
+\frac{1}{{n_{\text{Train}}}}\sum_{i=1}^{n_{\text{Train}}} I(Y_i\neq \widehat{Y}_i),\quad \widehat{Y}_i = \widehat{f}(X_i),
 \]</span> and the <strong>test error rate</strong> <span class="math display">\[
-\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}} I(Y_{i}^{\text{Test}} \neq \hat{Y}_{i}^{\text{Test}}),
+\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}} I(Y_{i}^{\text{Test}} \neq \widehat{Y}_{i}^{\text{Test}}),
 \]</span> for different values of <span class="math inline">\(1/K,\)</span> <span class="math display">\[
 \frac{1}{K}=\frac{1}{100},\dots,\frac{1}{K}=\frac{1}{1}.
 \]</span></p>
@@ -604,7 +621,7 @@ p(X_i)=\beta_0+\beta_1 X_i
 \]</span> can produce nonsense predictions with <span class="math inline">\(p(X_i)\not\in[0,1];\)</span> see the left panel of Figure 4.2.</p>
 <p>Logistic regression avoids this problem <strong>by assuming</strong> that <span class="math inline">\(p(X_i)\)</span> can be modeled using the <a href="https://en.wikipedia.org/wiki/Logistic_function">logistic function</a>, <span class="math display">\[\begin{align*}
 p(X_i)
-&amp;=\frac{e^{\beta_0+\beta_1 X_i}}{1+e^{\beta_0+\beta_1 X_i}}\\
+&amp;=\frac{e^{\beta_0+\beta_1 X_i}}{1+e^{\beta_0+\beta_1 X_i}}\\[2ex]
 &amp;=\frac{1}{1+e^{-(\beta_0+\beta_1 X_i)}}.
 \end{align*}\]</span> To fit the parameters <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> we use an estimation method called <strong>maximum likelihood</strong>.</p>
 <p>The right panel of Figure 4.2 illustrates the fit of the logistic regression model to the <code>Default</code> data.</p>
@@ -662,13 +679,13 @@ Caution
 </section><section id="estimating-the-regression-coefficients" class="level3" data-number="5.6.2"><h3 data-number="5.6.2" class="anchored" data-anchor-id="estimating-the-regression-coefficients">
 <span class="header-section-number">5.6.2</span> Estimating the Regression Coefficients</h3>
 <p>In logistic regression analysis, the unknown model parameters are estimated using <em>maximum likelihood</em>.</p>
-<p><strong>Basic intuition:</strong> Find estimates <span class="math inline">\(\hat{\beta}_0\)</span> and <span class="math inline">\(\hat{\beta}_1\)</span> such that the predicted probability <span class="math inline">\(\hat{p}(X_i)\)</span> for each person <span class="math inline">\(i\)</span> corresponds as close as possible to its observed <span class="math inline">\(\texttt{default}_i\)</span> status. I.e., choose <span class="math inline">\(\hat{\beta}_0\)</span> and <span class="math inline">\(\hat{\beta}_1\)</span> such that</p>
+<p><strong>Basic intuition:</strong> Find estimates <span class="math inline">\(\widehat{\beta}_0\)</span> and <span class="math inline">\(\widehat{\beta}_1\)</span> such that the predicted probability <span class="math inline">\(\widehat{p}(X_i)\)</span> for each person <span class="math inline">\(i\)</span> corresponds as close as possible to its observed <span class="math inline">\(\texttt{default}_i\)</span> status. I.e., choose <span class="math inline">\(\widehat{\beta}_0\)</span> and <span class="math inline">\(\widehat{\beta}_1\)</span> such that</p>
 <ul>
 <li>
-<span class="math inline">\(\hat{p}(X_i)\approx 1\quad\)</span> if <span class="math inline">\(\quad\texttt{default}_i=\texttt{Yes}\)</span> for person <span class="math inline">\(i\)</span>
+<span class="math inline">\(\widehat{p}(X_i)\approx 1\quad\)</span> if <span class="math inline">\(\quad\texttt{default}_i=\texttt{Yes}\)</span> for person <span class="math inline">\(i\)</span>
 </li>
 <li>
-<span class="math inline">\(\hat{p}(X_i)\approx 0\quad\)</span> if <span class="math inline">\(\quad\texttt{default}_i=\texttt{No}\)</span> for person <span class="math inline">\(i\)</span>
+<span class="math inline">\(\widehat{p}(X_i)\approx 0\quad\)</span> if <span class="math inline">\(\quad\texttt{default}_i=\texttt{No}\)</span> for person <span class="math inline">\(i\)</span>
 </li>
 </ul>
 <p>simultaneously for all <span class="math inline">\(i=1,\dots,n.\)</span></p>
@@ -686,8 +703,8 @@ Y_i=\left\{\begin{array}{ll}
 \left(\frac{e^{b_0+b_1 X_i}}{1+e^{b_0+b_1 X_i}}\right)^{Y_i}
 \left(1-\frac{e^{b_0+b_1 X_i}}{1+e^{b_0+b_1 X_i}}\right)^{1-Y_i}\\[2ex]
 \end{align*}
-\]</span> The estimates <span class="math inline">\(\hat\beta_0\)</span> and <span class="math inline">\(\hat\beta_1\)</span> are chosen to <em>maximize</em> this likelihood function, i.e. <span class="math display">\[
-(\hat\beta_0,\hat\beta_1)=\arg\max_{(b_0,b_1)\in\mathbb{R}^2}\mathcal{L}(b_0,b_1).
+\]</span> The estimates <span class="math inline">\(\widehat\beta_0\)</span> and <span class="math inline">\(\widehat\beta_1\)</span> are chosen to <em>maximize</em> this likelihood function, i.e. <span class="math display">\[
+(\widehat\beta_0,\widehat\beta_1)=\arg\max_{(b_0,b_1)\in\mathbb{R}^2}\mathcal{L}(b_0,b_1).
 \]</span> Typically, one does not maximize the <strong>likelihood function</strong> but the <strong>log-likelihood function</strong> <span class="math display">\[
 \begin{align*}
 \ell(b_0,b_1)
@@ -698,25 +715,25 @@ Y_i=\left\{\begin{array}{ll}
 %&amp; = \ln\left(\prod_{i=1}^n
 %\left(\frac{1}{1+e^{-b_0-b_1 x_i}}\right)^{y_i}
 %\left(1-\frac{1}{1+e^{-b_0-b_1 x_i}}\right)^{1-y_i}\right)\\[2ex]
-%&amp;= \sum_{i=1}^n \Bigg( y_i \ln \left( \frac{1}{1 + \exp(-b_0-b_1 x_i)} \right)\\
+%&amp;= \sum_{i=1}^n \Bigg( y_i \ln \left( \frac{1}{1 + \exp(-b_0-b_1 x_i)} \right)\\[2ex]
 %&amp;\qquad + (1 - y_i) \ln \left( 1 - \frac{1}{1 + \exp(-b_0-b_1 x_i)} \right) \Bigg) \\[2ex]
-%&amp;= \sum_{i=1}^n \Bigg( y_i \ln \left( \frac{1}{1 + \exp(-b_0-b_1 x_i)} \right) \\
+%&amp;= \sum_{i=1}^n \Bigg( y_i \ln \left( \frac{1}{1 + \exp(-b_0-b_1 x_i)} \right) \\[2ex]
 %&amp;\qquad + (1 - y_i) \ln \left( \frac{\exp(-b_0-b_1 x_i)}{1 + \exp(-b_0-b_1 x_i)} \right) \Bigg) \\[2ex]
-%&amp;= \sum_{i=1}^n \Bigg(\ln \left( \frac{\exp(-b_0-b_1 x_i)}{1 + \exp(-b_0-b_1 x_i)} \right)  \\
+%&amp;= \sum_{i=1}^n \Bigg(\ln \left( \frac{\exp(-b_0-b_1 x_i)}{1 + \exp(-b_0-b_1 x_i)} \right)  \\[2ex]
 %&amp;\qquad + y_i \left(\ln \left( \frac{1}{1 + \exp(-b_0-b_1 x_i)} \right)  -  \ln \left( \frac{\exp(-b_0-b_1 x_i)}{1 + \exp(-b_0-b_1 x_i)} \right)  \right) \Bigg) \\[2ex]
 &amp;=\dots \text{rearranging terms} \dots \\[2ex]
 &amp;= \sum_{i=1}^n \left( -\ln(1 + \exp(b_0 + b_1 X_i)) + Y_i (b_0 + b_1 X_i) \right).
 \end{align*}
 \]</span> which yields the same solutions, since the logarithm applies only a <strong>monotonic</strong> transformation.</p>
-<p>Thus, the estimates <span class="math inline">\(\hat\beta_0\)</span> and <span class="math inline">\(\hat\beta_1\)</span> are chosen to <em>maximize</em> the log-likelihood function, <span class="math display">\[
-(\hat\beta_0,\hat\beta_1)=\arg\max_{(b_0,b_1)\in\mathbb{R}^2}\ell(b_0,b_1).
+<p>Thus, the estimates <span class="math inline">\(\widehat\beta_0\)</span> and <span class="math inline">\(\widehat\beta_1\)</span> are chosen to <em>maximize</em> the log-likelihood function, <span class="math display">\[
+(\widehat\beta_0,\widehat\beta_1)=\arg\max_{(b_0,b_1)\in\mathbb{R}^2}\ell(b_0,b_1).
 \]</span></p>
 <p>In general, there is no analytical solution of this maximization problem and a solution must be found numerically, for instance, using the Newton-Raphon Algorithm.</p>
 <!-- Computing the vector of partial derivatives (gradient) with respect to $b_0$ and $b_1$ and setting it to zero, determines the estimates,
 $$
 \begin{pmatrix}
-\left.\frac{\partial}{\partial b_0} \ell(b_0,b_1)\right|_{(b_0,b_1) = (\hat\beta_0,\hat\beta_0)}\\
-\left.\frac{\partial}{\partial b_1} \ell(b_0,b_1)\right|_{(b_0,b_1) = (\hat\beta_0,\hat\beta_0)} =
+\left.\frac{\partial}{\partial b_0} \ell(b_0,b_1)\right|_{(b_0,b_1) = (\widehat\beta_0,\widehat\beta_0)}\\
+\left.\frac{\partial}{\partial b_1} \ell(b_0,b_1)\right|_{(b_0,b_1) = (\widehat\beta_0,\widehat\beta_0)} =
 \begin{pmatrix}
 0\\
 0
@@ -726,7 +743,7 @@ $$ -->
 <p>Table 4.1 shows the coefficient estimates and related information that result from fitting a logistic regression model on the <code>Default</code> data in order to predict the probability of <span class="math inline">\(Y_i=1\)</span> (i.e.&nbsp;<span class="math inline">\(\texttt{default}_i=\texttt{Yes}\)</span>) using <span class="math inline">\(\texttt{balance}_i\)</span> as the only predictor. <img src="images/Tab_4_1.png" class="img-fluid"></p>
 <p><strong>Interpretation:</strong></p>
 <ul>
-<li>We see that <span class="math inline">\(\hat\beta_1=0.0055\)</span>; this indicates that an increase in <code>balance</code> is associated with an increase in the probability of default.
+<li>We see that <span class="math inline">\(\widehat\beta_1=0.0055\)</span>; this indicates that an increase in <code>balance</code> is associated with an increase in the probability of default.
 <ul>
 <li>To be precise, a one-unit increase in <code>balance</code> is associated with an increase in the log odds of default by 0.0055 units.</li>
 </ul>
@@ -738,23 +755,23 @@ $$ -->
 <p>Once the coefficients have been estimated, we can compute the probability of <span class="math inline">\(Y=1,\)</span> i.e.&nbsp;<span class="math inline">\(\texttt{default}=\texttt{Yes},\)</span> for a new person with predictor value <span class="math inline">\(\texttt{balance}.\)</span></p>
 <p>For example, using the coefficient estimates given in Table 4.1, we predict that the default probability for an individual with a <span class="math inline">\(\texttt{balance}\)</span>-value of 1,000 [USD] is <span class="math display">\[
 \begin{align*}
-\hat{p}(\texttt{balance}=1000)
+\widehat{p}(\texttt{balance}=1000)
 &amp;=\widehat{P}(\texttt{default}=\texttt{Yes}|\texttt{balance}=1000)\\[2ex]
-%&amp;=\frac{e^{\hat\beta_0+\hat\beta_1 \texttt{balance}}}{1+e^{\hat\beta_0+\hat\beta_1 \texttt{balance}}}\\[2ex]
+%&amp;=\frac{e^{\widehat\beta_0+\widehat\beta_1 \texttt{balance}}}{1+e^{\widehat\beta_0+\widehat\beta_1 \texttt{balance}}}\\[2ex]
 &amp;=\frac{e^{-10.6513+ 0.0055\times 1000}}{1+e^{-10.6513+ 0.0055\times 1000}}\\[2ex]
 &amp;= 0.00576 &lt; 1\%
 \end{align*}
 \]</span></p>
 <p>By contrast, the default probability for an individual with a <span class="math inline">\(\texttt{balance}\)</span>-value of 2,000 [USD] is <span class="math display">\[
 \begin{align*}
-\hat{p}(\texttt{balance}=2000)
+\widehat{p}(\texttt{balance}=2000)
 &amp;=\widehat{P}(\texttt{default}=\texttt{Yes}|\texttt{balance}=2000)\\[2ex]
-%&amp;=\frac{e^{\hat\beta_0+\hat\beta_1 \texttt{balance}}}{1+e^{\hat\beta_0+\hat\beta_1 \texttt{balance}}}\\[2ex]
+%&amp;=\frac{e^{\widehat\beta_0+\widehat\beta_1 \texttt{balance}}}{1+e^{\widehat\beta_0+\widehat\beta_1 \texttt{balance}}}\\[2ex]
 &amp;=\frac{e^{-10.6513+ 0.0055\times 2000}}{1+e^{-10.6513+ 0.0055\times 2000}}\\[2ex]
 &amp; = 0.586
 \end{align*}
 \]</span> and is thus much higher.</p>
-<section id="qualitative-predictors" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="qualitative-predictors">Qualitative Predictors:</h4>
+<section id="qualitative-predictors" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="qualitative-predictors"><strong>Qualitative Predictors:</strong></h4>
 <p>Similarly, one can do prediction using qualitative predictors such as <span class="math display">\[
 \texttt{student}\in\{\texttt{Yes}, \texttt{No}\}
 \]</span></p>
@@ -766,7 +783,7 @@ $$ -->
 &amp;= 0.0431\\[4ex]
 &amp;\widehat{P}(\texttt{default}=\texttt{Yes}|\texttt{student}=\texttt{No})\\[2ex]
 &amp;=\frac{e^{-3.5041+0.4049\times 0}}{1+e^{-3.5041+0.4049\times 0}}\\[2ex]
-&amp;= 0.0292\\
+&amp;= 0.0292\\[2ex]
 \end{align*}
 \]</span></p>
 <p>This may indicate that students tend to have higher default probabilities than non-students. But we may <strong>miss further relevant factors</strong> here as we only use one predictor variable. Thus, this result may be driven by an <strong>omitted-variable bias</strong>.</p>
@@ -778,7 +795,7 @@ $$ -->
 p(X_i)
 &amp;=\frac{e^{\beta_0+\beta_1 X_{i1}+\dots+\beta_p X_{ip}}}{1+e^{\beta_0+\beta_1 X_{i1}+\dots+\beta_p X_{ip}}}\\[2ex]
 \ln\left(\frac{p(X_i)}{1-p(X_i)}\right)
-&amp;= \beta_0+\beta_1 X_{i1}+\dots+\beta_p X_{ip},\\
+&amp;= \beta_0+\beta_1 X_{i1}+\dots+\beta_p X_{ip},\\[2ex]
 \end{align*}
 \]</span> where <span class="math inline">\(X_i=(X_{i1},\dots,X_{ip})^\top,\)</span> and where the unknown parameters <span class="math inline">\(\beta_0,\dots,\beta_p\)</span> are estimated by maximum likelihood.</p>
 <p><img src="images/Tab_4_3.png" class="img-fluid"></p>
@@ -825,7 +842,7 @@ p_K(x)
 \]</span> which is the counterpart to the log odds equation for <span class="math inline">\(K=2\)</span> (see <a href="#eq-logodds" class="quarto-xref">Equation&nbsp;<span>5.4</span></a>)</p>
 <p>Note that:</p>
 <ul>
-<li><p>The predictions <span class="math inline">\(\hat{p}_k(x)\)</span>, for <span class="math inline">\(k=1,\dots,K\)</span> do not depend on the choice of the baseline class.</p></li>
+<li><p>The predictions <span class="math inline">\(\widehat{p}_k(x)\)</span>, for <span class="math inline">\(k=1,\dots,K\)</span> do not depend on the choice of the baseline class.</p></li>
 <li><p>However, interpretation of the coefficients in a multinomial logistic regression model must be done with care, since it is tied to the choice of baseline.</p></li>
 </ul></section></section><section id="discriminant-analysis-generative-models-for-classification" class="level2" data-number="5.7"><h2 data-number="5.7" class="anchored" data-anchor-id="discriminant-analysis-generative-models-for-classification">
 <span class="header-section-number">5.7</span> Discriminant Analysis: Generative Models for Classification</h2>
@@ -1009,18 +1026,18 @@ x
 <p>The <strong>Linear Discriminant Analysis (LDA)</strong> method approximates the Bayes classifier by using the normality assumption and by plugging in estimates for the unknown parameters <span class="math inline">\(\pi_k\)</span>, <span class="math inline">\(\mu_k\)</span>, <span class="math inline">\(k=1,\dots,K\)</span>, and <span class="math inline">\(\sigma\)</span>.</p>
 <p>The following estimators are used: <span class="math display">\[
 \begin{align*}
-\hat\pi_k    &amp; = \frac{n_k}{n}\\[2ex]
-\hat\mu_k    
+\widehat\pi_k    &amp; = \frac{n_k}{n}\\[2ex]
+\widehat\mu_k    
 &amp; = \frac{1}{n_k}\sum_{i:y_i=k}x_i\\[2ex]
 &amp; = \frac{1}{n_k} \sum_{i=1}^n x_iI(y_i=k)\\[2ex]
-\hat{\sigma}^2 &amp; = \frac{1}{n-K}\sum_{k=1}^K\sum_{i:y_i=k}(x_i-\hat\mu_k)^2\\[2ex]
-&amp; = \frac{1}{n-K}\sum_{k=1}^K\sum_{i=1}^n(x_i-\hat\mu_k)^2 I(y_i=k),
+\widehat{\sigma}^2 &amp; = \frac{1}{n-K}\sum_{k=1}^K\sum_{i:y_i=k}(x_i-\widehat\mu_k)^2\\[2ex]
+&amp; = \frac{1}{n-K}\sum_{k=1}^K\sum_{i=1}^n(x_i-\widehat\mu_k)^2 I(y_i=k),
 \end{align*}
-\]</span> where the variance estimate <span class="math inline">\(\hat\sigma\)</span> pools the predictor <span class="math inline">\(x_i\)</span> values across all groups <span class="math inline">\(k=1,\dots,K,\)</span> and where <span class="math inline">\(I()\)</span> denotes the indicator function with <span class="math inline">\(I(\text{true})=1\)</span> and <span class="math inline">\(I(\text{false})=0.\)</span></p>
+\]</span> where the variance estimate <span class="math inline">\(\widehat\sigma\)</span> pools the predictor <span class="math inline">\(x_i\)</span> values across all groups <span class="math inline">\(k=1,\dots,K,\)</span> and where <span class="math inline">\(I()\)</span> denotes the indicator function with <span class="math inline">\(I(\text{true})=1\)</span> and <span class="math inline">\(I(\text{false})=0.\)</span></p>
 <p>The LDA classifier assigns an observation <span class="math inline">\(X=x\)</span> to the class <span class="math inline">\(k\)</span> for which <span class="math display">\[
-\hat\delta_k(x)=x\cdot\frac{\hat\mu_k}{\hat\sigma^2} - \frac{\hat\mu_k^2}{2\hat\sigma^2} + \ln(\hat\pi_k)
+\widehat\delta_k(x)=x\cdot\frac{\widehat\mu_k}{\widehat\sigma^2} - \frac{\widehat\mu_k^2}{2\widehat\sigma^2} + \ln(\widehat\pi_k)
 \]</span> is largest.</p>
-<p>LDA is named <strong>linear</strong> since the discriminant functions <span class="math inline">\(\hat\delta_k(x)\)</span>, <span class="math inline">\(k=1,\dots,K\)</span> are <strong>linear functions of</strong> <span class="math inline">\(x.\)</span></p>
+<p>LDA is named <strong>linear</strong> since the discriminant functions <span class="math inline">\(\widehat\delta_k(x)\)</span>, <span class="math inline">\(k=1,\dots,K\)</span> are <strong>linear functions of</strong> <span class="math inline">\(x.\)</span></p>
 <p>Assumptions made by the LDA method:</p>
 <ul>
 <li>Observation for each class come from a normal distribution</li>
@@ -1073,24 +1090,24 @@ f_k(x) = \frac{1}{(2\pi)^{p/2}|\Sigma|^{1/2}}\exp\left(-\frac{1}{2}(x-\mu_k)'\Si
 \qquad(5.7)\]</span></span> is largest.</p>
 <p>The following estimators are used: <span class="math display">\[
 \begin{align*}
-\hat\pi_k    &amp; = \frac{n_k}{n}\\[2ex]
-\hat\mu_k    
+\widehat\pi_k    &amp; = \frac{n_k}{n}\\[2ex]
+\widehat\mu_k    
 &amp; = \frac{1}{n_k}\sum_{i:y_i=k}x_i\\[2ex]
 &amp; = \frac{1}{n_k}\sum_{i=1}^n x_iI(y_i=k)\\[2ex]
-\hat{\Sigma}
-&amp; = \frac{1}{n-pK}\sum_{k=1}^K\sum_{i:y_i=k}(x_i-\hat\mu_k)(x_i-\hat\mu_k)'\\[2ex]
-&amp; = \frac{1}{n-pK}\sum_{k=1}^K\sum_{i=1}^n  (x_i-\hat\mu_k)(x_i-\hat\mu_k)' I(y_i=k),
+\widehat{\Sigma}
+&amp; = \frac{1}{n-pK}\sum_{k=1}^K\sum_{i:y_i=k}(x_i-\widehat\mu_k)(x_i-\widehat\mu_k)'\\[2ex]
+&amp; = \frac{1}{n-pK}\sum_{k=1}^K\sum_{i=1}^n  (x_i-\widehat\mu_k)(x_i-\widehat\mu_k)' I(y_i=k),
 \end{align*}
 \]</span> where</p>
 <ul>
-<li><span class="math inline">\(\hat\mu_k=(\hat\mu_{k1},\dots,\hat\mu_{kp})'\)</span></li>
+<li><span class="math inline">\(\widehat\mu_k=(\widehat\mu_{k1},\dots,\widehat\mu_{kp})'\)</span></li>
 <li><span class="math inline">\(x_i=(x_{i1},\dots,x_{ip})'\)</span></li>
 </ul>
 <p>An artificial example (based on simulated data) for <span class="math inline">\(p=2\)</span> and <span class="math inline">\(K=3\)</span> (yellow, green, blue) with equal a priori probabilities <span class="math display">\[
 \pi_1=\pi_2=\pi_3
 \]</span> is shown in the left-hand panel of Figure 4.6. The three ellipses represent regions that contain <span class="math inline">\(95\%\)</span> of the probability for each of the three classes. The dashed lines are the Bayes decision boundaries. In other words, they represent the set of values x for which <span class="math inline">\(\delta_k(x) = \delta_l(x)\)</span>, <span class="math inline">\(k\neq l\)</span>.</p>
 <p><img src="images/Fig_4_6.png" class="img-fluid"></p>
-<section id="the-default-data-example" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="the-default-data-example">The <code>Default</code> data example</h4>
+<section id="the-default-data-example" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="the-default-data-example"><strong>The <code>Default</code> data example</strong></h4>
 <p>We can perform LDA on the <code>Default</code> data in order to predict whether or not an individual will default using the two (<span class="math inline">\(p=2\)</span>) predictor variables</p>
 <ul>
 <li>credit card balance (real variable) and</li>
@@ -1230,7 +1247,7 @@ Numbers of True/False Negative Predictions:
 </ul>
 <p>The small False Positive Rate of <span class="math inline">\(0.2\%\)</span> is good since this means that trustworthy “no default” people are rarely labeled as non-trustworthy “default” people.</p>
 <p>However, the high False Negative Rate of <span class="math inline">\(75.7\%\)</span> is very problematic for a bank since this means that the bank often does not detect the non-trustworthy “default” people.</p>
-<section id="choosing-the-classification-threshold" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="choosing-the-classification-threshold">Choosing the Classification Threshold</h4>
+<section id="choosing-the-classification-threshold" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="choosing-the-classification-threshold"><strong>Choosing the Classification Threshold</strong></h4>
 <p>If a “False Negative Event” costs the bank more than a “False Positive Event” (or vice versa), then the bank will want to adjust the classifying threshold of the classifier.</p>
 <!-- In the two class cases, e.g. $\texttt{default}\in\{\texttt{No}, \texttt{Yes}\},$  -->
 <p>In binary (<span class="math inline">\(K=2\)</span>) classifications, the Bayes classifier, and thus also all classifiers which try to approximate the Bayes classifier, use a threshold of <span class="math inline">\(50\%\)</span>. I.e., a person <span class="math inline">\(i\)</span> with predictor value <span class="math inline">\(X=x_i\)</span> is assigned to the <code>default</code><span class="math inline">\(=\)</span><code>Yes</code> class if <span class="math display">\[
@@ -1290,7 +1307,7 @@ Predicted default status   No  Yes
 </ul>
 <p>For a credit card company, this slight increase in the overall error rate can be a small price to pay for a more accurate identification of people who indeed default.</p>
 <!-- Such an adjustment of the threshold increases the overall error rate, and changes the False Positives and False Negatives. The latter can be advantageous in a cost-benefit analysis - even though the overall error rate is increased.   -->
-</section><section id="classification-performance-measures" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="classification-performance-measures">Classification Performance Measures</h4>
+</section><section id="classification-performance-measures" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="classification-performance-measures"><strong>Classification Performance Measures</strong></h4>
 <p>Table 4.6 and 4.7 summarize the different classification performance measures.</p>
 <p><img src="images/Tab_4_6_and_4_7.png" class="img-fluid"></p>
 </section></section><section id="the-roc-curve" class="level3" data-number="5.7.4"><h3 data-number="5.7.4" class="anchored" data-anchor-id="the-roc-curve">
@@ -1298,9 +1315,9 @@ Predicted default status   No  Yes
 <p>The (Receiver Operating Characteristics) <strong>ROC curve</strong> is a popular graphic for displaying the <span class="math display">\[
 \text{TP Rate}=\text{TP/P}\quad \text{(sensitivity or power)}
 \]</span> against the <span class="math display">\[
-\text{FP Rate}=\text{FP/N} \quad \text{($1-$ specificity or type I error)}
+\text{FP Rate}=\text{FP/N} \quad \text{($1-$ specificity or Type I error)}
 \]</span> for all possible threshold values (from zero to one).</p>
-<p>The following <code>R</code>-codes provides a “by hand” implementation of a plot of the ROC curve for LDA applied to the <code>Default</code>-dataset.</p>
+<p>The following R code provides a “by hand” implementation of a plot of the ROC curve for LDA applied to the <code>Default</code>-dataset.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">## Considered thresholds (exclude the trivial 0/1 values)</span></span>
 <span><span class="va">thresholds</span>       <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>from <span class="op">=</span> <span class="fl">0</span>, to <span class="op">=</span> <span class="fl">1</span>, length.out <span class="op">=</span> <span class="fl">250</span><span class="op">)</span></span>
@@ -1417,10 +1434,10 @@ X|Y=k \sim \mathcal{N}_p(\mu_k,\Sigma_k),
 \]</span> where <span class="math inline">\(\Sigma_k\)</span> is a <span class="math inline">\((p\times p)\)</span> covariance matrix for the <span class="math inline">\(k\)</span>th class.</p>
 <p>Under this assumption, the Bayes classifier assigns an observation <span class="math inline">\(X=x\)</span> to the class for which <span class="math display">\[
 \begin{align*}
-&amp;\delta_k(x)=\\
+&amp;\delta_k(x)=\\[2ex]
 &amp;= - \frac{1}{2}\left(x-\mu_k\right)'\Sigma_k^{-1}\left(x-\mu_k\right)
    - \frac{1}{2}\ln\left(|\Sigma_k|\right)
-   + \ln(\pi_k)\\
+   + \ln(\pi_k)\\[2ex]
 &amp;= - \frac{1}{2}x'    \Sigma_k^{-1}x
    + \frac{1}{2}x'    \Sigma_k^{-1}\mu_k
    - \frac{1}{2}\mu_k'\Sigma_k^{-1}\mu_k
@@ -1431,16 +1448,16 @@ X|Y=k \sim \mathcal{N}_p(\mu_k,\Sigma_k),
 <p>This classifier is called <em>quadratic</em> discriminant analysis since the predictor-value <span class="math inline">\(x\)</span> appears as a quadratic function.</p>
 <p>The following estimators are used: <span class="math display">\[
 \begin{align*}
-\hat\pi_k    &amp; = \frac{n_k}{n}\\[2ex]
-\hat\mu_k    
+\widehat\pi_k    &amp; = \frac{n_k}{n}\\[2ex]
+\widehat\mu_k    
 &amp; = \frac{1}{n_k}\sum_{i:y_i=k}x_i\\[2ex]
 &amp; = \frac{1}{n_k} \sum_{i=1}^n x_iI(y_i=k)\\[2ex]
-\hat{\Sigma}_k &amp; = \frac{1}{n_k-p}\sum_{i:y_i=k}(x_i-\hat\mu_k)(x_i-\hat\mu_k)'\\[2ex]
-&amp; = \frac{1}{n_k-p}\sum_{i=1}^n(x_i-\hat\mu_k)(x_i-\hat\mu_k)' I(y_i=k),
+\widehat{\Sigma}_k &amp; = \frac{1}{n_k-p}\sum_{i:y_i=k}(x_i-\widehat\mu_k)(x_i-\widehat\mu_k)'\\[2ex]
+&amp; = \frac{1}{n_k-p}\sum_{i=1}^n(x_i-\widehat\mu_k)(x_i-\widehat\mu_k)' I(y_i=k),
 \end{align*}
 \]</span> where</p>
 <ul>
-<li><span class="math inline">\(\hat\mu_k=(\hat\mu_{k1},\dots,\hat\mu_{kp})'\)</span></li>
+<li><span class="math inline">\(\widehat\mu_k=(\widehat\mu_{k1},\dots,\widehat\mu_{kp})'\)</span></li>
 <li><span class="math inline">\(x_i=(x_{i1},\dots,x_{ip})'\)</span></li>
 </ul>
 <p>QDA has <strong>much</strong> more parameters than LDA and is thus a much more flexible classifier than LDA:</p>
@@ -1495,7 +1512,7 @@ p_k(x) = P(Y=k|X=x)=\frac{\pi_k f_k(x)}{\sum_{l=1}^K\pi_l f_l(x)},
 </li>
 </ul>
 <p>We have seen above, that estimating the prior probabilities <span class="math inline">\(\pi_1,\dots,\pi_K\)</span> is typically straight forward using the relative frequencies <span class="math display">\[
-\hat\pi_k=\frac{n_k}{n},\quad k=1,\dots,K.
+\widehat\pi_k=\frac{n_k}{n},\quad k=1,\dots,K.
 \]</span> However, estimating the <span class="math inline">\(p\)</span> dimensional density functions <span class="math display">\[
 f_1(x),\dots,f_K(x)
 \]</span> was and is substantially more difficult.</p>
@@ -1518,12 +1535,12 @@ f_{kj}(x),\quad j=1,\dots,p\quad\text{and}\quad k=1,\dots,K
 <li>Alternative parametric distributions: Exponential, <span class="math inline">\(\chi^2\)</span>-distribution, Gamma distribution, etc.</li>
 </ul>
 </li>
-<li>non-parametric kernel density estimation (for quantitative predictors) using the <code>R</code>-function <code><a href="https://rdrr.io/r/stats/density.html">density()</a></code>
+<li>non-parametric kernel density estimation (for quantitative predictors) using the R function <code><a href="https://rdrr.io/r/stats/density.html">density()</a></code>
 </li>
 <li>simple relative frequency (for qualitative predictors)
 <ul>
 <li>Example: Student status <span class="math inline">\(x\in\{\texttt{Yes},\texttt{No}\}\)</span> <span class="math display">\[
-\hat{f}_{kj}(x)=\left\{
+\widehat{f}_{kj}(x)=\left\{
   \begin{matrix}
   \frac{\#\text{students in group $k$}}{n_k}&amp;\text{if }\; x=\texttt{Yes}\\
   1-\frac{\#\text{students in group $k$}}{n_k}&amp;\text{if }\; x=\texttt{No}
@@ -1567,7 +1584,7 @@ P(Y_i=1|X_i=x)=(\sin(x \pi))^2 \cdot 0.9.
 <ol type="a">
 <li><p>Generate <span class="math inline">\(n=200\)</span> data points <span class="math inline">\((X_1,Y_1),\dots,(X_n,Y_n)\)</span> and plot them along with the true conditional probaility function <span class="math inline">\(P(Y_i=1|X_i=x)\)</span> for values <span class="math inline">\(x\in[0,1].\)</span></p></li>
 <li><p>Partition the data into <span class="math inline">\(n_{\text{Train}}=100\)</span> training data and <span class="math inline">\(n_{\text{Test}}=100\)</span> data points. Compute the classification using an estimation of the simple linear regression model <span class="math inline">\(Y_i=\beta_0+\beta_1X_{i}+\epsilon_i;\)</span> i.e.&nbsp;using <span class="math display">\[
-\widehat{P}(Y_i=1|X_i)=\hat{\beta}_0+\hat{\beta}_1X_i.
+\widehat{P}(Y_i=1|X_i)=\widehat{\beta}_0+\widehat{\beta}_1X_i.
 \]</span> What is the <strong>test error rate</strong>?</p></li>
 <li><p>Do the same as in problem b, but use the KNN-classifier with <span class="math inline">\(K=5\)</span> and <span class="math inline">\(K=15.\)</span> What are the <strong>test error rates</strong>?</p></li>
 <li><p>Do the same as in problem b, but use the logistic regression classifier. What is the <strong>test error rate</strong>?</p></li>
@@ -1589,7 +1606,7 @@ P(Y_i=1|X_i=x)=(\sin(x \pi))^2 \cdot 0.9.
 </ul>
 <section id="solutions" class="level3" data-number="5.10.1"><h3 data-number="5.10.1" class="anchored" data-anchor-id="solutions">
 <span class="header-section-number">5.10.1</span> Solutions</h3>
-<section id="exercise-7-chapter-2" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="exercise-7-chapter-2">Exercise 7 (Chapter 2)</h4>
+<section id="exercise-7-chapter-2" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="exercise-7-chapter-2"><strong>Exercise 7 (Chapter 2)</strong></h4>
 <p>The table below provides a training data set containing six observations, three predictors, and one qualitative response variable. Suppose we wish to use this data set to make a prediction for <span class="math inline">\(Y\)</span> when <span class="math inline">\(X_1 = X_2 = X_3 = 0\)</span> using K-nearest neighbors.</p>
 <table class="caption-top table">
 <thead><tr class="header">
@@ -1754,7 +1771,7 @@ P(Y_i=1|X_i=x)=(\sin(x \pi))^2 \cdot 0.9.
 <span class="math inline">\(Y =\)</span><code>receive an A</code>.</li>
 </ul>
 <p>We fit a logistic regression and produce estimated coefficients:</p>
-<p><span class="math display">\[\hat{\beta}_0 = -6, \quad \hat{\beta}_1 = 0.05, \quad \hat{\beta}_2 = 1.\]</span></p>
+<p><span class="math display">\[\widehat{\beta}_0 = -6, \quad \widehat{\beta}_1 = 0.05, \quad \widehat{\beta}_2 = 1.\]</span></p>
 <p><strong>6 a)</strong> Estimate the probability that a student who studies for <span class="math inline">\(40\)</span> h and has an <code>undergrad GPA</code> of <span class="math inline">\(3.5\)</span> gets an <code>A</code> in the class.</p>
 <p><strong>Answer:</strong></p>
 <p>Remember from the previous exercise that:</p>
@@ -1767,7 +1784,7 @@ p(X) = \frac {\exp(\beta_0 + \beta_1 X_1 + \beta_2 X_2)}
 <p><span class="math display">\[
 p(X) =  \frac {\exp(-6 + 0.05\cdot 40 + 3.5)} {1 + \exp(-6 + 0.05\cdot 40 + 3.5)} = \frac {\exp(-0.5)} {1 + \exp(-0.5)} = 37.75\%
 \]</span></p>
-<p>Calculations in <code>R</code>:</p>
+<p>Calculations in R:</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="op">(</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.5</span><span class="op">)</span> <span class="op">)</span><span class="op">/</span><span class="op">(</span> <span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.5</span><span class="op">)</span> <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -2387,7 +2404,7 @@ knn_pred Down Up
 <p><strong>Conclusion:</strong> This KNN prediction has a test error rate of <span class="math inline">\(48.6\%\)</span>.</p>
 <p><strong>Overall conclusion:</strong> The best models are the ones with the smaller test error rates. In our case, this means that the smallest (fewest predictors) LDA-model and the KNN prediction with <code>K=10</code> are the best prediction models.</p>
 </section></section><section id="self-study-r-lab-classification" class="level2" data-number="5.11"><h2 data-number="5.11" class="anchored" data-anchor-id="self-study-r-lab-classification">
-<span class="header-section-number">5.11</span> Self-Study: <code>R</code>-Lab Classification</h2>
+<span class="header-section-number">5.11</span> Self-Study: R Lab Classification</h2>
 <section id="the-stock-market-data" class="level3" data-number="5.11.1"><h3 data-number="5.11.1" class="anchored" data-anchor-id="the-stock-market-data">
 <span class="header-section-number">5.11.1</span> The Stock Market Data</h3>
 <p>We will begin by examining some numerical and graphical summaries of the <code>Smarket</code> data, which is part of the <code>ISLR2</code> library. This data set consists of percentage returns for the S&amp;P 500 stock index over <span class="math inline">\(1,250\)</span> days, from the beginning of 2001 until the end of 2005. For each date, we have recorded</p>
@@ -2494,7 +2511,6 @@ Levels: Down Up</code></pre>
 
 
 
-
 ::: {.cell layout-align="center"}
 
 ```{.r .cell-code}
@@ -2534,13 +2550,12 @@ plot(Volume)
 
 
 
-
  -->
 </section><section id="logistic-regression-1" class="level3" data-number="5.11.2"><h3 data-number="5.11.2" class="anchored" data-anchor-id="logistic-regression-1">
 <span class="header-section-number">5.11.2</span> Logistic Regression</h3>
 <p>Next, we will fit a logistic regression model in order to predict <code>Direction</code> using <code>Lag1</code> through <code>Lag5</code> and <code>Volume</code>.</p>
 <p>The <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> function can be used to fit many types of generalized linear models, including logistic regression.</p>
-<p>The syntax of the <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> function is similar to that of <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code>, except that we must pass in the argument <code>family = binomial</code> in order to tell <code>R</code> to run a logistic regression rather than some other type of generalized linear model.</p>
+<p>The syntax of the <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> function is similar to that of <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code>, except that we must pass in the argument <code>family = binomial</code> in order to tell R to run a logistic regression rather than some other type of generalized linear model.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb128"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">glm.fits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span></span>
 <span>    <span class="va">Direction</span> <span class="op">~</span> <span class="va">Lag1</span> <span class="op">+</span> <span class="va">Lag2</span> <span class="op">+</span> <span class="va">Lag3</span> <span class="op">+</span> <span class="va">Lag4</span> <span class="op">+</span> <span class="va">Lag5</span> <span class="op">+</span> <span class="va">Volume</span>,</span>
@@ -2601,7 +2616,7 @@ Volume       0.135440659 0.15835970  0.8552723 0.3924004</code></pre>
   0.3924004 </code></pre>
 </div>
 </div>
-<p>The <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> function can be used to predict the probability that the market will go up, given values of the predictors. The <code>type = "response"</code> option tells <code>R</code> to output probabilities of the form <span class="math inline">\(P(Y=1|X)\)</span>, as opposed to other information such as the logit. If no data set is supplied to the <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> function, then the probabilities are computed for the training data that was used to fit the logistic regression model. Here we have printed only the first ten probabilities.</p>
+<p>The <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> function can be used to predict the probability that the market will go up, given values of the predictors. The <code>type = "response"</code> option tells R to output probabilities of the form <span class="math inline">\(P(Y=1|X)\)</span>, as opposed to other information such as the logit. If no data set is supplied to the <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> function, then the probabilities are computed for the training data that was used to fit the logistic regression model. Here we have printed only the first ten probabilities.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb136"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">## Posterior probabilities</span></span>
 <span><span class="va">glm.probs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">glm.fits</span>, type <span class="op">=</span> <span class="st">"response"</span><span class="op">)</span></span>
@@ -2611,7 +2626,7 @@ Volume       0.135440659 0.15835970  0.8552723 0.3924004</code></pre>
 0.5070841 0.4814679 0.4811388 0.5152224 </code></pre>
 </div>
 </div>
-<p>We know that these values correspond to the probability of the market going up, rather than down, because the <code><a href="https://rdrr.io/r/stats/contrasts.html">contrasts()</a></code> function indicates that <code>R</code> has created a dummy variable with a 1 for <code>Up</code>.</p>
+<p>We know that these values correspond to the probability of the market going up, rather than down, because the <code><a href="https://rdrr.io/r/stats/contrasts.html">contrasts()</a></code> function indicates that R has created a dummy variable with a 1 for <code>Up</code>.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb138"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/contrasts.html">contrasts</a></span><span class="op">(</span><span class="va">Direction</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -2792,7 +2807,7 @@ glm.pred Down  Up
 </section><section id="linear-discriminant-analysis" class="level3" data-number="5.11.3"><h3 data-number="5.11.3" class="anchored" data-anchor-id="linear-discriminant-analysis">
 <span class="header-section-number">5.11.3</span> Linear Discriminant Analysis</h3>
 <p>Now we will perform LDA on the <code>Smarket</code> data.</p>
-<p>In <code>R</code>, we fit an LDA model using the <code><a href="https://rdrr.io/pkg/MASS/man/lda.html">lda()</a></code> function, which is part of the <code>MASS</code> library.</p>
+<p>In R, we fit an LDA model using the <code><a href="https://rdrr.io/pkg/MASS/man/lda.html">lda()</a></code> function, which is part of the <code>MASS</code> library.</p>
 <p>The syntax for the <code><a href="https://rdrr.io/pkg/MASS/man/lda.html">lda()</a></code> function is identical to that of <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code>, and to that of <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> except for the absence of the <code>family</code> option.</p>
 <p>We fit the model using only the training observations before 2005.</p>
 <div class="cell" data-layout-align="center">
@@ -2823,8 +2838,8 @@ Lag2 -0.5135293</code></pre>
 <p>The LDA output indicates that</p>
 <ul>
 <li>
-<span class="math inline">\(\hat\pi_1=0.492\)</span> and</li>
-<li><span class="math inline">\(\hat\pi_2=0.508\)</span></li>
+<span class="math inline">\(\widehat\pi_1=0.492\)</span> and</li>
+<li><span class="math inline">\(\widehat\pi_2=0.508\)</span></li>
 </ul>
 <p>That is, <span class="math inline">\(49.2\%\)</span> of the training observations correspond to days during which the market went down.</p>
 <p>The output also provides the group means; these are the average of each predictor within each class, and are used by LDA as estimates of <span class="math inline">\(\mu_k\)</span>. These suggest that there is a tendency for the previous 2 days’ returns to be negative on days when the market increases, and a tendency for the previous days’ returns to be positive on days when the market declines.</p>
@@ -2917,7 +2932,7 @@ Levels: Down Up</code></pre>
 </div>
 </section><section id="quadratic-discriminant-analysis" class="level3" data-number="5.11.4"><h3 data-number="5.11.4" class="anchored" data-anchor-id="quadratic-discriminant-analysis">
 <span class="header-section-number">5.11.4</span> Quadratic Discriminant Analysis</h3>
-<p>We will now fit a QDA model to the <code>Smarket</code> data. QDA is implemented in <code>R</code> using the <code><a href="https://rdrr.io/pkg/MASS/man/qda.html">qda()</a></code> function, which is also part of the <code>MASS</code> library. The syntax is identical to that of <code><a href="https://rdrr.io/pkg/MASS/man/lda.html">lda()</a></code>.</p>
+<p>We will now fit a QDA model to the <code>Smarket</code> data. QDA is implemented in R using the <code><a href="https://rdrr.io/pkg/MASS/man/qda.html">qda()</a></code> function, which is also part of the <code>MASS</code> library. The syntax is identical to that of <code><a href="https://rdrr.io/pkg/MASS/man/lda.html">lda()</a></code>.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb190"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">qda.fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/qda.html">qda</a></span><span class="op">(</span><span class="va">Direction</span> <span class="op">~</span> <span class="va">Lag1</span> <span class="op">+</span> <span class="va">Lag2</span>, data <span class="op">=</span> <span class="va">Smarket</span>,</span>
 <span>    subset <span class="op">=</span> <span class="va">train</span><span class="op">)</span></span>
@@ -2954,7 +2969,7 @@ qda.class Down  Up
 <p>Interestingly, the QDA predictions are accurate almost <span class="math inline">\(60\%\)</span> of the time, even though the 2005 data was not used to fit the model. This level of accuracy is quite impressive for stock market data, which is known to be quite hard to model accurately. This suggests that the quadratic form assumed by QDA may capture the true relationship more accurately than the linear forms assumed by LDA and logistic regression. However, we recommend evaluating this method’s performance on a larger test set before betting that this approach will consistently beat the market!</p>
 </section><section id="naive-bayes-1" class="level3" data-number="5.11.5"><h3 data-number="5.11.5" class="anchored" data-anchor-id="naive-bayes-1">
 <span class="header-section-number">5.11.5</span> Naive Bayes</h3>
-<p>Next, we fit a naive Bayes model to the <code>Smarket</code> data. Naive Bayes is implemented in <code>R</code> using the <code><a href="https://rdrr.io/pkg/e1071/man/naiveBayes.html">naiveBayes()</a></code> function, which is part of the <code>e1071</code> library. The syntax is identical to that of <code><a href="https://rdrr.io/pkg/MASS/man/lda.html">lda()</a></code> and <code><a href="https://rdrr.io/pkg/MASS/man/qda.html">qda()</a></code>. This rather simple implementation of the naive Bayes classifier models uses a univariate Gaussian distribution for each quantitative predictor.</p>
+<p>Next, we fit a naive Bayes model to the <code>Smarket</code> data. Naive Bayes is implemented in R using the <code><a href="https://rdrr.io/pkg/e1071/man/naiveBayes.html">naiveBayes()</a></code> function, which is part of the <code>e1071</code> library. The syntax is identical to that of <code><a href="https://rdrr.io/pkg/MASS/man/lda.html">lda()</a></code> and <code><a href="https://rdrr.io/pkg/MASS/man/qda.html">qda()</a></code>. This rather simple implementation of the naive Bayes classifier models uses a univariate Gaussian distribution for each quantitative predictor.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb196"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">## install.packages("e1071") </span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st">"e1071"</span><span class="op">)</span></span>
@@ -3045,7 +3060,7 @@ nb.class Down  Up
 <span><span class="va">test.X</span>          <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">Lag1</span>, <span class="va">Lag2</span><span class="op">)</span><span class="op">[</span><span class="op">!</span><span class="va">train</span>, <span class="op">]</span></span>
 <span><span class="va">train.Direction</span> <span class="op">&lt;-</span> <span class="va">Direction</span><span class="op">[</span><span class="va">train</span><span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now the <code><a href="https://rdrr.io/pkg/class/man/knn.html">knn()</a></code> function can be used to predict the market’s movement for the dates in 2005. We set a random seed before we apply <code><a href="https://rdrr.io/pkg/class/man/knn.html">knn()</a></code> because if several observations are tied as nearest neighbors, then <code>R</code> will randomly break the tie. Therefore, a seed must be set in order to ensure reproducibility of results.</p>
+<p>Now the <code><a href="https://rdrr.io/pkg/class/man/knn.html">knn()</a></code> function can be used to predict the market’s movement for the dates in 2005. We set a random seed before we apply <code><a href="https://rdrr.io/pkg/class/man/knn.html">knn()</a></code> because if several observations are tied as nearest neighbors, then R will randomly break the tie. Therefore, a seed must be set in order to ensure reproducibility of results.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb209"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">knn.pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/class/man/knn.html">knn</a></span><span class="op">(</span><span class="va">train.X</span>, <span class="va">test.X</span>, <span class="va">train.Direction</span>, k <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
@@ -3251,7 +3266,6 @@ Finally, we fit a  Poisson regression model to the `Bikeshare` data set, which m
 
 
 
-
 ::: {.cell layout-align="center"}
 
 ```{.r .cell-code}
@@ -3288,9 +3302,7 @@ names(Bikeshare)
 
 
 
-
 We begin by fitting a least squares linear regression model to the data.
-
 
 
 
@@ -3374,12 +3386,10 @@ F-statistic: 457.3 on 39 and 8605 DF,  p-value: < 2.2e-16
 
 
 
-
 Due to space constraints, we truncate the output of `summary(mod.lm)`.
 In `mod.lm`, the first level of `hr` (0) and `mnth` (Jan) are treated as the baseline values, and so no coefficient estimates are provided for them: implicitly, their coefficient estimates are zero, and all other levels are measured relative to these baselines. For example, the Feb coefficient of $6.845$ signifies that, holding all other variables constant, there are on average about 7 more riders in February than in January. Similarly there are about 16.5 more riders in March than in January.
 
 The results seen in Section 4.6.1 used a slightly different coding of the variables `hr` and `mnth`, as follows:
-
 
 
 
@@ -3465,11 +3475,9 @@ F-statistic: 457.3 on 39 and 8605 DF,  p-value: < 2.2e-16
 
 
 
-
 What is the difference between the two codings?  In `mod.lm2`,  a coefficient estimate is reported for all but the last level of `hr` and `mnth`. Importantly, in `mod.lm2`, the coefficient estimate for the last level of `mnth` is not zero: instead, it equals the *negative of the sum of the coefficient estimates for all of the other levels*. Similarly, in `mod.lm2`, the coefficient estimate for the last level of `hr` is the negative of the sum of the coefficient estimates for all of the other levels. This means that the coefficients of `hr` and `mnth` in `mod.lm2` will always sum to zero, and can be interpreted as the difference from the mean level. For example, the coefficient for January of $-46.087$ indicates that, holding all other variables constant, there are typically 46 fewer riders in January relative to the yearly average.
 
 It is important to realize that the choice of coding really does not matter, provided that we interpret the model output correctly in light of the coding used. For example, we see   that the predictions from the linear model are the same regardless of coding:
-
 
 
 
@@ -3493,9 +3501,7 @@ sum((predict(mod.lm) - predict(mod.lm2))^2)
 
 
 
-
 The sum of squared differences is zero. We can also see this using the `all.equal()` function:
-
 
 
 
@@ -3520,9 +3526,7 @@ all.equal(predict(mod.lm), predict(mod.lm2))
 
 
 
-
 To reproduce the left-hand side of Figure 4.13, we must first obtain the coefficient estimates associated with `mnth`. The coefficients for January through November can be obtained directly from the `mod.lm2` object. The coefficient for December must be explicitly computed as the negative sum of all the other months.
-
 
 
 
@@ -3538,9 +3542,7 @@ coef.months <- c(coef(mod.lm2)[2:12],
 
 
 
-
 To make the plot, we manually label the $x$-axis with the names of the months.
-
 
 
 
@@ -3562,9 +3564,7 @@ axis(side = 1, at = 1:12, labels = c("J", "F", "M", "A",
 
 
 
-
 Reproducing the right-hand side of Figure 4.13 follows a similar process.
-
 
 
 
@@ -3588,9 +3588,7 @@ plot(coef.hours, xlab = "Hour", ylab = "Coefficient",
 
 
 
-
 Now, we consider instead fitting a Poisson regression model to the `Bikeshare` data. Very little changes, except that we now use the function `glm()` with the argument `family = poisson` to specify that we wish to  fit a Poisson regression model:
-
 
 
 
@@ -3674,9 +3672,7 @@ Number of Fisher Scoring iterations: 5
 
 
 
-
 We can plot the coefficients associated with `mnth` and `hr`, in order to reproduce Figure 4.15:
-
 
 
 
@@ -3710,9 +3706,7 @@ plot(coef.hours, xlab = "Hour", ylab = "Coefficient",
 
 
 
-
-We can once again use the `predict()` function to obtain the fitted values (predictions) from this Poisson regression model. However, we must use the argument `type = "response"` to specify that we want `R` to output $\exp(\hat\beta_0 + \hat\beta_1 X_1 + \ldots +\hat\beta_p X_p)$ rather than $\hat\beta_0 + \hat\beta_1 X_1 + \ldots + \hat\beta_p X_p$, which it will output by default.
-
+We can once again use the `predict()` function to obtain the fitted values (predictions) from this Poisson regression model. However, we must use the argument `type = "response"` to specify that we want R to output $\exp(\widehat\beta_0 + \widehat\beta_1 X_1 + \ldots +\widehat\beta_p X_p)$ rather than $\widehat\beta_0 + \widehat\beta_1 X_1 + \ldots + \widehat\beta_p X_p$, which it will output by default.
 
 
 
@@ -3728,7 +3722,6 @@ abline(0, 1, col = 2, lwd = 3)
 ![](Ch5_Classification_files/figure-html/chunk45-1.png){fig-align='center' width=672}
 :::
 :::
-
 
 
 

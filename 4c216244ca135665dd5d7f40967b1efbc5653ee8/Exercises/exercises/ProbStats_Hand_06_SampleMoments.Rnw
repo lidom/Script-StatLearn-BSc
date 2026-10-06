@@ -28,7 +28,7 @@ $$
 
 \begin{parts}
 \item Compute the sample mean $\bar X_{\operatorname{obs}}$ by hand.
-\item Compute the sample variance $\hat\sigma^2_{X,\operatorname{obs}}$ and the sample standard deviation $\hat\sigma_{X,\operatorname{obs}}$ by hand.
+\item Compute the sample variance $\widehat\sigma^2_{X,\operatorname{obs}}$ and the sample standard deviation $\widehat\sigma_{X,\operatorname{obs}}$ by hand.
 \item The bakery wants to report the revenue in EUR instead of 1000 EUR. How do the sample mean, the sample variance and the sample standard deviation change?
 \item Is $\bar X_{\operatorname{obs}}$ equal to the true mean $E(X)$ of the daily revenue? Explain.
 \end{parts}
@@ -46,15 +46,15 @@ $(X_{i,\operatorname{obs}}-\bar X_{\operatorname{obs}})^2$ & \Sexpr{paste(dev2, 
 \end{tabular}
 \end{center}
 $$
-\hat\sigma^2_{X,\operatorname{obs}} = \frac{1}{n-1}\sum_{i=1}^n (X_{i,\operatorname{obs}}-\bar X_{\operatorname{obs}})^2 = \frac{\Sexpr{sum(dev2)}}{\Sexpr{n-1}} = \Sexpr{fmt(s2, 2)},
+\widehat\sigma^2_{X,\operatorname{obs}} = \frac{1}{n-1}\sum_{i=1}^n (X_{i,\operatorname{obs}}-\bar X_{\operatorname{obs}})^2 = \frac{\Sexpr{sum(dev2)}}{\Sexpr{n-1}} = \Sexpr{fmt(s2, 2)},
 \qquad
-\hat\sigma_{X,\operatorname{obs}} = \sqrt{\Sexpr{fmt(s2, 2)}} \approx \Sexpr{fmt(s, 2)}.
+\widehat\sigma_{X,\operatorname{obs}} = \sqrt{\Sexpr{fmt(s2, 2)}} \approx \Sexpr{fmt(s, 2)}.
 $$
 Note that the deviations $X_{i,\operatorname{obs}}-\bar X_{\operatorname{obs}}$ always sum to zero.
 \item Multiplying all values by $a=1000$ multiplies the sample mean and the sample standard deviation by $1000$, and the sample variance by $1000^2$:
 $\bar X_{\operatorname{obs}} = \Sexpr{x_bar_eur}$~EUR,
-$\hat\sigma^2_{X,\operatorname{obs}} \approx \Sexpr{s2_eur}$~EUR$^2$,
-$\hat\sigma_{X,\operatorname{obs}} \approx \Sexpr{s_eur}$~EUR.
+$\widehat\sigma^2_{X,\operatorname{obs}} \approx \Sexpr{s2_eur}$~EUR$^2$,
+$\widehat\sigma_{X,\operatorname{obs}} \approx \Sexpr{s_eur}$~EUR.
 (These are the sample versions of the rules $E(aX+b)=aE(X)+b$, $\operatorname{Var}(aX+b)=a^2\operatorname{Var}(X)$ and $\operatorname{SD}(aX+b)=|a|\operatorname{SD}(X)$.)
 \item No (or only by chance). $\bar X_{\operatorname{obs}}$ is an \emph{estimate} of the usually unknown $E(X)$, computed from one particular sample of $n=\Sexpr{n}$ days. A different sample of days would give a different value (sampling variability). By the Law of Large Numbers, $\bar X_{\operatorname{obs}}$ gets close to $E(X)$ when $n$ is large.
 \end{parts}

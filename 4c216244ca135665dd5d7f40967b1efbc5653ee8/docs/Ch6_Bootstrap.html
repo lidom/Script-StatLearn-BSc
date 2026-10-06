@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.5.57">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>6&nbsp; The Bootstrap – Computer-Aided Statistical Analysis (B.Sc.)</title>
+<title>6&nbsp; The Bootstrap – Statistical Learning for Business and Economics (B.Sc.)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -60,6 +60,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./Ch_MatrixAlgebra.html" rel="next">
 <link href="./Ch5_Classification.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -142,9 +143,9 @@ window.Quarto = {
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="./index.html" class="sidebar-logo-link">
-      <img src="./images/Uni_Bonn_Logo.jpeg" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
+      <img src="./images/KU_Logo_2.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Computer-Aided Statistical Analysis (B.Sc.)</a> 
+      <a href="./">Statistical Learning for Business and Economics (B.Sc.)</a> 
         <div class="sidebar-tools-main">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
@@ -166,19 +167,19 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Ch_Intro2R.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title"><code>R</code>-Lab: Introduction to <code>R</code></span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch_ReviewProbStats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Review of Probability and Statistics</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Ch_LinearRegression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Linear Regression</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Ch_MatrixAlgebra.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Matrix Algebra</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Linear Regression</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -199,6 +200,23 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The Bootstrap</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch_MatrixAlgebra.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Matrix Algebra</span></span></a>
+  </div>
+</li>
+      </ul>
+</li>
     </ul>
 </div>
 </nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
@@ -214,7 +232,7 @@ window.Quarto = {
   </ul>
 </li>
   <li>
-<a href="#self-study-r-lab-resampling-methods" id="toc-self-study-r-lab-resampling-methods" class="nav-link" data-scroll-target="#self-study-r-lab-resampling-methods"><span class="header-section-number">6.2</span> Self-Study: <code>R</code>-Lab Resampling Methods</a>
+<a href="#self-study-r-lab-resampling-methods" id="toc-self-study-r-lab-resampling-methods" class="nav-link" data-scroll-target="#self-study-r-lab-resampling-methods"><span class="header-section-number">6.2</span> Self-Study: R Lab Resampling Methods</a>
   <ul class="collapse">
 <li><a href="#the-validation-set-approach" id="toc-the-validation-set-approach" class="nav-link" data-scroll-target="#the-validation-set-approach"><span class="header-section-number">6.2.1</span> The Validation Set Approach</a></li>
   <li><a href="#sec-RLabLOOCV" id="toc-sec-RLabLOOCV" class="nav-link" data-scroll-target="#sec-RLabLOOCV"><span class="header-section-number">6.2.2</span> Leave-One-Out Cross-Validation</a></li>
@@ -256,31 +274,31 @@ Var\left(\alpha X + (1-\alpha)Y\right).
 \qquad(6.1)\]</span></span> Using a data set that contains past measurements <span class="math display">\[
 ((X_1,Y_1),\dots,(X_n,Y_n))
 \]</span> for <span class="math inline">\(X\)</span> and <span class="math inline">\(Y,\)</span> we can estimate the unknown <span class="math inline">\(\alpha\)</span> by plugging in estimates of the variances and covariances <span id="eq-alphahat"><span class="math display">\[
-\hat\alpha = \frac{\hat\sigma^2_Y - \hat\sigma_{XY}}{\hat\sigma^2_X + \hat\sigma^2_Y - 2\hat\sigma_{XY}}
+\widehat\alpha = \frac{\widehat\sigma^2_Y - \widehat\sigma_{XY}}{\widehat\sigma^2_X + \widehat\sigma^2_Y - 2\widehat\sigma_{XY}}
 \qquad(6.2)\]</span></span> with <span class="math display">\[
 \begin{align*}
-\hat{\sigma}^2_X&amp;=\frac{1}{n}\sum_{i=1}^n\left(X_i-\bar{X}\right)^2\\
-\hat{\sigma}^2_Y&amp;=\frac{1}{n}\sum_{i=1}^n\left(Y_i-\bar{Y}\right)^2\\
-\hat{\sigma}_{XY}&amp;=\frac{1}{n}\sum_{i=1}^n\left(X_i-\bar{X}\right)\left(Y_i-\bar{Y}\right),
+\widehat{\sigma}^2_X&amp;=\frac{1}{n}\sum_{i=1}^n\left(X_i-\bar{X}\right)^2\\
+\widehat{\sigma}^2_Y&amp;=\frac{1}{n}\sum_{i=1}^n\left(Y_i-\bar{Y}\right)^2\\
+\widehat{\sigma}_{XY}&amp;=\frac{1}{n}\sum_{i=1}^n\left(X_i-\bar{X}\right)\left(Y_i-\bar{Y}\right),
 \end{align*}
 \]</span> where <span class="math inline">\(\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i,\)</span> and likewise for <span class="math inline">\(\bar{Y}.\)</span></p>
-<p>It is natural to wish to quantify the accuracy of our estimate <span class="math inline">\(\hat\alpha\approx \alpha.\)</span> I.e., we wish to know the standard error of the estimator <span class="math inline">\(\hat\alpha\)</span>, <span class="math display">\[
-\sqrt{Var(\hat\alpha)} = \operatorname{SE}(\hat\alpha)=?
-\]</span> Computing <span class="math inline">\(\operatorname{SE}(\hat\alpha)\)</span> is here difficult due to the definition of <span class="math inline">\(\hat\alpha\)</span> in <a href="#eq-alphahat" class="quarto-xref">Equation&nbsp;<span>6.2</span></a> which contains variance estimates also in the denominator.</p>
+<p>It is natural to wish to quantify the accuracy of our estimate <span class="math inline">\(\widehat\alpha\approx \alpha.\)</span> I.e., we wish to know the standard error of the estimator <span class="math inline">\(\widehat\alpha\)</span>, <span class="math display">\[
+\sqrt{Var(\widehat\alpha)} = \operatorname{SE}(\widehat\alpha)=?
+\]</span> Computing <span class="math inline">\(\operatorname{SE}(\widehat\alpha)\)</span> is here difficult due to the definition of <span class="math inline">\(\widehat\alpha\)</span> in <a href="#eq-alphahat" class="quarto-xref">Equation&nbsp;<span>6.2</span></a> which contains variance estimates also in the denominator.</p>
 </section><section id="the-infeasible-bootstrap-a-monte-carlo-simulation" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="the-infeasible-bootstrap-a-monte-carlo-simulation"><strong>The Infeasible Bootstrap: A Monte Carlo Simulation</strong></h4>
 <p>Let us, for a moment, assume that we know the distributions of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y.\)</span> And, for simplicity, let’s say <span class="math display">\[
 \left(\begin{matrix}X\\ Y\end{matrix}\right) \sim F_{(X,Y)},
 \]</span> where <span class="math inline">\(F_{(X,Y)}\)</span> is the distribution function of the bi-variate normal distribution <span id="eq-MCDistr"><span class="math display">\[
 \mathcal{N}\left(\left(\begin{matrix}0\\0\end{matrix}\right),\left[\begin{matrix}\sigma_X^2&amp;\sigma_{XY}\\\sigma_{XY}&amp;\sigma_{Y}^2\end{matrix}\right]\right).
 \qquad(6.3)\]</span></span></p>
-<p>If this were true, i.e., if we would know the true population distribution of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y,\)</span> we could simply generate a new dataset containing new observations for <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> that allows us to compute a new estimate <span class="math inline">\(\hat\alpha.\)</span></p>
+<p>If this were true, i.e., if we would know the true population distribution of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y,\)</span> we could simply generate a new dataset containing new observations for <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> that allows us to compute a new estimate <span class="math inline">\(\widehat\alpha.\)</span></p>
 <p>Repeatedly generating new datasets <span class="math inline">\(((X_1,Y_1),\dots,(X_n,Y_n))\)</span> by sampling new observations from the (here assumed) true population distribution <a href="#eq-MCDistr" class="quarto-xref">Equation&nbsp;<span>6.3</span></a>, for instance, <span class="math inline">\(B=1000\)</span> many times, would allow us to compute <span class="math inline">\(B=1000\)</span> estimates<br><span class="math display">\[
-\hat\alpha_1,\;\hat\alpha_2,\dots,\hat\alpha_{B}.
+\widehat\alpha_1,\;\widehat\alpha_2,\dots,\widehat\alpha_{B}.
 \]</span> The empirical standard deviation <span class="math display">\[
-\sqrt{\frac{1}{B}\sum_{b=1}^B\left(\hat\alpha_b - \bar{\alpha}\right)^2},\quad\text{with}\quad \bar{\alpha} = \frac{1}{B}\sum_{b=1}^B\hat\alpha_b,
-\]</span> is then a very good estimate of the (unknown) true <span class="math inline">\(\operatorname{SE}(\hat\alpha).\)</span></p>
-<p>Indeed, by the law of large numbers this sample standard deviation consistently estimates the true <span class="math inline">\(\operatorname{SE}(\hat\alpha)\)</span> as <span class="math inline">\(B\to\infty,\)</span> provided that we sample from the <strong>true</strong> population distribution <span class="math inline">\(F_{(X,Y)}.\)</span></p>
-<p><code>R</code> code for doing this Monte Carlo simulation:</p>
+\sqrt{\frac{1}{B}\sum_{b=1}^B\left(\widehat\alpha_b - \bar{\alpha}\right)^2},\quad\text{with}\quad \bar{\alpha} = \frac{1}{B}\sum_{b=1}^B\widehat\alpha_b,
+\]</span> is then a very good estimate of the (unknown) true <span class="math inline">\(\operatorname{SE}(\widehat\alpha).\)</span></p>
+<p>Indeed, by the law of large numbers this sample standard deviation consistently estimates the true <span class="math inline">\(\operatorname{SE}(\widehat\alpha)\)</span> as <span class="math inline">\(B\to\infty,\)</span> provided that we sample from the <strong>true</strong> population distribution <span class="math inline">\(F_{(X,Y)}.\)</span></p>
+<p>R code for doing this Monte Carlo simulation:</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="http://www.stats.ox.ac.uk/pub/MASS4/">"MASS"</a></span><span class="op">)</span><span class="op">)</span> <span class="co"># for mvrnorm()</span></span>
 <span></span>
@@ -331,7 +349,7 @@ Var\left(\alpha X + (1-\alpha)Y\right).
 </div>
 Thus, this Monte Carlo simulation estimates that the true standard error equals 0.2301389, i.e.&nbsp;
 <center>
-<span class="math inline">\(\operatorname{SE}(\hat\alpha) \approx\)</span> <code>sd(alpha_hat_MC)</code> <span class="math inline">\(=\)</span> 0.2301389,
+<span class="math inline">\(\operatorname{SE}(\widehat\alpha) \approx\)</span> <code>sd(alpha_hat_MC)</code> <span class="math inline">\(=\)</span> 0.2301389,
 </center>
 <p>and by the law of large number (large <code>B</code>), we can expect this estimation to be really good and reliable.</p>
 <p>But, unfortunately, this result depends on our <strong>completely</strong> unrealistic assumption that we know the true population distribution <span class="math inline">\(F_{(X,Y)}\)</span> of <span class="math inline">\((X,Y),\)</span> which makes this simple resampling approach infeasible in practice. 😭</p>
@@ -351,7 +369,7 @@ F_{n,(X,Y)}\approx F_{(X,Y)}.
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">## Generate some artificial data </span></span>
 <span><span class="va">observed_data</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/mvrnorm.html">mvrnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">n</span>, mu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">mu_X</span>, <span class="va">mu_Y</span><span class="op">)</span>, Sigma <span class="op">=</span> <span class="va">Sigma</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>If the bootstrap works, then the bootstrap estimate of the standard error <span class="math inline">\(\operatorname{SE}(\hat\alpha)\)</span> should be close to the infeasible Monte Carlo estimate, even though the bootstrap method does not explicitly use the true data generating process, but only the observed data.</p>
+<p>If the bootstrap works, then the bootstrap estimate of the standard error <span class="math inline">\(\operatorname{SE}(\widehat\alpha)\)</span> should be close to the infeasible Monte Carlo estimate, even though the bootstrap method does not explicitly use the true data generating process, but only the observed data.</p>
 <p>The following code implements the bootstrap:</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
@@ -381,7 +399,7 @@ F_{n,(X,Y)}\approx F_{(X,Y)}.
 </div>
 The bootstrap estimate of the true standard error equals 0.2523776, i.e.&nbsp;
 <center>
-<span class="math inline">\(\operatorname{SE}(\hat\alpha) \approx\)</span> <code>sd(alpha_hat_boot)</code> <span class="math inline">\(=\)</span> 0.2523776.
+<span class="math inline">\(\operatorname{SE}(\widehat\alpha) \approx\)</span> <code>sd(alpha_hat_boot)</code> <span class="math inline">\(=\)</span> 0.2523776.
 </center>
 <p>This is really close to the infeasible Monte Carlo simulation based estimate <code>sd(alpha_hat_MC)</code> <span class="math inline">\(=\)</span> 0.2301389, but without making use of the unknown data generating process.</p>
 <blockquote class="blockquote">
@@ -399,7 +417,7 @@ The bootstrap estimate of the true standard error equals 0.2523776, i.e.&nbsp;
 </ul>
 <section id="solutions" class="level3" data-number="6.1.1"><h3 data-number="6.1.1" class="anchored" data-anchor-id="solutions">
 <span class="header-section-number">6.1.1</span> Solutions</h3>
-<section id="exercise-3" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="exercise-3">Exercise 3</h4>
+<section id="exercise-3" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="exercise-3"><strong>Exercise 3</strong></h4>
 <p>We now review k-fold cross-validation.</p>
 <p><strong>3 a)</strong> Explain how k-fold cross-validation is implemented.</p>
 <p><strong>Answer:</strong></p>
@@ -425,17 +443,17 @@ Suppose that we use some statistical learning method to make a prediction for th
 
 We can estimate the standard deviation of our prediction by using the bootstrap approach. 
 
-Let $\hat{Y} = \hat{f}(X)$ denote the prediction of $Y$ for the given $X$. The bootstrap approach works by repeatedly ($B$ many times) sampling $n$ observations (with replacement) from the original data set, and to compute new prediction results for each re-sampled bootstrap datasets. This yields to $B$ many bootstrap predictions: 
+Let $\widehat{Y} = \widehat{f}(X)$ denote the prediction of $Y$ for the given $X$. The bootstrap approach works by repeatedly ($B$ many times) sampling $n$ observations (with replacement) from the original data set, and to compute new prediction results for each re-sampled bootstrap datasets. This yields to $B$ many bootstrap predictions: 
 $$
-\hat{f}^*_1(X), \hat{f}^*_2(X), \dots, \hat{f}^*_B(X).
+\widehat{f}^*_1(X), \widehat{f}^*_2(X), \dots, \widehat{f}^*_B(X).
 $$
 
 Using these bootstrap predictions we can compute the standard deviation of our prediction by computing 
 $$
-\sqrt{\frac{1}{B}\sum^B_{b=1}\left(\hat{f}^*_b(X)-\left(\frac{1}{B}\sum_{r=1}^B\hat{f}^*_r(X)\right)\right)^2}.
+\sqrt{\frac{1}{B}\sum^B_{b=1}\left(\widehat{f}^*_b(X)-\left(\frac{1}{B}\sum_{r=1}^B\widehat{f}^*_r(X)\right)\right)^2}.
 $$ 
 -->
-</section><section id="exercise-5" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="exercise-5">Exercise 5</h4>
+</section><section id="exercise-5" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="exercise-5"><strong>Exercise 5</strong></h4>
 <p>Previously, we used logistic regression to predict the probability of <code>default</code> using <code>income</code> and <code>balance</code> on the <code>Default</code> dataset. We will now estimate the test error of this logistic regression model using the validation set approach. Do not forget to set a random seed before beginning your analysis.</p>
 <p><strong>5 a)</strong> Fit a logistic regression model that uses <code>income</code> and <code>balance</code> to predict <code>default</code>.</p>
 <p><strong>Answer:</strong></p>
@@ -587,7 +605,6 @@ We continue to consider the use of a logistic regression model to predict the pr
 
 
 
-
 ::: {.cell layout-align="center"}
 
 ```{.r .cell-code}
@@ -638,7 +655,6 @@ Number of Fisher Scoring iterations: 8
 
 
 
-
 Using the standard formula for the standard errors in logistic regression:
 
 * Estimated standard error of the parameter estimator `income`: $4.985 \cdot 10^{-06}$
@@ -648,7 +664,6 @@ Using the standard formula for the standard errors in logistic regression:
 **6 b)** Write a function, `boot_fn()`, that takes as input the `Default` data set as well as an `index` of the observations, and that outputs the coefficient estimates for `income` and `balance` in the multiple logistic regression model.
 
 **Answer:** 
-
 
 
 
@@ -668,11 +683,9 @@ boot_fn <- function(data, index){
 
 
 
-
 **6 c)** Use the `boot()` function together with your `boot_fn()` function to estimate the standard errors of the logistic regression coefficients for `income` and `balance`.
 
 **Answer:** 
-
 
 
 
@@ -718,7 +731,6 @@ t3*  5.647103e-03 -4.116657e-06 2.226242e-04
 
 
 
-
 **6 d)** Comment on the estimated standard errors obtained using the `glm()` function and using your bootstrap function.
 
 **Answer:** 
@@ -730,7 +742,7 @@ t3*  5.647103e-03 -4.116657e-06 2.226242e-04
   * The bootstrap approach and the standard formula yield essentially equal results. 
 
 -->
-</section><section id="exercise-8" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="exercise-8">Exercise 8</h4>
+</section><section id="exercise-8" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="exercise-8"><strong>Exercise 8</strong></h4>
 <p>We will now perform cross-validation on a simulated data set.</p>
 <p><strong>8 a)</strong> Generate a simulated data set as follows.</p>
 <div class="cell" data-layout-align="center">
@@ -966,12 +978,12 @@ Number of Fisher Scoring iterations: 2</code></pre>
 <p><strong>Answer:</strong></p>
 <p>The <span class="math inline">\(p\)</span>-values only show statistical significance of the linear and the quadratic predictor, which agrees with the CV-results.</p>
 </section></section></section><section id="self-study-r-lab-resampling-methods" class="level2" data-number="6.2"><h2 data-number="6.2" class="anchored" data-anchor-id="self-study-r-lab-resampling-methods">
-<span class="header-section-number">6.2</span> Self-Study: <code>R</code>-Lab Resampling Methods</h2>
+<span class="header-section-number">6.2</span> Self-Study: R Lab Resampling Methods</h2>
 <p>In this lab, we explore the resampling techniques covered in this chapter. Some of the commands in this lab may take a while to run on your computer.</p>
 <section id="the-validation-set-approach" class="level3" data-number="6.2.1"><h3 data-number="6.2.1" class="anchored" data-anchor-id="the-validation-set-approach">
 <span class="header-section-number">6.2.1</span> The Validation Set Approach</h3>
 <p>We explore the use of the validation set approach in order to estimate the test error rates that result from fitting various linear models on the <code>Auto</code> data set.</p>
-<p>Before we begin, we use the <code><a href="https://rdrr.io/r/base/Random.html">set.seed()</a></code> function in order to set a for <code>R</code>’s random number generator, so that the (pseudo) random data splits are reproducible.</p>
+<p>Before we begin, we use the <code><a href="https://rdrr.io/r/base/Random.html">set.seed()</a></code> function in order to set a for R’s random number generator, so that the (pseudo) random data splits are reproducible.</p>
 <p>We begin by using the <code><a href="https://rdrr.io/r/base/sample.html">sample()</a></code> function to split the set of observations into two halves, by selecting a random subset of <span class="math inline">\(196\)</span> observations out of the original <span class="math inline">\(392\)</span> observations. We refer to these observations as the training set.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://www.statlearning.com">"ISLR2"</a></span><span class="op">)</span></span>
@@ -1127,7 +1139,7 @@ Number of Fisher Scoring iterations: 2</code></pre>
 <p>We illustrate the use of the bootstrap revisiting the portfolio choice example from above, as well as on an example involving estimating the accuracy of the linear regression model on the <code>Auto</code> data set.</p>
 <section id="estimating-the-accuracy-of-a-statistic-of-interest" class="level4" data-number="6.2.4.1"><h4 data-number="6.2.4.1" class="anchored" data-anchor-id="estimating-the-accuracy-of-a-statistic-of-interest">
 <span class="header-section-number">6.2.4.1</span> Estimating the Accuracy of a Statistic of Interest</h4>
-<p>One of the great advantages of the bootstrap approach is that it can be applied in almost all situations. No complicated mathematical calculations are required. Performing a bootstrap analysis in <code>R</code> entails only two steps:</p>
+<p>One of the great advantages of the bootstrap approach is that it can be applied in almost all situations. No complicated mathematical calculations are required. Performing a bootstrap analysis in R entails only two steps:</p>
 <ul>
 <li>First, we must create a function that computes the statistic of interest.</li>
 <li>Second, we use the <code><a href="https://rdrr.io/pkg/boot/man/boot.html">boot()</a></code> function, which is part of the <code>boot</code> library, to perform the bootstrap by repeatedly sampling observations from the data set with replacement.</li>
@@ -1142,7 +1154,7 @@ Number of Fisher Scoring iterations: 2</code></pre>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">alpha_hat</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>This function returns an estimate for <span class="math inline">\(\alpha\)</span> based on applying <a href="#eq-alpha" class="quarto-xref">Equation&nbsp;<span>6.1</span></a> to the observations indexed by the argument <code>index</code>. For instance, the following command tells <code>R</code> to estimate <span class="math inline">\(\alpha\)</span> using all of the <span class="math inline">\(100\)</span> observations.</p>
+<p>This function returns an estimate for <span class="math inline">\(\alpha\)</span> based on applying <a href="#eq-alpha" class="quarto-xref">Equation&nbsp;<span>6.1</span></a> to the observations indexed by the argument <code>index</code>. For instance, the following command tells R to estimate <span class="math inline">\(\alpha\)</span> using all of the <span class="math inline">\(100\)</span> observations.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb74"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">alpha_fn</span><span class="op">(</span>data  <span class="op">=</span> <span class="va">Portfolio</span>, </span>
 <span>         index <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">)</span> <span class="co"># complete original dataset</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1150,7 +1162,7 @@ Number of Fisher Scoring iterations: 2</code></pre>
 <pre><code>[1] 0.5758321</code></pre>
 </div>
 </div>
-<p>The next command uses the <code><a href="https://rdrr.io/r/base/sample.html">sample()</a></code> function to randomly select <span class="math inline">\(100\)</span> observations from the range <span class="math inline">\(1\)</span> to <span class="math inline">\(100\)</span>, with replacement. This is equivalent to constructing a new bootstrap data set and recomputing <span class="math inline">\(\hat{\alpha}\)</span> based on the new data set.</p>
+<p>The next command uses the <code><a href="https://rdrr.io/r/base/sample.html">sample()</a></code> function to randomly select <span class="math inline">\(100\)</span> observations from the range <span class="math inline">\(1\)</span> to <span class="math inline">\(100\)</span>, with replacement. This is equivalent to constructing a new bootstrap data set and recomputing <span class="math inline">\(\widehat{\alpha}\)</span> based on the new data set.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb76"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span></span>
 <span><span class="fu">alpha_fn</span><span class="op">(</span>data  <span class="op">=</span> <span class="va">Portfolio</span>, </span>
@@ -1179,10 +1191,10 @@ Bootstrap Statistics :
 t1* 0.5758321 0.0007959475  0.08969074</code></pre>
 </div>
 </div>
-<p>The final output shows that using the original data, <span class="math inline">\(\hat{\alpha}=0.5758\)</span>, and that the bootstrap estimate for <span class="math inline">\(\operatorname{SE}(\hat{\alpha})\)</span> is <span class="math inline">\(0.0897\)</span>.</p>
+<p>The final output shows that using the original data, <span class="math inline">\(\widehat{\alpha}=0.5758\)</span>, and that the bootstrap estimate for <span class="math inline">\(\operatorname{SE}(\widehat{\alpha})\)</span> is <span class="math inline">\(0.0897\)</span>.</p>
 </section><section id="estimating-the-accuracy-of-a-linear-regression-model" class="level4" data-number="6.2.4.2"><h4 data-number="6.2.4.2" class="anchored" data-anchor-id="estimating-the-accuracy-of-a-linear-regression-model">
 <span class="header-section-number">6.2.4.2</span> Estimating the Accuracy of a Linear Regression Model</h4>
-<p>The bootstrap approach can be used to assess the variability of the coefficient estimates and predictions from a statistical learning method. Here we use the bootstrap approach in order to assess the variability of the estimates for <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>, the intercept and slope terms for the linear regression model that uses <code>horsepower</code> to predict <code>mpg</code> in the <code>Auto</code> data set. We will compare the estimates obtained using the bootstrap to those obtained using the formulas for <span class="math inline">\({\rm SE}(\hat{\beta}_0)\)</span> and <span class="math inline">\({\rm SE}(\hat{\beta}_1)\)</span> described in Chapter 3.1.2.</p>
+<p>The bootstrap approach can be used to assess the variability of the coefficient estimates and predictions from a statistical learning method. Here we use the bootstrap approach in order to assess the variability of the estimates for <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>, the intercept and slope terms for the linear regression model that uses <code>horsepower</code> to predict <code>mpg</code> in the <code>Auto</code> data set. We will compare the estimates obtained using the bootstrap to those obtained using the formulas for <span class="math inline">\({\rm SE}(\widehat{\beta}_0)\)</span> and <span class="math inline">\({\rm SE}(\widehat{\beta}_1)\)</span> described in Chapter 3.1.2.</p>
 <p>We first create a simple function, <code>boot_fn()</code>, which takes in the <code>Auto</code> data set as well as a set of indices for the observations, and returns the intercept and slope estimates for the linear regression model. We then apply this function to the full set of <span class="math inline">\(392\)</span> observations in order to compute the estimates of <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> on the entire data set using the usual linear regression coefficient estimate formulas from Chapter 3.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb80"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">## Function to compute coefficient estimates using lm()</span></span>
@@ -1241,7 +1253,7 @@ t1* 39.9358610  0.0544513229 0.841289790
 t2* -0.1578447 -0.0006170901 0.007343073</code></pre>
 </div>
 </div>
-<p>This indicates that the bootstrap estimate for <span class="math inline">\({\rm SE}(\hat{\beta}_0)\)</span> is <span class="math inline">\(0.84\)</span>, and that the bootstrap estimate for <span class="math inline">\({\rm SE}(\hat{\beta}_1)\)</span> is <span class="math inline">\(0.0073\)</span>.</p>
+<p>This indicates that the bootstrap estimate for <span class="math inline">\({\rm SE}(\widehat{\beta}_0)\)</span> is <span class="math inline">\(0.84\)</span>, and that the bootstrap estimate for <span class="math inline">\({\rm SE}(\widehat{\beta}_1)\)</span> is <span class="math inline">\(0.0073\)</span>.</p>
 <p>The reported <code>bias</code> equals the difference between the sample means of the bootstrap realizations and the full sample estimates:</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb88"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">## estimated biases: </span></span>
@@ -1260,9 +1272,9 @@ t2* -0.1578447 -0.0006170901 0.007343073</code></pre>
 horsepower  -0.1578447 0.006445501 -24.48914  7.031989e-81</code></pre>
 </div>
 </div>
-<p>The standard error estimates for <span class="math inline">\(\hat{\beta}_0\)</span> and <span class="math inline">\(\hat{\beta}_1\)</span> obtained using the formulas from Chapter 3.1.2 are <span class="math inline">\(0.717\)</span> for the intercept and <span class="math inline">\(0.0064\)</span> for the slope.</p>
-<p>Interestingly, these are somewhat different from the estimates obtained using the bootstrap. Does this indicate a problem with the bootstrap? In fact, it suggests the opposite. Recall that the standard formulas given in Equation 3.8 (Chapter 3.1.2) rely on certain assumptions. For example, they depend on the unknown parameter <span class="math inline">\(\sigma^2\)</span>, the noise variance. We then estimate <span class="math inline">\(\sigma^2\)</span> by <span class="math inline">\(\operatorname{RSS}/(n-p-1).\)</span> Now although the formulas for the standard errors do not rely on the linear model being correct, the estimate for <span class="math inline">\(\sigma^2\)</span> does. We see in Figure 3.8 of our textbook that there is a non-linear relationship in the data, and so the residuals from a linear fit will be inflated, and so will <span class="math inline">\(\hat{\sigma}^2\)</span>.</p>
-<p>Moreover, the standard formulas assume (somewhat unrealistically) that the <span class="math inline">\(x_i\)</span> are fixed, and all the variability comes from the variation in the errors <span class="math inline">\(\epsilon_i\)</span>. The bootstrap approach does not rely on any of these assumptions, and so it is likely giving a more accurate estimate of the standard errors of <span class="math inline">\(\hat{\beta}_0\)</span> and <span class="math inline">\(\hat{\beta}_1\)</span> than is the <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> function.</p>
+<p>The standard error estimates for <span class="math inline">\(\widehat{\beta}_0\)</span> and <span class="math inline">\(\widehat{\beta}_1\)</span> obtained using the formulas from Chapter 3.1.2 are <span class="math inline">\(0.717\)</span> for the intercept and <span class="math inline">\(0.0064\)</span> for the slope.</p>
+<p>Interestingly, these are somewhat different from the estimates obtained using the bootstrap. Does this indicate a problem with the bootstrap? In fact, it suggests the opposite. Recall that the standard formulas given in Equation 3.8 (Chapter 3.1.2) rely on certain assumptions. For example, they depend on the unknown parameter <span class="math inline">\(\sigma^2\)</span>, the noise variance. We then estimate <span class="math inline">\(\sigma^2\)</span> by <span class="math inline">\(\operatorname{RSS}/(n-p-1).\)</span> Now although the formulas for the standard errors do not rely on the linear model being correct, the estimate for <span class="math inline">\(\sigma^2\)</span> does. We see in Figure 3.8 of our textbook that there is a non-linear relationship in the data, and so the residuals from a linear fit will be inflated, and so will <span class="math inline">\(\widehat{\sigma}^2\)</span>.</p>
+<p>Moreover, the standard formulas assume (somewhat unrealistically) that the <span class="math inline">\(x_i\)</span> are fixed, and all the variability comes from the variation in the errors <span class="math inline">\(\epsilon_i\)</span>. The bootstrap approach does not rely on any of these assumptions, and so it is likely giving a more accurate estimate of the standard errors of <span class="math inline">\(\widehat{\beta}_0\)</span> and <span class="math inline">\(\widehat{\beta}_1\)</span> than is the <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> function.</p>
 <p>Below we compute the bootstrap standard error estimates and the standard linear regression estimates that result from fitting the quadratic model to the data.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb92"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">boot_fn</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">index</span><span class="op">)</span></span>
@@ -1296,7 +1308,7 @@ horsepower      -0.466189630 0.0311246171 -14.97816  2.289429e-40
 I(horsepower^2)  0.001230536 0.0001220759  10.08009  2.196340e-21</code></pre>
 </div>
 </div>
-<p>Since the quadratic model provides a good fit to the data (Figure 3.8 of our textbook), there is now a better correspondence between the bootstrap estimates and the standard estimates of <span class="math inline">\({\rm SE}(\hat{\beta}_0)\)</span>, <span class="math inline">\({\rm SE}(\hat{\beta}_1)\)</span> and <span class="math inline">\({\rm SE}(\hat{\beta}_2)\)</span>.</p>
+<p>Since the quadratic model provides a good fit to the data (Figure 3.8 of our textbook), there is now a better correspondence between the bootstrap estimates and the standard estimates of <span class="math inline">\({\rm SE}(\widehat{\beta}_0)\)</span>, <span class="math inline">\({\rm SE}(\widehat{\beta}_1)\)</span> and <span class="math inline">\({\rm SE}(\widehat{\beta}_2)\)</span>.</p>
 
 
 </section></section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
@@ -1868,6 +1880,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./Ch_MatrixAlgebra.html" class="pagination-link" aria-label="Matrix Algebra">
+        <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Matrix Algebra</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

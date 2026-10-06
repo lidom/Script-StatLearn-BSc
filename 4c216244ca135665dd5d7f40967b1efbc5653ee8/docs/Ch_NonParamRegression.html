@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.5.57">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>4&nbsp; Nonparametric Regression and Cross-Validation – Computer-Aided Statistical Analysis (B.Sc.)</title>
+<title>4&nbsp; Nonparametric Regression and Cross-Validation – Statistical Learning for Business and Economics (B.Sc.)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -61,7 +61,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./Ch5_Classification.html" rel="next">
-<link href="./Ch_MatrixAlgebra.html" rel="prev">
+<link href="./Ch_LinearRegression.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -143,9 +143,9 @@ window.Quarto = {
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="./index.html" class="sidebar-logo-link">
-      <img src="./images/Uni_Bonn_Logo.jpeg" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
+      <img src="./images/KU_Logo_2.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Computer-Aided Statistical Analysis (B.Sc.)</a> 
+      <a href="./">Statistical Learning for Business and Economics (B.Sc.)</a> 
         <div class="sidebar-tools-main">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
@@ -167,19 +167,19 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Ch_Intro2R.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title"><code>R</code>-Lab: Introduction to <code>R</code></span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch_ReviewProbStats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Review of Probability and Statistics</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Ch_LinearRegression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Linear Regression</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Ch_MatrixAlgebra.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Matrix Algebra</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Linear Regression</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -193,6 +193,29 @@ window.Quarto = {
   <a href="./Ch5_Classification.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
   </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch6_Bootstrap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The Bootstrap</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch_MatrixAlgebra.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Matrix Algebra</span></span></a>
+  </div>
+</li>
+      </ul>
 </li>
     </ul>
 </div>
@@ -250,9 +273,9 @@ window.Quarto = {
 
 </header><!-- LTeX: language=en-US --><section id="nonparametric-regression" class="level2" data-number="4.1"><h2 data-number="4.1" class="anchored" data-anchor-id="nonparametric-regression">
 <span class="header-section-number">4.1</span> Nonparametric Regression</h2>
-<p>The linear regression model as considered in <a href="Ch_LinearRegression.html" class="quarto-xref"><span>Chapter 2</span></a> is an example of a <strong>parametric</strong> regression model because it parametrizes the general regression model <span class="math display">\[
+<p>The linear regression model as considered in <a href="Ch_LinearRegression.html" class="quarto-xref"><span>Chapter 3</span></a> is an example of a <strong>parametric</strong> regression model because it parametrizes the general regression model <span class="math display">\[
 Y_i = f(X_i) + \epsilon_i
-\]</span> using a linear model assumption (Assumption 1 in <a href="Ch_LinearRegression.html" class="quarto-xref"><span>Chapter 2</span></a>), such that <span class="math display">\[
+\]</span> using a linear model assumption (Assumption 1 in <a href="Ch_LinearRegression.html" class="quarto-xref"><span>Chapter 3</span></a>), such that <span class="math display">\[
 f(X_i)=\beta_0 + \beta_1 X_{i1} + \dots + \beta_p X_{ip}.
 \]</span></p>
 <p><strong>Advantages of parametric approaches:</strong></p>
@@ -281,7 +304,7 @@ Y_i = f(X_i) + \epsilon_i
 f(x_0).
 \]</span></p>
 <p><strong>KNN regression</strong> estimates the value of the regression function at a point <span class="math inline">\(x_0,\)</span> denoted by <span class="math inline">\(f(x_0),\)</span> using the estimator <span class="math display">\[
-\hat{f}_K(x_0).
+\widehat{f}_K(x_0).
 \]</span> The estimate is obtained through the following two steps:</p>
 <ol type="1">
 <li>
@@ -301,12 +324,12 @@ d(x_0,X_1),d(x_0,X_2)\dots,d(x_0,X_{n_{\text{Train}}}).
 </li>
 <li>
 <strong>Average the corresponding responses.</strong> Estimate <span class="math inline">\(f(x_0)\)</span> by taking the average of the training responses associated with the <span class="math inline">\(K\)</span> nearest neighbors: <span class="math display">\[
-\hat{f}_K(x_0)=\frac{1}{K}\sum_{i\in\mathcal{N}_0}Y_i.
+\widehat{f}_K(x_0)=\frac{1}{K}\sum_{i\in\mathcal{N}_0}Y_i.
 \]</span>
 </li>
 </ol>
 <p>These two steps are repeated for every predictor value <span class="math inline">\(x_0\in\mathbb{R}^p\)</span> at which the regression function is to be estimated.</p>
-<p>The performance of the estimator <span class="math inline">\(\hat{f}_K(x_0)\)</span> depends on</p>
+<p>The performance of the estimator <span class="math inline">\(\widehat{f}_K(x_0)\)</span> depends on</p>
 <ul>
 <li>the choice of <span class="math inline">\(K\)</span> (<strong>smoothing parameter</strong>) and</li>
 <li>the choice of distance <span class="math inline">\(d\)</span>
@@ -343,7 +366,7 @@ $$  --></p>
 <p><strong>Idea:</strong> Choose <span class="math inline">\(K\)</span> by minimizing the mean squared (prediction) error.</p>
 </section><section id="sec-mqfit" class="level2" data-number="4.3"><h2 data-number="4.3" class="anchored" data-anchor-id="sec-mqfit">
 <span class="header-section-number">4.3</span> Local Mean Squared (Prediction) Error (MSE)</h2>
-<!-- In fact, a very flexible (e.g. non-parametric) estimation method will tend to overfit the training data such that $y_i\approx \hat{f}(x_i)$ for all $i=1,\dots,n$ resulting in a training MSE that is close to zero since $\hat{f}(x_i)$ fits also the errors $\epsilon_i.$ -->
+<!-- In fact, a very flexible (e.g. non-parametric) estimation method will tend to overfit the training data such that $y_i\approx \widehat{f}(x_i)$ for all $i=1,\dots,n$ resulting in a training MSE that is close to zero since $\widehat{f}(x_i)$ fits also the errors $\epsilon_i.$ -->
 <!-- **Example:** Suppose that we are interested in developing an algorithm to predict a stock’s price based on previous stock returns. We can train the method using stock returns from the past 6 months. But we don't really care how well our method predicts last week's stock price. We instead care about how well it will predict tomorrow's price
 or next month's price.  -->
 <!-- **Example:** Suppose that we have clinical measurements (e.g. weight, blood pressure, height, age, family history of disease) for a number of patients, as well as information about whether each patient has diabetes. We can use these patients to train a statistical learning method to predict risk of diabetes based on clinical measurements. In practice, we want this method to accurately predict diabetes risk for future patients based on their clinical measurements.  -->
@@ -353,7 +376,7 @@ Thus, we want to choose the method that gives the **lowest *test* MSE**, as oppo
 <!--
 #### **Local Test Data MSE** {-}
 
-Let $\hat{f}$ be computed from the training data $\{(X_1,Y_1),\dots,(X_n,Y_{n_{\text{Train}}})\}.$ And let 
+Let $\widehat{f}$ be computed from the training data $\{(X_1,Y_1),\dots,(X_n,Y_{n_{\text{Train}}})\}.$ And let 
 $$
 \{(x_{0},Y^{\text{Test}}_{1}),(x_{0},Y^{\text{Test}}_{2})\dots,(x_{0},Y^{\text{Test}}_{n_{\text{Test}}})\}
 $$
@@ -370,55 +393,55 @@ I.e, the test data $(x_{0},Y^{\text{Test}}_{i}),$ is generated using iid realiza
 $$
 Y^{\text{Test}} = f(x_0) +  \epsilon^{\text{Test}}.
 $$
-The test data random sample is independent of the training data random sample whose realization was used to compute $\hat{f}.$
+The test data random sample is independent of the training data random sample whose realization was used to compute $\widehat{f}.$
 
 **Note:** Unfortunately, in real data, we usually do not have access to $x_0$-specific test data. Therefore, we will later consider the ***global* test MSE** which does not require $x_0$-specific test data.  
 :::
 
 Then, the **empirical, local test MSE** at $X=x_0$ is given by,
 \begin{align*}
-\widehat{\operatorname{MSE}}_{\text{Test}}(x_0,K)= \frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}\left(Y^{\text{Test}}_{i} - \hat{f}_K(x_{0})\right)^2,
+\widehat{\operatorname{MSE}}_{\text{Test}}(x_0,K)= \frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}\left(Y^{\text{Test}}_{i} - \widehat{f}_K(x_{0})\right)^2,
 \end{align*}
-where $\hat{f}_K$ denotes the KNN regression function estimator. 
+where $\widehat{f}_K$ denotes the KNN regression function estimator. 
 -->
-<p>In the following, we focus on the KNN-regression estimator <span class="math inline">\(\hat{f}_K,\)</span> which is, of course, only one of many possible nonparametric regression estimators.</p>
+<p>In the following, we focus on the KNN-regression estimator <span class="math inline">\(\widehat{f}_K,\)</span> which is, of course, only one of many possible nonparametric regression estimators.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Alternative Estimators <span class="math inline">\(\hat{f}(x_0)\)</span>
+Alternative Estimators <span class="math inline">\(\widehat{f}(x_0)\)</span>
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The KNN regression function estimator <span class="math inline">\(\hat{f}_K\)</span> is, of course, only one of many examples for nonparametric estimators. Alternative examples are:</p>
+<p>The KNN regression function estimator <span class="math inline">\(\widehat{f}_K\)</span> is, of course, only one of many examples for nonparametric estimators. Alternative examples are:</p>
 <ul>
-<li>Smoothing splines estimator <span class="math inline">\(\hat{f}_\lambda\)</span> (<code><a href="https://rdrr.io/r/stats/smooth.spline.html">smooth.spline()</a></code>), where <span class="math inline">\(\lambda\)</span> is the smoothing parameter.</li>
-<li>Polynomial regression estimator <span class="math inline">\(\hat{f}_p\)</span>, where the polynomial degree <span class="math inline">\(p\)</span> is the smoothing parameter. (Caution: we don’t assume that the true regression function <span class="math inline">\(f\)</span> is actually a polynomial function. The lack of this assumption renders the polynomial regression function a nonparametric estimator.)</li>
+<li>Smoothing splines estimator <span class="math inline">\(\widehat{f}_\lambda\)</span> (<code><a href="https://rdrr.io/r/stats/smooth.spline.html">smooth.spline()</a></code>), where <span class="math inline">\(\lambda\)</span> is the smoothing parameter.</li>
+<li>Polynomial regression estimator <span class="math inline">\(\widehat{f}_p\)</span>, where the polynomial degree <span class="math inline">\(p\)</span> is the smoothing parameter. (Caution: we don’t assume that the true regression function <span class="math inline">\(f\)</span> is actually a polynomial function. The lack of this assumption renders the polynomial regression function a nonparametric estimator.)</li>
 </ul>
 </div>
 </div>
-<!-- The **empirical, local test MSE** $\widehat{\operatorname{MSE}}_{\text{Test}}(x_0,K)$ is an unbiased **estimator** of the population version of the **local Mean Squared (Prediction) Error** of $\hat{f}_K(x_0)$ 
+<!-- The **empirical, local test MSE** $\widehat{\operatorname{MSE}}_{\text{Test}}(x_0,K)$ is an unbiased **estimator** of the population version of the **local Mean Squared (Prediction) Error** of $\widehat{f}_K(x_0)$ 
 -->
 <p>A fair and reliable assessment of an estimator requires <strong>testing data</strong>, i.e., data which comes from the same data generating process as the <strong>training data</strong>, but which was not used to compute (train) the estimator.</p>
 <p>Let <span class="math display">\[
 (X_i,Y_i)\overset{\text{iid}}{\sim}(X,Y)\quad i=1,\dots,n_{\text{Train}}
-\]</span> denote the training data used to compute the estimator <span class="math inline">\(\hat{f}(x_0),\)</span> and let <span class="math display">\[
+\]</span> denote the training data used to compute the estimator <span class="math inline">\(\widehat{f}(x_0),\)</span> and let <span class="math display">\[
 (X^{\text{Test}},Y^{\text{Test}})\overset{\text{iid}}{\sim}(X,Y).
 \]</span> denote a test data “point” independent of the training data, where both training and testing data come form the same data generating process <span class="math display">\[
 Y=f(X)+\epsilon
 \]</span> with <span class="math inline">\(Var(\epsilon)=\sigma^2.\)</span></p>
 <p>The most often used measure of the predictor error is the <strong>Mean Squared (Prediction) Error (MSE)</strong></p>
-<p>The <strong><em>local</em> (i.e., <span class="math inline">\(x_0\)</span>-specific) Mean Squared (Prediction) Error</strong> of <span class="math inline">\(\hat{f}_K(x_0)\)</span> is given by <span id="eq-MSERedIrrRed"><span class="math display">\[
+<p>The <strong><em>local</em> (i.e., <span class="math inline">\(x_0\)</span>-specific) Mean Squared (Prediction) Error</strong> of <span class="math inline">\(\widehat{f}_K(x_0)\)</span> is given by <span id="eq-MSERedIrrRed"><span class="math display">\[
 \begin{align*}
 \operatorname{MSE}(x_0,K)
-&amp;= E\left[\left.(Y^{\text{Test}} - \hat{f}_K(X^{\text{Test}}))^2\right|X^{\text{Test}}=x_0\right]\\[2ex]
-&amp;=\underbrace{E\left[\left(f(x_0)-\hat{f}_K(x_0)\right)^2\right]}_{\text{reducable}}\;+\;\underbrace{\sigma^2}_{\text{irreducable}}\geq \sigma^2,
+&amp;= E\left[\left.(Y^{\text{Test}} - \widehat{f}_K(X^{\text{Test}}))^2\right|X^{\text{Test}}=x_0\right]\\[2ex]
+&amp;=\underbrace{E\left[\left(f(x_0)-\widehat{f}_K(x_0)\right)^2\right]}_{\text{reducable}}\;+\;\underbrace{\sigma^2}_{\text{irreducable}}\geq \sigma^2,
 \end{align*}
 \qquad(4.1)\]</span></span> where <span class="math display">\[
-E\left[\left(f(x_0)-\hat{f}_K(x_0)\right)^2\right]
-\]</span> denotes the <strong><em>reducable</em></strong> mean squared <strong>estimation</strong> error component of <span class="math inline">\(\hat{f}_K(x_0),\)</span> and where <span class="math display">\[
+E\left[\left(f(x_0)-\widehat{f}_K(x_0)\right)^2\right]
+\]</span> denotes the <strong><em>reducable</em></strong> mean squared <strong>estimation</strong> error component of <span class="math inline">\(\widehat{f}_K(x_0),\)</span> and where <span class="math display">\[
 \begin{align*}
 \sigma^2
 &amp;=Var(\epsilon^{\text{Test}})=Var(\epsilon)
@@ -439,19 +462,19 @@ Proof of <a href="#eq-MSERedIrrRed" class="quarto-xref">Equation&nbsp;<span>4.1<
 <p><span class="math display">\[
 \begin{align*}
 \operatorname{MSE}(x_0,K)
-&amp;= E\left[\left.(Y^{\text{Test}} - \hat{f}_K(X^{\text{Test}}))^2\right|X^{\text{Test}}=x_0\right]\\[2ex]
+&amp;= E\left[\left.(Y^{\text{Test}} - \widehat{f}_K(X^{\text{Test}}))^2\right|X^{\text{Test}}=x_0\right]\\[2ex]
 &amp;\left[\text{using that }Y^{\text{Test}}=f(X^{\text{Test}})+\epsilon^{\text{Test}}:\right]\\[2ex]
-&amp;= E\left[\left.(f(X^{\text{Test}})+\epsilon^{\text{Test}} - \hat{f}_K(X^{\text{Test}}))^2\right|X^{\text{Test}}=x_0\right]\\[2ex]
-&amp;= E\left[\left( f(X^{\text{Test}})- \hat{f}_K(X^{\text{Test}})\right)^2\right.+\left(\epsilon^{\text{Test}}\right)^2\\
-&amp; \;\;\;\;+2\left.\left.\left( f(X^{\text{Test}})- \hat{f}_K(X^{\text{Test}})\right)\epsilon^{\text{Test}}  \right|X^{\text{Test}}=x_0\right]\\[2ex]
-&amp;= E\left[\left( f(x_0)- \hat{f}_K(x_0)\right)^2\right]+E\left[\left(\epsilon^{\text{Test}}\right)^2\right]\\
-&amp; \;\;\;\;+2\underbrace{E\left[\left( f(x_0)- \hat{f}_K(x_0)\right)\right]E\left[\epsilon^{\text{Test}}\right]}_{\text{using independence between training and testing data}}\\[2ex]
-&amp;=\underbrace{E\left[\left(f(x_0)-\hat{f}_K(x_0)\right)^2\right]}_{\text{Mean Squared Estimation Error (reducable)}}\;+\;\sigma^2,
+&amp;= E\left[\left.(f(X^{\text{Test}})+\epsilon^{\text{Test}} - \widehat{f}_K(X^{\text{Test}}))^2\right|X^{\text{Test}}=x_0\right]\\[2ex]
+&amp;= E\left[\left( f(X^{\text{Test}})- \widehat{f}_K(X^{\text{Test}})\right)^2\right.+\left(\epsilon^{\text{Test}}\right)^2\\[2ex]
+&amp; \;\;\;\;+2\left.\left.\left( f(X^{\text{Test}})- \widehat{f}_K(X^{\text{Test}})\right)\epsilon^{\text{Test}}  \right|X^{\text{Test}}=x_0\right]\\[2ex]
+&amp;= E\left[\left( f(x_0)- \widehat{f}_K(x_0)\right)^2\right]+E\left[\left(\epsilon^{\text{Test}}\right)^2\right]\\[2ex]
+&amp; \;\;\;\;+2\underbrace{E\left[\left( f(x_0)- \widehat{f}_K(x_0)\right)\right]E\left[\epsilon^{\text{Test}}\right]}_{\text{using independence between training and testing data}}\\[2ex]
+&amp;=\underbrace{E\left[\left(f(x_0)-\widehat{f}_K(x_0)\right)^2\right]}_{\text{Mean Squared Estimation Error (reducable)}}\;+\;\sigma^2,
 \end{align*}
 \]</span> where <span class="math display">\[
 \begin{align*}
 E\left[\left(\epsilon^{\text{Test}}\right)^2\right]
-&amp;=Var(\epsilon^{\text{Test}})\\
+&amp;=Var(\epsilon^{\text{Test}})\\[2ex]
 &amp;=Var(\epsilon)
 \end{align*}
 \]</span> denotes the <strong>irreducible</strong> component of the local mean squared (prediction) error <span class="math inline">\(\operatorname{MSE}(x_0,K).\)</span></p>
@@ -475,22 +498,22 @@ $${#eq-MSEUnbiased}
 $$
 \begin{align*}
 E\left[\widehat{\operatorname{MSE}}_{\text{Test}}(x_0,K)\right] 
-& =E\left[\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}\left(Y_{i}^{\text{Test}}- \hat{f}_K(x_0)\right)^2\right]\\[2ex]
+& =E\left[\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}\left(Y_{i}^{\text{Test}}- \widehat{f}_K(x_0)\right)^2\right]\\[2ex]
 & \text{By the linearity of $E()$:}\\[2ex]
-& =\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}E\left[\left(Y_{i}^{\text{Test}}- \hat{f}_K(x_0)\right)^2\right]\\[2ex]
-%& =\frac{1}{n_{\text{Test}}}\,\sum_{i=1}^{n_{\text{Test}}}\,E\left[\left(Y_{1}^{\text{Test}}- \hat{f}_K(x_0)\right)^2\right]\\[2ex]
+& =\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}E\left[\left(Y_{i}^{\text{Test}}- \widehat{f}_K(x_0)\right)^2\right]\\[2ex]
+%& =\frac{1}{n_{\text{Test}}}\,\sum_{i=1}^{n_{\text{Test}}}\,E\left[\left(Y_{1}^{\text{Test}}- \widehat{f}_K(x_0)\right)^2\right]\\[2ex]
 & \text{Using that $Y_{i}^{\text{Test}}$ is iid across $i=1,\dots,n_{\text{Test}}$:}\\[2ex]
-& =\frac{1}{n_{\text{Test}}}\,E\left[\left(Y^{\text{Test}}- \hat{f}_K(x_0)\right)^2\right]\,\sum_{i=1}^{n_{\text{Test}}} 1\\[2ex]
-& =\frac{1}{n_{\text{Test}}}\,n_{\text{Test}}\,E\left[\left(Y^{\text{Test}}- \hat{f}_K(x_0)\right)^2\right]\\[2ex]
-& =E\left[\left(Y^{\text{Test}}- \hat{f}_K(x_0)\right)^2\right]\\[2ex]
+& =\frac{1}{n_{\text{Test}}}\,E\left[\left(Y^{\text{Test}}- \widehat{f}_K(x_0)\right)^2\right]\,\sum_{i=1}^{n_{\text{Test}}} 1\\[2ex]
+& =\frac{1}{n_{\text{Test}}}\,n_{\text{Test}}\,E\left[\left(Y^{\text{Test}}- \widehat{f}_K(x_0)\right)^2\right]\\[2ex]
+& =E\left[\left(Y^{\text{Test}}- \widehat{f}_K(x_0)\right)^2\right]\\[2ex]
 & \text{Using that}\;Y^{\text{Test}}=f(x_0)+\epsilon^{\text{Test}}\\[2ex]
-& =E\left[\left(f(x_0) + \epsilon^{\text{Test}} - \hat{f}_K(x_0)\right)^2\right]\\[2ex]
-& =E\left[\left(f(x_0)- \hat{f}_K(x_0)\right)^2 +2\left(f(x_0)- \hat{f}_K(x_0)\right)\epsilon^{\text{Test}} + (\epsilon^{\text{Test}})^2 \right]\\[2ex]
-& =E\left[\left(f(x_0)- \hat{f}_K(x_0)\right)^2\right]\\[2ex] 
-&+ \underbrace{2E\left[\left(f(x_0)- \hat{f}_K(x_0)\right)\right]\overbrace{E\left[\epsilon^{\text{Test}}\right]}^{=0}}_{\text{using independence between training (in $\hat{f}$) and testing data}}\\[2ex] 
+& =E\left[\left(f(x_0) + \epsilon^{\text{Test}} - \widehat{f}_K(x_0)\right)^2\right]\\[2ex]
+& =E\left[\left(f(x_0)- \widehat{f}_K(x_0)\right)^2 +2\left(f(x_0)- \widehat{f}_K(x_0)\right)\epsilon^{\text{Test}} + (\epsilon^{\text{Test}})^2 \right]\\[2ex]
+& =E\left[\left(f(x_0)- \widehat{f}_K(x_0)\right)^2\right]\\[2ex] 
+&+ \underbrace{2E\left[\left(f(x_0)- \widehat{f}_K(x_0)\right)\right]\overbrace{E\left[\epsilon^{\text{Test}}\right]}^{=0}}_{\text{using independence between training (in $\widehat{f}$) and testing data}}\\[2ex] 
 &+ \underbrace{E\left[(\epsilon^{\text{Test}})^2 \right]}_{=Var(\epsilon^{\text{Test}})}\\[2ex]
-& =\underbrace{E\left[\left(f(x_0)- \hat{f}_K(x_0)\right)^2\right]}_{\text{Mean Squared Estimation Error of $\hat{f}_K(x_0)$}}+0+Var(\epsilon^{\text{Test}})\\[2ex] 
-& =\underbrace{E\left[\left(f(x_0)- \hat{f}_K(x_0)\right)^2\right]}_{\text{reducable}}+\overbrace{\underbrace{Var(\epsilon^{\text{Test}})}_{\text{irreducable}}}^{=\sigma^2}\\[2ex] 
+& =\underbrace{E\left[\left(f(x_0)- \widehat{f}_K(x_0)\right)^2\right]}_{\text{Mean Squared Estimation Error of $\widehat{f}_K(x_0)$}}+0+Var(\epsilon^{\text{Test}})\\[2ex] 
+& =\underbrace{E\left[\left(f(x_0)- \widehat{f}_K(x_0)\right)^2\right]}_{\text{reducable}}+\overbrace{\underbrace{Var(\epsilon^{\text{Test}})}_{\text{irreducable}}}^{=\sigma^2}\\[2ex] 
 \end{align*}
 $$
 :::
@@ -498,17 +521,17 @@ $$
 <!-- 
 The minimum of $\operatorname{MSE}(x_0,K)$ with respect to $K$ finds the optimal compromise between: 
 
-* the squared bias of $\hat{f}_K(x_0)$ and 
-* the variance of $\hat{f}_K(x_0).$ 
+* the squared bias of $\widehat{f}_K(x_0)$ and 
+* the variance of $\widehat{f}_K(x_0).$ 
 -->
 <section id="local-bias-variance-trade-off" class="level3" data-number="4.3.1"><h3 data-number="4.3.1" class="anchored" data-anchor-id="local-bias-variance-trade-off">
 <span class="header-section-number">4.3.1</span> Local Bias-Variance Trade-Off</h3>
 <!-- 
-The mean squared (prediction) error $\operatorname{MSE}(x_0,K)$ of $\hat{f}_K(x_0)$ can be decomposed into the **reducable** mean squared estimation error and the **irreducable** prediction error $\sigma^2$
+The mean squared (prediction) error $\operatorname{MSE}(x_0,K)$ of $\widehat{f}_K(x_0)$ can be decomposed into the **reducable** mean squared estimation error and the **irreducable** prediction error $\sigma^2$
 $$
 \begin{align*}
 \operatorname{MSE}(x_0,K) 
-&=\underbrace{E\left[\left(f(x_0)-\hat{f}_K(x_0)\right)^2\right]+\sigma^2}_{\text{Mean Squared Prediction Error of $\hat{f}_K(x_0)$}}.
+&=\underbrace{E\left[\left(f(x_0)-\widehat{f}_K(x_0)\right)^2\right]+\sigma^2}_{\text{Mean Squared Prediction Error of $\widehat{f}_K(x_0)$}}.
 \end{align*}
 $$  
 -->
@@ -528,9 +551,9 @@ However, to get information about Bias and Variance of a method, we need to appr
 <!-- 
 Since the mean squared **estimation** error is potentially **reducable,** it is important to understand its behavior with respect to different choices of the smoothing parameter $K.$  
 -->
-<p>The mean squared <strong>estimation</strong> error of <span class="math inline">\(\hat{f}_K(x_0)\)</span> can be further <strong>decomposed</strong> into a <strong>variance</strong> component and a <strong>squared bias</strong> component, i.e. <span id="eq-MSEBiasVar"><span class="math display">\[
-E\left[\left(f(x_0) - \hat{f}_K(x_0)\right)^2\right] =
-Var\left(\hat{f}_K(x_0)\right) + \left[\operatorname{Bias}\left(\hat{f}_K(x_0)\right)\right]^2.
+<p>The mean squared <strong>estimation</strong> error of <span class="math inline">\(\widehat{f}_K(x_0)\)</span> can be further <strong>decomposed</strong> into a <strong>variance</strong> component and a <strong>squared bias</strong> component, i.e. <span id="eq-MSEBiasVar"><span class="math display">\[
+E\left[\left(f(x_0) - \widehat{f}_K(x_0)\right)^2\right] =
+Var\left(\widehat{f}_K(x_0)\right) + \left[\operatorname{Bias}\left(\widehat{f}_K(x_0)\right)\right]^2.
 \qquad(4.2)\]</span></span></p>
 <div class="callout callout-style-simple callout-none no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
@@ -547,31 +570,31 @@ Proof of <a href="#eq-MSEBiasVar" class="quarto-xref">Equation&nbsp;<span>4.2</s
 <p><br></p>
 <p><span class="math display">\[
 \begin{align*}
-&amp;   E\left[\left(f(x_0) - \hat{f}_K(x_0)\right)^2\right]\\[2ex]
-&amp; = E\left[\left(\hat{f}_K(x_0) - f(x_0)\right)^2\right]\\[2ex]
-&amp;\text{Adding $0=E[\hat{f}_K(x_0)] - E[\hat{f}_K(x_0)]$ yields}\\[2ex]
-&amp; = E\left[\left(\left\{\hat{f}_K(x_0) - E[\hat{f}_K(x_0)]\right\} - \left\{ f(x_0)- E[\hat{f}_K(x_0)]\right\}\right)^2\right]\\[2ex]
-&amp; = \overbrace{E\left[\left\{\hat{f}_K(x_0) - E[\hat{f}_K(x_0)]\right\}^2\right]}^{=Var\left(\hat{f}_K(x_0)\right)} + \overbrace{E\left[\left\{ f(x_0)- E[\hat{f}_K(x_0)]\right\}^2\right]}^{=\left\{E[\hat{f}_K(x_0)] - f(x_0) \right\}^2}\\[2ex]
-&amp; \;\; -2\;\; \underbrace{E\left[\left\{\hat{f}_K(x_0) - E[\hat{f}_K(x_0)]\right\} \cdot
-                 \left\{ f(x_0)- E[\hat{f}_K(x_0)]\right\}\right]}_{=E\left[\hat{f}_K(x_0)f(x_0)
-                                                                         -\hat{f}_K(x_0)E\left[\hat{f}_K(x_0)\right]
-                                                                         -     f(x_0) E\left[\hat{f}_K(x_0)\right]
-                                                                         +\left(E\left[\hat{f}_K(x_0)\right]\right)^2\right]}\\[2ex]
-&amp; = Var\left(\hat{f}_K(x_0)\right) + \Big\{\;\overbrace{E[\hat{f}_K(x_0)] - f(x_0)}^{=\operatorname{Bias}\left(\hat{f}_K(x_0)\right)}\; \Big\}^2\\[2ex]
-&amp; \;\; -2\;\; \underbrace{E\left[\hat{f}_K(x_0)f(x_0) -\hat{f}_K(x_0)E\left[\hat{f}_K(x_0)\right]
-                                                                         -     f(x_0) E\left[\hat{f}_K(x_0)\right]
-                                                                         +\left(E\left[\hat{f}_K(x_0)\right]\right)^2\right]}_{= 0
+&amp;   E\left[\left(f(x_0) - \widehat{f}_K(x_0)\right)^2\right]\\[2ex]
+&amp; = E\left[\left(\widehat{f}_K(x_0) - f(x_0)\right)^2\right]\\[2ex]
+&amp;\text{Adding $0=E[\widehat{f}_K(x_0)] - E[\widehat{f}_K(x_0)]$ yields}\\[2ex]
+&amp; = E\left[\left(\left\{\widehat{f}_K(x_0) - E[\widehat{f}_K(x_0)]\right\} - \left\{ f(x_0)- E[\widehat{f}_K(x_0)]\right\}\right)^2\right]\\[2ex]
+&amp; = \overbrace{E\left[\left\{\widehat{f}_K(x_0) - E[\widehat{f}_K(x_0)]\right\}^2\right]}^{=Var\left(\widehat{f}_K(x_0)\right)} + \overbrace{E\left[\left\{ f(x_0)- E[\widehat{f}_K(x_0)]\right\}^2\right]}^{=\left\{E[\widehat{f}_K(x_0)] - f(x_0) \right\}^2}\\[2ex]
+&amp; \;\; -2\;\; \underbrace{E\left[\left\{\widehat{f}_K(x_0) - E[\widehat{f}_K(x_0)]\right\} \cdot
+                 \left\{ f(x_0)- E[\widehat{f}_K(x_0)]\right\}\right]}_{=E\left[\widehat{f}_K(x_0)f(x_0)
+                                                                         -\widehat{f}_K(x_0)E\left[\widehat{f}_K(x_0)\right]
+                                                                         -     f(x_0) E\left[\widehat{f}_K(x_0)\right]
+                                                                         +\left(E\left[\widehat{f}_K(x_0)\right]\right)^2\right]}\\[2ex]
+&amp; = Var\left(\widehat{f}_K(x_0)\right) + \Big\{\;\overbrace{E[\widehat{f}_K(x_0)] - f(x_0)}^{=\operatorname{Bias}\left(\widehat{f}_K(x_0)\right)}\; \Big\}^2\\[2ex]
+&amp; \;\; -2\;\; \underbrace{E\left[\widehat{f}_K(x_0)f(x_0) -\widehat{f}_K(x_0)E\left[\widehat{f}_K(x_0)\right]
+                                                                         -     f(x_0) E\left[\widehat{f}_K(x_0)\right]
+                                                                         +\left(E\left[\widehat{f}_K(x_0)\right]\right)^2\right]}_{= 0
                                                                          }\\[2ex]                  
-% = E\left[\hat{f}_K(x_0)\right]f(x_0) - \left(E\left[\hat{f}_K(x_0)\right]\right)^2 - f(x_0) E\left[\hat{f}_K(x_0)\right]+\left(E\left[\hat{f}_K(x_0)\right]\right)^2                                                                          
-&amp; = \underbrace{Var\left(\hat{f}_K(x_0)\right) + \left[\operatorname{Bias}\left(\hat{f}_K(x_0)\right)\right]^2}_{\text{reducible}}
+% = E\left[\widehat{f}_K(x_0)\right]f(x_0) - \left(E\left[\widehat{f}_K(x_0)\right]\right)^2 - f(x_0) E\left[\widehat{f}_K(x_0)\right]+\left(E\left[\widehat{f}_K(x_0)\right]\right)^2                                                                          
+&amp; = \underbrace{Var\left(\widehat{f}_K(x_0)\right) + \left[\operatorname{Bias}\left(\widehat{f}_K(x_0)\right)\right]^2}_{\text{reducible}}
 \end{align*}
 \]</span></p>
 </div>
 </div>
 </div>
-<section id="variance-of-hatf_k-at-x_0" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="variance-of-hatf_k-at-x_0"><strong>Variance of <span class="math inline">\(\hat{f}_K\)</span> at <span class="math inline">\(x_0\)</span></strong></h4>
+<section id="variance-of-widehatf_k-at-x_0" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="variance-of-widehatf_k-at-x_0"><strong>Variance of <span class="math inline">\(\widehat{f}_K\)</span> at <span class="math inline">\(x_0\)</span></strong></h4>
 <p><span class="math display">\[
-Var(\hat{f}_K(x_0))=E\left[\left(\hat{f}_K(x_0) - E\left[\hat{f}_K(x_0)\right]\right)^2\right]
+Var(\widehat{f}_K(x_0))=E\left[\left(\widehat{f}_K(x_0) - E\left[\widehat{f}_K(x_0)\right]\right)^2\right]
 \]</span></p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -583,13 +606,13 @@ Variance
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The variance of <span class="math inline">\(\hat{f}\)</span> at <span class="math inline">\(x_0\)</span> refers to the amount by which <span class="math inline">\(\hat{f}_K(x_0)\)</span> would change if we estimated it using a different training data set. Generally, different training data sets will result in a different <span class="math inline">\(\hat{f}_K(x_0).\)</span> Ideally the estimate for <span class="math inline">\(f\)</span> should not vary too much between training sets. If a method has high variance then small changes in the training data can result in large changes in <span class="math inline">\(\hat{f}_K(x_0).\)</span></p>
+<p>The variance of <span class="math inline">\(\widehat{f}\)</span> at <span class="math inline">\(x_0\)</span> refers to the amount by which <span class="math inline">\(\widehat{f}_K(x_0)\)</span> would change if we estimated it using a different training data set. Generally, different training data sets will result in a different <span class="math inline">\(\widehat{f}_K(x_0).\)</span> Ideally the estimate for <span class="math inline">\(f\)</span> should not vary too much between training sets. If a method has high variance then small changes in the training data can result in large changes in <span class="math inline">\(\widehat{f}_K(x_0).\)</span></p>
 <p>🤓 In general, more flexible statistical methods (e.g., KNN-regression with small <span class="math inline">\(K\)</span>) have higher variance—and vice versa.</p>
 </div>
 </div>
-</section><section id="bias-of-hatf-at-x_0" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="bias-of-hatf-at-x_0"><strong>Bias of <span class="math inline">\(\hat{f}\)</span> at <span class="math inline">\(x_0\)</span></strong></h4>
+</section><section id="bias-of-widehatf-at-x_0" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="bias-of-widehatf-at-x_0"><strong>Bias of <span class="math inline">\(\widehat{f}\)</span> at <span class="math inline">\(x_0\)</span></strong></h4>
 <p><span class="math display">\[
-\operatorname{Bias}(\hat{f}_K(x_0))=E\left[\hat{f}_K(x_0)\right] - f(x_0)
+\operatorname{Bias}(\widehat{f}_K(x_0))=E\left[\widehat{f}_K(x_0)\right] - f(x_0)
 \]</span></p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -601,19 +624,19 @@ Bias
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The bias of <span class="math inline">\(\hat{f}\)</span> at <span class="math inline">\(x_0\)</span> refers to the error that is introduced by approximating <span class="math inline">\(f(x_0)\)</span> using a <strong>nonparametric</strong> estimation approach.</p>
+<p>The bias of <span class="math inline">\(\widehat{f}\)</span> at <span class="math inline">\(x_0\)</span> refers to the error that is introduced by approximating <span class="math inline">\(f(x_0)\)</span> using a <strong>nonparametric</strong> estimation approach.</p>
 <p>🤓 In general, more flexible statistical methods (e.g., KNN-regression with small <span class="math inline">\(K\)</span>) have smaller bias—and vice versa.</p>
 </div>
 </div>
 <p>Note that <span class="math display">\[
-Var\left(\hat{f}_K(x_0)\right)\geq 0
+Var\left(\widehat{f}_K(x_0)\right)\geq 0
 \]</span> and that <span class="math display">\[
-\left[\operatorname{Bias}\left(\hat{f}_K(x_0)\right)\right]^2\geq 0.
+\left[\operatorname{Bias}\left(\widehat{f}_K(x_0)\right)\right]^2\geq 0.
 \]</span> Thus, the mean squared (prediction) error <span class="math inline">\(\operatorname{MSE}(x_0,K)\)</span> can never lie below of <span class="math inline">\(Var(\epsilon),\)</span> i.e. <span class="math display">\[
 \begin{align*}
 \operatorname{MSE}(x_0,K)
-&amp;=E\left[\left(f(x_0)-\hat{f}_K(x_0)\right)^2\right] + \sigma^2\\
-&amp;=Var\left(\hat{f}_K(x_0)\right)+\left[\operatorname{Bias}\left(\hat{f}_K(x_0)\right)\right]^2+ \sigma^2\\
+&amp;=E\left[\left(f(x_0)-\widehat{f}_K(x_0)\right)^2\right] + \sigma^2\\[2ex]
+&amp;=Var\left(\widehat{f}_K(x_0)\right)+\left[\operatorname{Bias}\left(\widehat{f}_K(x_0)\right)\right]^2+ \sigma^2\\[2ex]
 &amp; \geq \sigma^2 = Var\left(\epsilon\right).
 \end{align*}
 \]</span></p>
@@ -625,22 +648,22 @@ Var\left(\hat{f}_K(x_0)\right)\geq 0
 <p><strong>A small value for <span class="math inline">\(K\)</span></strong> provides a very flexible fit, which will have</p>
 <ul>
 <li>small bias <span class="math display">\[
-    \operatorname{Bias}(\hat{f}_K(x_0)) = E(\hat{f}_K(x_0)) - f(x_0) =\;\text{small}
+    \operatorname{Bias}(\widehat{f}_K(x_0)) = E(\widehat{f}_K(x_0)) - f(x_0) =\;\text{small}
     \]</span>
 </li>
 <li>large variance <span class="math display">\[
-    Var(\hat{f}_K(x_0)) = \text{large}
+    Var(\widehat{f}_K(x_0)) = \text{large}
     \]</span>
 </li>
 </ul>
 <p><strong>A large value of <span class="math inline">\(K\)</span></strong> provides a less flexible fit, which will have</p>
 <ul>
 <li>large bias <span class="math display">\[
-    \operatorname{Bias}(\hat{f}_K(x_0)) = E(\hat{f}_K(x_0)) - f(x_0) =\;\text{large}
+    \operatorname{Bias}(\widehat{f}_K(x_0)) = E(\widehat{f}_K(x_0)) - f(x_0) =\;\text{large}
     \]</span>
 </li>
 <li>small variance <span class="math display">\[
-    Var(\hat{f}_K(x_0)) = \;\text{small}
+    Var(\widehat{f}_K(x_0)) = \;\text{small}
     \]</span>
 </li>
 </ul>
@@ -650,16 +673,16 @@ Var\left(\hat{f}_K(x_0)\right)\geq 0
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Bias of <span class="math inline">\(\hat{f}_K(x_0)\)</span>
+Bias of <span class="math inline">\(\widehat{f}_K(x_0)\)</span>
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Small Bias:</strong> The estimator <span class="math inline">\(\hat{f}_K(x_0)\)</span> has <strong>small bias</strong> if it only uses <strong>very close and thus good</strong> training data neighbors since, by our qualitative smoothness assumption on <span class="math inline">\(f\)</span> <span class="math display">\[
+<p><strong>Small Bias:</strong> The estimator <span class="math inline">\(\widehat{f}_K(x_0)\)</span> has <strong>small bias</strong> if it only uses <strong>very close and thus good</strong> training data neighbors since, by our qualitative smoothness assumption on <span class="math inline">\(f\)</span> <span class="math display">\[
 d(x_0, X_i^{\text{Train}})\approx 0\quad\Rightarrow\quad |f(X_i^{\text{Train}}) - f(x_0)|\approx 0.
-\]</span> In this case, we can expect that the systematic estimation error is small, i.e.&nbsp;that <span class="math inline">\(E(\hat{f}_K(x_0))\approx f(x_0)\)</span> (small bias).</p>
-<p><strong>Large Bias:</strong> The estimator <span class="math inline">\(\hat{f}_K(x_0)\)</span> has <strong>large bias</strong> if it also uses <strong>more distant and thus bad</strong> training data neighbors for which <span class="math display">\[
+\]</span> In this case, we can expect that the systematic estimation error is small, i.e.&nbsp;that <span class="math inline">\(E(\widehat{f}_K(x_0))\approx f(x_0)\)</span> (small bias).</p>
+<p><strong>Large Bias:</strong> The estimator <span class="math inline">\(\widehat{f}_K(x_0)\)</span> has <strong>large bias</strong> if it also uses <strong>more distant and thus bad</strong> training data neighbors for which <span class="math display">\[
 d(x_0, X_i^{\text{Train}})\gg 0\quad\Rightarrow\quad |f(X_i^{\text{Train}}) - f(x_0)|\gg 0.
-\]</span> In this case, we expect a large systematic estimation error, i.e.&nbsp;that <span class="math inline">\(E(\hat{f}_K(x_0))\not\approx f(x_0)\)</span> (large bias).</p>
+\]</span> In this case, we expect a large systematic estimation error, i.e.&nbsp;that <span class="math inline">\(E(\widehat{f}_K(x_0))\not\approx f(x_0)\)</span> (large bias).</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -668,12 +691,12 @@ d(x_0, X_i^{\text{Train}})\gg 0\quad\Rightarrow\quad |f(X_i^{\text{Train}}) - f(
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Variance of <span class="math inline">\(\hat{f}_K(x_0)\)</span>
+Variance of <span class="math inline">\(\widehat{f}_K(x_0)\)</span>
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Large Variance:</strong> The estimator <span class="math inline">\(\hat{f}_K(x_0)\)</span> has <strong>large variance</strong> if it is computed from a small number (<span class="math inline">\(K\)</span> small) of training data points such that the <strong>law of larger numbers</strong> had no chance to reduce variance yet. Thus, for small <span class="math inline">\(K\)</span>, the estimation result <span class="math inline">\(\hat{f}_K(x_0)\)</span> would change a lot if we re-estimated it using a different training data set.</p>
-<p><strong>Small Variance:</strong> The estimator <span class="math inline">\(\hat{f}_K(x_0)\)</span> has <strong>small variance</strong> if it is computed from a large number (<span class="math inline">\(K\)</span> large) of training data points such that the <strong>law of larger numbers</strong> had a chance to reduce variance. Thus, for large <span class="math inline">\(K\)</span>, the estimation result <span class="math inline">\(\hat{f}_K(x_0)\)</span> would not change much if we re-estimated it using a different training data set.</p>
+<p><strong>Large Variance:</strong> The estimator <span class="math inline">\(\widehat{f}_K(x_0)\)</span> has <strong>large variance</strong> if it is computed from a small number (<span class="math inline">\(K\)</span> small) of training data points such that the <strong>law of larger numbers</strong> had no chance to reduce variance yet. Thus, for small <span class="math inline">\(K\)</span>, the estimation result <span class="math inline">\(\widehat{f}_K(x_0)\)</span> would change a lot if we re-estimated it using a different training data set.</p>
+<p><strong>Small Variance:</strong> The estimator <span class="math inline">\(\widehat{f}_K(x_0)\)</span> has <strong>small variance</strong> if it is computed from a large number (<span class="math inline">\(K\)</span> large) of training data points such that the <strong>law of larger numbers</strong> had a chance to reduce variance. Thus, for large <span class="math inline">\(K\)</span>, the estimation result <span class="math inline">\(\widehat{f}_K(x_0)\)</span> would not change much if we re-estimated it using a different training data set.</p>
 </div>
 </div>
 </section></section><section id="choosing-the-local-smoothing-parameter-kequiv-k_x_0" class="level3" data-number="4.3.2"><h3 data-number="4.3.2" class="anchored" data-anchor-id="choosing-the-local-smoothing-parameter-kequiv-k_x_0">
@@ -681,12 +704,12 @@ Variance of <span class="math inline">\(\hat{f}_K(x_0)\)</span>
 </h3>
 <p>The <strong>locally optimal value of <span class="math inline">\(K\equiv K_{x_0}\)</span></strong> can be estimated, for every <span class="math inline">\(x_0\)</span>-value, by choosing that value of <span class="math inline">\(K\)</span> that <strong>minimizes</strong> <span id="eq-EmpiricalLocalMSE"><span class="math display">\[
 \widehat{\operatorname{MSE}}_{\text{Test}}(x_0,K)
-=\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}\left(Y_{i}^{\text{Test}}- \hat{f}_K(x_0)\right)^2
+=\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}\left(Y_{i}^{\text{Test}}- \widehat{f}_K(x_0)\right)^2
 \qquad(4.3)\]</span></span> with respect to <span class="math inline">\(K=1,2,\dots.\)</span></p>
 <p>The minimum of <span class="math inline">\(\widehat{\operatorname{MSE}}(x_0,K)\)</span> with respect to <span class="math inline">\(K\)</span> estimates the <span class="math inline">\(x_0\)</span>-specific optimal compromise between:</p>
 <ul>
-<li>the squared bias of <span class="math inline">\(\hat{f}_K(x_0)\)</span> and</li>
-<li>the variance of <span class="math inline">\(\hat{f}_K(x_0).\)</span>
+<li>the squared bias of <span class="math inline">\(\widehat{f}_K(x_0)\)</span> and</li>
+<li>the variance of <span class="math inline">\(\widehat{f}_K(x_0).\)</span>
 </li>
 </ul>
 <p>However, <a href="#eq-EmpiricalLocalMSE" class="quarto-xref">Equation&nbsp;<span>4.3</span></a> requires local <span class="math inline">\(x_0\)</span>-specific training data, which usually do not exist in practice.</p>
@@ -704,18 +727,18 @@ Local (<span class="math inline">\(x_0\)</span>-specific) Test Data
 (x_{0},Y^{\text{Test}}_{i})\overset{\text{iid}}{\sim}(X,Y)|X=x_0,\quad i=1,\dots,n_{\text{Test}}.
 \]</span> I.e, the test data <span class="math inline">\((x_{0},Y^{\text{Test}}_{i}),\)</span> is generated using iid realizations from <span class="math display">\[
 Y^{\text{Test}} = f(x_0) +  \epsilon^{\text{Test}}.
-\]</span> The test data random sample is independent of the training data random sample whose realization was used to compute <span class="math inline">\(\hat{f}.\)</span></p>
+\]</span> The test data random sample is independent of the training data random sample whose realization was used to compute <span class="math inline">\(\widehat{f}.\)</span></p>
 </div>
 </div>
 <p>In real data problems, where we typically do not have access to such <span class="math inline">\(x_0\)</span>-specific test data. Thus, we usually determine a <strong>globally</strong>-optimal <span class="math inline">\(K\)</span> by minimizing the <strong><em>global</em> test MSE</strong> which does not require <span class="math inline">\(x_0\)</span>-specific test data.</p>
 </section></section><section id="sec-globalMSE" class="level2" data-number="4.4"><h2 data-number="4.4" class="anchored" data-anchor-id="sec-globalMSE">
 <span class="header-section-number">4.4</span> Global Mean Squared (Prediction) Error (MSE)</h2>
-<p>In practice, we usually want to find a <strong>globally</strong> optimal smoothing parameter <span class="math inline">\(K,\)</span> which gives good estimation results <span class="math inline">\(\hat{f}_K(x_0)\)</span> for <strong>all</strong> values <span class="math inline">\(x_0\)</span> of interest.</p>
+<p>In practice, we usually want to find a <strong>globally</strong> optimal smoothing parameter <span class="math inline">\(K,\)</span> which gives good estimation results <span class="math inline">\(\widehat{f}_K(x_0)\)</span> for <strong>all</strong> values <span class="math inline">\(x_0\)</span> of interest.</p>
 <p><strong>Idea:</strong> Find the smoothing parameter <span class="math inline">\(K\)</span> that minimizes the <strong>global MSE.</strong></p>
 <p><span class="math display">\[
 \begin{align*}
 \operatorname{MSE}(K)
-&amp;= E\left[\left(Y^{\text{Test}} - \hat{f}_K(X^{\text{Test}})\right)^2\right].
+&amp;= E\left[\left(Y^{\text{Test}} - \widehat{f}_K(X^{\text{Test}})\right)^2\right].
 \end{align*}
 \]</span></p>
 <p>The <strong>global MSE</strong> is the average of the local <span class="math inline">\(\operatorname{MSE}(x_0)\)</span> over all possible values of <span class="math inline">\(x_0,\)</span> i.e. <span class="math display">\[
@@ -728,17 +751,17 @@ A commonly used measure for the model fit is the mean squared (prediction) error
 
 The global **training data MSE** is given by
 \begin{align*}
-\widehat{\operatorname{MSE}}_{\text{train}}=\frac{1}{n_{\text{Train}}}\sum_{i=1}^n\left(Y_i - \hat{f}(X_i)\right)^2,
+\widehat{\operatorname{MSE}}_{\text{train}}=\frac{1}{n_{\text{Train}}}\sum_{i=1}^n\left(Y_i - \widehat{f}(X_i)\right)^2,
 \end{align*}
 where 
 
-* $\hat{f}$ is computed from the training data
-* $\hat{f}(x_i)$ is the prediction that $\hat{f}$ gives for the $i$th training data observation. 
+* $\widehat{f}$ is computed from the training data
+* $\widehat{f}(x_i)$ is the prediction that $\widehat{f}$ gives for the $i$th training data observation. 
 
 
 In general, however, we do not really care how well the method works on the training data. One can actually show that $E(\widehat{\operatorname{MSE}}_{\text{train}})\neq \operatorname{MSE}$ and thus, we cannot expect to learn something reasonable from $\widehat{\operatorname{MSE}}_{\text{train}}.$
 
-Therefore, we are interested in the accuracy of the predictions that we obtain when we apply our method to **test data,** which was not used for computing the estimator $\hat{f}.$ 
+Therefore, we are interested in the accuracy of the predictions that we obtain when we apply our method to **test data,** which was not used for computing the estimator $\widehat{f}.$ 
 
 Thus, we want to choose the method that gives the **lowest *test* MSE**, as opposed to the lowest *training* MSE.  
 -->
@@ -758,16 +781,16 @@ Global Test Data
 <div class="callout-body-container callout-body">
 <p>This type of test data is a realization of a random sample <span class="math display">\[
 (X^{\text{Test}}_{i},Y^{\text{Test}}_{i})\overset{\text{iid}}{\sim}(X,Y),\quad i=1,\dots,n_{\text{Test}}.
-\]</span> The test data random sample is independent of the training data random sample whose realization was used to compute <span class="math inline">\(\hat{f}.\)</span></p>
+\]</span> The test data random sample is independent of the training data random sample whose realization was used to compute <span class="math inline">\(\widehat{f}.\)</span></p>
 <p><strong>Note:</strong> In real data problems, we can use sample splitting to get access to global test data, for instance, by using one half of the data as training data and the other half of the data as testing data.</p>
 </div>
 </div>
 <p>Then, the <strong>empirical, global test MSE</strong> is given by, <span class="math display">\[
 \begin{align*}
-\widehat{\operatorname{MSE}}_{\text{Test}}(K)=\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}\left(Y_{i}^{\text{Test}} - \hat{f}_K(X_{i}^{\text{Test}})\right)^2.
+\widehat{\operatorname{MSE}}_{\text{Test}}(K)=\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}\left(Y_{i}^{\text{Test}} - \widehat{f}_K(X_{i}^{\text{Test}})\right)^2.
 \end{align*}
 \]</span></p>
-<p>The <strong>global test MSE</strong> is an unbiased <strong>estimator</strong> of the population version of the <strong>global Mean Squared (Prediction) Error</strong> of <span class="math inline">\(\hat{f},\)</span> i.e., <span class="math display">\[
+<p>The <strong>global test MSE</strong> is an unbiased <strong>estimator</strong> of the population version of the <strong>global Mean Squared (Prediction) Error</strong> of <span class="math inline">\(\widehat{f},\)</span> i.e., <span class="math display">\[
 \begin{align*}
 E\left(\widehat{\operatorname{MSE}}_{\text{Test}}(K)\right)=
 \operatorname{MSE}(K)
@@ -778,22 +801,22 @@ E\left(\widehat{\operatorname{MSE}}_{\text{Test}}(K)\right)=
 </h3>
 <p>The estimate of the <strong>globally optimal value of <span class="math inline">\(K\)</span></strong> is given by choosing that value of <span class="math inline">\(K\)</span> that <strong>minimizes</strong> <span class="math display">\[
 \begin{align*}
-\widehat{\operatorname{MSE}}_{\text{Test}}(K)=\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}\left(Y_{i}^{\text{Test}} - \hat{f}_K(X_{i}^{\text{Test}})\right)^2.
+\widehat{\operatorname{MSE}}_{\text{Test}}(K)=\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}\left(Y_{i}^{\text{Test}} - \widehat{f}_K(X_{i}^{\text{Test}})\right)^2.
 \end{align*}
 \]</span> with respect to <span class="math inline">\(K=1,2,\dots.\)</span></p>
 <p>The minimum of <span class="math inline">\(\widehat{\operatorname{MSE}}_{\text{Test}}(K)\)</span> with respect to <span class="math inline">\(K\)</span> estimates the globally optimal compromise between:</p>
 <ul>
-<li>the global squared bias of <span class="math inline">\(\hat{f}_K\)</span> and</li>
-<li>the global variance of <span class="math inline">\(\hat{f}_K.\)</span>
+<li>the global squared bias of <span class="math inline">\(\widehat{f}_K\)</span> and</li>
+<li>the global variance of <span class="math inline">\(\widehat{f}_K.\)</span>
 </li>
 </ul></section></section><section id="cross-validation" class="level2" data-number="4.5"><h2 data-number="4.5" class="anchored" data-anchor-id="cross-validation">
 <span class="header-section-number">4.5</span> Cross-Validation</h2>
 <p>In this chapter, we consider a class of methods that allow to estimate the <strong><em>global</em> mean squared (prediction) error MSE.</strong></p>
 <p>As our main example, we consider the <strong>polynomial regression estimator</strong> as a <strong>nonparametric estimator</strong> <span class="math display">\[
-\hat{f}_p(x) = \hat{\beta}_0 + \sum_{j=1}^p\hat{\beta}_j x^j,
-\]</span> where <span class="math inline">\(x\in\mathbb{R}\)</span> is a <strong>uni</strong>variate predictor, and where the parameters <span class="math inline">\(\hat{\beta}_0,\dots,\hat{\beta}_p\)</span> are computed using the usual least squares formula, i.e.&nbsp; <span class="math display">\[
+\widehat{f}_p(x) = \widehat{\beta}_0 + \sum_{j=1}^p\widehat{\beta}_j x^j,
+\]</span> where <span class="math inline">\(x\in\mathbb{R}\)</span> is a <strong>uni</strong>variate predictor, and where the parameters <span class="math inline">\(\widehat{\beta}_0,\dots,\widehat{\beta}_p\)</span> are computed using the usual least squares formula, i.e.&nbsp; <span class="math display">\[
 \begin{align*}
-\begin{pmatrix}\hat{\beta}_0\\\hat{\beta}_1\\\vdots\\\hat{\beta}_p\end{pmatrix} &amp;=\left(X^{\top} X\right)^{-1} X^{\top} Y,
+\begin{pmatrix}\widehat{\beta}_0\\\widehat{\beta}_1\\\vdots\\\widehat{\beta}_p\end{pmatrix} &amp;=\left(X^{\top} X\right)^{-1} X^{\top} Y,
 \end{align*}
 \]</span> with <span class="math display">\[
 X=\begin{pmatrix}
@@ -814,8 +837,8 @@ Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>We do <strong><em>not</em> assume</strong> (as done in Assumption 1 of <a href="Ch_LinearRegression.html" class="quarto-xref"><span>Chapter 2</span></a>) that the true regression function <span class="math inline">\(f(x)\)</span> is actually a polynomial function. We only assume that the true regression function <span class="math inline">\(f\)</span> is a sufficiently smooth function. Any smooth function <span class="math inline">\(f\)</span> can be <strong>approximated</strong> using a polynomial function (approximation theory).</p>
-<p>Thus, the polynomial regression estimator <span class="math inline">\(\hat{f}_p(x)\)</span> is here used as a <strong>nonparametric</strong> estimator, where the <strong>polynomial degree</strong> <span class="math inline">\(p\)</span> is treated as the <strong>smoothing parameter</strong>.</p>
+<p>We do <strong><em>not</em> assume</strong> (as done in Assumption 1 of <a href="Ch_LinearRegression.html" class="quarto-xref"><span>Chapter 3</span></a>) that the true regression function <span class="math inline">\(f(x)\)</span> is actually a polynomial function. We only assume that the true regression function <span class="math inline">\(f\)</span> is a sufficiently smooth function. Any smooth function <span class="math inline">\(f\)</span> can be <strong>approximated</strong> using a polynomial function (approximation theory).</p>
+<p>Thus, the polynomial regression estimator <span class="math inline">\(\widehat{f}_p(x)\)</span> is here used as a <strong>nonparametric</strong> estimator, where the <strong>polynomial degree</strong> <span class="math inline">\(p\)</span> is treated as the <strong>smoothing parameter</strong>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -828,10 +851,10 @@ Alternative Estimators
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The polynomial regression function estimator <span class="math inline">\(\hat{f}_p\)</span> is, of course, only one of many examples. Alternative examples are:</p>
+<p>The polynomial regression function estimator <span class="math inline">\(\widehat{f}_p\)</span> is, of course, only one of many examples. Alternative examples are:</p>
 <ul>
-<li>Smoothing splines estimator <span class="math inline">\(\hat{f}_\lambda\)</span> (<code><a href="https://rdrr.io/r/stats/smooth.spline.html">smooth.spline()</a></code>), where <span class="math inline">\(\lambda\)</span> is the smoothing parameter</li>
-<li>KNN-regression estimator <span class="math inline">\(\hat{f}_K\)</span>
+<li>Smoothing splines estimator <span class="math inline">\(\widehat{f}_\lambda\)</span> (<code><a href="https://rdrr.io/r/stats/smooth.spline.html">smooth.spline()</a></code>), where <span class="math inline">\(\lambda\)</span> is the smoothing parameter</li>
+<li>KNN-regression estimator <span class="math inline">\(\widehat{f}_K\)</span>
 </li>
 </ul>
 </div>
@@ -845,7 +868,7 @@ Alternative Estimators
 </ul>
 <p>The model is fit on the training set, and the fitted model is used to predict the responses for the observations in the validation set.</p>
 <p><img src="images/Fig_5_1.png" class="img-fluid"></p>
-<section id="illustration" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="illustration">Illustration</h4>
+<section id="illustration" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="illustration"><strong>Illustration</strong></h4>
 <p>Reconsider the <code>Auto</code> data set. In Chapter 3, we found that a model that predicts <code>mpg</code> using <code>horsepower</code> and <code>horsepower</code><span class="math inline">\(^2\)</span> predicts better than a model that uses only the linear term. But maybe a cubic or a higher order polynomial regression model predicts even better? The validation set approach can be used to select the degree <span class="math inline">\(p\)</span> of the polynomial regression model <span class="math display">\[
 \texttt{mpg}=\beta_0 + \sum_{j=1}^p\beta_j \texttt{horsepower}^j + \epsilon.
 \]</span></p>
@@ -889,10 +912,10 @@ Alternative Estimators
 <p><strong>Step 3:</strong> Validation of the polynomial regression model by computing the test mean squared (prediction) error using the validation set: <span class="math display">\[
 \begin{align*}
 \widehat{\operatorname{MSE}}_{\text{Test}}^{ValidationSetApproach}(p)
-&amp;=\frac{1}{n_{\text{Test}}}\sum_{i\in\mathcal{I}_{\text{Test}}}\left(Y_i^{\text{Test}} - \hat{f}_p(X_i^{\text{Test}})\right)^2,
+&amp;=\frac{1}{n_{\text{Test}}}\sum_{i\in\mathcal{I}_{\text{Test}}}\left(Y_i^{\text{Test}} - \widehat{f}_p(X_i^{\text{Test}})\right)^2,
 \end{align*}
-\]</span> where <span class="math inline">\(\hat{f}_p\)</span> is computed from the <strong>training data</strong>, but evaluated <span class="math display">\[
-\hat{Y}_i^{\text{Test}}=\hat{f}(X_i^{\text{Test}})
+\]</span> where <span class="math inline">\(\widehat{f}_p\)</span> is computed from the <strong>training data</strong>, but evaluated <span class="math display">\[
+\widehat{Y}_i^{\text{Test}}=\widehat{f}(X_i^{\text{Test}})
 \]</span> at the <strong>test data</strong> <span class="math inline">\(X_i^{\text{Test}},\)</span> <span class="math inline">\(i\in\mathcal{I}_{\text{Test}}.\)</span></p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">y_fit_Test</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">Train_polreg</span>, newdata <span class="op">=</span> <span class="va">Auto_Test_df</span><span class="op">)</span></span>
@@ -980,7 +1003,7 @@ Figure&nbsp;4.2: Test error estimates for ten different random splits into train
 </div>
 </div>
 <p><a href="#fig-VA2" class="quarto-xref">Figure&nbsp;<span>4.2</span></a> shows that the validation set approach can be highly variable. The selected polynomial degrees (minimal test MSE) strongly varies across the different random splits and thus depend on the data included in the test and test sets.</p>
-<p>A further serious problem with the validation set approach is that the evaluated predictions <span class="math inline">\(\hat{Y}^{\text{Test}}_i=\hat{f}(X_i^{\text{Test}})\)</span> are based on estimates <span class="math inline">\(\hat{f}_p\)</span> computed from the training set, where, however, the training set sample size <span class="math inline">\(n_{\text{Train}}\)</span> is typically <strong>substantially smaller</strong> than the actual sample size, i.e.&nbsp; <span class="math display">\[
+<p>A further serious problem with the validation set approach is that the evaluated predictions <span class="math inline">\(\widehat{Y}^{\text{Test}}_i=\widehat{f}(X_i^{\text{Test}})\)</span> are based on estimates <span class="math inline">\(\widehat{f}_p\)</span> computed from the training set, where, however, the training set sample size <span class="math inline">\(n_{\text{Train}}\)</span> is typically <strong>substantially smaller</strong> than the actual sample size, i.e.&nbsp; <span class="math display">\[
 n_{{\text{Train}}}\ll n.
 \]</span> This leads to <strong>increased (i.e.&nbsp;biased) test MSE values</strong> which do not reflect the actual test MSE values for the total sample size <span class="math inline">\(n.\)</span></p>
 <p>Leave-One-Out and <span class="math inline">\(k\)</span>-fold <em>Cross-validation</em> are refinements of the validation set approach that addresses these issues.</p>
@@ -999,12 +1022,12 @@ n_{{\text{Train}}}\ll n.
 <p>The <span class="math inline">\(i\)</span>th estimate for the test MSE is thus <span class="math display">\[
 \begin{align*}
 \widehat{\operatorname{MSE}}_{\text{Test},i}(p)
-&amp;= \left(Y_i^{\text{Test}} - \hat{f}_p(X_i^{\text{Test}})\right)^2,
+&amp;= \left(Y_i^{\text{Test}} - \widehat{f}_p(X_i^{\text{Test}})\right)^2,
 \end{align*}
-\]</span> where <span class="math inline">\(\hat{f}_p\)</span> is computed from the <span class="math inline">\(n_{\text{Train}}=n-1\)</span> training data points, but evaluated <span class="math display">\[
-\hat{Y}_i^{\text{Test}}=\hat{f}_p(X_i^{\text{Test}})
+\]</span> where <span class="math inline">\(\widehat{f}_p\)</span> is computed from the <span class="math inline">\(n_{\text{Train}}=n-1\)</span> training data points, but evaluated <span class="math display">\[
+\widehat{Y}_i^{\text{Test}}=\widehat{f}_p(X_i^{\text{Test}})
 \]</span> at the <em>one</em> test data point <span class="math inline">\(X_i^{\text{Test}},\)</span> <span class="math inline">\(i\in\mathcal{I}_{\text{Test}}.\)</span></p>
-<p>Since <span class="math inline">\(\hat{f}_p\)</span> is essentially based on the total dataset, <span class="math inline">\(\widehat{\operatorname{MSE}}_{\text{Test},i}(p)\)</span> is an (approximately) unbiased (since <span class="math inline">\(n_{\text{Train}}=n-1\approx n\)</span>) estimate for the test MSE, although a poor estimate with a high variance as it is based on only one observation in the test set.</p>
+<p>Since <span class="math inline">\(\widehat{f}_p\)</span> is essentially based on the total dataset, <span class="math inline">\(\widehat{\operatorname{MSE}}_{\text{Test},i}(p)\)</span> is an (approximately) unbiased (since <span class="math inline">\(n_{\text{Train}}=n-1\approx n\)</span>) estimate for the test MSE, although a poor estimate with a high variance as it is based on only one observation in the test set.</p>
 <p>Repeating this leave-one-out splitting approach for each <span class="math inline">\(i=1,\dots,n,\)</span> produces <span class="math inline">\(n\)</span> many estimates of the test MSE: <span class="math display">\[
 \widehat{\operatorname{MSE}}_{\text{Test},1}(p),
 \widehat{\operatorname{MSE}}_{\text{Test},2}(p),\dots,
@@ -1069,19 +1092,19 @@ Figure&nbsp;4.3: LOOCV error estimates for different polynomial degrees <span cl
 </div>
 <section id="cv-often-computationally-expensive" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="cv-often-computationally-expensive"><strong>CV: (Often) Computationally Expensive</strong></h4>
 LOOCV has the potential to be <strong>computationally expensive</strong>, since the model has to be fit <span class="math inline">\(n\)</span> times. Indeed the above code, which represents a rather simple implementation of LOOCV for least squares fits of linear regression models, takes<br><center>
-<code>end_time</code><span class="math inline">\(-\)</span><code>start_time</code> <span class="math inline">\(=\)</span> 4.156 seconds
+<code>end_time</code><span class="math inline">\(-\)</span><code>start_time</code> <span class="math inline">\(=\)</span> 3.799 seconds
 </center>
 <p>for the computations which is quite long.</p>
 <p>Luckily, for least squares fits of linear/polynomial regression models one can use the following short-cut formula <span id="eq-CVfast"><span class="math display">\[
 \begin{align*}
 \operatorname{LOOCV}(p)
-&amp;=\operatorname{CV}_{(n)}(p) = \frac{1}{n} \sum_{i=1}^n\left(\frac{Y_i - \hat{f}_p(X_i)}{1-h_i}\right)^2,
-%&amp;=\operatorname{CV}_{(n)} = \frac{1}{n} \sum_{i=1}^n\left(\frac{y_i - \hat{y}_i}{1-h_i}\right)^2
+&amp;=\operatorname{CV}_{(n)}(p) = \frac{1}{n} \sum_{i=1}^n\left(\frac{Y_i - \widehat{f}_p(X_i)}{1-h_i}\right)^2,
+%&amp;=\operatorname{CV}_{(n)} = \frac{1}{n} \sum_{i=1}^n\left(\frac{y_i - \widehat{y}_i}{1-h_i}\right)^2
 \end{align*}
 \qquad(4.5)\]</span></span> where</p>
 <ul>
 <li>
-<span class="math inline">\(\hat{y}_i\)</span> is the <span class="math inline">\(i\)</span>th fitted value from the <em>original least squares fit,</em> based on the total sample size <span class="math inline">\(n,\)</span> and</li>
+<span class="math inline">\(\widehat{y}_i\)</span> is the <span class="math inline">\(i\)</span>th fitted value from the <em>original least squares fit,</em> based on the total sample size <span class="math inline">\(n,\)</span> and</li>
 <li>
 <span class="math inline">\(h_i\)</span> is the leverage statistic for the <span class="math inline">\(i\)</span>th observation, i.e.&nbsp; <span class="math display">\[
 h_i=\left[X(X'X)^{-1}X'\right]_{ii}.
@@ -1115,7 +1138,7 @@ h_i=\left[X(X'X)^{-1}X'\right]_{ii}.
 </div>
 However, the fast version takes only
 <center>
-<code>end_time2</code><span class="math inline">\(-\)</span><code>start_time2</code> <span class="math inline">\(=\)</span> 0.037 seconds
+<code>end_time2</code><span class="math inline">\(-\)</span><code>start_time2</code> <span class="math inline">\(=\)</span> 0.018 seconds
 </center>
 <p>for the computations.</p>
 <p>LOOCV is a very general method, and can be used with any kind of predictive modeling; e.g.</p>
@@ -1148,9 +1171,9 @@ However, the fast version takes only
 \]</span> where <span class="math display">\[
 \begin{align*}
 \widehat{\operatorname{MSE}}_{\text{Test},j}(p)
-&amp;=\frac{1}{|\mathcal{I}_j|}\sum_{i\in\mathcal{I}_j}\left(Y_i^{\text{Test}} - \hat{f}_p(X_i^{\text{Test}})\right)^2,\quad j=1,\dots,k,
+&amp;=\frac{1}{|\mathcal{I}_j|}\sum_{i\in\mathcal{I}_j}\left(Y_i^{\text{Test}} - \widehat{f}_p(X_i^{\text{Test}})\right)^2,\quad j=1,\dots,k,
 \end{align*}
-\]</span> with <span class="math inline">\(\hat{f}_p\)</span> being computed from the training data, but evaluated at the test data.</p>
+\]</span> with <span class="math inline">\(\widehat{f}_p\)</span> being computed from the training data, but evaluated at the test data.</p>
 <p>The <span class="math inline">\(k\)</span>-fold CV estimate is computed by averaging these values <span id="eq-kfoldCV"><span class="math display">\[
 \operatorname{CV}_{(k)}(p)=\frac{1}{k}\sum_{j=1}^k\widehat{\operatorname{MSE}}_{\text{Test},j}(p)
 \qquad(4.6)\]</span></span></p>
@@ -1267,7 +1290,7 @@ $$
 $$
 where 
 $$
-\operatorname{Err}_{\text{Test},i}=I(y_i\neq \hat{y}_i)
+\operatorname{Err}_{\text{Test},i}=I(y_i\neq \widehat{y}_i)
 $$
 with $I(\texttt{TRUE})=1$ and $I(\texttt{FALSE})=0.$
 
@@ -1285,7 +1308,7 @@ Likewise, one can select the tuning parameter $K$ in KNN classification by minim
 <!-- 
 ### Global Training and Test MSE in Nonparametric Smoothing Spline Regression {-}
 
-Figure 2.9 shows training and test MSEs for smoothing spline (`R` command `smooth.spline()`) estimates $\hat{f}$ in the case of 
+Figure 2.9 shows training and test MSEs for smoothing spline (R command `smooth.spline()`) estimates $\widehat{f}$ in the case of 
 
 * a moderately complex $f$ 
 * a moderate signal-to-noise ratio $\frac{Var(f(X))}{Var(\epsilon)}$
@@ -1294,7 +1317,7 @@ Figure 2.9 shows training and test MSEs for smoothing spline (`R` command `smoot
 
 <br>
 
-Figure 2.10 shows training and test MSEs for smoothing spline estimates $\hat{f}$ in the case of 
+Figure 2.10 shows training and test MSEs for smoothing spline estimates $\widehat{f}$ in the case of 
 
 * a very simple $f$ 
 * a moderate signal-to-noise ratio $\frac{Var(f(X))}{Var(\epsilon)}$
@@ -1303,7 +1326,7 @@ Figure 2.10 shows training and test MSEs for smoothing spline estimates $\hat{f}
 
 <br>
 
-Figure 2.11 shows training and test MSEs for smoothing spline estimates $\hat{f}$ in the case of 
+Figure 2.11 shows training and test MSEs for smoothing spline estimates $\widehat{f}$ in the case of 
 
 * a moderately complex $f$
 * a very large signal-to-noise ratio $\frac{Var(f(X))}{Var(\epsilon)}$
@@ -1331,19 +1354,19 @@ One important method is **cross-validation**, which is a method for estimating t
 <ul>
 <li>black solid lines: true <span class="math inline">\(f(x)\)</span>
 </li>
-<li>blue curves: KNN fits <span class="math inline">\(\hat{f}_K(x)\)</span> using <span class="math inline">\(K = 1\)</span> (left plot) and <span class="math inline">\(K = 9\)</span> (right plot).</li>
+<li>blue curves: KNN fits <span class="math inline">\(\widehat{f}_K(x)\)</span> using <span class="math inline">\(K = 1\)</span> (left plot) and <span class="math inline">\(K = 9\)</span> (right plot).</li>
 </ul>
 <p>Observations:</p>
 <ul>
-<li>The KNN fit <span class="math inline">\(\hat{f}_K(x)\)</span> using <span class="math inline">\(K = 1\)</span> is far too wiggly</li>
-<li>The KNN fit <span class="math inline">\(\hat{f}_K(x)\)</span> using <span class="math inline">\(K = 9\)</span> is much closer to the true <span class="math inline">\(f(X).\)</span>
+<li>The KNN fit <span class="math inline">\(\widehat{f}_K(x)\)</span> using <span class="math inline">\(K = 1\)</span> is far too wiggly</li>
+<li>The KNN fit <span class="math inline">\(\widehat{f}_K(x)\)</span> using <span class="math inline">\(K = 9\)</span> is much closer to the true <span class="math inline">\(f(X).\)</span>
 </li>
 </ul>
 <p>However, since the true regression function is here linear, it is hard for a non-parametric approach to compete with simple linear regression: a non-parametric approach incurs a cost in variance that is here not offset by a reduction in bias. <img src="images/Fig_3_17.png" class="img-fluid"></p>
 <p>The blue dashed line in the left-hand panel of <strong>Figure 3.18</strong> represents the simple linear regression fit to the same data. It is almost perfect.</p>
 <p>The right-hand panel of <strong>Figure 3.18</strong> reveals that linear regression outperforms KNN for this data across different choices of <span class="math inline">\(K=1,2,\dots,10.\)</span> <img src="images/Fig_3_18.png" class="img-fluid"></p>
 <p><strong>Figure 3.19</strong> displays a non-linear situations in which KNN performs much better than simple linear regression. <img src="images/Fig_3_19.png" class="img-fluid"></p>
-<section id="curse-of-dimensionality" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="curse-of-dimensionality">Curse of Dimensionality</h4>
+<section id="curse-of-dimensionality" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="curse-of-dimensionality"><strong>Curse of Dimensionality</strong></h4>
 <p>Unfortunately, in higher dimensions, KNN often performs worse than simple/multiple linear regression, since non-parametric approaches suffer from the <strong>curse of dimensionality</strong>.</p>
 <p><strong>Figure 3.20</strong> considers the same strongly non-linear situation as in the second row of <strong>Figure 3.19</strong> (sample size <span class="math inline">\(n=50\)</span>), except that we have added additional noise (i.e.&nbsp;redundant) predictors that are not associated with the response: <span class="math display">\[
 Y_i = f(X_{i1}) + 0\cdot X_{i2} + \dots + 0\cdot X_{ip} + \epsilon_i
@@ -1372,103 +1395,103 @@ where $f_X$ denotes the design density of the predicors $X.$
 
 We can **estimate** the global MSE using 
 $$
-\widehat{\operatorname{MSE}}_{test} = \frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}\left(Y_{i}^{\text{Test}}-\hat{f}(X_{i}^{\text{Test}})\right)^2.
+\widehat{\operatorname{MSE}}_{test} = \frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}\left(Y_{i}^{\text{Test}}-\widehat{f}(X_{i}^{\text{Test}})\right)^2.
 $$ 
 
 
 ### Population Version of the Mean Squared (Prediction) Error 
 
-Consider a **given** estimate $\hat{f}$ and a **given** predictor $X,$ which yields a **given** prediction $\hat{Y} = \hat{f}(X).$ That is, assume for a moment that both $\hat{f}$ and $X$ are **fixed**, so that the only variability comes from $\epsilon.$ Then, it is easy to show that
+Consider a **given** estimate $\widehat{f}$ and a **given** predictor $X,$ which yields a **given** prediction $\widehat{Y} = \widehat{f}(X).$ That is, assume for a moment that both $\widehat{f}$ and $X$ are **fixed**, so that the only variability comes from $\epsilon.$ Then, it is easy to show that
 $$
 \begin{align*}
-\overbrace{E\left[(Y - \hat{Y})^2\right]}^{\text{Mean Squared (Prediction) Error}}
-=\underbrace{\left(f(X) -\hat{f}(X)\right)^2}_{\text{reducable}} + \underbrace{Var\left(\epsilon\right)}_{\text{irreducable}}, 
+\overbrace{E\left[(Y - \widehat{Y})^2\right]}^{\text{Mean Squared (Prediction) Error}}
+=\underbrace{\left(f(X) -\widehat{f}(X)\right)^2}_{\text{reducable}} + \underbrace{Var\left(\epsilon\right)}_{\text{irreducable}}, 
 \end{align*}
 $${#eq-MSEDecompFixed}
 where 
 
-* $E\left[(Y - \hat{Y})^2\right]$ represents the expected value, of the squared difference between the predicted $\hat{Y}=\hat{f}(X)$ and actual value of $Y,$ 
+* $E\left[(Y - \widehat{Y})^2\right]$ represents the expected value, of the squared difference between the predicted $\widehat{Y}=\widehat{f}(X)$ and actual value of $Y,$ 
 * and $Var(\epsilon)$ represents the variance associated with the error term $\epsilon.$
 
 
-Derivation of @eq-MSEDecompFixed for a **given** $\hat{f}$ and a **given** $X;$ i.e. only $\epsilon$ is random: 
+Derivation of @eq-MSEDecompFixed for a **given** $\widehat{f}$ and a **given** $X;$ i.e. only $\epsilon$ is random: 
 $$
 \begin{align*}
-&E\left[(Y - \hat{Y})^2\right]\\[2ex] 
+&E\left[(Y - \widehat{Y})^2\right]\\[2ex] 
 &\text{[using $Y=f(X)+\epsilon$]}\\[2ex]
-&=E\left[(f(X) + \epsilon - \hat{f}(X))^2\right]\\[2ex]
-&=E\left[((f(X)- \hat{f}(X)) + \epsilon )^2\right]\\[2ex]
+&=E\left[(f(X) + \epsilon - \widehat{f}(X))^2\right]\\[2ex]
+&=E\left[((f(X)- \widehat{f}(X)) + \epsilon )^2\right]\\[2ex]
 &\text{[binomial formula]}\\[2ex]
-&=E\left[\left(f(X) -\hat{f}(X)\right)^2 + 2\left(f(X) -\hat{f}(X)\right)\epsilon + \epsilon^2\right]\\[2ex] 
-&\text{[using that $X$ and $\hat{f}$ are fixed]}\\[2ex]
-% &=E\left[\left(f(X) -\hat{f}(X)\right)^2\right] - 2E\left[\left(f(X) -\hat{f}(X)\right)\epsilon\right] + E\left[\epsilon^2\right] \\[2ex] 
-&=\left(f(X) -\hat{f}(X)\right)^2 + 2\left(f(X) -\hat{f}(X)\right) E\left[\epsilon\right] + E\left[\epsilon^2\right] \\[2ex] 
+&=E\left[\left(f(X) -\widehat{f}(X)\right)^2 + 2\left(f(X) -\widehat{f}(X)\right)\epsilon + \epsilon^2\right]\\[2ex] 
+&\text{[using that $X$ and $\widehat{f}$ are fixed]}\\[2ex]
+% &=E\left[\left(f(X) -\widehat{f}(X)\right)^2\right] - 2E\left[\left(f(X) -\widehat{f}(X)\right)\epsilon\right] + E\left[\epsilon^2\right] \\[2ex] 
+&=\left(f(X) -\widehat{f}(X)\right)^2 + 2\left(f(X) -\widehat{f}(X)\right) E\left[\epsilon\right] + E\left[\epsilon^2\right] \\[2ex] 
 &\text{[using that $E(\epsilon)=0$ and $E(\epsilon^2)=Var(\epsilon)=\sigma^2$]}\\[2ex]
-&=\left(f(X) -\hat{f}(X)\right)^2 + 2\left(f(X) -\hat{f}(X)\right) \cdot 0 + Var\left(\epsilon\right) \\[2ex]
-&=\underbrace{\left(f(X) -\hat{f}(X)\right)^2}_{\text{reducable}} + \underbrace{Var\left(\epsilon\right)}_{\text{irreducable}}
+&=\left(f(X) -\widehat{f}(X)\right)^2 + 2\left(f(X) -\widehat{f}(X)\right) \cdot 0 + Var\left(\epsilon\right) \\[2ex]
+&=\underbrace{\left(f(X) -\widehat{f}(X)\right)^2}_{\text{reducable}} + \underbrace{Var\left(\epsilon\right)}_{\text{irreducable}}
 \end{align*}
 $$
 
 Thus, the variance of the irreducible prediction error equals the **lowest possible value** of the mean squared (prediction) error, i.e. 
 $$
-E\left[(Y - \hat{Y})^2\right]\geq Var\left(\epsilon\right). 
+E\left[(Y - \widehat{Y})^2\right]\geq Var\left(\epsilon\right). 
 $$
 
 
 The same can be done for the local version of the MSE: 
 $$
 \begin{align*}
-&E\left[(Y - \hat{Y})^2|X=x_0\right]\\[2ex] 
+&E\left[(Y - \widehat{Y})^2|X=x_0\right]\\[2ex] 
 &\text{[using $Y=f(X)+\epsilon$]}\\[2ex]
-&=E\left[(f(X) + \epsilon - \hat{f}(X))^2\right]\\[2ex]
-&=E\left[((f(X)- \hat{f}(X)) + \epsilon )^2\right]\\[2ex]
+&=E\left[(f(X) + \epsilon - \widehat{f}(X))^2\right]\\[2ex]
+&=E\left[((f(X)- \widehat{f}(X)) + \epsilon )^2\right]\\[2ex]
 &\text{[binomial formula]}\\[2ex]
-&=E\left[\left(f(X) -\hat{f}(X)\right)^2 + 2\left(f(X) -\hat{f}(X)\right)\epsilon + \epsilon^2\right]\\[2ex] 
-&\text{[using that $X$ and $\hat{f}$ are fixed]}\\[2ex]
-% &=E\left[\left(f(X) -\hat{f}(X)\right)^2\right] - 2E\left[\left(f(X) -\hat{f}(X)\right)\epsilon\right] + E\left[\epsilon^2\right] \\[2ex] 
-&=\left(f(X) -\hat{f}(X)\right)^2 + 2\left(f(X) -\hat{f}(X)\right) E\left[\epsilon\right] + E\left[\epsilon^2\right] \\[2ex] 
+&=E\left[\left(f(X) -\widehat{f}(X)\right)^2 + 2\left(f(X) -\widehat{f}(X)\right)\epsilon + \epsilon^2\right]\\[2ex] 
+&\text{[using that $X$ and $\widehat{f}$ are fixed]}\\[2ex]
+% &=E\left[\left(f(X) -\widehat{f}(X)\right)^2\right] - 2E\left[\left(f(X) -\widehat{f}(X)\right)\epsilon\right] + E\left[\epsilon^2\right] \\[2ex] 
+&=\left(f(X) -\widehat{f}(X)\right)^2 + 2\left(f(X) -\widehat{f}(X)\right) E\left[\epsilon\right] + E\left[\epsilon^2\right] \\[2ex] 
 &\text{[using that $E(\epsilon)=0$ and $E(\epsilon^2)=Var(\epsilon)=\sigma^2$]}\\[2ex]
-&=\left(f(X) -\hat{f}(X)\right)^2 + 2\left(f(X) -\hat{f}(X)\right) \cdot 0 + Var\left(\epsilon\right) \\[2ex]
-&=\underbrace{\left(f(X) -\hat{f}(X)\right)^2}_{\text{reducable}} + \underbrace{Var\left(\epsilon\right)}_{\text{irreducable}}
+&=\left(f(X) -\widehat{f}(X)\right)^2 + 2\left(f(X) -\widehat{f}(X)\right) \cdot 0 + Var\left(\epsilon\right) \\[2ex]
+&=\underbrace{\left(f(X) -\widehat{f}(X)\right)^2}_{\text{reducable}} + \underbrace{Var\left(\epsilon\right)}_{\text{irreducable}}
 \end{align*}
 $$
 
 
 
 
-For a really good estimate $\hat{f}$ of $f,$ we expect that $\hat{f}(X)\approx f(X)$ such that
+For a really good estimate $\widehat{f}$ of $f,$ we expect that $\widehat{f}(X)\approx f(X)$ such that
 $$
-E\left[(Y - \hat{Y})^2\right] \approx \underbrace{Var\left(\epsilon\right)}_{\text{irreducable}}.
+E\left[(Y - \widehat{Y})^2\right] \approx \underbrace{Var\left(\epsilon\right)}_{\text{irreducable}}.
 $$
-For a bad estimate $\hat{f}$ of $f,$ however, we expect that  
+For a bad estimate $\widehat{f}$ of $f,$ however, we expect that  
 $$
-E\left[(Y - \hat{Y})^2\right] \gg \underbrace{Var\left(\epsilon\right)}_{\text{irreducable}}.
+E\left[(Y - \widehat{Y})^2\right] \gg \underbrace{Var\left(\epsilon\right)}_{\text{irreducable}}.
 $$
 
 Connecting the **global test MSE** with the population MSE:
 
 
-The unknown MSE $E\left[(Y - \hat{Y})^2\right]$ can be estimated using the **global test MSE:**
+The unknown MSE $E\left[(Y - \widehat{Y})^2\right]$ can be estimated using the **global test MSE:**
 $$
-E\left[(Y - \hat{Y})^2\right] \approx \widehat{\operatorname{MSE}}_{\text{Test}}.
+E\left[(Y - \widehat{Y})^2\right] \approx \widehat{\operatorname{MSE}}_{\text{Test}}.
 $$
 
-Thus, if $\hat{f}$ is a really good estimate of $f,$ i.e. if $\hat{f}(X_i^{\text{Test}})\approx f(X_i^{\text{Test}}),$ then 
+Thus, if $\widehat{f}$ is a really good estimate of $f,$ i.e. if $\widehat{f}(X_i^{\text{Test}})\approx f(X_i^{\text{Test}}),$ then 
 $$
 \begin{align*}
 \widehat{\operatorname{MSE}}_{\text{Test}}
-&=\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}\left(Y_{i} - \hat{f}(X_{i}^{\text{Test}})\right)^2\\
-&\approx\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}\left(Y_{i}^{\text{Test}} - f(X_{i}^{\text{Test}})\right)^2\\
-&=\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}(\epsilon_{i}^{\text{Test}})^2\\
-&=\hat{\sigma}^2\\ 
+&=\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}\left(Y_{i} - \widehat{f}(X_{i}^{\text{Test}})\right)^2\\[2ex]
+&\approx\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}\left(Y_{i}^{\text{Test}} - f(X_{i}^{\text{Test}})\right)^2\\[2ex]
+&=\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}(\epsilon_{i}^{\text{Test}})^2\\[2ex]
+&=\widehat{\sigma}^2\\[2ex] 
 &\approx \sigma^2. 
 \end{align*}
 $$
-For a bad estimate $\hat{f}$ of $f,$ however, we expect that  
+For a bad estimate $\widehat{f}$ of $f,$ however, we expect that  
 $$
 \begin{align*}
 \widehat{\operatorname{MSE}}_{\text{Test}}
-&=\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}\left(Y_{i} - \hat{f}(X_{i}^{\text{Test}})\right)^2\\
+&=\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}\left(Y_{i} - \widehat{f}(X_{i}^{\text{Test}})\right)^2\\
 &\gg \sigma^2. 
 \end{align*}
 $$
@@ -1478,7 +1501,7 @@ $$
 
 The training data MSE is **not able** to estimate the mean squared (prediction) error 
 $$
-E\left[(Y - \hat{Y})^2\right].
+E\left[(Y - \widehat{Y})^2\right].
 $$
 :::
 
@@ -1487,7 +1510,7 @@ $$
 <span class="header-section-number">4.8</span> In Class Coding Exercises</h2>
 <p>Consider the following regression model: <span class="math display">\[\begin{align*}
 Y_i
-&amp; = f(X_i)+ \epsilon_i\\
+&amp; = f(X_i)+ \epsilon_i\\[2ex]
 &amp; = 5+ 3\sin(2\pi\,X_i) + \epsilon_i,
 \end{align*}\]</span> where the training data has a sample size of <span class="math inline">\(n_{\text{Train}}=100,\)</span> the error term is iid normal <span class="math display">\[
 \epsilon_i\overset{\text{iid}}{\sim}\mathcal{N}(0,1),,\quad i=1,\dots,n_{\text{Train}},
@@ -1496,20 +1519,20 @@ X_i=\frac{i}{n_{\text{Train}}},\quad i=1,\dots,n_{\text{Train}}.
 \]</span></p>
 <p><strong>Problems:</strong></p>
 <ol type="a">
-<li><p>Program the KNN-Regression estimator <span class="math inline">\(\hat{f}_K(x_0).\)</span> Compute the KNN-Regression estimation <span class="math inline">\(\hat{f}_K(x_0)\)</span> for <span class="math inline">\(K=5\)</span> and <span class="math inline">\(x_0 = 0.25.\)</span> Compare the result with the true regression function value <span class="math inline">\(f(0.25).\)</span></p></li>
+<li><p>Program the KNN-Regression estimator <span class="math inline">\(\widehat{f}_K(x_0).\)</span> Compute the KNN-Regression estimation <span class="math inline">\(\widehat{f}_K(x_0)\)</span> for <span class="math inline">\(K=5\)</span> and <span class="math inline">\(x_0 = 0.25.\)</span> Compare the result with the true regression function value <span class="math inline">\(f(0.25).\)</span></p></li>
 <li><p>Compute the KNN-Regression estimation for <span class="math inline">\(K=5\)</span> and a <em>dense</em> <span class="math inline">\(x\)</span>-grid between 0 and 1 (e.g.&nbsp;<code>c(1:1000)/1000</code>) and compare the results with the true regression function values using a plot.</p></li>
 <li><p><strong>Approximating the local bias, variance, and mean squared estimation error:</strong> Generate <span class="math inline">\(B=1000\)</span> estimation results <span class="math display">\[
-\hat{f}_{K,1}(x_0),\hat{f}_{K,2}(x_0),\dots,\hat{f}_{K,B}(x_0)
+\widehat{f}_{K,1}(x_0),\widehat{f}_{K,2}(x_0),\dots,\widehat{f}_{K,B}(x_0)
 \]</span> for <span class="math inline">\(x_0 = 0.25\)</span> and <span class="math inline">\(K\in\{1,2,\dots,35\}.\)</span></p></li>
 </ol>
 <ul>
-<li>Plot the estimation results <span class="math inline">\(\hat{f}_{K,1}(x_0),\hat{f}_{K,2}(x_0),\dots,\hat{f}_{K,B}(x_0)\)</span> along with their sample mean and the true value of <span class="math inline">\(f(0.25)\)</span> for <span class="math inline">\(K=5,\)</span> <span class="math inline">\(K=15,\)</span> and <span class="math inline">\(K=30.\)</span>
+<li>Plot the estimation results <span class="math inline">\(\widehat{f}_{K,1}(x_0),\widehat{f}_{K,2}(x_0),\dots,\widehat{f}_{K,B}(x_0)\)</span> along with their sample mean and the true value of <span class="math inline">\(f(0.25)\)</span> for <span class="math inline">\(K=5,\)</span> <span class="math inline">\(K=15,\)</span> and <span class="math inline">\(K=30.\)</span>
 </li>
-<li>Use the <span class="math inline">\(B\)</span> simulated estimation results to approximate the true bias of <span class="math inline">\(\hat{f}_{K}(x_0)\)</span> for <span class="math inline">\(K\in\{1,2,\dots,35\}.\)</span>
+<li>Use the <span class="math inline">\(B\)</span> simulated estimation results to approximate the true bias of <span class="math inline">\(\widehat{f}_{K}(x_0)\)</span> for <span class="math inline">\(K\in\{1,2,\dots,35\}.\)</span>
 </li>
-<li>Use the <span class="math inline">\(B\)</span> simulated estimation results to approximate the true variance of <span class="math inline">\(\hat{f}_{K}(x_0)\)</span> for <span class="math inline">\(K\in\{1,2,\dots,35\}.\)</span>
+<li>Use the <span class="math inline">\(B\)</span> simulated estimation results to approximate the true variance of <span class="math inline">\(\widehat{f}_{K}(x_0)\)</span> for <span class="math inline">\(K\in\{1,2,\dots,35\}.\)</span>
 </li>
-<li>Use the <span class="math inline">\(B\)</span> simulated estimation results to approximate to true mean squared estimation error of <span class="math inline">\(\hat{f}_{K}(x_0)\)</span> for <span class="math inline">\(K\in\{1,2,\dots,35\}.\)</span>
+<li>Use the <span class="math inline">\(B\)</span> simulated estimation results to approximate to true mean squared estimation error of <span class="math inline">\(\widehat{f}_{K}(x_0)\)</span> for <span class="math inline">\(K\in\{1,2,\dots,35\}.\)</span>
 </li>
 </ul>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -1524,22 +1547,22 @@ Approximating the local (<span class="math inline">\(x_0\)</span>-specific) Bias
 <div class="callout-body-container callout-body">
 <p>The empirical bias <span class="math display">\[
 \begin{align*}
-\frac{1}{B}\sum_{j=1}^B\hat{f}_{K,j}(x_0)-f(x_0)
-&amp;\approx E\left(\hat{f}_{K}(x_0)\right)-f(x_0)=\operatorname{Bias}\left(\hat{f}_{K}(x_0)\right)
+\frac{1}{B}\sum_{j=1}^B\widehat{f}_{K,j}(x_0)-f(x_0)
+&amp;\approx E\left(\widehat{f}_{K}(x_0)\right)-f(x_0)=\operatorname{Bias}\left(\widehat{f}_{K}(x_0)\right)
 \end{align*}
-\]</span> approximates the true bias of <span class="math inline">\(\hat{f}_{K}(x_0).\)</span></p>
+\]</span> approximates the true bias of <span class="math inline">\(\widehat{f}_{K}(x_0).\)</span></p>
 <p>The empirical variance <span class="math display">\[
 \begin{align*}
-\frac{1}{B}\sum_{j=1}^B\left(\hat{f}_{K,j}(x_0)-\frac{1}{B}\sum_{j=1}^B\hat{f}_{K,j}(x_0)\right)^2
-&amp;\approx Var\left[\hat{f}_{K}(x_0)\right]
+\frac{1}{B}\sum_{j=1}^B\left(\widehat{f}_{K,j}(x_0)-\frac{1}{B}\sum_{j=1}^B\widehat{f}_{K,j}(x_0)\right)^2
+&amp;\approx Var\left[\widehat{f}_{K}(x_0)\right]
 \end{align*}
-\]</span> approximates the true variance of <span class="math inline">\(\hat{f}_{K}(x_0).\)</span></p>
+\]</span> approximates the true variance of <span class="math inline">\(\widehat{f}_{K}(x_0).\)</span></p>
 <p>The empirical mean squared <em>estimation</em> error<br><span class="math display">\[
 \begin{align*}
-\frac{1}{B}\sum_{j=1}^B\left(\hat{f}_{K,j}(x_0)-f(x_0)\right)^2
-&amp;\approx E\left[\left(\hat{f}_{K}(x_0)-f(x_0)\right)^2\right]
+\frac{1}{B}\sum_{j=1}^B\left(\widehat{f}_{K,j}(x_0)-f(x_0)\right)^2
+&amp;\approx E\left[\left(\widehat{f}_{K}(x_0)-f(x_0)\right)^2\right]
 \end{align*}
-\]</span> approximates the true mean squared <em>estimation</em> error of <span class="math inline">\(\hat{f}_{K}(x_0).\)</span></p>
+\]</span> approximates the true mean squared <em>estimation</em> error of <span class="math inline">\(\widehat{f}_{K}(x_0).\)</span></p>
 </div>
 </div>
 <ol start="4" type="a">
@@ -1573,7 +1596,7 @@ The observed realization
 $$
 \{(X_{1,obs}^{\text{Test}},Y_{1,obs}^{\text{Test}}),(X_{2,obs}^{\text{Test}},Y_{2,obs}^{\text{Test}}),\dots,(X_{n_{\text{Test}},obs}^{\text{Test}},Y_{n_{\text{Test}},obs}^{\text{Test}})\},
 $$
-of the test data random sample is used to check the accuracy of the estimate $\hat{f}.$ 
+of the test data random sample is used to check the accuracy of the estimate $\widehat{f}.$ 
 
 ::: {.callout-important}
 In the following, we will often supress the subscript "obs", since often both points of view, the random variables points of view, and the observed realizations points of view make sense.
@@ -2150,8 +2173,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./Ch_MatrixAlgebra.html" class="pagination-link" aria-label="Matrix Algebra">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Matrix Algebra</span></span>
+      <a href="./Ch_LinearRegression.html" class="pagination-link" aria-label="Linear Regression">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Linear Regression</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

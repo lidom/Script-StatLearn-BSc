@@ -837,10 +837,10 @@ A A
 \end{pmatrix}
 \begin{pmatrix}
 4 & -1 \\ 12 & -3
-\end{pmatrix} \\
+\end{pmatrix} \\[2ex]
 &= \begin{pmatrix}
 16-12 & -4+3 \\ 48-36 & -12+9
-\end{pmatrix} \\
+\end{pmatrix} \\[2ex]
 &= \begin{pmatrix}
 4 & -1 \\ 12 & -3
 \end{pmatrix}
@@ -970,7 +970,7 @@ $\beta^{\top}$:
 ```{=tex}
 \begin{align*}
 \frac{\partial^2 f(\beta)}{\partial{\beta }\partial {\beta}^{\top}}
-    &= \frac{\partial(\partial f(\beta)/\partial \beta)}{\partial \beta^{\top}} \\
+    &= \frac{\partial(\partial f(\beta)/\partial \beta)}{\partial \beta^{\top}} \\[2ex]
     &= \Bigg[ \frac{\partial(\partial f(\beta)/\partial \beta)}{\partial \beta_1} \ \frac{\partial(\partial f(\beta)/\partial \beta)}{\partial \beta_2} \ \ldots \ \frac{\partial(\partial f(\beta)/\partial \beta)}{\partial \beta_n} \Bigg]
 \end{align*}
 ```
@@ -1121,7 +1121,7 @@ $$
 \begin{align*}
 \begin{pmatrix} b_{11} & b_{12} \\ b_{21} & b_{22} \end{pmatrix}
 &= \begin{pmatrix} p_{11} & 0 \\ p_{21} & p_{22} \end{pmatrix}
-\begin{pmatrix} p_{11} & p_{21} \\ 0 & p_{22} \end{pmatrix} \\
+\begin{pmatrix} p_{11} & p_{21} \\ 0 & p_{22} \end{pmatrix} \\[2ex]
 &= \begin{pmatrix} p_{11}^2 & p_{11} p_{21} \\ p_{11} p_{21} & p_{21}^2 + p_{22}^2 \end{pmatrix},
 \end{align*} 
 $$

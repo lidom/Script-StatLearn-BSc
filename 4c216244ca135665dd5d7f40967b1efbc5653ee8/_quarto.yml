@@ -8,7 +8,7 @@ book:
   date: last-modified
   date-format: "[Last Updated on] MMMM DD, YYYY"
   sidebar: 
-    logo: images/KU_Logo_2.png
+    logo: images/KU_Logo_Blau_M.png
     number-depth: 2
   search: true
   chapters:
@@ -16,11 +16,12 @@ book:
     - Ch_Intro2R.qmd      
     - Ch_ReviewProbStats.qmd
     - Ch_LinearRegression.qmd 
-    - Ch_MatrixAlgebra.qmd 
     - Ch_NonParamRegression.qmd #combine with Ch2_StatLearning.qmd
     - Ch5_Classification.qmd    # Comment in/out solutions of exercises
     - Ch6_Bootstrap.qmd # Comment in/out solutions of exercises
     #- Ch7_LinModSelectRegul.qmd # Comment in/out solutions of exercises
+  appendices:
+    - Ch_MatrixAlgebra.qmd
 
 bibliography: references.bib
 

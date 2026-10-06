@@ -52,7 +52,7 @@ plot(F_hat, xlim = c(0, 8), main = "",
 \begin{center}
 \begin{tabular}{c|ccccccc}
 $k$ & 1 & 2 & 3 & 4 & 5 & 6 & 7\\ \hline
-$\hat p_{X,\operatorname{obs}}(k)$ & \Sexpr{paste(fmt(tabulate(x, nbins = 7)/n, 3), collapse = " & ")}
+$\widehat p_{X,\operatorname{obs}}(k)$ & \Sexpr{paste(fmt(tabulate(x, nbins = 7)/n, 3), collapse = " & ")}
 \end{tabular}
 \end{center}
 These are exactly the jump heights of the empirical cdf.

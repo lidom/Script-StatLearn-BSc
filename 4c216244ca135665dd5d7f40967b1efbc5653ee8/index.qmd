@@ -9,7 +9,7 @@ suppressPackageStartupMessages(library("tidyverse"))
 
 timetable <- tibble("Event"   = c("Lecture",     "Break",       "Lecture/Exercise",  "Exercise"),
                     "Day"     = c("Mo.",         "Mo.",         "Mo.",               "Fr."), 
-                    "Time"    = c("10:15-11:30", "11:30-11:45", "11:45-17:15",       "09:15-10:00"),
+                    "Time"    = c("10:15-11:30", "11:30-11:45", "11:45-12:45",       "09:15-10:00"),
                     "Room"    = c("U03",         "U03",         "U03",               "Zoom"))
            
 timetable %>% kbl() %>%  kable_styling()
@@ -36,46 +36,13 @@ timetable %>% kbl() %>%  kable_styling()
 
 ### Exam {-}
 
-* Not relevant for the exam:
-   * R code that generates plots. These codes may be useful for your Bachelor thesis, however, they are not useful for the exam. 
+* R codes: 
+   * You should be able to read R code and to answer questions like: "What's the result of this code?" 
+   *  R code that generates plots are not relevant for the exam. These codes may, however, be useful for your Bachelor thesis. 
+
+
 🧌
-<!-- ### Exam {-}
 
-* Written exam (60 minutes)
-* You are allowed to use 
-    * a *handwritten* cheat-sheet (**one side** of a DIN A4 page).
-    * a non-programmable scientific calculator.
-* Please, do **not** use a pencil.
-* Exam dates and times are published by the [examinations office](https://www.econ.uni-bonn.de/examinations/en/dates/dates?set_language=en).
-* Chapters marked by "**Self-Study:**" are not relevant for the exam. 
-* First page of the exam (containing the exam instructions): [Download](https://www.dropbox.com/scl/fi/0gmogr9mw7kzkjkajfp0l/Exam_CASA_1stPage.pdf?rlkey=tmshf9y6bdmjki2mhekre9nw3&dl=0) -->
-
-
-
-
-
-<!-- ### Assignments {-}
-
-For each chapter there is a home assignment. You can use the `Open Coding Space` for asking questions and for working on your assignments. You can help each other, but everyone has to submit an own home assignment.  
-
-To participate in the assignments, you need a GitHub-Account and write your name and the name of your GitHub-Account into the following spreadsheet:</br>
-[Spreadsheet](https://docs.google.com/spreadsheets/d/15NhYz8sYSogZ23FAtZkxmVMc9b4WVtvm_typ-L2xOeQ/edit?usp=sharing)
-
-
-**Grading:** 
-
-* $1$ Point per correct assignment
-* $0.5$ Point if at least $50\%$ of the assignment is correct. 
-* $0$ Point otherwise
-
-**Bonus for the exam grade:**
-
-* Upgrade of two grade steps (e.g. from 1.7 to 1.0) if at least $80\%$ of the maximal possible assignment points were collected.  
-* Upgrade of one grade step (e.g. from 1.7 to 1.3) if less than $80\%,$ but at least $60\%$ of the maximal possible points were collected.  
-
-
-**Results:** [List of Results](https://docs.google.com/spreadsheets/d/1zBNcoepnBX3vMz6E2klOtroi0QfvwbmYFcoMdmNrx-8/edit?usp=sharing)
- -->
 
 
 

@@ -8,3 +8,13 @@ $link-color: $primary;
 img {
   max-width: 100%;
 }
+
+/*-- scss:rules --*/
+// More vertical space between list items; use via ::: {.spaced-list}
+.spaced-list li {
+  margin-bottom: 0.9em;
+}
+.spaced-list li li {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}

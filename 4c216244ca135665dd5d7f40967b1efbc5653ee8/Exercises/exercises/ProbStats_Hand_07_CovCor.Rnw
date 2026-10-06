@@ -56,7 +56,7 @@ $(Y_{i,\operatorname{obs}}-\bar Y_{\operatorname{obs}})^2$ & \Sexpr{paste(dy^2, 
 $$
 \widehat{\operatorname{Cov}}_{\operatorname{obs}}(X,Y) = \frac{1}{n-1}\sum_{i=1}^n (X_{i,\operatorname{obs}}-\bar X_{\operatorname{obs}})(Y_{i,\operatorname{obs}}-\bar Y_{\operatorname{obs}}) = \frac{\Sexpr{sum(dxy)}}{\Sexpr{n-1}} = \Sexpr{fmt(cov_xy, 2)}.
 $$
-\item With $\hat\sigma^2_{X,\operatorname{obs}} = \Sexpr{sum(dx^2)}/\Sexpr{n-1} = \Sexpr{fmt(var_x, 2)}$ and $\hat\sigma^2_{Y,\operatorname{obs}} = \Sexpr{sum(dy^2)}/\Sexpr{n-1} = \Sexpr{fmt(var_y, 2)}$:
+\item With $\widehat\sigma^2_{X,\operatorname{obs}} = \Sexpr{sum(dx^2)}/\Sexpr{n-1} = \Sexpr{fmt(var_x, 2)}$ and $\widehat\sigma^2_{Y,\operatorname{obs}} = \Sexpr{sum(dy^2)}/\Sexpr{n-1} = \Sexpr{fmt(var_y, 2)}$:
 $$
 \widehat{\operatorname{Cor}}_{\operatorname{obs}}(X,Y) = \frac{\Sexpr{fmt(cov_xy, 2)}}{\sqrt{\Sexpr{fmt(var_x, 2)}\cdot \Sexpr{fmt(var_y, 2)}}} \approx \Sexpr{fmt(cor_xy, 3)}.
 $$

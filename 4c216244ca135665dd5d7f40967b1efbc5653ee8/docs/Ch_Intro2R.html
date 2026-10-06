@@ -140,28 +140,39 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Ch_MatrixAlgebra.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Matrix Algebra</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./Ch_NonParamRegression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Nonparametric Regression and Cross-Validation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Nonparametric Regression and Cross-Validation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Ch5_Classification.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Ch6_Bootstrap.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The Bootstrap</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The Bootstrap</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch_MatrixAlgebra.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Matrix Algebra</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -182,7 +193,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-intro2R" class="quarto-section-identifier"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to <code>R</code></span></span></h1>
+<h1 class="title"><span id="sec-intro2R" class="quarto-section-identifier"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to R</span></span></h1>
 </div>
 
 
@@ -200,7 +211,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 <!-- LTeX: language=en-US -->
-<p>Throughout this script we use the free software <code>R</code> for data analysis, simulation and plotting. The introduction to <code>R</code> is now a separate online book, which I also use in other courses:</p>
+<p>Throughout this script we use the free software R for data analysis, simulation and plotting. The introduction to R is now a separate online book, which I also use in other courses:</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -223,15 +234,15 @@ ul.task-list li input[type="checkbox"] {
 <li><a href="https://www.dliebl.com/Script-Coding-Intros/R-02-Datasets.html">Create and load data sets</a></li>
 <li><a href="https://www.dliebl.com/Script-Coding-Intros/R-03-Programming.html">Simple programming</a></li>
 <li><a href="https://www.dliebl.com/Script-Coding-Intros/R-04-Functions.html">Functions</a></li>
-<li><a href="https://www.dliebl.com/Script-Coding-Intros/R-05-Plotting.html">Plotting in R</a></li>
+<li><a href="https://www.dliebl.com/Script-Coding-Intros/R-05-Plotting.html">Plotting in R</a> (Not relevant for the exam, but important for writing your thesis.)</li>
 <li><a href="https://www.dliebl.com/Script-Coding-Intros/R-06-Monte-Carlo-Simulations.html">Monte Carlo simulations</a></li>
 <li><a href="https://www.dliebl.com/Script-Coding-Intros/R-07-Regression.html">Regression analysis</a></li>
 </ol>
-<p>The chapter <a href="https://www.dliebl.com/Script-Coding-Intros/R-08-Notes-on-useful-packages.html">Some notes on useful packages</a> is optional. In this script, we use base <code>R</code> for computations and plots.</p>
+<p>The chapter <a href="https://www.dliebl.com/Script-Coding-Intros/R-08-Notes-on-useful-packages.html">Some notes on useful packages</a> is only optional. In this script, we use base R for computations and plots.</p>
 </section>
 <section id="self-check" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="self-check"><span class="header-section-number">1.2</span> Self-Check</h2>
-<p>You are well prepared for <a href="Ch_ReviewProbStats.html" class="quarto-xref"><span>Chapter 2</span></a> if you can do the following in <code>R</code>:</p>
+<p>You are well prepared for the following chapters if you can do the following in R:</p>
 <ul>
 <li>create vectors and data frames, and select elements, e.g., <code>x[2]</code>, <code>x[x &gt; 0]</code>, <code>data$column</code>,</li>
 <li>read a data set from a <code>.csv</code> file with <code>read.csv()</code>,</li>

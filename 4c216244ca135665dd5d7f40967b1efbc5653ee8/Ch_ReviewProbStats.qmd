@@ -324,11 +324,11 @@ In practice, the true functional form of a density $f_X$ which generates the dat
 
 Given a sample of observations 
 $$
-X_{1,\text{obs}}, \ldots, X_{n,\text{obs}},
+X_{1,\operatorname{obs}}, \ldots, X_{n,\operatorname{obs}},
 $$ 
 and 
 $$
-Y_{1,\text{obs}}, \ldots, Y_{n,\text{obs}},
+Y_{1,\operatorname{obs}}, \ldots, Y_{n,\operatorname{obs}},
 $$ 
 we can estimate the underlying densities $f_X$ and $f_Y$ without assuming specific functional forms. Two standard estimators are:
 
@@ -351,7 +351,7 @@ Both of these (non-parametric) estimators converge to the true $f_X(x)$ and $f_Y
 
 @fig-hairlength-hist shows the estimation results based on the observed hair-length data
 $$
-X_{1,\text{obs}}, \ldots, X_{n,\text{obs}}
+X_{1,\operatorname{obs}}, \ldots, X_{n,\operatorname{obs}}
 $$ 
 together with the true **usually unknown** density $f_X$.
 
@@ -397,7 +397,7 @@ legend("top",
 
 @fig-jumpheight-hist shows the estimation results based on the observed jump-height data
 $$
-Y_{1,\text{obs}}, \ldots, Y_{n,\text{obs}}
+Y_{1,\operatorname{obs}}, \ldots, Y_{n,\operatorname{obs}}
 $$ 
 together with the true **usually unknown** density $f_Y$.
 
@@ -538,9 +538,9 @@ W_{1,\operatorname{obs}}, \ldots, W_{n,\operatorname{obs}},
 $$ 
 we estimate the values of the pmf $p_W(w_k)$ using **relative frequencies**:
 \begin{align*}
-\hat{p}_{W,\operatorname{obs}}(w_k) 
-&= \frac{\text{number of observations equal to } w_k}{n}\\
-&= \frac{1}{n}\sum_{i=1}^n\mathbf{1}(W_{i,\text{obs}} = w_k)\quad\text{for all}\quad k = 1, 2, \ldots,
+\widehat{p}_{W,\operatorname{obs}}(w_k) 
+&= \frac{\text{number of observations equal to } w_k}{n}\\[2ex]
+&= \frac{1}{n}\sum_{i=1}^n\mathbf{1}(W_{i,\operatorname{obs}} = w_k)\quad\text{for all}\quad k = 1, 2, \ldots,
 \end{align*}
 where $\mathbf{1}(\texttt{TRUE})=1$ and $\mathbf{1}(\texttt{FALSE})=0$ is the indicator function. 
 
@@ -553,7 +553,7 @@ Let's say a third variable was recorded alongside hair length and jump height: a
 
 @tbl-gender-data shows the first six values of the observed gender variable data
 $$
-G_{1,\text{obs}},\dots,G_{n,\text{obs}}
+G_{1,\operatorname{obs}},\dots,G_{n,\operatorname{obs}}
 $$
 
 ```{r}
@@ -573,9 +573,9 @@ Since $G_i$ takes only two values $\{\texttt{male},\texttt{female}\},$ it is a *
 
 @fig-gender-pmf shows the estimation results
 \begin{align*}
-\hat{p}_{G,\operatorname{obs}}(\texttt{male})
+\widehat{p}_{G,\operatorname{obs}}(\texttt{male})
 &= \frac{\text{number of observations equal to } \texttt{male}}{n}\\[4pt]
-&= \frac{1}{n}\sum_{i=1}^n\mathbf{1}(G_{i,\text{obs}} = \texttt{male})\\[4pt]
+&= \frac{1}{n}\sum_{i=1}^n\mathbf{1}(G_{i,\operatorname{obs}} = \texttt{male})\\[4pt]
 &= \texttt{sum(gender == "male") / length(gender)}\\[4pt]
 &= `r round(sum(jumptest_data$gender == "male") / length(jumptest_data$gender), 2)`
 \end{align*}
@@ -583,9 +583,9 @@ Since $G_i$ takes only two values $\{\texttt{male},\texttt{female}\},$ it is a *
 and
 
 \begin{align*}
-\hat{p}_{G,\operatorname{obs}}(\texttt{female})
+\widehat{p}_{G,\operatorname{obs}}(\texttt{female})
 &= \frac{\text{number of observations equal to } \texttt{female}}{n}\\[4pt]
-&= \frac{1}{n}\sum_{i=1}^n\mathbf{1}(G_{i,\text{obs}} = \texttt{female})\\[4pt]
+&= \frac{1}{n}\sum_{i=1}^n\mathbf{1}(G_{i,\operatorname{obs}} = \texttt{female})\\[4pt]
 &= \texttt{sum(gender == "female") / length(gender)}\\[4pt]
 &= `r round(sum(jumptest_data$gender == "female") / length(jumptest_data$gender), 2)`
 \end{align*}
@@ -598,7 +598,7 @@ $$
 ```{r}
 #| label: fig-gender-pmf
 #| echo: false
-#| fig-cap: "Estimated probability mass function values $\\hat{p}_{G,\\operatorname{obs}}(\\texttt{male})$ and $\\hat{p}_{G,\\operatorname{obs}}(\\texttt{female})$ (purple bars). The dashed black line is the true pmf $p_G(\\texttt{male}) = p_G(\\texttt{female}) = 0.5$."
+#| fig-cap: "Estimated probability mass function values $\\widehat{p}_{G,\\operatorname{obs}}(\\texttt{male})$ and $\\widehat{p}_{G,\\operatorname{obs}}(\\texttt{female})$ (purple bars). The dashed black line is the true pmf $p_G(\\texttt{male}) = p_G(\\texttt{female}) = 0.5$."
 
 gender_probs <- as.numeric(table(jumptest_data$gender)) / length(jumptest_data$gender)
 
@@ -676,7 +676,7 @@ In practice, the true cdf is **(typically) unknown**. Given the observed values,
 
 \begin{align*}
 \widehat{F}_{X,\operatorname{obs}}(x) 
-& = \frac{\text{number of observations equal to or smaller than $x$}}{n}\\
+& = \frac{\text{number of observations equal to or smaller than $x$}}{n}\\[2ex]
 & = \frac{1}{n} \sum_{i=1}^{n} \mathbf{1}(X_{i,\operatorname{obs}} \leq x),
 \end{align*}
 where $\mathbf{1}(\texttt{TRUE})=1$ and $\mathbf{1}(\texttt{FALSE})=0$ is the indicator function. 
@@ -695,7 +695,7 @@ $$
 $$ 
 based on the observed hair-length data
 $$
-X_{1,\text{obs}}, \ldots, X_{n,\text{obs}}
+X_{1,\operatorname{obs}}, \ldots, X_{n,\operatorname{obs}}
 $$ 
 together with the true **usually unknown** cdf $F_X$.
 
@@ -726,7 +726,7 @@ $$
 $$ 
 based on the observed jump-height data
 $$
-Y_{1,\text{obs}}, \ldots, Y_{n,\text{obs}}
+Y_{1,\operatorname{obs}}, \ldots, Y_{n,\operatorname{obs}}
 $$ 
 together with the true **usually unknown** cdf $F_Y$.
 
@@ -805,9 +805,9 @@ $$
 is
 \begin{align*}
 E(D) 
-& = 1 \cdot  \frac{1}{6} +  2 \cdot\frac{1}{6} + 3\cdot\frac{1}{6} + 4 \cdot\frac{1}{6} + 5 \cdot\frac{1}{6}+ 6 \cdot\frac{1}{6}\\
-& = \frac{1}{6}\cdot(1+2+3+4+5+6)\\
-& = \frac{1}{6} \cdot \sum_{k=1}^6 k \\
+& = 1 \cdot  \frac{1}{6} +  2 \cdot\frac{1}{6} + 3\cdot\frac{1}{6} + 4 \cdot\frac{1}{6} + 5 \cdot\frac{1}{6}+ 6 \cdot\frac{1}{6}\\[2ex]
+& = \frac{1}{6}\cdot(1+2+3+4+5+6)\\[2ex]
+& = \frac{1}{6} \cdot \sum_{k=1}^6 k \\[2ex]
 & = \frac{1}{6} \cdot \frac{6\cdot(6+1)}{2} = 3.5
 \end{align*}
 where $\sum_{k=1}^6 k = \frac{6\cdot(6+1)}{2}$ follows from the [Gaussian summation formula](https://de.wikipedia.org/wiki/Gau%C3%9Fsche_Summenformel).
@@ -832,7 +832,7 @@ In practice, the true density $f_X$ and the true pmf $p_W$ are typically unknown
 
 Given observed realizations of a continuous random variable
 $$
-X_{1,\text{obs}},\dots,X_{n,\text{obs}}
+X_{1,\operatorname{obs}},\dots,X_{n,\operatorname{obs}}
 $$
 we can estimate $E(X)$ by 
 $$
@@ -840,12 +840,12 @@ $$
 $$
 Alternative notations: 
 $$
-\bar{X}_{\operatorname{obs}} = \hat{\mu}_{X,\operatorname{obs}} = \widehat{E}_{\operatorname{obs}}(X)
+\bar{X}_{\operatorname{obs}} = \widehat{\mu}_{X,\operatorname{obs}} = \widehat{E}_{\operatorname{obs}}(X)
 $$
 
 Given observed realizations of a discrete random variable
 $$
-W_{1,\text{obs}},\dots,W_{n,\text{obs}}
+W_{1,\operatorname{obs}},\dots,W_{n,\operatorname{obs}}
 $$
 we can estimate $E(W)$ by 
 $$
@@ -853,7 +853,7 @@ $$
 $$
 Alternative notations: 
 $$
-\bar{W}_{\operatorname{obs}} = \hat{\mu}_{W,\operatorname{obs}} = \widehat{E}_{\operatorname{obs}}(W)
+\bar{W}_{\operatorname{obs}} = \widehat{\mu}_{W,\operatorname{obs}} = \widehat{E}_{\operatorname{obs}}(W)
 $$
 
 ❗ Estimating the mean of a discrete random variable 
@@ -914,7 +914,7 @@ The **variance** of a continuous random variable $X$ with density $f_X$ is the e
 
 \begin{align*}
 \sigma_X^2 = \text{Var}(X)
-&= E\!\left[(X - \mu_X)^2\right]\\
+&= E\!\left[(X - \mu_X)^2\right]\\[2ex]
 &= \int_{-\infty}^{\infty} (x - \mu_X)^2\, f_X(x)\, dx.
 \end{align*}
 
@@ -932,16 +932,16 @@ For a discrete random variable $W$ with possible values $w_1, w_2, \ldots$ and p
 
 \begin{align*}
 \sigma_W^2 = \text{Var}(W)
-&= E\!\left[(W - \mu_W)^2\right]\\
+&= E\!\left[(W - \mu_W)^2\right]\\[2ex]
 &= \sum_{k=1,2,\dots} (w_k - \mu_W)^2\, p_W(w_k).
 \end{align*}
 
 **Example:** The variance when rolling a fair die $D \in \{1,2,3,4,5,6\}$, where $E(D) = 3.5$, is
 \begin{align*}
 \text{Var}(D)
-&= (1-3.5)^2\cdot\tfrac{1}{6} + (2-3.5)^2\cdot\tfrac{1}{6} + (3-3.5)^2\cdot\tfrac{1}{6}\\
+&= (1-3.5)^2\cdot\tfrac{1}{6} + (2-3.5)^2\cdot\tfrac{1}{6} + (3-3.5)^2\cdot\tfrac{1}{6}\\[2ex]
 &\phantom{=} + (4-3.5)^2\cdot\tfrac{1}{6} + (5-3.5)^2\cdot\tfrac{1}{6} + (6-3.5)^2\cdot\tfrac{1}{6}\\[2ex]
-&= \frac{1}{6}\cdot\big[(1-3.5)^2 + (2-3.5)^2 + (3-3.5)^2 \\
+&= \frac{1}{6}\cdot\big[(1-3.5)^2 + (2-3.5)^2 + (3-3.5)^2 \\[2ex]
 &\phantom{\frac{1}{6}\cdot} + (4-3.5)^2 + (5-3.5)^2 + (6-3.5)^2\big]\\[2ex]
 &= \frac{1}{6}\cdot\left[\frac{25}{4} + \frac{9}{4} + \frac{1}{4} + \frac{1}{4} + \frac{9}{4} + \frac{25}{4}\right]\\[2ex]
 &= \frac{1}{6}\cdot\frac{25+9+1+1+9+25}{4}\\[2ex]
@@ -974,11 +974,11 @@ X_{1,\operatorname{obs}}, \ldots, X_{n,\operatorname{obs}},
 $$
 we estimate $\text{Var}(X)$ by the **sample variance**
 $$
-\hat{\sigma}^2_{X,\operatorname{obs}} = \widehat{\text{Var}}_{\operatorname{obs}}(X) = \frac{1}{n-1}\sum_{i=1}^n \bigl(X_{i,\operatorname{obs}} - \bar{X}_{\operatorname{obs}}\bigr)^2,
+\widehat{\sigma}^2_{X,\operatorname{obs}} = \widehat{\text{Var}}_{\operatorname{obs}}(X) = \frac{1}{n-1}\sum_{i=1}^n \bigl(X_{i,\operatorname{obs}} - \bar{X}_{\operatorname{obs}}\bigr)^2,
 $$
 and $\text{SD}(X)$ by the **sample standard deviation**
 $$
-\hat{\sigma}_{X,\operatorname{obs}} = \sqrt{\hat{\sigma}^2_{X,\operatorname{obs}}}.
+\widehat{\sigma}_{X,\operatorname{obs}} = \sqrt{\widehat{\sigma}^2_{X,\operatorname{obs}}}.
 $$
 The divisor $n-1$ rather than $n$ corrects for the fact that $\bar{X}_{\operatorname{obs}}$ is itself estimated from the same data.
 
@@ -986,10 +986,10 @@ The divisor $n-1$ rather than $n$ corrects for the fact that $\bar{X}_{\operator
 
 In R, `var()` computes the sample variance and `sd()` computes the sample standard deviation:
 
-* $\hat\sigma_{X,\operatorname{obs}}^2=$ `var(jumptest_data$hairlength)` $=$ `r round(var(jumptest_data$hairlength),1)`
-* $\hat\sigma_{X,\operatorname{obs}}=$ `sd(jumptest_data$hairlength)` $=$ `r round(sd(jumptest_data$hairlength),1)`
-* $\hat\sigma_{Y,\operatorname{obs}}^2=$ `var(jumptest_data$jumpheight)` $=$ `r round(var(jumptest_data$jumpheight),1)`
-* $\hat\sigma_{Y,\operatorname{obs}}=$ `sd(jumptest_data$jumpheight)` $=$ `r round(sd(jumptest_data$jumpheight),1)`
+* $\widehat\sigma_{X,\operatorname{obs}}^2=$ `var(jumptest_data$hairlength)` $=$ `r round(var(jumptest_data$hairlength),1)`
+* $\widehat\sigma_{X,\operatorname{obs}}=$ `sd(jumptest_data$hairlength)` $=$ `r round(sd(jumptest_data$hairlength),1)`
+* $\widehat\sigma_{Y,\operatorname{obs}}^2=$ `var(jumptest_data$jumpheight)` $=$ `r round(var(jumptest_data$jumpheight),1)`
+* $\widehat\sigma_{Y,\operatorname{obs}}=$ `sd(jumptest_data$jumpheight)` $=$ `r round(sd(jumptest_data$jumpheight),1)`
 
 Since we generated the data ourselves, we also know the true population variances and standard deviations (usually unknown in practice):
 
@@ -1119,8 +1119,8 @@ If large values of $X$ tend to go with large values of $Y$, the covariance is po
 Note that the covariance of $X$ with itself is just the variance of $X\colon$
 \begin{align*}
 \text{Cov}(X, X) 
-&= E\!\left[(X - E(X))(X - E(X))\right]\\ 
-&= E\!\left[(X - E(X))^2\right]\\
+&= E\!\left[(X - E(X))(X - E(X))\right]\\[2ex] 
+&= E\!\left[(X - E(X))^2\right]\\[2ex]
 &=\text{Var}(X).
 \end{align*}
 The covariance is symmetric:
@@ -1170,9 +1170,9 @@ $$
 
 $$
 \widehat{\text{Cor}}_{\operatorname{obs}}(X, Y)
-= \frac{\widehat{\text{Cov}}_{\operatorname{obs}}(X, Y)}{\sqrt{\hat{\sigma}^2_{X,\operatorname{obs}}\, \hat{\sigma}^2_{Y,\operatorname{obs}}}},
+= \frac{\widehat{\text{Cov}}_{\operatorname{obs}}(X, Y)}{\sqrt{\widehat{\sigma}^2_{X,\operatorname{obs}}\, \widehat{\sigma}^2_{Y,\operatorname{obs}}}},
 $$
-where $\hat{\sigma}^2_{X,\operatorname{obs}}$ and $\hat{\sigma}^2_{Y,\operatorname{obs}}$ are the sample variances of $X$ and $Y$, respectively. 
+where $\widehat{\sigma}^2_{X,\operatorname{obs}}$ and $\widehat{\sigma}^2_{Y,\operatorname{obs}}$ are the sample variances of $X$ and $Y$, respectively. 
 
 
 In R, `cov()` and `cor()` can be used to compute the empirical (i.e., data-based) estimates $\widehat{\text{Cov}}_{\operatorname{obs}}(X,Y)$ and $\widehat{\text{Cor}}_{\operatorname{obs}}(X,Y)$:
@@ -1324,18 +1324,18 @@ Typically, we do not know the covariance matrix, and thus also not the correlati
 
 Let us denote the observed hair length data by
 $$
-X_{i,1,\text{obs}}\quad i=1,2,\dots
+X_{i,1,\operatorname{obs}}\quad i=1,2,\dots
 $$
 and the observed gender data by 
 $$
-X_{i,2,\text{obs}}\quad i=1,2,\dots,
+X_{i,2,\operatorname{obs}}\quad i=1,2,\dots,
 $$
 where 
 $$
-X_{i,2,\text{obs}} = 0\quad\text{if person $i$ is male}
+X_{i,2,\operatorname{obs}} = 0\quad\text{if person $i$ is male}
 $$
 $$
-X_{i,2,\text{obs}} = 1\quad\text{if person $i$ is female}
+X_{i,2,\operatorname{obs}} = 1\quad\text{if person $i$ is female}
 $$
 
 ```{r}
@@ -1490,7 +1490,7 @@ The three estimated conditional means fall roughly on a line. This visual observ
 
 \begin{align*}
 E(Y_i \mid X_i = x) 
-& = m(x)\\ 
+& = m(x)\\[2ex] 
 &= \beta_1 + \beta_2 x.
 \end{align*}
 
@@ -1590,37 +1590,37 @@ $$
 Z = \frac{X - \mu}{\sigma} \sim \mathcal{N}(0, 1).
 $$
 
-#### Estimating the Normal Parameters from Data {-}
+#### **Estimating the Normal Parameters from Data** {-}
 
 Assuming normality means we assume $X \sim \mathcal{N}(\mu, \sigma^2)$. The distribution is then fully characterized by two **unknown parameters**, $\mu$ and $\sigma^2$, which we estimate from the observed values $X_{1,\operatorname{obs}}, \ldots, X_{n,\operatorname{obs}}$:
 
 $$
-\hat{\mu}_{\operatorname{obs}} = \bar{X}_{\operatorname{obs}} = \frac{1}{n}\sum_{i=1}^n X_{i,\operatorname{obs}}
+\widehat{\mu}_{\operatorname{obs}} = \bar{X}_{\operatorname{obs}} = \frac{1}{n}\sum_{i=1}^n X_{i,\operatorname{obs}}
 $$
 $$
-\hat{\sigma}^2_{\operatorname{obs}} = s_{\operatorname{obs}}^2 = \frac{1}{n-1}\sum_{i=1}^n
+\widehat{\sigma}^2_{\operatorname{obs}} = s_{\operatorname{obs}}^2 = \frac{1}{n-1}\sum_{i=1}^n
   (X_{i,\operatorname{obs}} - \bar{X}_{\operatorname{obs}})^2.
 $$
 
-In R, `mean()` computes $\hat{\mu}_{\operatorname{obs}}$ and `var()` computes $\hat{\sigma}^2_{\operatorname{obs}}.$
+In R, `mean()` computes $\widehat{\mu}_{\operatorname{obs}}$ and `var()` computes $\widehat{\sigma}^2_{\operatorname{obs}}.$
 
-Substituting $\hat{\mu}_{\operatorname{obs}}$ and $\hat{\sigma}_{\operatorname{obs}}$ into the normal density formula gives the **fitted normal density estimator**
+Substituting $\widehat{\mu}_{\operatorname{obs}}$ and $\widehat{\sigma}_{\operatorname{obs}}$ into the normal density formula gives the **fitted normal density estimator**
 
 $$
-\hat{f}_{X,\operatorname{obs}}^{\operatorname{norm}}(x)
-= \frac{1}{\hat{\sigma}_{\operatorname{obs}}\sqrt{2\pi}}
-  \exp\!\left\{-\frac{(x - \hat{\mu}_{\operatorname{obs}})^2}{2\hat{\sigma}^2_{\operatorname{obs}}}\right\}.
+\widehat{f}_{X,\operatorname{obs}}^{\operatorname{norm}}(x)
+= \frac{1}{\widehat{\sigma}_{\operatorname{obs}}\sqrt{2\pi}}
+  \exp\!\left\{-\frac{(x - \widehat{\mu}_{\operatorname{obs}})^2}{2\widehat{\sigma}^2_{\operatorname{obs}}}\right\}.
 $$
 
 This is a **parametric** approach: it assumes a specific functional form (the bell curve) and only estimates the two free parameters $\mu$ and $\sigma.$ 
 
-The non-parametric estimators $\hat{f}_{X,\operatorname{obs}}^{\operatorname{hist}}$ and $\hat{f}_{X,\operatorname{obs}}^{\operatorname{kernel}}$ from @sec-pdf make no such functional form assumption. The trade-off is flexibility versus efficiency: parametric estimates use fewer degrees of freedom and can be (much) more precise — but only if the assumed distribution is correct.
+The non-parametric estimators $\widehat{f}_{X,\operatorname{obs}}^{\operatorname{hist}}$ and $\widehat{f}_{X,\operatorname{obs}}^{\operatorname{kernel}}$ from @sec-pdf make no such functional form assumption. The trade-off is flexibility versus efficiency: parametric estimates use fewer degrees of freedom and can be (much) more precise — but only if the assumed distribution is correct.
 
-@fig-hairlength-normal overlays $\hat{f}_{X,\operatorname{obs}}^{\operatorname{norm}}$ on the histogram of hair lengths. The bell curve does **not** fit well: the two peaks (one for short-haired, one for long-haired students) are a feature a single normal distribution cannot capture. This is a reminder that distributional assumptions should always be checked against the data.
+@fig-hairlength-normal overlays $\widehat{f}_{X,\operatorname{obs}}^{\operatorname{norm}}$ on the histogram of hair lengths. The bell curve does **not** fit well: the two peaks (one for short-haired, one for long-haired students) are a feature a single normal distribution cannot capture. This is a reminder that distributional assumptions should always be checked against the data.
 
 ```{r}
 #| label: fig-hairlength-normal
-#| fig-cap: "Histogram of hair lengths with the fitted normal density $\\hat{f}_{X,\\operatorname{obs}}^{\\operatorname{norm}}$ (dashed red) and the true mixture density $f_X(x)$ (solid black). The normal fit misses both peaks because the true distribution is a 50/50 mixture of two normal components — a reminder that distributional assumptions should always be checked."
+#| fig-cap: "Histogram of hair lengths with the fitted normal density $\\widehat{f}_{X,\\operatorname{obs}}^{\\operatorname{norm}}$ (dashed red) and the true mixture density $f_X(x)$ (solid black). The normal fit misses both peaks because the true distribution is a 50/50 mixture of two normal components — a reminder that distributional assumptions should always be checked."
 
 mu_hat  <- mean(jumptest_data$hairlength)
 sig_hat <- sd(jumptest_data$hairlength)
@@ -1696,9 +1696,9 @@ legend("topright",
 The chi-squared distribution arises naturally in regression analysis when testing hypotheses about model coefficients. We will encounter it in @sec-multipleLR-inference.
 
 
-### The F-Distribution {#sec-fdistrib}
+### The $F$-Distribution {#sec-fdistrib}
 
-The **F-distribution** with numerator degrees of freedom $\nu_1$ and denominator degrees of freedom $\nu_2$, written $V \sim F_{\nu_1,\nu_2}$, is the distribution of the ratio of two independent chi-squared random variables, each divided by its degrees of freedom:
+The **$F$-distribution** with numerator degrees of freedom $\nu_1$ and denominator degrees of freedom $\nu_2$, written $V \sim F_{\nu_1,\nu_2}$, is the distribution of the ratio of two independent chi-squared random variables, each divided by its degrees of freedom:
 
 $$
 V = \frac{W_1/\nu_1}{W_2/\nu_2} \sim F_{\nu_1,\nu_2},
@@ -1750,8 +1750,8 @@ Y_i = \beta_1 + \beta_2 X_i + \varepsilon_i,
 $$
 where 
 
-* $Y_i$ is called the outcome or dependent variable
-* $X_i$ is called the predictor or regressor variable
+* $Y_i$ is called the **outcome (or dependent) variable**
+* $X_i$ is called the **predictor (or independent) variable**
 * $\varepsilon_i$ is a statistical "error" term that captures everything in $Y_i$ that is not explained by $\beta_1 + \beta_2 X_i.$ </br>Typically, we assume (hopefully it's true) that $E(\varepsilon_i|X_i)=0.$
 
 Moreover, often we assume an **independent and identically distributed (i.i.d.) sampling:** That is, we assume: 
@@ -1803,7 +1803,7 @@ In parametric regression analysis, we want to estimate the unknown parameters
 
 based on one observed realization 
 $$
-(Y_{1,\text{obs}}, X_{1,\text{obs}}), \ldots, (Y_{n,\text{obs}}, X_{n,\text{obs}})
+(Y_{1,\operatorname{obs}}, X_{1,\operatorname{obs}}), \ldots, (Y_{n,\operatorname{obs}}, X_{n,\operatorname{obs}})
 $$
 of the **(i.i.d.) random sample**
 $$
@@ -1898,13 +1898,13 @@ A collection of random variable pairs $(Y_1, X_1), (Y_2, X_2), \ldots, (Y_n, X_n
 The i.i.d. assumption is the default in cross-sectional studies, where we observe a large number of units (people, firms, countries) at a single point in time. It underpins the statistical properties of the OLS estimator that we derive in the next chapter.
 
 ::: {.callout-warning}
-## Association Is Not Causation
+## Correlation Is Not Causation
 
-The slope $\beta_2 \approx -1.75$ in our DGP says that students who differ by 1 cm in hair length differ, on average, by $-1.75$ cm in jump height. But this is a **statistical association**, not a **causal** claim. Cutting your hair will not improve your jump height.
+The slope $\beta_2 \approx -1.75$ in our DGP says that students who differ by 1 cm in hair length differ, on average, by $-1.75$ cm in jump height. But this is a **statistical correlation**, not a **causal** claim. Cutting your hair will not improve your jump height.
 
-The association in the data is almost entirely driven by an unobserved variable — **gender** — that affects (not causes) both hair length and physical strength. Statisticians call this **confounding**: a third variable that influences both $X$ and $Y$, creating a spurious correlation between them.
+The correlation in the data is almost entirely driven by an unobserved variable — **gender** or more precisely **testosterone level** — that correlates with *both* hair length and physical strength. Statisticians call this **confounding**: a third variable that influences both $X$ and $Y$, creating a spurious correlation between them.
 
-This distinction — association versus causation — is one of the central themes of the next chapter. After introducing OLS and showing how to estimate and interpret $\hat\beta_2$, @sec-whatdoesbeta asks what $\hat\beta_2$ really tells us. The short answer is: it estimates a conditional association, which may or may not reflect a causal effect.
+This distinction — correlation versus causation — is one of the central themes of the next chapter. After introducing OLS and showing how to estimate and interpret $\widehat\beta_2$, @sec-whatdoesbeta asks what $\widehat\beta_2$ really tells us. The short answer is: it estimates a statistical covariance, which may or may not reflect a causal effect.
 :::
 
 
@@ -1938,7 +1938,7 @@ Everything we observe is an **estimate** of something **usually unknown**:
 | Usually unknown truth | Estimate from data |
 |---|---|
 | $f_X(x)$, $p_G(g)$, $F_X(x)$ | histogram / kernel density estimate, relative frequencies, empirical cdf |
-| $E(X)$, $\text{Var}(X)$ | $\bar{X}_{\operatorname{obs}}$, $\hat{\sigma}^2_{X,\operatorname{obs}}$ |
+| $E(X)$, $\text{Var}(X)$ | $\bar{X}_{\operatorname{obs}}$, $\widehat{\sigma}^2_{X,\operatorname{obs}}$ |
 | $\text{Cov}(X,Y)$, $\text{Cor}(X,Y)$ | $\widehat{\text{Cov}}_{\operatorname{obs}}(X,Y)$, $\widehat{\text{Cor}}_{\operatorname{obs}}(X,Y)$ |
 | $E(Y \mid X = x) = \beta_1 + \beta_2 x$ | ⟵ this is what @sec-linearRegCh is about |
 
@@ -1948,4 +1948,4 @@ The estimates in the right column are computed from *one* data set. Had we measu
 In the next chapter we take the last row of that table seriously: we assume the linear DGP, estimate $\beta_1$ and $\beta_2$ by **ordinary least squares**, and ask how precise those estimates are — and what they do, and do not, tell us about cause and effect.
 
 
-## References {-}
+## Exercises {-}
