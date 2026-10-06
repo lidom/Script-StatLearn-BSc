@@ -1263,7 +1263,7 @@ The above variance (@eq-var-beta2) and standard error formulas
 and their estimators (see @eq-SE-beta2)
 \begin{align*}
 \widehat{\operatorname{Var}}(\widehat\beta_2\mid X) 
-= & \sqrt{\frac{\widehat\sigma^2}{\displaystyle\sum_{i=1}^{n}(X_i - \bar X)^2}}\\[2ex]
+= & \frac{\widehat\sigma^2}{\displaystyle\sum_{i=1}^{n}(X_i - \bar X)^2}\\[2ex]
 \widehat{\operatorname{SE}}(\widehat\beta_2\mid X)
 = & \sqrt{\widehat{\operatorname{Var}}(\widehat\beta_2\mid X)}
 \end{align*}
@@ -1308,6 +1308,27 @@ According to @Long_Ervin_2000, HC3 has the best
 finite-sample performance. 
 
 
+The R packages `sandwich` and `lmtest` compute robust variance and standard error estimates for us:
+
+```{r}
+suppressPackageStartupMessages(library("sandwich"))
+suppressPackageStartupMessages(library("lmtest"))
+
+## HC3 heteroskedasticity-robust standard error
+coeftest(lm_simple, vcov = vcovHC(lm_simple, type = "HC3"))
+```
+
+::: {.callout-note appearance="simple"}
+In applied work, **always report HC3 robust standard errors**. The
+coefficient estimates $\widehat\beta_1, \widehat\beta_2$ are unchanged;
+only standard errors, $t$-statistics, and confidence intervals are
+affected. The same idea applies, essentially unchanged, to multiple
+regression; see @sec-robustSE.
+:::
+
+
+::: {.callout-caution appearance="simple"}
+## Consequences of the Wrong Choice
 
 Using the homoskedastic variance formula @eq-var-beta2 although the errors
 are heteroskedastic leads to
@@ -1331,27 +1352,9 @@ least approximately, for large $n$)
 The price is a **loss of precision:** robust standard errors are estimated
 less precisely than the usual ones based on @eq-var-beta2, which matters
 mainly in small samples (smallish $n$).
-
-
-
-
-The R packages `sandwich` and `lmtest` compute robust variance and standard error estimates for us:
-
-```{r}
-suppressPackageStartupMessages(library("sandwich"))
-suppressPackageStartupMessages(library("lmtest"))
-
-## HC3 heteroskedasticity-robust standard error
-coeftest(lm_simple, vcov = vcovHC(lm_simple, type = "HC3"))
-```
-
-::: {.callout-note appearance="simple"}
-In applied work, **always report HC3 robust standard errors**. The
-coefficient estimates $\widehat\beta_1, \widehat\beta_2$ are unchanged;
-only standard errors, $t$-statistics, and confidence intervals are
-affected. The same idea applies, essentially unchanged, to multiple
-regression; see @sec-robustSE.
 :::
+
+
 
 
 ## Multiple Linear Regression {#sec-multipleLinReg}
