@@ -102,7 +102,7 @@ Y_i
 &= \beta_0+ \beta_1 X_{i1}+\dots +\beta_p X_{ip} + \epsilon_i, 
 \end{align*}
 $$
-where, under the assumptions of @sec-linearRegCh, 
+where, under the assumptions of @sec-multipleLinRegCh,
 $$
 E(\epsilon_i|X_i)=0.
 $$

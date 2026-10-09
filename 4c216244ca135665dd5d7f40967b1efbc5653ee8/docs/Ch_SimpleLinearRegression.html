@@ -1,0 +1,2119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>3&nbsp; Simple Linear Regression – Statistical Learning for Business and Economics (B.Sc.)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./Ch_MultipleLinearRegression.html" rel="next">
+<link href="./Ch_ReviewProbStats.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><script src="site_libs/kePrint-0.0.1/kePrint.js"></script><link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+</head>
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Ch_SimpleLinearRegression.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Simple Linear Regression</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./images/KU_Logo_Blau_M.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistical Learning for Business and Economics (B.Sc.)</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Organization of the Course</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch_Intro2R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to R</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch_ReviewProbStats.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Review of Probability and Statistics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch_SimpleLinearRegression.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Simple Linear Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch_MultipleLinearRegression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Multiple Linear Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch_ExtendingLinearRegression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Extending and Evaluating the Linear Model</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch_NonParamRegression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Nonparametric Regression and Cross-Validation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch5_Classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch6_Bootstrap.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The Bootstrap</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch_MatrixAlgebra.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Matrix Algebra</span></span></a>
+  </div>
+</li>
+      </ul>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+<li><a href="#sec-motivation" id="toc-sec-motivation" class="nav-link active" data-scroll-target="#sec-motivation"><span class="header-section-number">3.1</span> Motivation: Does Education Increase Wages?</a></li>
+  <li>
+<a href="#sec-simpleLinReg" id="toc-sec-simpleLinReg" class="nav-link" data-scroll-target="#sec-simpleLinReg"><span class="header-section-number">3.2</span> Simple Linear Regression</a>
+  <ul class="collapse">
+<li><a href="#sec-simpleLR-model" id="toc-sec-simpleLR-model" class="nav-link" data-scroll-target="#sec-simpleLR-model"><span class="header-section-number">3.2.1</span> The Model</a></li>
+  <li><a href="#sec-OLS-simple" id="toc-sec-OLS-simple" class="nav-link" data-scroll-target="#sec-OLS-simple"><span class="header-section-number">3.2.2</span> OLS Estimation</a></li>
+  <li><a href="#sec-simpleLR-assumptions" id="toc-sec-simpleLR-assumptions" class="nav-link" data-scroll-target="#sec-simpleLR-assumptions"><span class="header-section-number">3.2.3</span> Assumptions</a></li>
+  <li><a href="#sec-simpleLR-props" id="toc-sec-simpleLR-props" class="nav-link" data-scroll-target="#sec-simpleLR-props"><span class="header-section-number">3.2.4</span> Properties of the OLS Estimator</a></li>
+  <li><a href="#sec-inference-simple" id="toc-sec-inference-simple" class="nav-link" data-scroll-target="#sec-inference-simple"><span class="header-section-number">3.2.5</span> Statistical Inference: <span class="math inline">\(t\)</span>-Test for <span class="math inline">\(\beta_2\)</span></a></li>
+  <li><a href="#sec-largeSample-simple" id="toc-sec-largeSample-simple" class="nav-link" data-scroll-target="#sec-largeSample-simple"><span class="header-section-number">3.2.6</span> Large Samples</a></li>
+  </ul>
+</li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title"><span id="sec-simpleLinRegCh" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Simple Linear Regression</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header><!-- LTeX: language=en-US --><!-- 
+Points for future Revision: 
+
+* Adding cluster robust SEs
+
+ --><div class="hidden">
+<p><span class="math display">\[
+\require{color}
+%% Colorbox within equation-environments:
+\newcommand{\highlight}[2][yellow]{\mathchoice%
+  {\colorbox{#1}{$\displaystyle#2$}}%
+  {\colorbox{#1}{$\displaystyle#2$}}%
+  {\colorbox{#1}{$\displaystyle#2$}}%
+  }%
+\]</span></p>
+</div>
+<!-- 
+This chapter is based on the following references:
+
+* Chapter 3 of [An Introduction to Statistical Learning](https://www.statlearning.com/)
+* Chapter 1 of Econometrics by Fumio Hayashi 
+-->
+<section id="sec-motivation" class="level2" data-number="3.1"><h2 data-number="3.1" class="anchored" data-anchor-id="sec-motivation">
+<span class="header-section-number">3.1</span> Motivation: Does Education Increase Wages?</h2>
+<p>How much does one additional year of schooling increase a worker’s hourly earnings? We observe that workers with more schooling tend to earn more. But how large is this association? How precisely can we estimate it? And can we say that education <em>causes</em> higher wages?</p>
+<p>To answer these questions we use the <code>wage1</code> dataset from the <code>wooldridge</code> R package, which contains data on <span class="math inline">\(n=526\)</span> workers drawn from the 1976 Current Population Survey. <a href="#tbl-wage1-summary" class="quarto-xref">Table&nbsp;<span>3.1</span></a> summarizes the key variables.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://justinmshea.github.io/wooldridge/">"wooldridge"</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="http://haozhu233.github.io/kableExtra/">"kableExtra"</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"wage1"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"wage"</span>, <span class="st">"educ"</span>, <span class="st">"exper"</span>, <span class="st">"tenure"</span>, <span class="st">"female"</span><span class="op">)</span></span>
+<span><span class="va">desc_tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  Variable    <span class="op">=</span> <span class="va">vars</span>, </span>
+<span>  Description <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Hourly wage (USD)"</span>,</span>
+<span>                  <span class="st">"Years of education"</span>,</span>
+<span>                  <span class="st">"Years of work experience"</span>,</span>
+<span>                  <span class="st">"Years with current employer"</span>,</span>
+<span>                  <span class="st">"= 1 if female, 0 if male"</span><span class="op">)</span>,</span>
+<span>  Mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">vars</span>, \<span class="op">(</span><span class="va">v</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">wage1</span><span class="op">[[</span><span class="va">v</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>  SD   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">vars</span>, \<span class="op">(</span><span class="va">v</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">wage1</span><span class="op">[[</span><span class="va">v</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>,   <span class="fl">2</span><span class="op">)</span>,</span>
+<span>  Min  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">vars</span>, \<span class="op">(</span><span class="va">v</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">wage1</span><span class="op">[[</span><span class="va">v</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>,  <span class="fl">2</span><span class="op">)</span>,</span>
+<span>  Max  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">vars</span>, \<span class="op">(</span><span class="va">v</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">wage1</span><span class="op">[[</span><span class="va">v</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>,  <span class="fl">2</span><span class="op">)</span>,</span>
+<span>  row.names <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kbl.html">kbl</a></span><span class="op">(</span><span class="va">desc_tab</span>,</span>
+<span>    col.names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Variable"</span>, <span class="st">"Description"</span>, <span class="st">"Mean"</span>, <span class="st">"SD"</span>, <span class="st">"Min"</span>, <span class="st">"Max"</span><span class="op">)</span>,</span>
+<span>    align <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"l"</span>, <span class="st">"l"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>, <span class="st">"r"</span>, <span class="st">"r"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html">kable_styling</a></span><span class="op">(</span>bootstrap_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"striped"</span>, <span class="st">"hover"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="tbl-wage1-summary" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-wage1-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.1: Key variables in the <code>wage1</code> dataset (<span class="math inline">\(n = 526\)</span> workers, 1976 Current Population Survey).
+</figcaption><div aria-describedby="tbl-wage1-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="table table-striped table-hover do-not-create-environment cell caption-top table-sm small" data-quarto-postprocess="true">
+<thead><tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Variable</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Description</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Mean</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">SD</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Min</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Max</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">wage</td>
+<td style="text-align: left;">Hourly wage (USD)</td>
+<td style="text-align: right;">5.90</td>
+<td style="text-align: right;">3.69</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: right;">24.98</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">educ</td>
+<td style="text-align: left;">Years of education</td>
+<td style="text-align: right;">12.56</td>
+<td style="text-align: right;">2.77</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">18.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">exper</td>
+<td style="text-align: left;">Years of work experience</td>
+<td style="text-align: right;">17.02</td>
+<td style="text-align: right;">13.57</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">51.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tenure</td>
+<td style="text-align: left;">Years with current employer</td>
+<td style="text-align: right;">5.10</td>
+<td style="text-align: right;">7.22</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">44.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">female</td>
+<td style="text-align: left;">= 1 if female, 0 if male</td>
+<td style="text-align: right;">0.48</td>
+<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">1.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>The scatter plot below shows hourly wages (<code>wage</code>) against years of education (<code>educ</code>) for all <span class="math inline">\(n=526\)</span> workers. Because education is measured in integer years, we add a small horizontal jitter to avoid overplotting. The plotted line is a preview of what this chapter builds up to: the <strong>fitted simple linear regression</strong> of wages on education.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-wage-educ" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-wage-educ-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Ch_SimpleLinearRegression_files/figure-html/fig-wage-educ-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wage-educ-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.1: Hourly wages and years of education for <span class="math inline">\(n=526\)</span> workers. The line is the fitted simple linear regression; the shaded band is a 95% confidence interval for the regression line.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+R Code: Scatter Plot of Wages and Education with Fitted Line
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lm_simple</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">wage</span> <span class="op">~</span> <span class="va">educ</span>, data <span class="op">=</span> <span class="va">wage1</span><span class="op">)</span></span>
+<span><span class="va">x_seq</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">wage1</span><span class="op">$</span><span class="va">educ</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">wage1</span><span class="op">$</span><span class="va">educ</span><span class="op">)</span>, length.out <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span>
+<span><span class="va">ci</span>        <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">lm_simple</span>,</span>
+<span>                     newdata  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>educ <span class="op">=</span> <span class="va">x_seq</span><span class="op">)</span>,</span>
+<span>                     interval <span class="op">=</span> <span class="st">"confidence"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/jitter.html">jitter</a></span><span class="op">(</span><span class="va">wage1</span><span class="op">$</span><span class="va">educ</span>, factor <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span>, <span class="va">wage1</span><span class="op">$</span><span class="va">wage</span>,</span>
+<span>     xlab <span class="op">=</span> <span class="st">"Education (years)"</span>,</span>
+<span>     ylab <span class="op">=</span> <span class="st">"Hourly Wage (USD)"</span>,</span>
+<span>     pch  <span class="op">=</span> <span class="fl">16</span>,</span>
+<span>     col  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/adjustcolor.html">adjustcolor</a></span><span class="op">(</span><span class="st">"steelblue"</span>, alpha.f <span class="op">=</span> <span class="fl">0.4</span><span class="op">)</span>,</span>
+<span>     las  <span class="op">=</span> <span class="fl">1</span>, </span>
+<span>     ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span><span class="op">(</span><span class="va">wage1</span><span class="op">$</span><span class="va">wage</span>, <span class="op">-</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/polygon.html">polygon</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">x_seq</span>, <span class="fu"><a href="https://rdrr.io/r/base/rev.html">rev</a></span><span class="op">(</span><span class="va">x_seq</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>        <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">ci</span><span class="op">[</span>, <span class="st">"lwr"</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/base/rev.html">rev</a></span><span class="op">(</span><span class="va">ci</span><span class="op">[</span>, <span class="st">"upr"</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>        col    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/adjustcolor.html">adjustcolor</a></span><span class="op">(</span><span class="st">"lightcoral"</span>, alpha.f <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span>,</span>
+<span>        border <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span><span class="va">lm_simple</span>, col <span class="op">=</span> <span class="st">"darkred"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<p>Two features of <a href="#fig-wage-educ" class="quarto-xref">Figure&nbsp;<span>3.1</span></a> will guide the entire chapter.</p>
+<ul>
+<li>
+<strong>First</strong>, the positive slope says wages rise with education on average. But by how much exactly, and how sure are we?</li>
+<li>
+<strong>Second</strong>, the wide vertical spread of points around the line shows that education alone explains only part of the variation in wages: workers with the same years of schooling earn very different amounts. What else matters — experience, tenure, gender?</li>
+</ul>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Guiding Questions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>
+<strong>Estimation:</strong> By how much does an additional year of education increase wages, on average?</li>
+<li>
+<strong>Inference:</strong> Is this association statistically reliable, or could it reflect chance variation in our sample of <span class="math inline">\(n=526\)</span> workers?</li>
+<li>
+<strong>Prediction:</strong> How well can we predict a worker’s wage?</li>
+</ol>
+<p>We also address a fourth, harder question in <a href="Ch_ExtendingLinearRegression.html#sec-whatdoesbeta" class="quarto-xref"><span>Section 5.4</span></a>: does education <em>cause</em> higher wages, or do we merely observe an association?</p>
+</div>
+</div>
+<p>This chapter develops the statistical tools to answer these questions. We begin with the <strong>simple linear regression model</strong> (wages regressed on education alone) and then extend to the <strong>multiple linear regression model</strong>, which lets us control for further variables such as experience, tenure, and gender simultaneously.</p>
+</section><section id="sec-simpleLinReg" class="level2" data-number="3.2"><h2 data-number="3.2" class="anchored" data-anchor-id="sec-simpleLinReg">
+<span class="header-section-number">3.2</span> Simple Linear Regression</h2>
+<p>We begin with the simplest version of the linear regression model: a single predictor <span class="math inline">\(X_i\)</span> explaining variation in an outcome <span class="math inline">\(Y_i\)</span>. In the wages example, <span class="math inline">\(Y_i\)</span> is the hourly wage and <span class="math inline">\(X_i\)</span> is the years of education of worker <span class="math inline">\(i\)</span>.</p>
+<section id="sec-simpleLR-model" class="level3" data-number="3.2.1"><h3 data-number="3.2.1" class="anchored" data-anchor-id="sec-simpleLR-model">
+<span class="header-section-number">3.2.1</span> The Model</h3>
+<p>The <strong>simple linear regression model</strong> is given by</p>
+<p><span id="eq-simpleLR"><span class="math display">\[
+Y_i = \beta_1 + \beta_2 X_i + \varepsilon_i, \quad i = 1, \dots, n,
+\qquad(3.1)\]</span></span></p>
+<p>where:</p>
+<ul>
+<li>
+<span class="math inline">\(Y_i\)</span> is the <strong>outcome (or dependent) variable</strong> (hourly wage of worker <span class="math inline">\(i\)</span>)</li>
+<li>
+<span class="math inline">\(X_i\)</span> is the <strong>predictor (or independent) variable</strong> (years of education of worker <span class="math inline">\(i\)</span>)</li>
+<li>
+<span class="math inline">\(\beta_1\)</span> is the <strong>intercept</strong> — the expected wage when <span class="math inline">\(X_i = 0\)</span>
+</li>
+<li>
+<span class="math inline">\(\beta_2\)</span> is the <strong>slope</strong> — the expected change in wages for one additional year of education</li>
+<li>
+<span class="math inline">\(\varepsilon_i\)</span> is the <strong>“error” term</strong> — capturing all other determinants of wages beyond education (ability, family background, occupation, parents, …)</li>
+</ul>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Crucial Assumption on <span class="math inline">\(\varepsilon_i\)</span>: Exogeneity
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math display">\[
+E(\varepsilon_i \mid X_1, \dots, X_n) = 0, \quad i = 1, \dots, n
+\]</span></p>
+<p>That is, the mean of the error <span class="math inline">\(\varepsilon_i\)</span> of worker <span class="math inline">\(i\)</span> is zero regardless of the education levels <span class="math inline">\(X_1, \dots, X_n\)</span> of <em>all</em> workers in the sample — including worker <span class="math inline">\(i\)</span>’s own education <span class="math inline">\(X_i\)</span>. This is called <strong>strict exogeneity</strong>. In particular, it implies that the mean of <span class="math inline">\(\varepsilon_i\)</span> is zero regardless of the value of <span class="math inline">\(X_i\)</span>, <span class="math display">\[
+E(\varepsilon_i \mid X_i = x) = 0, \quad i = 1, \dots, n,
+\]</span> for all possible values of <span class="math inline">\(x.\)</span> One often says: ::: {.center} “<span class="math inline">\(\varepsilon_i\)</span> must be <strong>mean independent</strong> of <span class="math inline">\(X_i.\)</span>”</p>
+</div>
+</div>
+<p>In words, exogeneity requires: conditional on education <span class="math inline">\(X_i=x,\)</span> no other factor that drives wages <span class="math inline">\(Y_i\)</span> may be correlated with education <span class="math inline">\(X_i.\)</span> This is not obvious from the conditional-mean statement above — but it can be shown to follow from it.</p>
+<p><strong>Problem:</strong> We can never prove that exogeneity holds. We can only argue for its plausibility, using expert knowledge of the specific data problem. :::</p>
+<p>The <strong>simple linear regression model</strong> <a href="#eq-simpleLR" class="quarto-xref">Equation&nbsp;<span>3.1</span></a> specifies the conditional mean of <span class="math inline">\(Y_i\)</span> given <span class="math inline">\(X_i=x\)</span> as a linear function <span class="math display">\[\begin{align*}
+m(x)
+&amp; = E(Y_i \mid X_i = x) \\[2ex]
+&amp; = E(\beta_1 + \beta_2 X_i + \varepsilon_i \mid X_i = x)  \\[2ex]
+&amp; = E(\beta_1 + \beta_2 X_i\mid X_i = x) + \underbrace{E(\varepsilon_i \mid X_i = x)}_{=0}  \\[2ex]
+&amp; = \beta_1 + \beta_2 x
+\end{align*}\]</span></p>
+<p>The slope <span class="math inline">\(\beta_2\)</span> equals the partial derivative of the conditional mean function <span class="math inline">\(m(x)=E(Y_i\mid X_i=x)\)</span> with respect to <span class="math inline">\(X_i=x\)</span>:</p>
+<p><span class="math display">\[\begin{align*}
+\frac{\partial}{\partial x} m(x)
+&amp; = \frac{\partial}{\partial x} E(Y_i \mid X_i = x) \\[2ex]
+&amp; = \frac{\partial}{\partial x} \left(\beta_1 + \beta_2 x\right) \\[2ex]
+&amp; = \beta_2.
+\end{align*}\]</span></p>
+<p>In words: a one-unit increase in <span class="math inline">\(X_i\)</span> changes the <em>expected</em> value of <span class="math inline">\(Y_i\)</span> by <span class="math inline">\(\beta_2\)</span> units. In the wages example, <span class="math inline">\(\beta_2\)</span> measures the expected wage premium per additional year of schooling, in dollars per hour.</p>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>The model specifies the <em>conditional mean</em> of wages as linear in education. It does not say every worker with the same education earns the same wage. The error term <span class="math inline">\(\varepsilon_i\)</span> captures the deviation of worker <span class="math inline">\(i\)</span>’s actual wage from the conditional mean function <span class="math inline">\(E(Y_i \mid X_i=x)=m(x).\)</span></p>
+</div>
+</div>
+</div>
+</section><section id="sec-OLS-simple" class="level3" data-number="3.2.2"><h3 data-number="3.2.2" class="anchored" data-anchor-id="sec-OLS-simple">
+<span class="header-section-number">3.2.2</span> OLS Estimation</h3>
+<p>The parameters <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span> are unknown. The <strong>Ordinary Least Squares (OLS)</strong> estimator chooses <span class="math inline">\(\widehat\beta_1\)</span> and <span class="math inline">\(\widehat\beta_2\)</span> to minimize the sum of squared deviations of the observations <span class="math inline">\(Y_i\)</span> from the line <span class="math inline">\(b_1 + b_2 X_i\)</span>:</p>
+<p><span id="eq-OLS-min"><span class="math display">\[
+(\widehat\beta_1,\, \widehat\beta_2)
+= \arg\min_{b_1,\,b_2}
+  \sum_{i=1}^{n} \bigl(Y_i - b_1 - b_2 X_i\bigr)^2.
+\qquad(3.2)\]</span></span></p>
+<p>Take partial derivatives of the sum of squares in <a href="#eq-OLS-min" class="quarto-xref">Equation&nbsp;<span>3.2</span></a> with respect to <span class="math inline">\(b_1\)</span> and <span class="math inline">\(b_2,\)</span> and set them to zero. Solving yields the closed-form OLS estimators:</p>
+<p><span id="eq-OLS-slope"><span class="math display">\[
+\widehat\beta_2
+= \frac{\displaystyle\frac{1}{n}\sum_{i=1}^{n}(X_i - \bar X)(Y_i - \bar Y)}
+       {\displaystyle\frac{1}{n}\sum_{i=1}^{n}(X_i - \bar X)^2}
+= \frac{\widehat{\operatorname{Cov}}(X,\,Y)}{\widehat{\operatorname{Var}}(X)}
+\qquad(3.3)\]</span></span></p>
+<p>and</p>
+<p><span id="eq-OLS-intercept"><span class="math display">\[
+\displaystyle \widehat\beta_1 = \bar Y - \widehat\beta_2\,\bar X,
+\qquad(3.4)\]</span></span></p>
+<p>where</p>
+<ul>
+<li><span class="math inline">\(\bar X = \tfrac{1}{n}\sum_{i=1}^n X_i\)</span></li>
+<li><span class="math inline">\(\bar Y = \tfrac{1}{n}\sum_{i=1}^n Y_i\)</span></li>
+</ul>
+<p>In R, the <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> function computes the OLS estimates:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lm_simple</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">wage</span> <span class="op">~</span> <span class="va">educ</span>, data <span class="op">=</span> <span class="va">wage1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">lm_simple</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)        educ 
+ -0.9048516   0.5413593 </code></pre>
+</div>
+</div>
+<p>We can verify <a href="#eq-OLS-slope" class="quarto-xref">Equation&nbsp;<span>3.3</span></a> and <a href="#eq-OLS-intercept" class="quarto-xref">Equation&nbsp;<span>3.4</span></a> directly:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">beta2_hat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cov</a></span><span class="op">(</span><span class="va">wage1</span><span class="op">$</span><span class="va">educ</span>, <span class="va">wage1</span><span class="op">$</span><span class="va">wage</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span><span class="op">(</span><span class="va">wage1</span><span class="op">$</span><span class="va">educ</span><span class="op">)</span></span>
+<span><span class="va">beta1_hat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">wage1</span><span class="op">$</span><span class="va">wage</span><span class="op">)</span> <span class="op">-</span> <span class="va">beta2_hat</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">wage1</span><span class="op">$</span><span class="va">educ</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span>beta_by_hand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">beta1_hat</span>, <span class="va">beta2_hat</span><span class="op">)</span>,</span>
+<span>      beta_by_R    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">lm_simple</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            beta_by_hand  beta_by_R
+(Intercept)   -0.9048516 -0.9048516
+educ           0.5413593  0.5413593</code></pre>
+</div>
+</div>
+<p>The <strong>fitted value</strong> <span class="math inline">\(\widehat Y_i\colon\)</span> <span class="math display">\[
+\widehat Y_i = \widehat{m}(X_i) = \widehat\beta_1 + \widehat\beta_2 X_i
+\]</span> is the model’s prediction of the wage of worker <span class="math inline">\(i\)</span>.</p>
+<p>The <strong>residual</strong> <span class="math inline">\(\widehat{\varepsilon}_i\colon\)</span> <span class="math display">\[
+\widehat{\varepsilon}_i = Y_i - \widehat Y_i
+\]</span> is the prediction error.</p>
+<section id="interpretation-of-the-estimated-parameters" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="interpretation-of-the-estimated-parameters"><strong>Interpretation of the Estimated Parameters:</strong></h4>
+<ul>
+<li>The estimated slope parameter <span class="math display">\[\begin{align*}
+\widehat\beta_2
+&amp;=\frac{\partial}{\partial x}\widehat{E}(Y_i|X_i=x)\\[2ex]
+&amp;=\frac{\partial}{\partial x}\widehat{m}(Y_i|X_i=x)\\[2ex]
+&amp;=\frac{\partial}{\partial x}\big(\widehat{\beta}_1 + \widehat{\beta}_2 x\big)
+=\widehat{\beta}_2 = 0.54
+\end{align*}\]</span> means that on average each additional year of education is associated with an increase of approximately 0.54 dollars per hour in wages.</li>
+<li>The estimated intercept parameter <span class="math display">\[\begin{align*}
+\widehat\beta_1
+&amp;=\widehat{E}(Y_i|X_i=0)\\[2ex]
+&amp;=\widehat{m}(Y_i|X_i=0)\\[2ex]
+&amp;=\big(\widehat{\beta}_1 + \widehat{\beta}_2 0\big)
+=\widehat{\beta}_1 = -0.9
+\end{align*}\]</span> is the predicted wage for a worker with zero years of education.</li>
+</ul>
+<div class="callout callout-style-simple callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+When Is This Interpretation Justified?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The interpretation above treats <span class="math inline">\(\widehat\beta_2\)</span> as a reliable estimate of the true slope <span class="math inline">\(\beta_2\)</span> of the conditional mean function <span class="math inline">\(m(x) = E(Y_i \mid X_i = x)\)</span>.</p>
+<p>This is justified only if <strong>Assumptions 1–3</strong> in <a href="#sec-simpleLR-assumptions" class="quarto-xref"><span>Section 3.2.3</span></a> are fulfilled. Under these assumptions, the OLS estimators are unbiased (<a href="#sec-simpleLR-props" class="quarto-xref"><span>Section 3.2.4</span></a>).</p>
+<p>If these assumptions are violated, for instance,</p>
+<ul>
+<li>because an omitted variable such as ability drives both education and wages (violates strict exogeneity, Assumption 2), or</li>
+<li>because the linear model is misspecified (violates the model Assumption 1),</li>
+</ul>
+<p>then <span class="math inline">\(\widehat\beta_2\)</span> systematically over- or understates the true unknown <span class="math inline">\(\beta_2,\)</span> and the interpretation can be misleading.</p>
+<p>The next paragraph shows that there is indeed reason for doubt here.</p>
+</div>
+</div>
+</section><section id="checking-model-specification" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="checking-model-specification"><strong>Checking Model Specification:</strong></h4>
+<p><a href="#fig-wage-educ" class="quarto-xref">Figure&nbsp;<span>3.1</span></a> shows the fitted straight line</p>
+<center>
+<span class="math inline">\(\widehat\beta_1 + \widehat\beta_2 x = -0.90 + 0.54 \cdot x\)</span>
+</center>
+<p></p>
+<p>❗Note that the predicted values are <strong>outside</strong> the observed wages <span class="math inline">\(Y_i\)</span> for education values <span class="math inline">\(X_i=\)</span><code>educ</code><span class="math inline">\(_i \leq 0.\)</span></p>
+<p>This means that our simple linear regression model is <strong>misspecified</strong>.</p>
+<p>A well specified model has its regression line in the center of the data cloud for <strong><em>all</em> values</strong> of <span class="math inline">\(X_i.\)</span></p>
+<p>Below, we will improve the model specification using a log-transformation <span class="math inline">\(\log(Y_i)\)</span>; see <a href="Ch_ExtendingLinearRegression.html#sec-logtrans" class="quarto-xref"><span>Section 5.1.1</span></a>.</p>
+</section></section><section id="sec-simpleLR-assumptions" class="level3" data-number="3.2.3"><h3 data-number="3.2.3" class="anchored" data-anchor-id="sec-simpleLR-assumptions">
+<span class="header-section-number">3.2.3</span> Assumptions</h3>
+<p>The OLS estimators <span class="math inline">\(\widehat\beta_1\)</span> and <span class="math inline">\(\widehat\beta_2\)</span> have desirable statistical properties under four assumptions.</p>
+<section id="assumption-1-linear-model-and-random-sampling" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="assumption-1-linear-model-and-random-sampling"><strong>Assumption 1: Linear Model and Random Sampling</strong></h4>
+<p>The data <span class="math inline">\((Y_1, X_1), \dots, (Y_n, X_n)\)</span> are a realization of an <strong>(i.i.d.) random sample</strong> from the simple linear regression model in <a href="#eq-simpleLR" class="quarto-xref">Equation&nbsp;<span>3.1</span></a> <span class="math display">\[
+Y_i = \beta_1 + \beta_2 X_i + \varepsilon_i, \quad i = 1, \dots, n.
+\]</span> Random sampling means the <span class="math inline">\(n\)</span> observations are drawn independently from the same (identical) population distribution (i.i.d.).</p>
+</section><section id="assumption-2-strict-exogeneity" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="assumption-2-strict-exogeneity"><strong>Assumption 2: Strict Exogeneity</strong></h4>
+<p><span class="math display">\[
+E(\varepsilon_i \mid X) = 0, \quad i = 1, \dots, n,
+\qquad\text{where } X = (X_1, \dots, X_n).
+\]</span></p>
+<p>This is the crucial assumption introduced together with the model in <a href="#sec-simpleLR-model" class="quarto-xref"><span>Section 3.2.1</span></a>. The shorthand <span class="math inline">\(X\)</span> for the predictor values of the whole sample is also used below, for instance in <span class="math inline">\(\operatorname{Var}(\widehat\beta_2 \mid X)\)</span>.</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Why Condition on <strong>All</strong> of <span class="math inline">\(X_1, \dots, X_n\)</span>?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The OLS estimator <span class="math inline">\(\widehat\beta_2\)</span> in <a href="#eq-OLS-slope" class="quarto-xref">Equation&nbsp;<span>3.3</span></a> depends on the education levels of <em>all</em> <span class="math inline">\(n\)</span> workers. To show that it is unbiased, we therefore need the errors to have mean zero given all of them — not only given worker <span class="math inline">\(i\)</span>’s own <span class="math inline">\(X_i\)</span>.</p>
+<p>Under random sampling (Assumption 1), worker <span class="math inline">\(i\)</span>’s data <span class="math inline">\((Y_i, X_i)\)</span> are independent of the other workers’ education levels, so that <span class="math display">\[
+E(\varepsilon_i \mid X_1, \dots, X_n) = E(\varepsilon_i \mid X_i).
+\]</span> For random samples, strict exogeneity thus reduces to weak exogeneity <span class="math display">\[
+E(\varepsilon_i \mid X_i) = 0\quad\text{for all}\quad i=1,\dots,n.
+\]</span> Strict exogeneity becomes a genuinely stronger requirement with time series data, where, e.g., today’s shock <span class="math inline">\(\varepsilon_t\)</span> can affect tomorrow’s predictor value <span class="math inline">\(X_{t+1}.\)</span></p>
+</div>
+</div>
+<div class="callout callout-style-simple callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+When Does Exogeneity Fail?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Exogeneity fails, for instance, when an <strong>omitted variable</strong> (a variable we missed including into the regression model), say <span class="math inline">\(W_i,\)</span> is correlated with both</p>
+<ul>
+<li>
+<span class="math inline">\(X_i\)</span> the predictor variable and</li>
+<li>
+<span class="math inline">\(Y_i\)</span> the outcome variable.</li>
+</ul>
+<p>For instance, let <span class="math inline">\(W_i\)</span> denote worker <span class="math inline">\(i\)</span>’s ability. This is hardly measurable, so it is usually not included as a predictor in the regression model. But ability <span class="math inline">\(W_i\)</span> typically does explain part of the wage <span class="math inline">\(Y_i\)</span> — so it ends up in the error term <span class="math inline">\(\varepsilon_i.\)</span></p>
+<p>If higher-ability workers (large <span class="math inline">\(W_i\)</span>) tend to acquire more education (large <span class="math inline">\(X_i\)</span>) and vice-versa, i.e.&nbsp; <span class="math display">\[
+\operatorname{Cov}(W_i,X_i)&gt;0,
+\]</span> <strong>and</strong> if higher-ability workers (large <span class="math inline">\(W_i\)</span>) tend to have higher wages (large <span class="math inline">\(Y_i\)</span>) and vice-versa, i.e.&nbsp; <span class="math display">\[
+\operatorname{Cov}(W_i, Y_i)&gt;0,
+\]</span> then <span class="math inline">\(X_i\)</span> is not exogenous and, equivalently, <span class="math inline">\(\varepsilon_i\)</span> is not mean-independent of <span class="math inline">\(X_i\)</span>, <span class="math display">\[
+E(\varepsilon_i \mid X_i) \neq 0.
+\]</span> This is the <strong>omitted variable problem</strong>, revisited in <a href="Ch_MultipleLinearRegression.html#sec-OVB" class="quarto-xref"><span>Section 4.1.1</span></a>. In such a situation, we cannot trust our estimates.</p>
+</div>
+</div>
+</section><section id="assumption-3-variation-in-x" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="assumption-3-variation-in-x"><strong>Assumption 3: Variation in <span class="math inline">\(X\)</span></strong></h4>
+<p><span class="math display">\[
+\operatorname{Var}(X_i) &gt; 0\quad\text{for all}\quad i=1,\dots,n.
+\]</span></p>
+<p>The predictor variables <span class="math inline">\(X_i\)</span> must have positive variance. If all workers had identical education levels, the denominator in <a href="#eq-OLS-slope" class="quarto-xref">Equation&nbsp;<span>3.3</span></a> would be zero and the estimator <span class="math display">\[
+\widehat\beta_2 = \frac{\widehat{\operatorname{Cov}}(X,\,Y)}{\widehat{\operatorname{Var}}(X)}
+\]</span> of <span class="math inline">\(\beta_2\)</span> could not be computed.</p>
+</section><section id="assumption-4-homoskedasticity" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="assumption-4-homoskedasticity"><strong>Assumption 4: Homoskedasticity</strong></h4>
+<p><span class="math display">\[
+\operatorname{Var}(\varepsilon_i \mid X_i) = \sigma^2
+  \quad\text{for all}\quad i=1,\dots,n.
+  \]</span></p>
+<p>The variance of the error is constant across all values of <span class="math inline">\(X_i\)</span>.</p>
+<div class="callout callout-style-simple callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Heteroskedasticity
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The scatter plot <a href="#fig-wage-educ" class="quarto-xref">Figure&nbsp;<span>3.1</span></a> suggests Assumption 4 of homoskedastic errors may be violated: the spread of wages around the regression line appears wider for more-educated workers.</p>
+<p>We address the case of heteroskedasticity below, under <a href="#sec-robustSE-simple"><strong>heteroskedasticity-robust standard errors</strong></a>.</p>
+</div>
+</div>
+</section></section><section id="sec-simpleLR-props" class="level3" data-number="3.2.4"><h3 data-number="3.2.4" class="anchored" data-anchor-id="sec-simpleLR-props">
+<span class="header-section-number">3.2.4</span> Properties of the OLS Estimator</h3>
+<p>Under Assumptions 1–3, the OLS estimators are <strong>unbiased</strong>:</p>
+<p><span class="math display">\[
+E(\widehat\beta_1) = \beta_1 \qquad \text{and} \qquad E(\widehat\beta_2) = \beta_2.
+\]</span></p>
+<p>That is, on average over many hypothetical random samples, the OLS estimators recover the true parameter values.</p>
+<p>Under Assumptions 1–4, the variance of <span class="math inline">\(\widehat\beta_2\)</span> conditional on <span class="math inline">\(X=(X_1,\dots,X_n)\)</span> is</p>
+<p><span id="eq-var-beta2"><span class="math display">\[
+\operatorname{Var}(\widehat\beta_2 \mid X)
+= \frac{\sigma^2}{\displaystyle\sum_{i=1}^{n}(X_i - \bar X)^2}.
+\qquad(3.5)\]</span></span></p>
+<p>Three implications stand out:</p>
+<ul>
+<li>
+<strong>More variation in <span class="math inline">\(X\)</span></strong> (larger denominator) <span class="math inline">\(\Rightarrow\)</span> smaller variance <span class="math inline">\(\Rightarrow\)</span> more precise estimate.</li>
+<li>
+<strong>Larger error variance <span class="math inline">\(\sigma^2\)</span></strong> <span class="math inline">\(\Rightarrow\)</span> larger variance <span class="math inline">\(\Rightarrow\)</span> less precise estimate.</li>
+<li>
+<strong>Larger sample size <span class="math inline">\(n\)</span></strong> <span class="math inline">\(\Rightarrow\)</span> larger denominator <span class="math inline">\(\Rightarrow\)</span> more precise estimate.</li>
+</ul>
+<p>Since <span class="math inline">\(\sigma^2=\operatorname{Var}(\varepsilon_i)\)</span> is unknown, we replace it in <a href="#eq-var-beta2" class="quarto-xref">Equation&nbsp;<span>3.5</span></a> by <span id="eq-sigma2-hat"><span class="math display">\[
+\widehat\sigma^2 = \frac{1}{n-2}\sum_{i=1}^n\widehat\varepsilon_i^2.
+\qquad(3.6)\]</span></span> The denominator is <span class="math inline">\(n-2\)</span> rather than <span class="math inline">\(n\)</span> because <strong>two</strong> parameters (<span class="math inline">\(\widehat\beta_1\)</span>, <span class="math inline">\(\widehat\beta_2\)</span>) have already been estimated from the data. This degrees-of-freedom adjustment makes <span class="math inline">\(\widehat\sigma^2\)</span> an unbiased estimator of <span class="math inline">\(\sigma^2\)</span>: <span class="math inline">\(E(\widehat\sigma^2)=\sigma^2.\)</span></p>
+<p>Plugging <span class="math inline">\(\widehat\sigma^2\)</span> into <a href="#eq-var-beta2" class="quarto-xref">Equation&nbsp;<span>3.5</span></a> yields the <strong><em>estimated</em> variance of <span class="math inline">\(\widehat\beta_2\)</span></strong>: <span class="math display">\[
+\widehat{\operatorname{Var}}(\widehat\beta_2\mid X)
+= \frac{\widehat\sigma^2}{\displaystyle\sum_{i=1}^{n}(X_i - \bar X)^2}.
+\]</span> Taking the square root yields the <strong><em>estimated</em> standard error</strong>: <span id="eq-SE-beta2"><span class="math display">\[
+\widehat{\operatorname{SE}}(\widehat\beta_2\mid X)
+= \sqrt{\widehat{\operatorname{Var}}(\widehat\beta_2\mid X)}
+= \frac{\widehat\sigma}{\sqrt{\displaystyle\sum_{i=1}^{n}(X_i - \bar X)^2}}.
+\qquad(3.7)\]</span></span></p>
+<p>We can verify this against the standard error reported by <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sigma2_hat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">residuals</a></span><span class="op">(</span><span class="va">lm_simple</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">wage1</span><span class="op">)</span> <span class="op">-</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="va">SE_beta2</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">sigma2_hat</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="op">(</span><span class="va">wage1</span><span class="op">$</span><span class="va">educ</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">wage1</span><span class="op">$</span><span class="va">educ</span><span class="op">)</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>SE_beta2_by_hand <span class="op">=</span> <span class="va">SE_beta2</span>,</span>
+<span>  SE_beta2_by_R    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">lm_simple</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="st">"educ"</span>, <span class="st">"Std. Error"</span><span class="op">]</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>SE_beta2_by_hand    SE_beta2_by_R 
+      0.05324804       0.05324804 </code></pre>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Gauss–Markov Theorem
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Under Assumptions 1–4, the OLS estimators <span class="math inline">\(\widehat{\beta}_2\)</span> and <span class="math inline">\(\widehat{\beta}_1\)</span> in <a href="#eq-OLS-slope" class="quarto-xref">Equation&nbsp;<span>3.3</span></a> and <a href="#eq-OLS-intercept" class="quarto-xref">Equation&nbsp;<span>3.4</span></a> are the <strong>B</strong>est <strong>L</strong>inear <strong>U</strong>nbiased <strong>E</strong>stimators (BLUE). That is, among all unbiased estimators of <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span> that are linear in <span class="math inline">\(Y_1, \dots, Y_n,\)</span> the OLS estimators <span class="math inline">\(\widehat\beta_1\)</span> and <span class="math inline">\(\widehat\beta_2\)</span> have the smallest variance.</p>
+</div>
+</div>
+</section><section id="sec-inference-simple" class="level3" data-number="3.2.5"><h3 data-number="3.2.5" class="anchored" data-anchor-id="sec-inference-simple">
+<span class="header-section-number">3.2.5</span> Statistical Inference: <span class="math inline">\(t\)</span>-Test for <span class="math inline">\(\beta_2\)</span>
+</h3>
+<p>Based on the observed wage data, we computed the estimate <span class="math display">\[
+\widehat\beta_2 = 0.54.
+\]</span> The true value of <span class="math inline">\(\beta_2\)</span> is unknown; all we have is this estimate. And the estimate is uncertain: had we observed a different sample of <span class="math inline">\(n = 526\)</span> workers, we would have obtained a different estimate — the <em>sampling variability</em> discussed in <a href="Ch_ReviewProbStats.html#sec-where-data" class="quarto-xref"><span>Section 2.1</span></a>.</p>
+<p><strong>Statistical inference</strong> quantifies this uncertainty and tells us which conclusions about the unknown <span class="math inline">\(\beta_2\)</span> are supported by the data.</p>
+<section id="how-much-would-the-estimate-vary-across-samples" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="how-much-would-the-estimate-vary-across-samples"><strong>How Much Would the Estimate Vary Across Samples?</strong></h4>
+<p>We cannot easily draw new samples of workers to visualize the variability of the estimates. But we can easily <em>simulate</em> 🪄 new samples under a <strong>naive, very likely wrong</strong> setup, just to get a rough idea about the sampling variability. So, let’s treat the <em>estimated</em> model <span class="math display">\[
+\widehat{m}(x) = \widehat\beta_1 + \widehat\beta_2 \cdot x
+\]</span> as if it were the true model. And let’s assume the error term <span class="math inline">\(\varepsilon_i\)</span> is normally distributed, with variance <span class="math inline">\(\widehat\sigma^2\)</span> — the <em>estimated</em> variance.</p>
+<p>Using this <strong>naive, very likely wrong</strong> data-generating process (see <a href="Ch_ReviewProbStats.html#sec-dgp" class="quarto-xref"><span>Section 2.7</span></a>), we generate many artificial wage data sets and re-estimate <span class="math inline">\(\beta_2\)</span> on each one. This gives us a rough idea of how much <span class="math inline">\(\widehat{\beta}_2\)</span> varies across resamplings.</p>
+<p>To see what the estimation results for <span class="math inline">\(\beta_2\)</span> would look like if education had no effect on wages, we repeat the simulation with <span class="math inline">\(\beta_2 = 0;\)</span> i.e., we repeat it under the null hypothesis <span class="math display">\[
+H_0\colon \beta_2 = 0.
+\]</span></p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-sampling-beta2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-sampling-beta2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Ch_SimpleLinearRegression_files/figure-html/fig-sampling-beta2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sampling-beta2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.2: Estimates of <span class="math inline">\(\beta_2\)</span> from 1000 simulated wage data sets. Left: the true slope equals the estimate from our data. Right: the true slope is zero (dashed grey line). The dark red line marks the estimate from our observed data.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+R Code: Simulating the Estimates <span class="math inline">\(\widehat{\beta}_2\)</span> of <span class="math inline">\(\beta_2\)</span> (<a href="#fig-sampling-beta2" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span><span class="va">n_sim</span>      <span class="op">&lt;-</span> <span class="fl">1000</span></span>
+<span><span class="va">n</span>          <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">wage1</span><span class="op">)</span></span>
+<span><span class="va">beta1_hat</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">lm_simple</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span><span class="va">beta2_hat</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">lm_simple</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
+<span><span class="va">sigma_hat</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">residuals</a></span><span class="op">(</span><span class="va">lm_simple</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="va">n</span> <span class="op">-</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## Simulate new wages and re-estimate beta_2 (education values kept fixed)</span></span>
+<span><span class="co">## assuming true beta_2 = 0.54</span></span>
+<span><span class="va">beta2_hat_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">numeric</a></span><span class="op">(</span><span class="va">n_sim</span><span class="op">)</span></span>
+<span><span class="kw">for</span><span class="op">(</span><span class="va">k</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">n_sim</span><span class="op">)</span><span class="op">{</span></span>
+<span>  </span>
+<span>  <span class="va">model_sim</span>  <span class="op">&lt;-</span> <span class="va">beta1_hat</span> <span class="op">+</span> <span class="va">beta2_hat</span> <span class="op">*</span> <span class="va">wage1</span><span class="op">$</span><span class="va">educ</span></span>
+<span>  <span class="va">error_sim</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n</span>, sd <span class="op">=</span> <span class="va">sigma_hat</span><span class="op">)</span></span>
+<span>  <span class="co">## Simulate outcome values under beta_2 = 0.54</span></span>
+<span>  <span class="va">Y_wage_sim</span> <span class="op">&lt;-</span> <span class="va">model_sim</span> <span class="op">+</span> <span class="va">error_sim</span></span>
+<span> </span>
+<span>  <span class="co">## Save estimates for beta_2</span></span>
+<span>  <span class="va">beta2_hat_sim</span><span class="op">[</span><span class="va">k</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Y_wage_sim</span> <span class="op">~</span> <span class="va">wage1</span><span class="op">$</span><span class="va">educ</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> </span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co">## Simulate new wages and re-estimate beta_2 (education values kept fixed)</span></span>
+<span><span class="co">## under H0: beta_2 = 0 </span></span>
+<span></span>
+<span><span class="va">beta2_hat_H0_sim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">numeric</a></span><span class="op">(</span><span class="va">n_sim</span><span class="op">)</span></span>
+<span><span class="kw">for</span><span class="op">(</span><span class="va">k</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">n_sim</span><span class="op">)</span><span class="op">{</span></span>
+<span>  </span>
+<span>  <span class="va">model_H0_sim</span>  <span class="op">&lt;-</span> <span class="va">beta1_hat</span> <span class="op">+</span> <span class="fl">0</span> <span class="op">*</span> <span class="va">wage1</span><span class="op">$</span><span class="va">educ</span></span>
+<span>  <span class="va">error_sim</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n</span>, sd <span class="op">=</span> <span class="va">sigma_hat</span><span class="op">)</span></span>
+<span>  <span class="co">## Simulate outcome values under beta_2 = 0</span></span>
+<span>  <span class="va">Y_wage_H0_sim</span> <span class="op">&lt;-</span> <span class="va">model_H0_sim</span> <span class="op">+</span> <span class="va">error_sim</span></span>
+<span> </span>
+<span>  <span class="co">## Save estimates for beta_2</span></span>
+<span>  <span class="va">beta2_hat_H0_sim</span><span class="op">[</span><span class="va">k</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Y_wage_H0_sim</span> <span class="op">~</span> <span class="va">wage1</span><span class="op">$</span><span class="va">educ</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> </span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co">## Plotting </span></span>
+<span><span class="va">bins</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.3</span>, <span class="fl">0.8</span>, by <span class="op">=</span> <span class="fl">0.02</span><span class="op">)</span> <span class="co"># same bins and axis in both panels</span></span>
+<span><span class="va">x_lim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.2</span>, <span class="fl">0.75</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">beta2_hat_sim</span>, breaks <span class="op">=</span> <span class="va">bins</span>, </span>
+<span>     col  <span class="op">=</span> <span class="st">"steelblue"</span>, </span>
+<span>     border <span class="op">=</span> <span class="st">"white"</span>, las <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>     xlim <span class="op">=</span> <span class="va">x_lim</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">160</span><span class="op">)</span>,</span>
+<span>     main <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="st">"Assuming "</span> <span class="op">*</span> <span class="va">beta</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">==</span> <span class="fl">0.54</span><span class="op">)</span>,</span>
+<span>     xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="st">"Simulated estimates of "</span> <span class="op">*</span> <span class="va">beta</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="va">beta2_hat</span>, col <span class="op">=</span> <span class="st">"darkred"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">beta2_hat_H0_sim</span>, breaks <span class="op">=</span> <span class="va">bins</span>, </span>
+<span>     col <span class="op">=</span> <span class="st">"steelblue"</span>, </span>
+<span>     border <span class="op">=</span> <span class="st">"white"</span>, las <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>     xlim <span class="op">=</span> <span class="va">x_lim</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">160</span><span class="op">)</span>,</span>
+<span>     main <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="st">"Assuming "</span> <span class="op">*</span> <span class="va">beta</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span>,</span>
+<span>     xlab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="st">"Simulated estimates of "</span> <span class="op">*</span> <span class="va">beta</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fl">0</span>,         col <span class="op">=</span> <span class="st">"grey40"</span>,  lwd <span class="op">=</span> <span class="fl">2</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="va">beta2_hat</span>, col <span class="op">=</span> <span class="st">"darkred"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<p>The left panel of <a href="#fig-sampling-beta2" class="quarto-xref">Figure&nbsp;<span>3.2</span></a> shows that the estimates vary around the assumed-to-be-true value <span class="math inline">\(\beta_2 = 0.54.\)</span></p>
+<p>The right panel of <a href="#fig-sampling-beta2" class="quarto-xref">Figure&nbsp;<span>3.2</span></a> shows the estimates in the hypothetical scenario in which we assume that <span class="math inline">\(\beta_2 = 0\)</span>: they vary around zero.</p>
+<p>In empirical work, we often want to check whether some variable (e.g., education) has an effect on the outcome (e.g., wages) at all. To check such a <strong>no-effect hypothesis</strong>, we formulate the null hypothesis <span class="math display">\[
+H_0\colon \beta_2 = 0
+\]</span> and then try to prove it wrong. That is, we try to reject <span class="math inline">\(H_0,\)</span> based on the evidence in the data.</p>
+<p>The right panel of <a href="#fig-sampling-beta2" class="quarto-xref">Figure&nbsp;<span>3.2</span></a> shows that, under the hypothetical no-effect scenario <span class="math display">\[
+H_0\colon \beta_2 = 0,
+\]</span> none of the simulated estimates of <span class="math inline">\(\beta_2\)</span> comes even close to the estimate <span class="math inline">\(\widehat\beta_2 = 0.54\)</span> that we computed from the actually observed data (dark red line).</p>
+<p>Our estimate <span class="math inline">\(\widehat\beta_2 = 0.54\)</span> thus seems incompatible with the no-effect scenario <span class="math display">\[
+H_0\colon \beta_2 = 0.
+\]</span></p>
+<p>However, this argument is merely based on a naive simulation. Statistical hypothesis tests, such as the <span class="math inline">\(t\)</span>-test, let us make exactly this argument in a scientifically clean and rigorous way.</p>
+</section><section id="the-t-test" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="the-t-test"><strong>The <span class="math inline">\(t\)</span>-Test</strong></h4>
+<p>We test the <strong>null hypothesis</strong> <span class="math inline">\(H_0\)</span> against the two-sided <strong>alternative hypothesis</strong> <span class="math inline">\(H_1\)</span>, <span class="math display">\[\begin{align*}
+&amp;H_0\colon \beta_2 = 0\quad\text{(education is unrelated to wages)}\\[2ex]
+\text{vs.}\quad &amp;H_1\colon \beta_2 \neq 0\quad\text{(education is related to wages)}
+\end{align*}\]</span> using the <strong><span class="math inline">\(t\)</span>-statistic</strong></p>
+<p><span id="eq-t-stat"><span class="math display">\[
+T = \frac{\widehat\beta_2 - 0}{\widehat{\operatorname{SE}}(\widehat\beta_2 \mid X)}
+\qquad(3.8)\]</span></span></p>
+<p>The <span class="math inline">\(t\)</span>-statistic measures how far the estimate lies from zero <em>in units of standard errors</em>. Like the estimator <span class="math inline">\(\widehat\beta_2\)</span>, the <span class="math inline">\(t\)</span>-statistic <span class="math inline">\(T\)</span> is a <strong>random variable:</strong> its value changes from sample to sample.</p>
+<p>We know the <em>exact</em> distribution of the random <span class="math inline">\(t\)</span>-statistic <span class="math inline">\(T\)</span> if</p>
+<ul>
+<li>
+<span class="math inline">\(H_0\colon \beta_2 = 0\)</span> is true (we say “under <span class="math inline">\(H_0\colon \beta_2 = 0\)</span>”),</li>
+<li>Assumptions 1–4 hold, and</li>
+<li>the error terms <span class="math inline">\(\varepsilon_i\)</span> are actually normally distributed, <span class="math inline">\(\varepsilon_i \mid X \sim \mathcal{N}(0, \sigma^2)\)</span>.</li>
+</ul>
+<p>Under these conditions, we have that <span id="eq-t-dist"><span class="math display">\[
+T = \frac{\widehat\beta_2 - 0}{\widehat{\operatorname{SE}}(\widehat\beta_2 \mid X)} \overset{H_0}{\sim} t_{n-2}.
+\qquad(3.9)\]</span></span></p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Notation: <span class="math inline">\(\overset{H_0}{\sim}\)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We write <span class="math inline">\(\overset{H_0}{\sim}\)</span> (read: “is, under <span class="math inline">\(H_0\)</span>, distributed as”) instead of <span class="math inline">\(\sim\)</span> as a reminder: <a href="#eq-t-dist" class="quarto-xref">Equation&nbsp;<span>3.9</span></a> holds only if</p>
+<ul>
+<li>
+<span class="math inline">\(H_0\colon \beta_2 = 0\)</span> is true</li>
+<li>Assumptions 1–4 hold</li>
+<li>errors <span class="math inline">\(\varepsilon_i\)</span> are normally distributed.</li>
+</ul>
+</div>
+</div>
+<p>For the <strong>obs</strong>erved value of <span class="math inline">\(T\)</span> computed from our observed data, we write <span class="math inline">\(T_{\operatorname{obs}}.\)</span> Here, <span class="math display">\[\begin{align*}
+T_{\operatorname{obs}}
+&amp;= \frac{\widehat{\beta}_{2,\operatorname{obs}} - 0}{\widehat{\operatorname{SE}}(\widehat\beta_2 \mid X)_{\operatorname{obs}}} \\[2ex]
+&amp;= \frac{0.541 - 0}{0.053} \\[2ex]
+&amp;= 10.2
+\end{align*}\]</span></p>
+<p>We can now compare the observed value <span class="math display">\[
+T_{\operatorname{obs}} = 10.2
+\]</span> with the null distribution <span class="math display">\[
+T \overset{H_0}{\sim} t_{n-2},
+\]</span> which tells us which values of <span class="math inline">\(T\)</span> we should expect to see if <span class="math inline">\(H_0\colon \beta_2 = 0\)</span> were true.</p>
+<p>Is <span class="math inline">\(T_{\operatorname{obs}}\)</span> compatible with <span class="math inline">\(H_0\)</span>, or is it incompatible with <span class="math inline">\(H_0\)</span>?</p>
+<p><a href="#fig-t-null" class="quarto-xref">Figure&nbsp;<span>3.3</span></a> shows the density of the null distribution together with <span class="math inline">\(T_{\operatorname{obs}}\)</span> (dark red line).</p>
+<p>Under <span class="math display">\[
+H_0\colon \beta_2 = 0,
+\]</span> the <span class="math inline">\(t\)</span>-statistic typically takes values between about <span class="math inline">\(-2\)</span> and <span class="math inline">\(2\)</span>.</p>
+<p>Our observed value <span class="math display">\[
+T_{\operatorname{obs}} = 10.2,
+\]</span> however, lies far out in the right tail, where the density is practically zero.</p>
+<p>That is, <span class="math inline">\(T_{\operatorname{obs}}\)</span> is incompatible with <span class="math inline">\(H_0\)</span>. (The shaded areas in <a href="#fig-t-null" class="quarto-xref">Figure&nbsp;<span>3.3</span></a> are explained below.)</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-t-null" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-t-null-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Ch_SimpleLinearRegression_files/figure-html/fig-t-null-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-t-null-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.3: Density of the null distribution <span class="math inline">\(t_{n-2}\)</span> of the <span class="math inline">\(t\)</span>-statistic <span class="math inline">\(T\)</span> under <span class="math inline">\(H_0\colon \beta_2 = 0\)</span>. The shaded tails are the rejection regions of the two-sided <span class="math inline">\(t\)</span>-test at significance level <span class="math inline">\(\alpha = 0.05\)</span> (dashed grey lines: critical values). The dark red line marks the observed value <span class="math inline">\(T_{\operatorname{obs}}\)</span>.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+R Code: Plotting the Null Distribution and <span class="math inline">\(T_{\operatorname{obs}}\)</span> (<a href="#fig-t-null" class="quarto-xref">Figure&nbsp;<span>3.3</span></a>)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">T_obs</span>  <span class="op">&lt;-</span> <span class="va">beta2_hat</span> <span class="op">/</span> <span class="va">SE_beta2</span></span>
+<span><span class="va">df_t</span>   <span class="op">&lt;-</span> <span class="va">n</span> <span class="op">-</span> <span class="fl">2</span></span>
+<span><span class="va">t_crit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">qt</a></span><span class="op">(</span><span class="fl">0.975</span>, df <span class="op">=</span> <span class="va">df_t</span><span class="op">)</span></span>
+<span><span class="va">t_seq</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">4</span>, <span class="fl">11</span>, length.out <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">t_seq</span>, <span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">dt</a></span><span class="op">(</span><span class="va">t_seq</span>, df <span class="op">=</span> <span class="va">df_t</span><span class="op">)</span>,</span>
+<span>     type <span class="op">=</span> <span class="st">"l"</span>, lwd <span class="op">=</span> <span class="fl">2</span>, las <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>     xlab <span class="op">=</span> <span class="st">"Values of T"</span>, ylab <span class="op">=</span> <span class="st">"Density"</span><span class="op">)</span></span>
+<span><span class="co">## Rejection regions (two-sided, alpha = 0.05)</span></span>
+<span><span class="va">t_left</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">4</span>, <span class="op">-</span><span class="va">t_crit</span>, length.out <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
+<span><span class="va">t_right</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="va">t_crit</span>, <span class="fl">11</span>, length.out <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/polygon.html">polygon</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">t_left</span>, <span class="fu"><a href="https://rdrr.io/r/base/rev.html">rev</a></span><span class="op">(</span><span class="va">t_left</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">dt</a></span><span class="op">(</span><span class="va">t_left</span>, df <span class="op">=</span> <span class="va">df_t</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>        col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/adjustcolor.html">adjustcolor</a></span><span class="op">(</span><span class="st">"lightcoral"</span>, alpha.f <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span>, border <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/polygon.html">polygon</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">t_right</span>, <span class="fu"><a href="https://rdrr.io/r/base/rev.html">rev</a></span><span class="op">(</span><span class="va">t_right</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">dt</a></span><span class="op">(</span><span class="va">t_right</span>, df <span class="op">=</span> <span class="va">df_t</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>        col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/adjustcolor.html">adjustcolor</a></span><span class="op">(</span><span class="st">"lightcoral"</span>, alpha.f <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span>, border <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="va">t_crit</span>, <span class="va">t_crit</span><span class="op">)</span>, lty <span class="op">=</span> <span class="fl">2</span>, col <span class="op">=</span> <span class="st">"grey40"</span><span class="op">)</span></span>
+<span><span class="co">## Observed value of the t-statistic</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="va">T_obs</span>, col <span class="op">=</span> <span class="st">"darkred"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span><span class="va">T_obs</span>, <span class="fl">0.35</span>, <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="cn">T</span><span class="op">[</span><span class="va">obs</span><span class="op">]</span><span class="op">)</span>, pos <span class="op">=</span> <span class="fl">2</span>, col <span class="op">=</span> <span class="st">"darkred"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<p>But how far is far enough? When exactly is the observed estimate <span class="math inline">\(\widehat{\beta}_{2,\operatorname{obs}} = 0.541\)</span> and its observed value of the <span class="math inline">\(t\)</span>-statistic <span class="math inline">\(T_{\operatorname{obs}} = 10.2\)</span> incompatible with <span class="math inline">\(H_0\colon\beta_2=0\)</span>?</p>
+<p>To answer this question, we use <strong>decision theory</strong>.</p>
+<p>Based on the data, a test makes one of two decisions:</p>
+<ul>
+<li>reject <span class="math inline">\(H_0\)</span> or</li>
+<li>fail to reject <span class="math inline">\(H_0.\)</span>
+</li>
+</ul>
+<p>Each of the two decisions can be right or wrong, depending on the unknown truth; see <a href="#tbl-test-decisions" class="quarto-xref">Table&nbsp;<span>3.2</span></a>.</p>
+<div id="tbl-test-decisions" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-test-decisions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.2: Possible outcomes of a statistical test. Rows: our decision based on the data. Columns: the unknown truth.
+</figcaption><div aria-describedby="tbl-test-decisions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 42%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">
+<span class="math inline">\(H_0\)</span> is true</th>
+<th style="text-align: left;">
+<span class="math inline">\(H_0\)</span> is not true</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Fail to reject <span class="math inline">\(H_0\)</span></strong></td>
+<td style="text-align: left;">Correct decision</td>
+<td style="text-align: left;"><strong>Type II error</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Reject <span class="math inline">\(H_0\)</span></strong></td>
+<td style="text-align: left;"><strong>Type I error</strong></td>
+<td style="text-align: left;">Correct decision</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>In empirical work, we usually hope to reject <span class="math inline">\(H_0,\)</span> since a rejection of <span class="math inline">\(H_0\)</span> is what typically gets a scientific paper published. 📄✌️😎</p>
+<p>Precisely because we want to reject <span class="math inline">\(H_0\)</span>, we must guard against rejecting it wrongly, i.e., against a <strong>Type I error</strong>. We therefore bound the probability of a Type I error from above by a small <strong>significance level</strong> <span class="math inline">\(\alpha\)</span>: <span class="math display">\[
+\underbrace{P(\text{reject $H_0$} \mid \text{$H_0$ is true})}_{\text{Probability of a Type I error}} \leq \alpha = \text{small value}.
+\]</span></p>
+<p>Commonly used significance levels are</p>
+<ul>
+<li><span class="math inline">\(\alpha = 0.05\)</span></li>
+<li><span class="math inline">\(\alpha = 0.01\)</span></li>
+<li><span class="math inline">\(\alpha = 0.001\)</span></li>
+</ul>
+<p>We now need a <strong>decision rule</strong> for rejecting <span class="math inline">\(H_0\)</span> such that the probability of a Type I error is bounded from above, for instance by <span class="math inline">\(\alpha=0.05,\)</span> <span class="math display">\[
+\underbrace{P(\text{reject $H_0$} \mid \text{$H_0$ is true})}_{\text{Probability of a Type I error}} \leq \alpha = 0.05.
+\]</span></p>
+<p><strong>Remember:</strong> Under <span class="math inline">\(H_0\)</span>, i.e., under the condition “<span class="math inline">\(\mid\)</span> <span class="math inline">\(H_0\)</span> is true”, we know from <a href="#eq-t-dist" class="quarto-xref">Equation&nbsp;<span>3.9</span></a> that <span class="math display">\[
+T = \frac{\widehat\beta_2 - 0}{\widehat{\operatorname{SE}}(\widehat\beta_2 \mid X)} \overset{H_0}{\sim} t_{n-2}.
+\]</span> Thus, we can use this knowledge about the null hypothetical distribution to design a <strong>decision rule,</strong> such that the probability of a Type I error is bounded from above by <span class="math inline">\(\alpha = 0.05.\)</span></p>
+<p>The general idea is the following:</p>
+<div class="spaced-list">
+<ol type="1">
+<li><p>Assume <span class="math inline">\(H_0\colon \beta_2 =0\)</span> were true.</p></li>
+<li><p>Under <span class="math inline">\(H_0,\)</span> we expect to see <span class="math inline">\((1-\alpha)\cdot 100 \% = 95\%\)</span> of all realizations of <span class="math inline">\(T\overset{H_0}{\sim} t_{n-2}\)</span> within the interval<br><span class="math display">\[\begin{align*}
+&amp; \big[t_{n-2,\, \alpha/2},\; t_{n-2,\, 1-\alpha/2}\big]\\[2ex]
+= &amp; \big[t_{n-2,\, 0.025},\; t_{n-2,\, 0.975}\big] \\[2ex]
+= &amp; \big[-1.965,\; 1.965\big]\quad \text{(using $n=526$)},
+\end{align*}\]</span> where <span class="math inline">\(t_{n-2,\, p}\)</span> denotes the <span class="math inline">\(p\)</span>-quantile of the <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n-2\)</span> degrees of freedom. In R:  $t_{n-2,, p}= $ <code>qt(p, df = n - 2)</code>.</p></li>
+<li>
+<p>Compare the actually observed <span class="math inline">\(T_{\operatorname{obs}}=10.2\)</span> against this null hypothetical range. <span class="math display">\[\begin{align*}
+T_{\operatorname{obs}} \not\in &amp; \big[t_{n-2,\, 0.025}, t_{n-2,\, 0.975}\big] \\[2ex]
+10.2 \not\in &amp; \big[-1.965, 1.965\big]\quad \text{(using $n=526$)}
+\end{align*}\]</span></p>
+<ul>
+<li>If <span class="math inline">\(T_{\operatorname{obs}}\)</span> is inside of it, we fail to reject <span class="math inline">\(H_0\)</span>.</li>
+<li>If <span class="math inline">\(T_{\operatorname{obs}}\)</span> is outside of it, we reject <span class="math inline">\(H_0\)</span>.</li>
+</ul>
+</li>
+</ol>
+</div>
+<p><strong>Summary: Decision Rule</strong></p>
+<div class="spaced-list">
+<ul>
+<li>
+<strong>Fail to reject <span class="math inline">\(H_0\)</span></strong> (<span class="math inline">\(T_{\operatorname{obs}}\)</span> is compatible with <span class="math inline">\(H_0\)</span>)
+<ul>
+<li>if <span class="math inline">\(t_{n-2,\, \alpha/2}\; \leq \;T_{\operatorname{obs}} \;\leq\; t_{n-2,\, 1-\alpha/2}.\)</span>
+</li>
+<li>Equivalently, if <span class="math inline">\(|T_{\operatorname{obs}}| \;\leq \; t_{n-2,\, 1-\alpha/2}.\)</span>
+</li>
+</ul>
+</li>
+<li>
+<strong>Reject <span class="math inline">\(H_0\)</span></strong> (<span class="math inline">\(T_{\operatorname{obs}}\)</span> is incompatible with <span class="math inline">\(H_0\)</span>)
+<ul>
+<li>if <span class="math inline">\(T_{\operatorname{obs}} \; &lt; \; t_{n-2,\, \alpha/2}\quad\text{or}\quad t_{n-2,\, 1-\alpha/2} \;&lt;\; T_{\operatorname{obs}}.\)</span>
+</li>
+<li>Equivalently, if <span class="math inline">\(|T_{\operatorname{obs}}| &gt; t_{n-2,\, 1-\alpha/2}.\)</span>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<p><strong>Critical Value:</strong> The quantile<br><span class="math display">\[
+t_{n-2,\, 1-\alpha/2}
+\]</span> is called the <strong>critical value</strong> of the test.</p>
+<p>Since the <span class="math inline">\(t\)</span>-distribution is symmetric around zero, we have that <span class="math display">\[
+t_{n-2,\, \alpha/2} = -t_{n-2,\, 1-\alpha/2};
+\]</span> that is why the decision rule can be written with <span class="math display">\[
+|T_{\operatorname{obs}}|.
+\]</span></p>
+<p><strong>Rejection Region:</strong> All values of <span class="math inline">\(T\)</span> beyond the critical values, i.e., <span class="math display">\[
+|T| &gt; t_{n-2,\, 1-\alpha/2},
+\]</span> form the <strong>rejection region</strong>: if <span class="math inline">\(T_{\operatorname{obs}}\)</span> falls into it, we reject <span class="math inline">\(H_0\)</span>.</p>
+<p>In <a href="#fig-t-null" class="quarto-xref">Figure&nbsp;<span>3.3</span></a>, the critical values are the dashed grey lines and the rejection region is shaded. For <span class="math inline">\(\alpha = 0.05\)</span> and our sample size, the critical value is <span class="math display">\[
+t_{n-2,\, 0.975} = t_{524,\, 0.975} = 1.965,
+\]</span> computed with <code>qt(0.975, df = n - 2)</code>. Since <span class="math display">\[
+|T_{\operatorname{obs}}| = 10.2 &gt; 1.965,
+\]</span> <span class="math inline">\(T_{\operatorname{obs}}\)</span> lies (clearly) in the rejection region, and we reject <span class="math inline">\(H_0\colon \beta_2 = 0\)</span> at the significance level <span class="math inline">\(\alpha=0.05.\)</span></p>
+<p>Try it: at which significance levels <span class="math inline">\(\alpha\)</span> can we still reject <span class="math inline">\(H_0\colon\beta_2=0\)</span>?</p>
+<p>One can show that the decision rule <span class="math display">\[
+|T_{\operatorname{obs}}| &gt; t_{n-2,\, 1-\alpha/2}
+\]</span> keeps the probability of a Type I error exactly at <span class="math inline">\(\alpha\)</span>: <span class="math display">\[
+\underbrace{P\bigl(|T| &gt; t_{n-2,\, 1-\alpha/2} \mid \text{$H_0$ is true}\bigr)}_{\text{Probability of a Type I error}} = \alpha.
+\]</span></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Going Deeper: Proof that the Probability of a Type I Error Equals <span class="math inline">\(\alpha\)</span>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(F\)</span> denote the distribution function of the <span class="math inline">\(t_{n-2}\)</span>-distribution and write <span class="math inline">\(q = t_{n-2,\, 1-\alpha/2}\)</span> for short. By <a href="#eq-t-dist" class="quarto-xref">Equation&nbsp;<span>3.9</span></a>, <span class="math inline">\(T \overset{H_0}{\sim} t_{n-2}\)</span>, so all probabilities below are computed with <span class="math inline">\(F\)</span>.</p>
+<p><strong>Step 1: Split the event.</strong> The event <span class="math inline">\(|T| &gt; q\)</span> means that <span class="math inline">\(T &gt; q\)</span> <em>or</em> <span class="math inline">\(T &lt; -q\)</span>. These two events cannot occur at the same time, so their probabilities add up: <span class="math display">\[\begin{align*}
+P\bigl(|T| &gt; q \mid \text{$H_0$ is true}\bigr)
+&amp;= P(T &gt; q \mid \text{$H_0$ is true}) \\
+&amp;\quad + P(T &lt; -q \mid \text{$H_0$ is true}).
+\end{align*}\]</span></p>
+<p><strong>Step 2: Express both parts with <span class="math inline">\(F\)</span>.</strong> Since the <span class="math inline">\(t\)</span>-distribution is continuous, <span class="math inline">\(P(T = q) = 0\)</span>, and thus <span class="math display">\[\begin{align*}
+P(T &gt; q \mid \text{$H_0$ is true}) &amp; = 1 - F(q), \\[2ex]
+P(T &lt; -q \mid \text{$H_0$ is true}) &amp; = F(-q).
+\end{align*}\]</span></p>
+<p><strong>Step 3: Use the symmetry of the <span class="math inline">\(t\)</span>-distribution.</strong> The density of the <span class="math inline">\(t\)</span>-distribution is symmetric around zero (see <a href="#fig-t-null" class="quarto-xref">Figure&nbsp;<span>3.3</span></a>), so the area to the left of <span class="math inline">\(-q\)</span> equals the area to the right of <span class="math inline">\(q\)</span>: <span class="math display">\[
+F(-q) = 1 - F(q).
+\]</span></p>
+<p><strong>Step 4: Use the definition of the quantile.</strong> <span class="math inline">\(q = t_{n-2,\, 1-\alpha/2}\)</span> is the <span class="math inline">\((1-\alpha/2)\)</span>-quantile of the <span class="math inline">\(t_{n-2}\)</span>-distribution, i.e., <span class="math inline">\(F(q) = 1 - \alpha/2\)</span>.</p>
+<p><strong>Step 5: Put everything together.</strong> <span class="math display">\[\begin{align*}
+P\bigl(|T| &gt; q \mid \text{$H_0$ is true}\bigr)
+&amp; = \bigl(1 - F(q)\bigr) + F(-q) \\[2ex]
+&amp; = 2\,\bigl(1 - F(q)\bigr) \\[2ex]
+&amp; = 2\,\bigl(1 - (1 - \alpha/2)\bigr) \\[2ex]
+&amp; = \alpha. \qquad \blacksquare
+\end{align*}\]</span></p>
+<p>In words: each of the two shaded tails in <a href="#fig-t-null" class="quarto-xref">Figure&nbsp;<span>3.3</span></a> has probability <span class="math inline">\(\alpha/2\)</span>, so together they have probability <span class="math inline">\(\alpha\)</span>. We can check this in R for <span class="math inline">\(\alpha = 0.05\)</span> and our sample size:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">alpha</span>  <span class="op">&lt;-</span> <span class="fl">0.05</span></span>
+<span><span class="va">q</span>      <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">qt</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">alpha</span> <span class="op">/</span> <span class="fl">2</span>, df <span class="op">=</span> <span class="va">n</span> <span class="op">-</span> <span class="fl">2</span><span class="op">)</span>   <span class="co"># critical value</span></span>
+<span><span class="fl">2</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">pt</a></span><span class="op">(</span><span class="va">q</span>, df <span class="op">=</span> <span class="va">n</span> <span class="op">-</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span>               <span class="co"># P(|T| &gt; q) under H0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.05</code></pre>
+</div>
+</div>
+<p><strong>Note:</strong> The proof relies on <a href="#eq-t-dist" class="quarto-xref">Equation&nbsp;<span>3.9</span></a> being exact, i.e., on normally distributed errors. Without normality, <span class="math inline">\(P(|T| &gt; q \mid \text{$H_0$ is true})\)</span> is only approximately equal to <span class="math inline">\(\alpha\)</span> for largish <span class="math inline">\(n\)</span> (e.g.&nbsp;<span class="math inline">\(n\geq 30\)</span>).</p>
+</div>
+</div>
+</div>
+</section><section id="the-p-value" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="the-p-value"><strong>The <span class="math inline">\(p\)</span>-Value</strong></h4>
+<p>The <strong><span class="math inline">\(p\)</span>-value</strong> is the probability, under <span class="math inline">\(H_0\)</span>, that the <span class="math inline">\(t\)</span>-statistic <span class="math inline">\(T\)</span> is at least as extreme — in absolute value — as the observed value <span class="math inline">\(|T_{\operatorname{obs}}|\)</span>:</p>
+<p><span class="math display">\[\begin{align*}
+p_{\operatorname{obs}}
+&amp;= P\bigl(|T| \geq |T_{\operatorname{obs}}| \mid \text{$H_0$ is true}\bigr)\\[2ex]
+&amp;= P_{H_0}\bigl(|T| \geq |T_{\operatorname{obs}}|\bigr)
+\end{align*}\]</span></p>
+<p>The <span class="math inline">\(p\)</span>-value gives an equivalent decision rule:</p>
+<ul>
+<li><p><strong>Fail to reject <span class="math inline">\(H_0\)</span></strong> (<span class="math inline">\(T_{\operatorname{obs}}\)</span> is compatible with <span class="math inline">\(H_0\)</span>) if <span class="math display">\[
+p_{\operatorname{obs}} \geq \alpha.
+\]</span></p></li>
+<li><p><strong>Reject <span class="math inline">\(H_0\)</span></strong> (<span class="math inline">\(T_{\operatorname{obs}}\)</span> is incompatible with <span class="math inline">\(H_0\)</span>) if <span class="math display">\[
+p_{\operatorname{obs}} &lt; \alpha,
+\]</span> where <span class="math inline">\(\alpha\)</span> denotes the significance level such as <span class="math inline">\(\alpha = 0.05.\)</span></p></li>
+</ul>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+📢 The <span class="math inline">\(p\)</span>-Value Is <strong>Not</strong> the Probability That the Null Hypothesis Is True!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The p-value is calculated assuming the null hypothesis is true. Therefore, it cannot be the probability of that same hypothesis being true.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="images/terminator.jpeg" class="img-fluid figure-img"></p>
+<figcaption>The Terminator knows stats.</figcaption></figure>
+</div>
+</div>
+</div>
+</section><section id="testing-other-hypothesized-values" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="testing-other-hypothesized-values"><strong>Testing Other Hypothesized Values</strong></h4>
+<p>The <span class="math inline">\(t\)</span>-test is not restricted to the no-effect hypothesis <span class="math inline">\(\beta_2 = 0\)</span>. To test whether <span class="math inline">\(\beta_2\)</span> equals any other hypothesized value <span class="math inline">\(\beta_2^0\)</span>, <span class="math display">\[\begin{align*}
+&amp;H_0\colon \beta_2 = \beta_2^0\\[2ex]
+\text{vs.}\quad &amp;H_1\colon \beta_2 \neq \beta_2^0,
+\end{align*}\]</span> we use the <span class="math inline">\(t\)</span>-statistic <span class="math display">\[
+T = \frac{\widehat\beta_2 - \beta_2^0}{\widehat{\operatorname{SE}}(\widehat\beta_2 \mid X)} \overset{H_0}{\sim} t_{n-2}
+\]</span> together with the same decision rule as above.</p>
+<p><strong>Example:</strong> Suppose someone claims that one additional year of education raises hourly wages by <span class="math inline">\(50\)</span> cents on average. To check this claim, we test <span class="math display">\[\begin{align*}
+&amp;H_0\colon \beta_2 = 0.5\\[2ex]
+\text{vs.}\quad &amp;H_1\colon \beta_2 \neq 0.5.
+\end{align*}\]</span> The observed value of the <span class="math inline">\(t\)</span>-statistic is <span class="math display">\[
+T_{\operatorname{obs}} = \frac{0.5414 - 0.5}{0.0532} = 0.78,
+\]</span> and the corresponding <span class="math inline">\(p\)</span>-value is computed as follows. Let <span class="math inline">\(F\)</span> denote the distribution function of the <span class="math inline">\(t_{n-2}\)</span>-distribution, i.e., the distribution of <span class="math inline">\(T\)</span> under <span class="math inline">\(H_0\)</span>. Then <span class="math display">\[\begin{align*}
+p_{\operatorname{obs}}
+&amp;= P_{H_0}\bigl(|T| \geq |T_{\operatorname{obs}}|\bigr) \\[2ex]
+&amp;= P_{H_0}\bigl(T \leq -|T_{\operatorname{obs}}|\bigr)
++ P_{H_0}\bigl(T \geq |T_{\operatorname{obs}}|\bigr) \\[2ex]
+% &amp;= P\bigl(T \leq -|T_{\operatorname{obs}}|\;\mid \text{$H_0$ is true}\bigr) + P\bigl(T \geq |T_{\operatorname{obs}}|\;\mid \text{$H_0$ is true}\bigr) \\[2ex]
+% &amp;= P\bigl(T \leq -|T_{\operatorname{obs}}|\;\mid \text{$H_0$ is true}\bigr) + 1-P\bigl(T &lt; |T_{\operatorname{obs}}|\;\mid \text{$H_0$ is true}\bigr) \\[2ex]
+&amp;= F\bigl(-|T_{\operatorname{obs}}|\bigr) + \Bigl(1 - F\bigl(|T_{\operatorname{obs}}|\bigr)\Bigr) \\[2ex]
+&amp;= 2\,\Bigl(1 - F\bigl(|T_{\operatorname{obs}}|\bigr)\Bigr) \\[2ex]
+&amp;= 2\,\bigl(1 - F(0.78)\bigr) \\[2ex]
+&amp;= 2\,\bigl(1 - 0.7812\bigr) \\[2ex]
+&amp;= 0.44.
+\end{align*}\]</span> Step by step:</p>
+<ol type="1">
+<li>The event <span class="math inline">\(|T| \geq |T_{\operatorname{obs}}|\)</span> consists of the two non-overlapping events <span class="math inline">\(T \leq -|T_{\operatorname{obs}}|\)</span> (left tail) and <span class="math inline">\(T \geq |T_{\operatorname{obs}}|\)</span> (right tail), so their probabilities add up.</li>
+<li>We express both tail probabilities with <span class="math inline">\(F\)</span> (the cdf of <span class="math inline">\(t_{n-2}\)</span>). (Since the <span class="math inline">\(t\)</span>-distribution is continuous, it does not matter whether we write <span class="math inline">\(\geq\)</span> or <span class="math inline">\(&gt;\)</span> and <span class="math inline">\(\leq\)</span> or <span class="math inline">\(&lt;\)</span>.)</li>
+<li>The <span class="math inline">\(t\)</span>-distribution is symmetric around zero, so both tails have the same probability: <span class="math inline">\(F(-|T_{\operatorname{obs}}|) = 1 - F(|T_{\operatorname{obs}}|).\)</span>
+</li>
+<li>We plug in <span class="math inline">\(|T_{\operatorname{obs}}|\)</span> and evaluate <span class="math inline">\(F\)</span> with R’s <code><a href="https://rdrr.io/r/stats/TDist.html">pt()</a></code> function:</li>
+</ol>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">## observed t-statistic</span></span>
+<span><span class="va">T_obs_05</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html">unname</a></span><span class="op">(</span><span class="op">(</span><span class="va">beta2_hat</span> <span class="op">-</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">/</span> <span class="va">SE_beta2</span><span class="op">)</span></span>
+<span><span class="co"># F(|T_obs|)</span></span>
+<span><span class="va">F_value</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/TDist.html">pt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">T_obs_05</span><span class="op">)</span>, df <span class="op">=</span> <span class="va">n</span> <span class="op">-</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="co">## observed p-value</span></span>
+<span><span class="va">p_obs</span>    <span class="op">&lt;-</span> <span class="fl">2</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">F_value</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>T_obs   <span class="op">=</span> <span class="va">T_obs_05</span>,</span>
+<span>  F_value <span class="op">=</span> <span class="va">F_value</span>,</span>
+<span>  p_obs   <span class="op">=</span> <span class="va">p_obs</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    T_obs   F_value     p_obs 
+0.7767283 0.7811652 0.4376696 </code></pre>
+</div>
+</div>
+<p>Since <span class="math display">\[
+p_{\operatorname{obs}} \geq \alpha = 0.05,
+\]</span> <span class="math inline">\(T_{\operatorname{obs}}\)</span> is compatible with <span class="math display">\[
+H_0\colon\beta_2=0.5,
+\]</span> and we thus fail to reject <span class="math inline">\(H_0.\)</span></p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+📢 Failing to Reject <span class="math inline">\(H_0\)</span> Does Not Mean <span class="math inline">\(H_0\)</span> Is True!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Failing to reject <span class="math inline">\(H_0\)</span> does <strong><em>not</em></strong> allow us to conclude that <span class="math inline">\(H_0\colon\beta_2 = 0.5\)</span> is true!</p>
+<p>The reason: we cannot guarantee that the probability of a Type II error (failing to reject <span class="math inline">\(H_0\)</span> when <span class="math inline">\(H_1\)</span> is true) is small. This would require knowing the distribution of <span class="math inline">\(T\)</span> under <span class="math inline">\(H_1\colon\beta_2 \neq 0.5\)</span> — which we do not know, since it depends on the unknown true value of <span class="math inline">\(\beta_2\)</span>.</p>
+</div>
+</div>
+</section><section id="confidence-interval" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="confidence-interval"><strong>Confidence Interval</strong></h4>
+<p>A <span class="math inline">\((1-\alpha)\cdot 100\%\)</span> <strong>confidence interval</strong> for <span class="math inline">\(\beta_2\)</span> is the <strong>random</strong> interval <span id="eq-CI-beta2"><span class="math display">\[
+\begin{aligned}
+\operatorname{CI}_{1-\alpha}
+= \Bigl[\,&amp;\widehat\beta_2 - t_{n-2,\,1-\alpha/2}\cdot\widehat{\operatorname{SE}}(\widehat\beta_2 \mid X),\\
+&amp;\widehat\beta_2 + t_{n-2,\,1-\alpha/2}\cdot\widehat{\operatorname{SE}}(\widehat\beta_2 \mid X)\,\Bigr].
+\end{aligned}
+\qquad(3.10)\]</span></span> Its endpoints are computed from the data, so they vary from sample to sample.</p>
+<p>Under Assumptions 1–4 and normally distributed errors, the <strong>coverage probability</strong> is given by <span class="math display">\[
+P\bigl(\beta_2 \in \operatorname{CI}_{1-\alpha}\bigr) = 1 - \alpha;
+\]</span> i.e., across many samples, we expect that <span class="math inline">\((1-\alpha)\cdot 100\%\)</span> of the realized (observed) confidence intervals <strong>cover</strong> (contain) the true (typically unknown) value <span class="math inline">\(\beta_2.\)</span></p>
+<p>The value <span class="math inline">\(1-\alpha\)</span> of the coverage probability is called the <strong>confidence level</strong>.</p>
+<p><a href="#fig-CI-coverage-anim" class="quarto-xref">Figure&nbsp;<span>3.4</span></a> visualizes this randomness: the observed realizations cover the (usually unknown) true parameter value <span class="math inline">\(\beta_2\)</span> in <span class="math inline">\(95\%\)</span> of the cases.</p>
+<p>In real data problems, however, we observe only one realization of the <span class="math inline">\(95\%\)</span> confidence interval, and we do <em>not</em> know whether it covers the true <span class="math inline">\(\beta_2\)</span> or not.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-CI-coverage-anim" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-CI-coverage-anim-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="Ch_SimpleLinearRegression_files/figure-html/fig-CI-coverage-anim-.gif" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-CI-coverage-anim-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.4: Sequential realizations of the <span class="math inline">\(95\%\)</span> confidence interval for <span class="math inline">\(\beta_2\)</span> across 40 simulated samples Green intervals cover the true (usually unknown) <span class="math inline">\(\beta_2\)</span>; red intervals miss it. In real data problems, we observe only one realization of the <span class="math inline">\(95\%\)</span> confidence interval and we do not know whether it covers the true <span class="math inline">\(\beta_2\)</span> or not.
+</figcaption></figure>
+</div>
+</div>
+</div>
+<p>For <span class="math inline">\(\alpha = 0.05\)</span> and our data, the <strong>observed</strong> <span class="math inline">\(95\%\)</span> confidence interval is <span class="math display">\[\begin{align*}
+\operatorname{CI}_{0.95,\operatorname{obs}}
+&amp;= \Bigl[\,\widehat\beta_{2,\operatorname{obs}} - t_{n-2,\,1-\alpha/2}\cdot\widehat{\operatorname{SE}}(\widehat\beta_2 \mid X)_{\operatorname{obs}},\\
+&amp;\qquad\;\widehat\beta_{2,\operatorname{obs}} + t_{n-2,\,1-\alpha/2}\cdot\widehat{\operatorname{SE}}(\widehat\beta_2 \mid X)_{\operatorname{obs}}\,\Bigr]\\[2ex]
+&amp;= \bigl[\,0.5414 - 1.965 \cdot 0.0532,\\[2ex]
+&amp;\qquad\; 0.5414 + 1.965 \cdot 0.0532\,\bigr] \\[2ex]
+&amp;= \bigl[\,0.437,\;\; 0.646\,\bigr].
+\end{align*}\]</span> Since <span class="math inline">\(t_{n-2,\,0.975} \approx 2\)</span> for large <span class="math inline">\(n\)</span>, this is roughly the estimate plus/minus two standard errors.</p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+What the <span class="math inline">\(95\%\)</span> Refers To
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <span class="math inline">\(95\%\)</span> refers to the <em>procedure</em>, i.e., to the <em>random</em> confidence interval <span class="math inline">\(\operatorname{CI}_{0.95},\)</span> not to a particular, observed confidence interval.</p>
+<p>Once we have computed <span class="math inline">\(\operatorname{CI}_{0.95,\operatorname{obs}}\)</span> from our data, it is a fixed interval: it either contains the true <span class="math inline">\(\beta_2\)</span> or it does not: we just don’t know.</p>
+<p>❗ It is therefore <strong>not correct</strong> to say: “<span class="math inline">\(\beta_2\)</span> lies in <span class="math inline">\(\bigl[0.437,\, 0.646\bigr]\)</span> with probability <span class="math inline">\(95\%\)</span>.”</p>
+</div>
+</div>
+<p><strong>Confidence intervals and <span class="math inline">\(t\)</span>-tests.</strong></p>
+<p>Consider the hypotheses <span class="math display">\[\begin{align*}
+&amp;H_0\colon \beta_2 = \beta_2^0\\[2ex]
+\text{vs.}\quad &amp;H_1\colon \beta_2 \neq \beta_2^0.
+\end{align*}\]</span></p>
+<p>A value <span class="math inline">\(\beta_2^0\)</span> lies inside the confidence interval exactly if the <span class="math inline">\(t\)</span>-test of <span class="math inline">\(H_0\colon \beta_2 = \beta_2^0\)</span> does <em>not</em> reject <span class="math inline">\(H_0\)</span>: <span class="math display">\[\begin{align*}
+\beta_2^0 \in \operatorname{CI}_{1-\alpha,\operatorname{obs}}
+&amp;\iff \widehat\beta_{2,\operatorname{obs}} - t_{n-2,\,1-\alpha/2}\cdot\widehat{\operatorname{SE}}_{\operatorname{obs}}
+\;\leq\; \beta_2^0 \\
+&amp;\qquad\;\;\text{and}\;\; \beta_2^0 \;\leq\;
+\widehat\beta_{2,\operatorname{obs}} + t_{n-2,\,1-\alpha/2}\cdot\widehat{\operatorname{SE}}_{\operatorname{obs}} \\[2ex]
+&amp;\iff \bigl|\widehat\beta_{2,\operatorname{obs}} - \beta_2^0\bigr| \leq t_{n-2,\,1-\alpha/2}\cdot\widehat{\operatorname{SE}}_{\operatorname{obs}} \\[2ex]
+&amp;\iff \left|\frac{\widehat\beta_{2,\operatorname{obs}} - \beta_2^0}{\widehat{\operatorname{SE}}_{\operatorname{obs}}}\right| \leq t_{n-2,\,1-\alpha/2} \\[2ex]
+&amp;\iff |T_{\operatorname{obs}}| \leq t_{n-2,\,1-\alpha/2},
+\end{align*}\]</span> where <span class="math inline">\(\widehat{\operatorname{SE}}_{\operatorname{obs}}\)</span> is short for the observed <span class="math inline">\(\widehat{\operatorname{SE}}(\widehat\beta_2 \mid X)\)</span>.</p>
+<p>In other words: the observed confidence interval <span class="math inline">\(\operatorname{CI}_{1-\alpha,\operatorname{obs}}\)</span> collects all hypothesized values <span class="math inline">\(\beta_2^0\)</span> that are compatible with the data. This gives us a third, equivalent decision rule.</p>
+<p><strong>Decision Rule (based on the confidence interval):</strong> To test <span class="math display">\[\begin{align*}
+&amp;H_0\colon \beta_2 = \beta_2^0\\[2ex]
+\text{vs.}\quad &amp;H_1\colon \beta_2 \neq \beta_2^0
+\end{align*}\]</span> at significance level <span class="math inline">\(\alpha\)</span>,</p>
+<div class="spaced-list">
+<ul>
+<li>
+<strong>Fail to reject <span class="math inline">\(H_0\)</span></strong> (<span class="math inline">\(T_{\operatorname{obs}}\)</span> is compatible with <span class="math inline">\(H_0\)</span>)
+<ul>
+<li>if <span class="math inline">\(\beta_2^0 \in \operatorname{CI}_{1-\alpha,\operatorname{obs}}\)</span>.</li>
+</ul>
+</li>
+<li>
+<strong>Reject <span class="math inline">\(H_0\)</span></strong> (<span class="math inline">\(T_{\operatorname{obs}}\)</span> is incompatible with <span class="math inline">\(H_0\)</span>)
+<ul>
+<li>if <span class="math inline">\(\beta_2^0 \notin \operatorname{CI}_{1-\alpha,\operatorname{obs}}\)</span>.</li>
+</ul>
+</li>
+</ul>
+</div>
+<p><strong>Example:</strong> With <span class="math inline">\(\operatorname{CI}_{0.95,\operatorname{obs}} = \bigl[0.437,\, 0.646\bigr]\)</span>,</p>
+<div class="spaced-list">
+<ul>
+<li>
+<span class="math inline">\(H_0\colon \beta_2 = 0\)</span> is rejected, since <span class="math inline">\(0 \notin \operatorname{CI}_{0.95,\operatorname{obs}}\)</span> (as found with <span class="math inline">\(T_{\operatorname{obs}}\)</span> above), and</li>
+<li>
+<span class="math inline">\(H_0\colon \beta_2 = 0.5\)</span> is not rejected, since <span class="math inline">\(0.5 \in \operatorname{CI}_{0.95,\operatorname{obs}}\)</span> (as found in the 50-cents example above).</li>
+</ul>
+</div>
+<p>A single confidence interval thus answers the test question for <em>all</em> hypothesized values <span class="math inline">\(\beta_2^0\)</span> at once.</p>
+</section><section id="inference-in-r" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="inference-in-r"><strong>Inference in R</strong></h4>
+<p>The <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> output reports <span class="math inline">\(\widehat\beta_j\)</span>, <span class="math inline">\(\widehat{\operatorname{SE}}(\widehat\beta_j \mid X)\)</span>, the <span class="math inline">\(t\)</span>-statistic, and the <span class="math inline">\(p\)</span>-value for each coefficient. <code><a href="https://rdrr.io/r/stats/confint.html">confint()</a></code> returns confidence intervals:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">lm_simple</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = wage ~ educ, data = wage1)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-5.3396 -2.1501 -0.9674  1.1921 16.6085 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -0.90485    0.68497  -1.321    0.187    
+educ         0.54136    0.05325  10.167   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 3.378 on 524 degrees of freedom
+Multiple R-squared:  0.1648,    Adjusted R-squared:  0.1632 
+F-statistic: 103.4 on 1 and 524 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/confint.html">confint</a></span><span class="op">(</span><span class="va">lm_simple</span>, level <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 2.5 %    97.5 %
+(Intercept) -2.2504719 0.4407687
+educ         0.4367534 0.6459651</code></pre>
+</div>
+</div>
+<p><strong>Interpretation:</strong> The <span class="math inline">\(t\)</span>-statistic on <code>educ</code> far exceeds the critical value and the <span class="math inline">\(p\)</span>-value is essentially zero, so we reject <span class="math inline">\(H_0\colon\beta_2 = 0\)</span> at any conventional significance level. The <span class="math inline">\(95\%\)</span> confidence interval <span class="math inline">\([0.437,\, 0.646]\)</span> lies entirely above zero: all values of <span class="math inline">\(\beta_2\)</span> that are compatible with the data are positive.</p>
+<div class="callout callout-style-simple callout-caution">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Statistical significance does not imply practical importance. A small <span class="math inline">\(p\)</span>-value tells us that the data are incompatible with the corresponding null hypothesis; it does not tell us whether the magnitude <span class="math inline">\(\widehat\beta_2 = 0.54\)</span> is large enough to matter. Always report and interpret the estimated size of the effect, not just the <span class="math inline">\(p\)</span>-value.</p>
+</div>
+</div>
+</div>
+</section></section><section id="sec-largeSample-simple" class="level3" data-number="3.2.6"><h3 data-number="3.2.6" class="anchored" data-anchor-id="sec-largeSample-simple">
+<span class="header-section-number">3.2.6</span> Large Samples</h3>
+<p>Two of our assumptions are, strictly speaking, rarely true:</p>
+<ol type="1">
+<li>
+<strong>normally distributed errors</strong> and</li>
+<li>
+<strong>homoskedasticity</strong>.</li>
+</ol>
+<p>Both turn out to be dispensable for large samples; we just need a large enough <span class="math inline">\(n\)</span>.</p>
+<section id="do-the-errors-need-to-be-normal" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="do-the-errors-need-to-be-normal"><strong>Do the Errors Need to Be Normal?</strong></h4>
+<p>The <span class="math inline">\(t_{n-2}\)</span> null distribution of the <span class="math inline">\(t\)</span>-statistic ( <a href="#eq-t-dist" class="quarto-xref">Equation&nbsp;<span>3.9</span></a>) is <em>exact</em> only if the errors are normally distributed, <span class="math display">\[
+\varepsilon_i \mid X \sim \mathcal{N}(0, \sigma^2).
+\]</span></p>
+<p>In practice, however, error terms are hardly ever exactly normally distributed. Hourly wages, for instance, are clearly right-skewed and thus cannot be normally distributed.</p>
+<p>Luckily, even without normality, the <strong>Central Limit Theorem</strong> makes the <span class="math inline">\(t\)</span>-statistic <span class="math inline">\(T\)</span> approximately <span class="math inline">\(\mathcal{N}(0,1)\)</span> for large <span class="math inline">\(n\)</span> <span class="math display">\[
+T=\frac{\widehat{\beta_2} - \beta_2^0}{\widehat{SE}(\widehat{\beta}_2\mid X)}\overset{H_0}{\approx }\mathcal{N}(0,1),
+\]</span> where the distributional approximation <span class="math inline">\((\approx)\)</span> becomes better the larger the sample size <span class="math inline">\(n.\)</span></p>
+<p>Since <span class="math inline">\(t_{n-2} \approx \mathcal{N}(0,1)\)</span> for large <span class="math inline">\(n\)</span> too, everything discussed above remains approximately valid for large <span class="math inline">\(n\)</span> — even without normally distributed errors:</p>
+<ul>
+<li>
+<span class="math inline">\(t\)</span>-tests</li>
+<li>
+<span class="math inline">\(p\)</span>-values</li>
+<li>confidence intervals</li>
+</ul>
+<p>With <span class="math inline">\(n = 526\)</span> workers, our sample is large enough for this approximation to work well.</p>
+</section><section id="sec-robustSE-simple" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="sec-robustSE-simple"><strong>Heteroskedasticity-Robust Standard Errors</strong></h4>
+<p>The above variance (<a href="#eq-var-beta2" class="quarto-xref">Equation&nbsp;<span>3.5</span></a>) and standard error formulas<br><span class="math display">\[\begin{align*}
+\operatorname{Var}(\widehat\beta_2 \mid X)
+=&amp; \frac{\sigma^2}{\displaystyle\sum_{i=1}^{n}(X_i - \bar X)^2}\\[2ex]
+\operatorname{SE}(\widehat\beta_2 \mid X)
+=&amp; \sqrt{\operatorname{Var}(\widehat\beta_2 \mid X)}
+\end{align*}\]</span> and their estimators (see <a href="#eq-SE-beta2" class="quarto-xref">Equation&nbsp;<span>3.7</span></a>) <span class="math display">\[\begin{align*}
+\widehat{\operatorname{Var}}(\widehat\beta_2\mid X)
+= &amp; \frac{\widehat\sigma^2}{\displaystyle\sum_{i=1}^{n}(X_i - \bar X)^2}\\[2ex]
+\widehat{\operatorname{SE}}(\widehat\beta_2\mid X)
+= &amp; \sqrt{\widehat{\operatorname{Var}}(\widehat\beta_2\mid X)}
+\end{align*}\]</span> rely on Assumption 4 (homoskedasticity).</p>
+<p>However, the scatter plot in <a href="#fig-wage-educ" class="quarto-xref">Figure&nbsp;<span>3.1</span></a> suggests that this assumption is violated: the spread of wages increases with education.</p>
+<p><strong>Heteroskedasticity.</strong> If the error variance <span class="math display">\[
+\operatorname{Var}(\varepsilon_i \mid X_i) = \sigma_i^2
+\]</span> differs across workers, the variance of <span class="math inline">\(\widehat\beta_2\)</span> is no longer <a href="#eq-var-beta2" class="quarto-xref">Equation&nbsp;<span>3.5</span></a> but <span id="eq-var-beta2-robust"><span class="math display">\[
+\operatorname{Var}(\widehat\beta_2 \mid X)
+= \frac{\displaystyle\sum_{i=1}^{n}(X_i - \bar X)^2\,\sigma_i^2}
+       {\Bigl(\displaystyle\sum_{i=1}^{n}(X_i - \bar X)^2\Bigr)^2}.
+\qquad(3.11)\]</span></span></p>
+<p>Under <strong>homoskedasticity</strong> all <span class="math inline">\(\sigma_i^2 = \sigma^2\)</span> and the variance formula simplifies back to <a href="#eq-var-beta2" class="quarto-xref">Equation&nbsp;<span>3.5</span></a>.</p>
+<p><strong>Estimating the robust variance.</strong> <a href="#eq-var-beta2-robust" class="quarto-xref">Equation&nbsp;<span>3.11</span></a> is not directly computable, since <span class="math inline">\(\sigma_i^2\)</span> is unknown for all <span class="math inline">\(i = 1, \dots, n\)</span>. Replacing each unknown <span class="math inline">\(\sigma_i^2\)</span> by the squared residual <span class="math inline">\(\widehat\varepsilon_i^2\)</span> gives the so-called <strong>HC0</strong> heteroskedasticity-robust variance estimator <span class="math display">\[
+\widehat{\operatorname{Var}}_{\operatorname{HC0}}(\widehat\beta_2 \mid X)
+= \frac{\displaystyle\sum_{i=1}^{n}(X_i - \bar X)^2\,\widehat{\varepsilon}_i^2}
+       {\Bigl(\displaystyle\sum_{i=1}^{n}(X_i - \bar X)^2\Bigr)^2}
+\]</span> and the <strong>HC0</strong> heteroskedasticity-robust standard error <span class="math display">\[
+\widehat{\operatorname{SE}}_{\operatorname{HC0}}(\widehat\beta_2 \mid X)=\sqrt{\widehat{\operatorname{Var}}_{\operatorname{HC0}}(\widehat\beta_2 \mid X)}.
+\]</span></p>
+<p>There are several refinements of this idea. The most commonly used refinement, <strong>HC3</strong>, slightly inflates the squared residuals to correct for small-sample bias.</p>
+<p>According to <span class="citation" data-cites="Long_Ervin_2000">Long and Ervin (<a href="#ref-Long_Ervin_2000" role="doc-biblioref">2000</a>)</span>, HC3 has the best finite-sample performance.</p>
+<p>The R packages <code>sandwich</code> and <code>lmtest</code> compute robust variance and standard error estimates for us:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://sandwich.R-Forge.R-project.org/">"sandwich"</a></span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st">"lmtest"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## HC3 heteroskedasticity-robust standard error</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/lmtest/man/coeftest.html">coeftest</a></span><span class="op">(</span><span class="va">lm_simple</span>, vcov <span class="op">=</span> <span class="fu"><a href="https://sandwich.R-Forge.R-project.org/reference/vcovHC.html">vcovHC</a></span><span class="op">(</span><span class="va">lm_simple</span>, type <span class="op">=</span> <span class="st">"HC3"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+t test of coefficients:
+
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -0.904852   0.733385 -1.2338   0.2178    
+educ         0.541359   0.061863  8.7510   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>In applied work, <strong>always report HC3 robust standard errors</strong>. The coefficient estimates <span class="math inline">\(\widehat\beta_1, \widehat\beta_2\)</span> are unchanged; only standard errors, <span class="math inline">\(t\)</span>-statistics, and confidence intervals are affected. The same idea applies, essentially unchanged, to multiple regression; see <a href="Ch_MultipleLinearRegression.html#sec-robustSE" class="quarto-xref"><span>Section 4.1.4</span></a>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Consequences of the Wrong Choice
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Using the homoskedastic variance formula <a href="#eq-var-beta2" class="quarto-xref">Equation&nbsp;<span>3.5</span></a> although the errors are heteroskedastic leads to</p>
+<ul>
+<li>
+<strong>wrong standard errors</strong>, and thus to</li>
+<li>
+<strong>wrong <span class="math inline">\(t\)</span>-statistics</strong>,</li>
+<li>
+<strong>wrong <span class="math inline">\(p\)</span>-values</strong>, and</li>
+<li><strong>wrong confidence intervals</strong></li>
+</ul>
+<p>rendering inference unreliable.</p>
+<p>Using the heteroskedasticity-robust variance formula <a href="#eq-var-beta2-robust" class="quarto-xref">Equation&nbsp;<span>3.11</span></a> although the errors are homoskedastic is harmless: it still leads to (at least approximately, for large <span class="math inline">\(n\)</span>)</p>
+<ul>
+<li>
+<strong>valid standard errors</strong>, and thus to</li>
+<li>
+<strong>valid <span class="math inline">\(t\)</span>-statistics</strong>,</li>
+<li>
+<strong>valid <span class="math inline">\(p\)</span>-values</strong>, and</li>
+<li>
+<strong>valid confidence intervals</strong>.</li>
+</ul>
+<p>The price is a <strong>loss of precision:</strong> robust standard errors are estimated less precisely than the usual ones based on <a href="#eq-var-beta2" class="quarto-xref">Equation&nbsp;<span>3.5</span></a>, which matters mainly in small samples (smallish <span class="math inline">\(n\)</span>).</p>
+</div>
+</div>
+</section></section></section><section id="references" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="references">References</h2>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Long_Ervin_2000" class="csl-entry" role="listitem">
+Long, J Scott, and Laurie H Ervin. 2000. <span>“Using Heteroscedasticity Consistent Standard Errors in the Linear Regression Model.”</span> <em>The American Statistician</em> 54 (3): 217–24.
+</div>
+</div>
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="./Ch_ReviewProbStats.html" class="pagination-link" aria-label="Review of Probability and Statistics">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Review of Probability and Statistics</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./Ch_MultipleLinearRegression.html" class="pagination-link" aria-label="Multiple Linear Regression">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Multiple Linear Regression</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

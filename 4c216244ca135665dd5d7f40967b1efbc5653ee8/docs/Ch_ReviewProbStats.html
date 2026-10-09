@@ -60,7 +60,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./Ch_LinearRegression.html" rel="next">
+<link href="./Ch_SimpleLinearRegression.html" rel="next">
 <link href="./Ch_Intro2R.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -179,26 +179,38 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Ch_LinearRegression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Linear Regression</span></span></a>
+  <a href="./Ch_SimpleLinearRegression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Simple Linear Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch_MultipleLinearRegression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Multiple Linear Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch_ExtendingLinearRegression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Extending and Evaluating the Linear Model</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Ch_NonParamRegression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Nonparametric Regression and Cross-Validation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Nonparametric Regression and Cross-Validation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Ch5_Classification.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Ch6_Bootstrap.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The Bootstrap</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The Bootstrap</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -1404,7 +1416,7 @@ Figure&nbsp;2.9: Conditional distribution of jump heights for three hair-length 
 </div>
 <p>The three histograms in <a href="#fig-conditional-hists" class="quarto-xref">Figure&nbsp;<span>2.9</span></a> have clearly different centers: the conditional distribution of jump heights shifts downward as hair length increases. This is the conditional distribution <span class="math inline">\(f_{Y|X}(y|x)\)</span> in action.</p>
 </section></section><section id="more-than-two-variables" class="level3 unnumbered"><h3 class="unnumbered anchored" data-anchor-id="more-than-two-variables">More than two Variables</h3>
-<p>In regression analysis (<a href="Ch_LinearRegression.html" class="quarto-xref"><span>Chapter 3</span></a>) we typically have one outcome <span class="math inline">\(Y\)</span> and <span class="math inline">\(K\)</span> predictors <span class="math inline">\(X_1, X_2, \ldots, X_K\)</span>. All concepts from the bivariate case extend naturally.</p>
+<p>In regression analysis (<a href="Ch_MultipleLinearRegression.html" class="quarto-xref"><span>Chapter 4</span></a>) we typically have one outcome <span class="math inline">\(Y\)</span> and <span class="math inline">\(K\)</span> predictors <span class="math inline">\(X_1, X_2, \ldots, X_K\)</span>. All concepts from the bivariate case extend naturally.</p>
 <p><strong>Joint distribution.</strong> The joint density <span class="math inline">\(f_{Y, X_1, \ldots, X_K}(y, x_1, \ldots, x_K)\)</span> satisfies the same three key properties:</p>
 <p><strong>1. Non-Negativity:</strong> <span class="math display">\[
 f_{Y, X_1, \ldots, X_K}(y, x_1, \ldots, x_K) \geq 0 \quad \text{for all } (y, x_1, \ldots, x_K)
@@ -1561,7 +1573,7 @@ m(x) = E(Y_i \mid X_i = x)
 \]</span> as a function of <span class="math inline">\(x\)</span>, it is called the <strong>regression function</strong>. It describes how the average outcome changes across different observed values of the predictor.</p>
 <p>There are generally two types of estimation approaches:</p>
 <ul>
-<li>Making a parametric functional form assumption for the regression function <span class="math inline">\(m(x) = E(Y \mid X = x)\)</span> and then estimating the parameters (<a href="Ch_LinearRegression.html" class="quarto-xref"><span>Chapter 3</span></a>)</li>
+<li>Making a parametric functional form assumption for the regression function <span class="math inline">\(m(x) = E(Y \mid X = x)\)</span> and then estimating the parameters (<a href="Ch_SimpleLinearRegression.html" class="quarto-xref"><span>Chapter 3</span></a>)</li>
 <li>Making no parametric functional form assumption and estimating <span class="math inline">\(m(x) = E(Y \mid X = x)\)</span> directly from the data, for instance, by estimating the conditional mean <span class="math inline">\(\int_{-\infty}^{\infty} y\, f_{Y \mid X}(y \mid x)\, dy\)</span> for different values of <span class="math inline">\(x.\)</span>
 </li>
 </ul>
@@ -1674,12 +1686,12 @@ E(Y_i \mid X_i = x)
 &amp;= \beta_1 + \beta_2 x.
 \end{align*}\]</span></p>
 <p>Doing so, has a fundamental adavantage: Provided that this functional form assumption (parametrization) is correct, we only have to estimate the unknown parameters <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span> to get a good estimate of <span class="math inline">\(E(Y_i \mid X_i = x).\)</span></p>
-<p>The next chapter (<a href="Ch_LinearRegression.html" class="quarto-xref"><span>Chapter 3</span></a>) develops the method for estimating <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span> from the observed pairs <span class="math display">\[
+<p>The next chapter (<a href="Ch_SimpleLinearRegression.html" class="quarto-xref"><span>Chapter 3</span></a>) develops the method for estimating <span class="math inline">\(\beta_1\)</span> and <span class="math inline">\(\beta_2\)</span> from the observed pairs <span class="math display">\[
 (Y_{1,\operatorname{obs}},\, X_{1,\operatorname{obs}}),\, (Y_{2,\operatorname{obs}},\, X_{2,\operatorname{obs}}),\, \ldots,\, (Y_{n,\operatorname{obs}},\, X_{n,\operatorname{obs}})
 \]</span> and for assessing how precisely these estimates pin down the true line.</p>
 </section></section><section id="sec-distributions" class="level2" data-number="2.6"><h2 data-number="2.6" class="anchored" data-anchor-id="sec-distributions">
 <span class="header-section-number">2.6</span> Important Distributions</h2>
-<p>Regression analysis relies on three distributions for statistical inference. They are introduced here as a reference; their roles in hypothesis testing and model evaluation are developed in <a href="Ch_LinearRegression.html" class="quarto-xref"><span>Chapter 3</span></a>.</p>
+<p>Regression analysis relies on three distributions for statistical inference. They are introduced here as a reference; their roles in hypothesis testing and model evaluation are developed starting in <a href="Ch_SimpleLinearRegression.html" class="quarto-xref"><span>Chapter 3</span></a>.</p>
 <section id="sec-normal" class="level3" data-number="2.6.1"><h3 data-number="2.6.1" class="anchored" data-anchor-id="sec-normal">
 <span class="header-section-number">2.6.1</span> The Normal Distribution</h3>
 <p>The most important distribution in statistics is the <strong>normal distribution</strong> (also called the Gaussian distribution). A random variable <span class="math inline">\(X\)</span> follows a normal distribution with mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>, written <span class="math inline">\(X \sim \mathcal{N}(\mu, \sigma^2)\)</span>, if its density is</p>
@@ -1877,7 +1889,7 @@ Figure&nbsp;2.14: Chi-squared densities for various degrees of freedom. The dist
 </div>
 </div>
 </div>
-<p>The chi-squared distribution arises naturally in regression analysis when testing hypotheses about model coefficients. We will encounter it in <a href="Ch_LinearRegression.html#sec-multipleLR-inference" class="quarto-xref"><span>Section 3.3.5</span></a>.</p>
+<p>The chi-squared distribution arises naturally in regression analysis when testing hypotheses about model coefficients. We will encounter it in <a href="Ch_MultipleLinearRegression.html#sec-multipleLR-inference" class="quarto-xref"><span>Section 4.1.5</span></a>.</p>
 </section><section id="sec-fdistrib" class="level3" data-number="2.6.3"><h3 data-number="2.6.3" class="anchored" data-anchor-id="sec-fdistrib">
 <span class="header-section-number">2.6.3</span> The <span class="math inline">\(F\)</span>-Distribution</h3>
 <p>The <strong><span class="math inline">\(F\)</span>-distribution</strong> with numerator degrees of freedom <span class="math inline">\(\nu_1\)</span> and denominator degrees of freedom <span class="math inline">\(\nu_2\)</span>, written <span class="math inline">\(V \sim F_{\nu_1,\nu_2}\)</span>, is the distribution of the ratio of two independent chi-squared random variables, each divided by its degrees of freedom:</p>
@@ -1909,7 +1921,7 @@ Figure&nbsp;2.15: F-distribution densities for selected degrees of freedom.
 </div>
 </div>
 </div>
-<p>The F-distribution is used in regression for the <strong>F-test</strong>, which asks whether a set of predictors jointly explains variation in the outcome. We return to this in <a href="Ch_LinearRegression.html#sec-multipleLR-inference" class="quarto-xref"><span>Section 3.3.5</span></a>.</p>
+<p>The F-distribution is used in regression for the <strong>F-test</strong>, which asks whether a set of predictors jointly explains variation in the outcome. We return to this in <a href="Ch_MultipleLinearRegression.html#sec-multipleLR-inference" class="quarto-xref"><span>Section 4.1.5</span></a>.</p>
 </section></section><section id="sec-dgp" class="level2" data-number="2.7"><h2 data-number="2.7" class="anchored" data-anchor-id="sec-dgp">
 <span class="header-section-number">2.7</span> The Data-Generating Process</h2>
 <p>We now have all the building blocks to formalize the concept introduced in <a href="#sec-where-data" class="quarto-xref"><span>Section 2.1</span></a>.</p>
@@ -2066,7 +2078,7 @@ Figure&nbsp;2.16: Left: data simulated from a known DGP (red line = true regress
 </div>
 <p>The red line in the left panel is the <strong>true regression function</strong> <span class="math display">\[
 E(Y \mid X = x) = \beta_1 + \beta_2 x.
-\]</span> In the real problem (right panel), this line is unknown — we have to estimate it from data. Chapter <a href="Ch_LinearRegression.html" class="quarto-xref"><span>Chapter 3</span></a> shows how to do that using OLS.</p>
+\]</span> In the real problem (right panel), this line is unknown — we have to estimate it from data. Chapter <a href="Ch_SimpleLinearRegression.html" class="quarto-xref"><span>Chapter 3</span></a> shows how to do that using OLS.</p>
 <p>Notice that each simulated point in the left panel falls at a vertical distance from the true line: this distances are the realized values of the error terms <span class="math inline">\(\varepsilon_i \sim \mathcal{N}(0, \sigma^2)\)</span>.</p>
 <p>Some students jump higher than the regression line predicts (<span class="math inline">\(\varepsilon_i &gt; 0\)</span>); others score lower (<span class="math inline">\(\varepsilon_i &lt; 0\)</span>).</p>
 </section><section id="sec-iid" class="level3" data-number="2.7.1"><h3 data-number="2.7.1" class="anchored" data-anchor-id="sec-iid">
@@ -2104,7 +2116,7 @@ Correlation Is Not Causation
 <div class="callout-body-container callout-body">
 <p>The slope <span class="math inline">\(\beta_2 \approx -1.75\)</span> in our DGP says that students who differ by 1 cm in hair length differ, on average, by <span class="math inline">\(-1.75\)</span> cm in jump height. But this is a <strong>statistical correlation</strong>, not a <strong>causal</strong> claim. Cutting your hair will not improve your jump height.</p>
 <p>The correlation in the data is almost entirely driven by an unobserved variable — <strong>gender</strong> or more precisely <strong>testosterone level</strong> — that correlates with <em>both</em> hair length and physical strength. Statisticians call this <strong>confounding</strong>: a third variable that influences both <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, creating a spurious correlation between them.</p>
-<p>This distinction — correlation versus causation — is one of the central themes of the next chapter. After introducing OLS and showing how to estimate and interpret <span class="math inline">\(\widehat\beta_2\)</span>, <a href="Ch_LinearRegression.html#sec-whatdoesbeta" class="quarto-xref"><span>Section 3.7</span></a> asks what <span class="math inline">\(\widehat\beta_2\)</span> really tells us. The short answer is: it estimates a statistical covariance, which may or may not reflect a causal effect.</p>
+<p>This distinction — correlation versus causation — is one of the central themes of the next chapter. After introducing OLS and showing how to estimate and interpret <span class="math inline">\(\widehat\beta_2\)</span>, <a href="Ch_ExtendingLinearRegression.html#sec-whatdoesbeta" class="quarto-xref"><span>Section 5.4</span></a> asks what <span class="math inline">\(\widehat\beta_2\)</span> really tells us. The short answer is: it estimates a statistical covariance, which may or may not reflect a causal effect.</p>
 </div>
 </div>
 </section></section><section id="summary" class="level2" data-number="2.8"><h2 data-number="2.8" class="anchored" data-anchor-id="summary">
@@ -2175,7 +2187,7 @@ The One Thing to Take Along
 </tr>
 <tr class="even">
 <td><span class="math inline">\(E(Y \mid X = x) = \beta_1 + \beta_2 x\)</span></td>
-<td>⟵ this is what <a href="Ch_LinearRegression.html" class="quarto-xref"><span>Chapter 3</span></a> is about</td>
+<td>⟵ this is what <a href="Ch_SimpleLinearRegression.html" class="quarto-xref"><span>Chapter 3</span></a> is about</td>
 </tr>
 </tbody>
 </table>
@@ -2755,8 +2767,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./Ch_LinearRegression.html" class="pagination-link" aria-label="Linear Regression">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Linear Regression</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./Ch_SimpleLinearRegression.html" class="pagination-link" aria-label="Simple Linear Regression">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Simple Linear Regression</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

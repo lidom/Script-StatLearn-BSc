@@ -1273,7 +1273,7 @@ The three histograms in @fig-conditional-hists have clearly different centers: t
 
 ### More than two Variables {-}
 
-In regression analysis (@sec-linearRegCh) we typically have one outcome $Y$ and $K$ predictors $X_1, X_2, \ldots, X_K$. All concepts from the bivariate case extend naturally.
+In regression analysis (@sec-multipleLinRegCh) we typically have one outcome $Y$ and $K$ predictors $X_1, X_2, \ldots, X_K$. All concepts from the bivariate case extend naturally.
 
 **Joint distribution.** The joint density $f_{Y, X_1, \ldots, X_K}(y, x_1, \ldots, x_K)$ satisfies the same three key properties:
 
@@ -1415,7 +1415,7 @@ as a function of $x$, it is called the **regression function**. It describes how
 
 There are generally two types of estimation approaches: 
 
-* Making a parametric functional form assumption for the regression function $m(x) = E(Y \mid X = x)$ and then estimating the parameters (@sec-linearRegCh)
+* Making a parametric functional form assumption for the regression function $m(x) = E(Y \mid X = x)$ and then estimating the parameters (@sec-simpleLinRegCh)
 * Making no parametric functional form assumption and estimating $m(x) = E(Y \mid X = x)$ directly from the data, for instance, by estimating the conditional mean $\int_{-\infty}^{\infty} y\, f_{Y \mid X}(y \mid x)\, dy$ for different values of $x.$
 
 #### 🤸‍♀️ **Jump-Test Data Example** {-}
@@ -1496,7 +1496,7 @@ E(Y_i \mid X_i = x)
 
 Doing so, has a fundamental adavantage: Provided that this functional form assumption (parametrization) is correct, we only have to estimate the unknown parameters $\beta_1$ and $\beta_2$ to get a good estimate of $E(Y_i \mid X_i = x).$
 
-The next chapter (@sec-linearRegCh) develops the method for estimating $\beta_1$ and $\beta_2$ from the observed pairs 
+The next chapter (@sec-simpleLinRegCh) develops the method for estimating $\beta_1$ and $\beta_2$ from the observed pairs
 $$
 (Y_{1,\operatorname{obs}},\, X_{1,\operatorname{obs}}),\, (Y_{2,\operatorname{obs}},\, X_{2,\operatorname{obs}}),\, \ldots,\, (Y_{n,\operatorname{obs}},\, X_{n,\operatorname{obs}})
 $$ 
@@ -1505,7 +1505,7 @@ and for assessing how precisely these estimates pin down the true line.
 
 ## Important Distributions {#sec-distributions}
 
-Regression analysis relies on three distributions for statistical inference. They are introduced here as a reference; their roles in hypothesis testing and model evaluation are developed in @sec-linearRegCh.
+Regression analysis relies on three distributions for statistical inference. They are introduced here as a reference; their roles in hypothesis testing and model evaluation are developed starting in @sec-simpleLinRegCh.
 
 ### The Normal Distribution {#sec-normal}
 
@@ -1875,7 +1875,7 @@ The red line in the left panel is the **true regression function**
 $$
 E(Y \mid X = x) = \beta_1 + \beta_2 x.
 $$ 
-In the real problem (right panel), this line is unknown — we have to estimate it from data. Chapter @sec-linearRegCh shows how to do that using OLS.
+In the real problem (right panel), this line is unknown — we have to estimate it from data. Chapter @sec-simpleLinRegCh shows how to do that using OLS.
 
 Notice that each simulated point in the left panel falls at a vertical distance from the true line: this distances are the realized values of the error terms $\varepsilon_i \sim \mathcal{N}(0, \sigma^2)$. 
 
@@ -1940,7 +1940,7 @@ Everything we observe is an **estimate** of something **usually unknown**:
 | $f_X(x)$, $p_G(g)$, $F_X(x)$ | histogram / kernel density estimate, relative frequencies, empirical cdf |
 | $E(X)$, $\text{Var}(X)$ | $\bar{X}_{\operatorname{obs}}$, $\widehat{\sigma}^2_{X,\operatorname{obs}}$ |
 | $\text{Cov}(X,Y)$, $\text{Cor}(X,Y)$ | $\widehat{\text{Cov}}_{\operatorname{obs}}(X,Y)$, $\widehat{\text{Cor}}_{\operatorname{obs}}(X,Y)$ |
-| $E(Y \mid X = x) = \beta_1 + \beta_2 x$ | ⟵ this is what @sec-linearRegCh is about |
+| $E(Y \mid X = x) = \beta_1 + \beta_2 x$ | ⟵ this is what @sec-simpleLinRegCh is about |
 
 The estimates in the right column are computed from *one* data set. Had we measured a different group of students, we would have obtained different numbers — this is the **sampling variability** we met at the very beginning of the chapter.
 :::

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.5.57">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>4&nbsp; Nonparametric Regression and Cross-Validation – Statistical Learning for Business and Economics (B.Sc.)</title>
+<title>6&nbsp; Nonparametric Regression and Cross-Validation – Statistical Learning for Business and Economics (B.Sc.)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -61,7 +61,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./Ch5_Classification.html" rel="next">
-<link href="./Ch_LinearRegression.html" rel="prev">
+<link href="./Ch_ExtendingLinearRegression.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -132,7 +132,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Ch_NonParamRegression.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Nonparametric Regression and Cross-Validation</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Ch_NonParamRegression.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Nonparametric Regression and Cross-Validation</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -143,7 +143,7 @@ window.Quarto = {
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="./index.html" class="sidebar-logo-link">
-      <img src="./images/KU_Logo_2.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
+      <img src="./images/KU_Logo_Blau_M.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Statistical Learning for Business and Economics (B.Sc.)</a> 
         <div class="sidebar-tools-main">
@@ -178,26 +178,38 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Ch_LinearRegression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Linear Regression</span></span></a>
+  <a href="./Ch_SimpleLinearRegression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Simple Linear Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch_MultipleLinearRegression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Multiple Linear Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch_ExtendingLinearRegression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Extending and Evaluating the Linear Model</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Ch_NonParamRegression.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Nonparametric Regression and Cross-Validation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Nonparametric Regression and Cross-Validation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Ch5_Classification.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Ch6_Bootstrap.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The Bootstrap</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The Bootstrap</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -225,38 +237,38 @@ window.Quarto = {
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li><a href="#nonparametric-regression" id="toc-nonparametric-regression" class="nav-link active" data-scroll-target="#nonparametric-regression"><span class="header-section-number">4.1</span> Nonparametric Regression</a></li>
-  <li><a href="#k-nearest-neighbors-k-nn-regression" id="toc-k-nearest-neighbors-k-nn-regression" class="nav-link" data-scroll-target="#k-nearest-neighbors-k-nn-regression"><span class="header-section-number">4.2</span> K-Nearest Neighbors (K-NN) Regression</a></li>
+<li><a href="#nonparametric-regression" id="toc-nonparametric-regression" class="nav-link active" data-scroll-target="#nonparametric-regression"><span class="header-section-number">6.1</span> Nonparametric Regression</a></li>
+  <li><a href="#k-nearest-neighbors-k-nn-regression" id="toc-k-nearest-neighbors-k-nn-regression" class="nav-link" data-scroll-target="#k-nearest-neighbors-k-nn-regression"><span class="header-section-number">6.2</span> K-Nearest Neighbors (K-NN) Regression</a></li>
   <li>
-<a href="#sec-mqfit" id="toc-sec-mqfit" class="nav-link" data-scroll-target="#sec-mqfit"><span class="header-section-number">4.3</span> Local Mean Squared (Prediction) Error (MSE)</a>
+<a href="#sec-mqfit" id="toc-sec-mqfit" class="nav-link" data-scroll-target="#sec-mqfit"><span class="header-section-number">6.3</span> Local Mean Squared (Prediction) Error (MSE)</a>
   <ul class="collapse">
-<li><a href="#local-bias-variance-trade-off" id="toc-local-bias-variance-trade-off" class="nav-link" data-scroll-target="#local-bias-variance-trade-off"><span class="header-section-number">4.3.1</span> Local Bias-Variance Trade-Off</a></li>
-  <li><a href="#choosing-the-local-smoothing-parameter-kequiv-k_x_0" id="toc-choosing-the-local-smoothing-parameter-kequiv-k_x_0" class="nav-link" data-scroll-target="#choosing-the-local-smoothing-parameter-kequiv-k_x_0"><span class="header-section-number">4.3.2</span> Choosing the Local Smoothing Parameter <span class="math inline">\(K\equiv K_{x_0}\)</span></a></li>
+<li><a href="#local-bias-variance-trade-off" id="toc-local-bias-variance-trade-off" class="nav-link" data-scroll-target="#local-bias-variance-trade-off"><span class="header-section-number">6.3.1</span> Local Bias-Variance Trade-Off</a></li>
+  <li><a href="#choosing-the-local-smoothing-parameter-kequiv-k_x_0" id="toc-choosing-the-local-smoothing-parameter-kequiv-k_x_0" class="nav-link" data-scroll-target="#choosing-the-local-smoothing-parameter-kequiv-k_x_0"><span class="header-section-number">6.3.2</span> Choosing the Local Smoothing Parameter <span class="math inline">\(K\equiv K_{x_0}\)</span></a></li>
   </ul>
 </li>
   <li>
-<a href="#sec-globalMSE" id="toc-sec-globalMSE" class="nav-link" data-scroll-target="#sec-globalMSE"><span class="header-section-number">4.4</span> Global Mean Squared (Prediction) Error (MSE)</a>
+<a href="#sec-globalMSE" id="toc-sec-globalMSE" class="nav-link" data-scroll-target="#sec-globalMSE"><span class="header-section-number">6.4</span> Global Mean Squared (Prediction) Error (MSE)</a>
   <ul class="collapse">
-<li><a href="#choosing-the-global-smoothing-parameter-k" id="toc-choosing-the-global-smoothing-parameter-k" class="nav-link" data-scroll-target="#choosing-the-global-smoothing-parameter-k"><span class="header-section-number">4.4.1</span> Choosing the Global Smoothing Parameter <span class="math inline">\(K\)</span></a></li>
+<li><a href="#choosing-the-global-smoothing-parameter-k" id="toc-choosing-the-global-smoothing-parameter-k" class="nav-link" data-scroll-target="#choosing-the-global-smoothing-parameter-k"><span class="header-section-number">6.4.1</span> Choosing the Global Smoothing Parameter <span class="math inline">\(K\)</span></a></li>
   </ul>
 </li>
   <li>
-<a href="#cross-validation" id="toc-cross-validation" class="nav-link" data-scroll-target="#cross-validation"><span class="header-section-number">4.5</span> Cross-Validation</a>
+<a href="#cross-validation" id="toc-cross-validation" class="nav-link" data-scroll-target="#cross-validation"><span class="header-section-number">6.5</span> Cross-Validation</a>
   <ul class="collapse">
-<li><a href="#validation-set-approach" id="toc-validation-set-approach" class="nav-link" data-scroll-target="#validation-set-approach"><span class="header-section-number">4.5.1</span> Validation Set Approach</a></li>
-  <li><a href="#leave-one-out-cross-validation-loocv" id="toc-leave-one-out-cross-validation-loocv" class="nav-link" data-scroll-target="#leave-one-out-cross-validation-loocv"><span class="header-section-number">4.5.2</span> Leave-One-Out Cross-Validation (LOOCV)</a></li>
+<li><a href="#validation-set-approach" id="toc-validation-set-approach" class="nav-link" data-scroll-target="#validation-set-approach"><span class="header-section-number">6.5.1</span> Validation Set Approach</a></li>
+  <li><a href="#leave-one-out-cross-validation-loocv" id="toc-leave-one-out-cross-validation-loocv" class="nav-link" data-scroll-target="#leave-one-out-cross-validation-loocv"><span class="header-section-number">6.5.2</span> Leave-One-Out Cross-Validation (LOOCV)</a></li>
   </ul>
 </li>
-  <li><a href="#k-fold-cross-validation" id="toc-k-fold-cross-validation" class="nav-link" data-scroll-target="#k-fold-cross-validation"><span class="header-section-number">4.6</span> <span class="math inline">\(k\)</span>-Fold Cross-Validation</a></li>
-  <li><a href="#parametric-versus-nonparametric-regression" id="toc-parametric-versus-nonparametric-regression" class="nav-link" data-scroll-target="#parametric-versus-nonparametric-regression"><span class="header-section-number">4.7</span> Parametric versus Nonparametric Regression</a></li>
-  <li><a href="#in-class-coding-exercises" id="toc-in-class-coding-exercises" class="nav-link" data-scroll-target="#in-class-coding-exercises"><span class="header-section-number">4.8</span> In Class Coding Exercises</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">4.9</span> Exercises</a></li>
+  <li><a href="#k-fold-cross-validation" id="toc-k-fold-cross-validation" class="nav-link" data-scroll-target="#k-fold-cross-validation"><span class="header-section-number">6.6</span> <span class="math inline">\(k\)</span>-Fold Cross-Validation</a></li>
+  <li><a href="#parametric-versus-nonparametric-regression" id="toc-parametric-versus-nonparametric-regression" class="nav-link" data-scroll-target="#parametric-versus-nonparametric-regression"><span class="header-section-number">6.7</span> Parametric versus Nonparametric Regression</a></li>
+  <li><a href="#in-class-coding-exercises" id="toc-in-class-coding-exercises" class="nav-link" data-scroll-target="#in-class-coding-exercises"><span class="header-section-number">6.8</span> In Class Coding Exercises</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">6.9</span> Exercises</a></li>
   </ul></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title">
-<span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Nonparametric Regression and Cross-Validation</span>
+<span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Nonparametric Regression and Cross-Validation</span>
 </h1>
 </div>
 
@@ -271,11 +283,11 @@ window.Quarto = {
   
 
 
-</header><!-- LTeX: language=en-US --><section id="nonparametric-regression" class="level2" data-number="4.1"><h2 data-number="4.1" class="anchored" data-anchor-id="nonparametric-regression">
-<span class="header-section-number">4.1</span> Nonparametric Regression</h2>
-<p>The linear regression model as considered in <a href="Ch_LinearRegression.html" class="quarto-xref"><span>Chapter 3</span></a> is an example of a <strong>parametric</strong> regression model because it parametrizes the general regression model <span class="math display">\[
+</header><!-- LTeX: language=en-US --><section id="nonparametric-regression" class="level2" data-number="6.1"><h2 data-number="6.1" class="anchored" data-anchor-id="nonparametric-regression">
+<span class="header-section-number">6.1</span> Nonparametric Regression</h2>
+<p>The linear regression model as considered in <a href="Ch_MultipleLinearRegression.html" class="quarto-xref"><span>Chapter 4</span></a> is an example of a <strong>parametric</strong> regression model because it parametrizes the general regression model <span class="math display">\[
 Y_i = f(X_i) + \epsilon_i
-\]</span> using a linear model assumption (Assumption 1 in <a href="Ch_LinearRegression.html" class="quarto-xref"><span>Chapter 3</span></a>), such that <span class="math display">\[
+\]</span> using a linear model assumption (Assumption 1 in <a href="Ch_MultipleLinearRegression.html" class="quarto-xref"><span>Chapter 4</span></a>), such that <span class="math display">\[
 f(X_i)=\beta_0 + \beta_1 X_{i1} + \dots + \beta_p X_{ip}.
 \]</span></p>
 <p><strong>Advantages of parametric approaches:</strong></p>
@@ -292,8 +304,8 @@ f(X_i) \neq \beta_0 + \beta_1 X_{i1} + \dots + \beta_p X_{ip}
 </li>
 </ul>
 <p><strong>Alternative:</strong> <strong>Non-parametric methods</strong> such as <strong>K-nearest neighbors regression</strong> since non-parametric approaches do not explicitly assume a parametric form for <span class="math inline">\(f(X).\)</span></p>
-</section><section id="k-nearest-neighbors-k-nn-regression" class="level2" data-number="4.2"><h2 data-number="4.2" class="anchored" data-anchor-id="k-nearest-neighbors-k-nn-regression">
-<span class="header-section-number">4.2</span> K-Nearest Neighbors (K-NN) Regression</h2>
+</section><section id="k-nearest-neighbors-k-nn-regression" class="level2" data-number="6.2"><h2 data-number="6.2" class="anchored" data-anchor-id="k-nearest-neighbors-k-nn-regression">
+<span class="header-section-number">6.2</span> K-Nearest Neighbors (K-NN) Regression</h2>
 <p>Let <span class="math display">\[
 Y_i = f(X_i) + \epsilon_i
 \]</span> denote the <strong>general regression model.</strong></p>
@@ -364,8 +376,8 @@ $$  --></p>
 </div>
 <p>The problem is now, to find the optimal value for <span class="math inline">\(K.\)</span></p>
 <p><strong>Idea:</strong> Choose <span class="math inline">\(K\)</span> by minimizing the mean squared (prediction) error.</p>
-</section><section id="sec-mqfit" class="level2" data-number="4.3"><h2 data-number="4.3" class="anchored" data-anchor-id="sec-mqfit">
-<span class="header-section-number">4.3</span> Local Mean Squared (Prediction) Error (MSE)</h2>
+</section><section id="sec-mqfit" class="level2" data-number="6.3"><h2 data-number="6.3" class="anchored" data-anchor-id="sec-mqfit">
+<span class="header-section-number">6.3</span> Local Mean Squared (Prediction) Error (MSE)</h2>
 <!-- In fact, a very flexible (e.g. non-parametric) estimation method will tend to overfit the training data such that $y_i\approx \widehat{f}(x_i)$ for all $i=1,\dots,n$ resulting in a training MSE that is close to zero since $\widehat{f}(x_i)$ fits also the errors $\epsilon_i.$ -->
 <!-- **Example:** Suppose that we are interested in developing an algorithm to predict a stock’s price based on previous stock returns. We can train the method using stock returns from the past 6 months. But we don't really care how well our method predicts last week's stock price. We instead care about how well it will predict tomorrow's price
 or next month's price.  -->
@@ -439,7 +451,7 @@ Y=f(X)+\epsilon
 &amp;= E\left[\left.(Y^{\text{Test}} - \widehat{f}_K(X^{\text{Test}}))^2\right|X^{\text{Test}}=x_0\right]\\[2ex]
 &amp;=\underbrace{E\left[\left(f(x_0)-\widehat{f}_K(x_0)\right)^2\right]}_{\text{reducable}}\;+\;\underbrace{\sigma^2}_{\text{irreducable}}\geq \sigma^2,
 \end{align*}
-\qquad(4.1)\]</span></span> where <span class="math display">\[
+\qquad(6.1)\]</span></span> where <span class="math display">\[
 E\left[\left(f(x_0)-\widehat{f}_K(x_0)\right)^2\right]
 \]</span> denotes the <strong><em>reducable</em></strong> mean squared <strong>estimation</strong> error component of <span class="math inline">\(\widehat{f}_K(x_0),\)</span> and where <span class="math display">\[
 \begin{align*}
@@ -453,7 +465,7 @@ E\left[\left(f(x_0)-\widehat{f}_K(x_0)\right)^2\right]
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Proof of <a href="#eq-MSERedIrrRed" class="quarto-xref">Equation&nbsp;<span>4.1</span></a>:
+Proof of <a href="#eq-MSERedIrrRed" class="quarto-xref">Equation&nbsp;<span>6.1</span></a>:
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -524,8 +536,8 @@ The minimum of $\operatorname{MSE}(x_0,K)$ with respect to $K$ finds the optimal
 * the squared bias of $\widehat{f}_K(x_0)$ and 
 * the variance of $\widehat{f}_K(x_0).$ 
 -->
-<section id="local-bias-variance-trade-off" class="level3" data-number="4.3.1"><h3 data-number="4.3.1" class="anchored" data-anchor-id="local-bias-variance-trade-off">
-<span class="header-section-number">4.3.1</span> Local Bias-Variance Trade-Off</h3>
+<section id="local-bias-variance-trade-off" class="level3" data-number="6.3.1"><h3 data-number="6.3.1" class="anchored" data-anchor-id="local-bias-variance-trade-off">
+<span class="header-section-number">6.3.1</span> Local Bias-Variance Trade-Off</h3>
 <!-- 
 The mean squared (prediction) error $\operatorname{MSE}(x_0,K)$ of $\widehat{f}_K(x_0)$ can be decomposed into the **reducable** mean squared estimation error and the **irreducable** prediction error $\sigma^2$
 $$
@@ -554,14 +566,14 @@ Since the mean squared **estimation** error is potentially **reducable,** it is 
 <p>The mean squared <strong>estimation</strong> error of <span class="math inline">\(\widehat{f}_K(x_0)\)</span> can be further <strong>decomposed</strong> into a <strong>variance</strong> component and a <strong>squared bias</strong> component, i.e. <span id="eq-MSEBiasVar"><span class="math display">\[
 E\left[\left(f(x_0) - \widehat{f}_K(x_0)\right)^2\right] =
 Var\left(\widehat{f}_K(x_0)\right) + \left[\operatorname{Bias}\left(\widehat{f}_K(x_0)\right)\right]^2.
-\qquad(4.2)\]</span></span></p>
+\qquad(6.2)\]</span></span></p>
 <div class="callout callout-style-simple callout-none no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Proof of <a href="#eq-MSEBiasVar" class="quarto-xref">Equation&nbsp;<span>4.2</span></a>:
+Proof of <a href="#eq-MSEBiasVar" class="quarto-xref">Equation&nbsp;<span>6.2</span></a>:
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -699,20 +711,20 @@ Variance of <span class="math inline">\(\widehat{f}_K(x_0)\)</span>
 <p><strong>Small Variance:</strong> The estimator <span class="math inline">\(\widehat{f}_K(x_0)\)</span> has <strong>small variance</strong> if it is computed from a large number (<span class="math inline">\(K\)</span> large) of training data points such that the <strong>law of larger numbers</strong> had a chance to reduce variance. Thus, for large <span class="math inline">\(K\)</span>, the estimation result <span class="math inline">\(\widehat{f}_K(x_0)\)</span> would not change much if we re-estimated it using a different training data set.</p>
 </div>
 </div>
-</section></section><section id="choosing-the-local-smoothing-parameter-kequiv-k_x_0" class="level3" data-number="4.3.2"><h3 data-number="4.3.2" class="anchored" data-anchor-id="choosing-the-local-smoothing-parameter-kequiv-k_x_0">
-<span class="header-section-number">4.3.2</span> Choosing the Local Smoothing Parameter <span class="math inline">\(K\equiv K_{x_0}\)</span>
+</section></section><section id="choosing-the-local-smoothing-parameter-kequiv-k_x_0" class="level3" data-number="6.3.2"><h3 data-number="6.3.2" class="anchored" data-anchor-id="choosing-the-local-smoothing-parameter-kequiv-k_x_0">
+<span class="header-section-number">6.3.2</span> Choosing the Local Smoothing Parameter <span class="math inline">\(K\equiv K_{x_0}\)</span>
 </h3>
 <p>The <strong>locally optimal value of <span class="math inline">\(K\equiv K_{x_0}\)</span></strong> can be estimated, for every <span class="math inline">\(x_0\)</span>-value, by choosing that value of <span class="math inline">\(K\)</span> that <strong>minimizes</strong> <span id="eq-EmpiricalLocalMSE"><span class="math display">\[
 \widehat{\operatorname{MSE}}_{\text{Test}}(x_0,K)
 =\frac{1}{n_{\text{Test}}}\sum_{i=1}^{n_{\text{Test}}}\left(Y_{i}^{\text{Test}}- \widehat{f}_K(x_0)\right)^2
-\qquad(4.3)\]</span></span> with respect to <span class="math inline">\(K=1,2,\dots.\)</span></p>
+\qquad(6.3)\]</span></span> with respect to <span class="math inline">\(K=1,2,\dots.\)</span></p>
 <p>The minimum of <span class="math inline">\(\widehat{\operatorname{MSE}}(x_0,K)\)</span> with respect to <span class="math inline">\(K\)</span> estimates the <span class="math inline">\(x_0\)</span>-specific optimal compromise between:</p>
 <ul>
 <li>the squared bias of <span class="math inline">\(\widehat{f}_K(x_0)\)</span> and</li>
 <li>the variance of <span class="math inline">\(\widehat{f}_K(x_0).\)</span>
 </li>
 </ul>
-<p>However, <a href="#eq-EmpiricalLocalMSE" class="quarto-xref">Equation&nbsp;<span>4.3</span></a> requires local <span class="math inline">\(x_0\)</span>-specific training data, which usually do not exist in practice.</p>
+<p>However, <a href="#eq-EmpiricalLocalMSE" class="quarto-xref">Equation&nbsp;<span>6.3</span></a> requires local <span class="math inline">\(x_0\)</span>-specific training data, which usually do not exist in practice.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -731,8 +743,8 @@ Y^{\text{Test}} = f(x_0) +  \epsilon^{\text{Test}}.
 </div>
 </div>
 <p>In real data problems, where we typically do not have access to such <span class="math inline">\(x_0\)</span>-specific test data. Thus, we usually determine a <strong>globally</strong>-optimal <span class="math inline">\(K\)</span> by minimizing the <strong><em>global</em> test MSE</strong> which does not require <span class="math inline">\(x_0\)</span>-specific test data.</p>
-</section></section><section id="sec-globalMSE" class="level2" data-number="4.4"><h2 data-number="4.4" class="anchored" data-anchor-id="sec-globalMSE">
-<span class="header-section-number">4.4</span> Global Mean Squared (Prediction) Error (MSE)</h2>
+</section></section><section id="sec-globalMSE" class="level2" data-number="6.4"><h2 data-number="6.4" class="anchored" data-anchor-id="sec-globalMSE">
+<span class="header-section-number">6.4</span> Global Mean Squared (Prediction) Error (MSE)</h2>
 <p>In practice, we usually want to find a <strong>globally</strong> optimal smoothing parameter <span class="math inline">\(K,\)</span> which gives good estimation results <span class="math inline">\(\widehat{f}_K(x_0)\)</span> for <strong>all</strong> values <span class="math inline">\(x_0\)</span> of interest.</p>
 <p><strong>Idea:</strong> Find the smoothing parameter <span class="math inline">\(K\)</span> that minimizes the <strong>global MSE.</strong></p>
 <p><span class="math display">\[
@@ -796,8 +808,8 @@ E\left(\widehat{\operatorname{MSE}}_{\text{Test}}(K)\right)=
 \operatorname{MSE}(K)
 \end{align*}
 \]</span></p>
-</section><section id="choosing-the-global-smoothing-parameter-k" class="level3" data-number="4.4.1"><h3 data-number="4.4.1" class="anchored" data-anchor-id="choosing-the-global-smoothing-parameter-k">
-<span class="header-section-number">4.4.1</span> Choosing the Global Smoothing Parameter <span class="math inline">\(K\)</span>
+</section><section id="choosing-the-global-smoothing-parameter-k" class="level3" data-number="6.4.1"><h3 data-number="6.4.1" class="anchored" data-anchor-id="choosing-the-global-smoothing-parameter-k">
+<span class="header-section-number">6.4.1</span> Choosing the Global Smoothing Parameter <span class="math inline">\(K\)</span>
 </h3>
 <p>The estimate of the <strong>globally optimal value of <span class="math inline">\(K\)</span></strong> is given by choosing that value of <span class="math inline">\(K\)</span> that <strong>minimizes</strong> <span class="math display">\[
 \begin{align*}
@@ -809,8 +821,8 @@ E\left(\widehat{\operatorname{MSE}}_{\text{Test}}(K)\right)=
 <li>the global squared bias of <span class="math inline">\(\widehat{f}_K\)</span> and</li>
 <li>the global variance of <span class="math inline">\(\widehat{f}_K.\)</span>
 </li>
-</ul></section></section><section id="cross-validation" class="level2" data-number="4.5"><h2 data-number="4.5" class="anchored" data-anchor-id="cross-validation">
-<span class="header-section-number">4.5</span> Cross-Validation</h2>
+</ul></section></section><section id="cross-validation" class="level2" data-number="6.5"><h2 data-number="6.5" class="anchored" data-anchor-id="cross-validation">
+<span class="header-section-number">6.5</span> Cross-Validation</h2>
 <p>In this chapter, we consider a class of methods that allow to estimate the <strong><em>global</em> mean squared (prediction) error MSE.</strong></p>
 <p>As our main example, we consider the <strong>polynomial regression estimator</strong> as a <strong>nonparametric estimator</strong> <span class="math display">\[
 \widehat{f}_p(x) = \widehat{\beta}_0 + \sum_{j=1}^p\widehat{\beta}_j x^j,
@@ -837,7 +849,7 @@ Important
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>We do <strong><em>not</em> assume</strong> (as done in Assumption 1 of <a href="Ch_LinearRegression.html" class="quarto-xref"><span>Chapter 3</span></a>) that the true regression function <span class="math inline">\(f(x)\)</span> is actually a polynomial function. We only assume that the true regression function <span class="math inline">\(f\)</span> is a sufficiently smooth function. Any smooth function <span class="math inline">\(f\)</span> can be <strong>approximated</strong> using a polynomial function (approximation theory).</p>
+<p>We do <strong><em>not</em> assume</strong> (as done in Assumption 1 of <a href="Ch_MultipleLinearRegression.html" class="quarto-xref"><span>Chapter 4</span></a>) that the true regression function <span class="math inline">\(f(x)\)</span> is actually a polynomial function. We only assume that the true regression function <span class="math inline">\(f\)</span> is a sufficiently smooth function. Any smooth function <span class="math inline">\(f\)</span> can be <strong>approximated</strong> using a polynomial function (approximation theory).</p>
 <p>Thus, the polynomial regression estimator <span class="math inline">\(\widehat{f}_p(x)\)</span> is here used as a <strong>nonparametric</strong> estimator, where the <strong>polynomial degree</strong> <span class="math inline">\(p\)</span> is treated as the <strong>smoothing parameter</strong>.</p>
 </div>
 </div>
@@ -859,8 +871,8 @@ Alternative Estimators
 </ul>
 </div>
 </div>
-<section id="validation-set-approach" class="level3" data-number="4.5.1"><h3 data-number="4.5.1" class="anchored" data-anchor-id="validation-set-approach">
-<span class="header-section-number">4.5.1</span> Validation Set Approach</h3>
+<section id="validation-set-approach" class="level3" data-number="6.5.1"><h3 data-number="6.5.1" class="anchored" data-anchor-id="validation-set-approach">
+<span class="header-section-number">6.5.1</span> Validation Set Approach</h3>
 <p>The validation set approach randomly divides the available set of observations into two parts:</p>
 <ul>
 <li>a <em>training set</em> and</li>
@@ -949,12 +961,12 @@ Alternative Estimators
 <img src="Ch_NonParamRegression_files/figure-html/fig-VA1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-VA1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.1: Testing error estimates for a single split into training and testing datasets. This result suggests that <span class="math inline">\(p=9\)</span> minimizes the test MSE; however, the test MSE values for polynomial degrees from <span class="math inline">\(p=2\)</span> to <span class="math inline">\(p=10\)</span> are all of comparable order of magnitude.
+Figure&nbsp;6.1: Testing error estimates for a single split into training and testing datasets. This result suggests that <span class="math inline">\(p=9\)</span> minimizes the test MSE; however, the test MSE values for polynomial degrees from <span class="math inline">\(p=2\)</span> to <span class="math inline">\(p=10\)</span> are all of comparable order of magnitude.
 </figcaption></figure>
 </div>
 </div>
 </div>
-<p><a href="#fig-VA1" class="quarto-xref">Figure&nbsp;<span>4.1</span></a> shows the test MSE values based on <strong>one</strong> random split of the dataset. The result that <span class="math inline">\(p=9\)</span> minimizes the test MSE, however, may depend on the random split. Different random splits may lead to different model selection (choices of <span class="math inline">\(p\)</span>).</p>
+<p><a href="#fig-VA1" class="quarto-xref">Figure&nbsp;<span>6.1</span></a> shows the test MSE values based on <strong>one</strong> random split of the dataset. The result that <span class="math inline">\(p=9\)</span> minimizes the test MSE, however, may depend on the random split. Different random splits may lead to different model selection (choices of <span class="math inline">\(p\)</span>).</p>
 <p>The following code repeats the above computations for multiple random splits of the dataset into training and validation sets:</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">## R = 10 random splits</span></span>
@@ -997,18 +1009,18 @@ Figure&nbsp;4.1: Testing error estimates for a single split into training and te
 <img src="Ch_NonParamRegression_files/figure-html/fig-VA2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-VA2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.2: Test error estimates for ten different random splits into training and test data sets. The polynomial degrees that minimize the test MSE strongly vary across the different random splits.
+Figure&nbsp;6.2: Test error estimates for ten different random splits into training and test data sets. The polynomial degrees that minimize the test MSE strongly vary across the different random splits.
 </figcaption></figure>
 </div>
 </div>
 </div>
-<p><a href="#fig-VA2" class="quarto-xref">Figure&nbsp;<span>4.2</span></a> shows that the validation set approach can be highly variable. The selected polynomial degrees (minimal test MSE) strongly varies across the different random splits and thus depend on the data included in the test and test sets.</p>
+<p><a href="#fig-VA2" class="quarto-xref">Figure&nbsp;<span>6.2</span></a> shows that the validation set approach can be highly variable. The selected polynomial degrees (minimal test MSE) strongly varies across the different random splits and thus depend on the data included in the test and test sets.</p>
 <p>A further serious problem with the validation set approach is that the evaluated predictions <span class="math inline">\(\widehat{Y}^{\text{Test}}_i=\widehat{f}(X_i^{\text{Test}})\)</span> are based on estimates <span class="math inline">\(\widehat{f}_p\)</span> computed from the training set, where, however, the training set sample size <span class="math inline">\(n_{\text{Train}}\)</span> is typically <strong>substantially smaller</strong> than the actual sample size, i.e.&nbsp; <span class="math display">\[
 n_{{\text{Train}}}\ll n.
 \]</span> This leads to <strong>increased (i.e.&nbsp;biased) test MSE values</strong> which do not reflect the actual test MSE values for the total sample size <span class="math inline">\(n.\)</span></p>
 <p>Leave-One-Out and <span class="math inline">\(k\)</span>-fold <em>Cross-validation</em> are refinements of the validation set approach that addresses these issues.</p>
-</section></section><section id="leave-one-out-cross-validation-loocv" class="level3" data-number="4.5.2"><h3 data-number="4.5.2" class="anchored" data-anchor-id="leave-one-out-cross-validation-loocv">
-<span class="header-section-number">4.5.2</span> Leave-One-Out Cross-Validation (LOOCV)</h3>
+</section></section><section id="leave-one-out-cross-validation-loocv" class="level3" data-number="6.5.2"><h3 data-number="6.5.2" class="anchored" data-anchor-id="leave-one-out-cross-validation-loocv">
+<span class="header-section-number">6.5.2</span> Leave-One-Out Cross-Validation (LOOCV)</h3>
 <p>Like the validation set approach, LOOCV involves splitting the total dataset into a training and a test part.</p>
 <p>However, instead of creating two subsets of comparable size, a <strong>single</strong> observation is used for the test set, and the remaining observations are used for the training set. , i.e.</p>
 <ul>
@@ -1035,7 +1047,7 @@ n_{{\text{Train}}}\ll n.
 \]</span></p>
 <p>The LOOCV estimate is then formed by the average of the <span class="math inline">\(n\)</span> MSE estimates: <span id="eq-LOOCV"><span class="math display">\[
 \operatorname{LOOCV}(p)=\operatorname{CV}_{(n)}(p) = \frac{1}{n} \sum_{i=1}^n\widehat{\operatorname{MSE}}_{\text{Test},i}(p).
-\qquad(4.4)\]</span></span></p>
+\qquad(6.4)\]</span></span></p>
 <p>Figure 5.3 shows schematically the leave-one-out data splitting approach.</p>
 <p><img src="images/Fig_5_3.png" class="img-fluid"></p>
 <p><strong>Advantages</strong> of CV over the Validation Set approach:</p>
@@ -1085,14 +1097,14 @@ n_{\text{Train}}=n-1 \approx n
 <img src="Ch_NonParamRegression_files/figure-html/fig-CV1-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-CV1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.3: LOOCV error estimates for different polynomial degrees <span class="math inline">\(p.\)</span>
+Figure&nbsp;6.3: LOOCV error estimates for different polynomial degrees <span class="math inline">\(p.\)</span>
 </figcaption></figure>
 </div>
 </div>
 </div>
 <section id="cv-often-computationally-expensive" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="cv-often-computationally-expensive"><strong>CV: (Often) Computationally Expensive</strong></h4>
 LOOCV has the potential to be <strong>computationally expensive</strong>, since the model has to be fit <span class="math inline">\(n\)</span> times. Indeed the above code, which represents a rather simple implementation of LOOCV for least squares fits of linear regression models, takes<br><center>
-<code>end_time</code><span class="math inline">\(-\)</span><code>start_time</code> <span class="math inline">\(=\)</span> 3.799 seconds
+<code>end_time</code><span class="math inline">\(-\)</span><code>start_time</code> <span class="math inline">\(=\)</span> 3.477 seconds
 </center>
 <p>for the computations which is quite long.</p>
 <p>Luckily, for least squares fits of linear/polynomial regression models one can use the following short-cut formula <span id="eq-CVfast"><span class="math display">\[
@@ -1101,7 +1113,7 @@ LOOCV has the potential to be <strong>computationally expensive</strong>, since 
 &amp;=\operatorname{CV}_{(n)}(p) = \frac{1}{n} \sum_{i=1}^n\left(\frac{Y_i - \widehat{f}_p(X_i)}{1-h_i}\right)^2,
 %&amp;=\operatorname{CV}_{(n)} = \frac{1}{n} \sum_{i=1}^n\left(\frac{y_i - \widehat{y}_i}{1-h_i}\right)^2
 \end{align*}
-\qquad(4.5)\]</span></span> where</p>
+\qquad(6.5)\]</span></span> where</p>
 <ul>
 <li>
 <span class="math inline">\(\widehat{y}_i\)</span> is the <span class="math inline">\(i\)</span>th fitted value from the <em>original least squares fit,</em> based on the total sample size <span class="math inline">\(n,\)</span> and</li>
@@ -1148,9 +1160,9 @@ However, the fast version takes only
 <li>Quadratic discriminant analysis</li>
 <li>etc.</li>
 </ul>
-<p><strong>Caution:</strong> The fast LOOCV <a href="#eq-CVfast" class="quarto-xref">Equation&nbsp;<span>4.5</span></a> does not hold in general, but only for least squares fits of linear regression models, which includes, for instance, polynomial regressions, but, for instance, not logistic regression models.</p>
-</section></section></section><section id="k-fold-cross-validation" class="level2" data-number="4.6"><h2 data-number="4.6" class="anchored" data-anchor-id="k-fold-cross-validation">
-<span class="header-section-number">4.6</span> <span class="math inline">\(k\)</span>-Fold Cross-Validation</h2>
+<p><strong>Caution:</strong> The fast LOOCV <a href="#eq-CVfast" class="quarto-xref">Equation&nbsp;<span>6.5</span></a> does not hold in general, but only for least squares fits of linear regression models, which includes, for instance, polynomial regressions, but, for instance, not logistic regression models.</p>
+</section></section></section><section id="k-fold-cross-validation" class="level2" data-number="6.6"><h2 data-number="6.6" class="anchored" data-anchor-id="k-fold-cross-validation">
+<span class="header-section-number">6.6</span> <span class="math inline">\(k\)</span>-Fold Cross-Validation</h2>
 <p>An alternative to LOOCV is <span class="math inline">\(k\)</span>-fold CV.</p>
 <p>This approach divides the total index set <span class="math inline">\(\mathcal{I}=\{1,2,\dots,n\}\)</span> of the original data data set into <span class="math inline">\(k\)</span> mutually exclusive subsets (folds) of roughly equal sizes <span class="math display">\[
 \mathcal{I}_1,\,\mathcal{I}_2,\dots,\mathcal{I}_k
@@ -1176,7 +1188,7 @@ However, the fast version takes only
 \]</span> with <span class="math inline">\(\widehat{f}_p\)</span> being computed from the training data, but evaluated at the test data.</p>
 <p>The <span class="math inline">\(k\)</span>-fold CV estimate is computed by averaging these values <span id="eq-kfoldCV"><span class="math display">\[
 \operatorname{CV}_{(k)}(p)=\frac{1}{k}\sum_{j=1}^k\widehat{\operatorname{MSE}}_{\text{Test},j}(p)
-\qquad(4.6)\]</span></span></p>
+\qquad(6.6)\]</span></span></p>
 <p>Figure 5.5 illustrates the data splitting for <span class="math inline">\(k\)</span>-fold CV.</p>
 <p><img src="images/Fig_5_5.png" class="img-fluid"></p>
 <ul>
@@ -1347,8 +1359,8 @@ Throughout this book, we discuss a variety of approaches that can be used in pra
 
 One important method is **cross-validation**, which is a method for estimating the global test MSE. 
 -->
-</section><section id="parametric-versus-nonparametric-regression" class="level2" data-number="4.7"><h2 data-number="4.7" class="anchored" data-anchor-id="parametric-versus-nonparametric-regression">
-<span class="header-section-number">4.7</span> Parametric versus Nonparametric Regression</h2>
+</section><section id="parametric-versus-nonparametric-regression" class="level2" data-number="6.7"><h2 data-number="6.7" class="anchored" data-anchor-id="parametric-versus-nonparametric-regression">
+<span class="header-section-number">6.7</span> Parametric versus Nonparametric Regression</h2>
 <p>Generally, the parametric approach will outperform the non-parametric approach if the parametric form that has been selected is close to the true form of <span class="math inline">\(f\)</span> and vice versa.</p>
 <p><strong>Figure 3.17</strong> provides an example with data generated from a one-dimensional linear regression model:</p>
 <ul>
@@ -1506,8 +1518,8 @@ $$
 :::
 
 
-<br> --></section></section><section id="in-class-coding-exercises" class="level2" data-number="4.8"><h2 data-number="4.8" class="anchored" data-anchor-id="in-class-coding-exercises">
-<span class="header-section-number">4.8</span> In Class Coding Exercises</h2>
+<br> --></section></section><section id="in-class-coding-exercises" class="level2" data-number="6.8"><h2 data-number="6.8" class="anchored" data-anchor-id="in-class-coding-exercises">
+<span class="header-section-number">6.8</span> In Class Coding Exercises</h2>
 <p>Consider the following regression model: <span class="math display">\[\begin{align*}
 Y_i
 &amp; = f(X_i)+ \epsilon_i\\[2ex]
@@ -1601,8 +1613,8 @@ of the test data random sample is used to check the accuracy of the estimate $\w
 ::: {.callout-important}
 In the following, we will often supress the subscript "obs", since often both points of view, the random variables points of view, and the observed realizations points of view make sense.
 :::
---></section><section id="exercises" class="level2" data-number="4.9"><h2 data-number="4.9" class="anchored" data-anchor-id="exercises">
-<span class="header-section-number">4.9</span> Exercises</h2>
+--></section><section id="exercises" class="level2" data-number="6.9"><h2 data-number="6.9" class="anchored" data-anchor-id="exercises">
+<span class="header-section-number">6.9</span> Exercises</h2>
 <ul>
 <li><p><a href="https://www.dropbox.com/scl/fi/df0xgp99t3gskg53picvc/Ch4_Exercises1.pdf?rlkey=j5iome3qr5s6yst8lai2xtma4&amp;st=qbdsrh9q&amp;dl=0">Exercises for Chapter 4</a></p></li>
 <li><p><a href="https://www.dropbox.com/scl/fi/1ymyos344i1gzjhd3kwjt/Ch4_Exercises_with_Solutions1.pdf?rlkey=uenhjeuq7wvm8eeptyh18kfes&amp;st=bsefvrxn&amp;dl=0">Exercises for Chapter 4 with Solutions</a></p></li>
@@ -2173,13 +2185,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="./Ch_LinearRegression.html" class="pagination-link" aria-label="Linear Regression">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Linear Regression</span></span>
+      <a href="./Ch_ExtendingLinearRegression.html" class="pagination-link" aria-label="Extending and Evaluating the Linear Model">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Extending and Evaluating the Linear Model</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./Ch5_Classification.html" class="pagination-link" aria-label="Classification">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Classification</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Classification</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

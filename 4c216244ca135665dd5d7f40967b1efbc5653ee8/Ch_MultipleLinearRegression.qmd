@@ -1,0 +1,1209 @@
+<!-- LTeX: language=en-US -->
+# Multiple Linear Regression {#sec-multipleLinRegCh}
+
+We continue with the `wage1` data from @sec-simpleLinRegCh. Since each
+chapter's R code runs in its own fresh session, we reload the data:
+
+```{r}
+library("wooldridge")
+data("wage1")
+```
+
+## Multiple Linear Regression {#sec-multipleLinReg}
+
+Education alone leaves much of the variation in wages unexplained:
+@fig-wage-educ shows that workers with the same education earn very
+different wages. Other factors (work experience, job tenure, gender) clearly matter. Adding them
+simultaneously serves two goals: 
+
+::: {.spaced-list}
+1. it improves prediction accuracy (see @sec-model-fit)
+2. it can correct for bias in the parameter estimate of the education effect (see next chapter)
+:::
+
+### Why Simple Regression Is Not Enough: Omitted Variable Bias {#sec-OVB}
+
+Compare the OLS estimate of the education coefficient in two models:
+
+```{r}
+lm_simple     <- lm(wage ~ educ,         data = wage1)
+lm_educ_exper <- lm(wage ~ educ + exper, data = wage1)
+rbind(
+  simple   = coef(lm_simple)["educ"],
+  multiple = coef(lm_educ_exper)["educ"]
+)
+```
+
+The coefficient on `educ` changes when we add `exper`. This is not a
+coincidence — it is **omitted variable bias (OVB)**.
+
+#### **The OVB Formula** {-}
+
+Suppose the true model contains two predictors:
+$$
+Y_i = \beta_1 + \beta_2 X_{i2} + \beta_3 X_{i3} + \varepsilon_i,
+$${#eq-true-model}
+with strictly exogenous predictors (Assumption 2); i.e. 
+$$
+E(\varepsilon_i \mid X) = 0\quad\text{for all}\quad i=1,\dots,n.
+$$ 
+
+**Parameter of interest.** Say the parameter of interest is $\beta_2$ — the expected marginal effect of $X_2$ on the outcome $Y_i.$
+
+**Estimating a misspecified model.** Suppose we guess wrong and leave out $X_{i3}.$ Instead of the true model (@eq-true-model), we estimate the **misspecified** simple regression model
+$$
+Y_i = \gamma_1 + \gamma_2 X_{i2} + u_i.
+$$
+This violates Assumption 1: we are fitting the wrong (false) linear model.
+
+The crucial question: is the estimator
+$$
+\widehat\gamma_2
+= \frac{\displaystyle\frac{1}{n}\sum_{i=1}^{n}(X_{i2} - \bar X_2)(Y_{i} - \bar Y)}
+       {\displaystyle\frac{1}{n}\sum_{i=1}^{n}(X_{i2} - \bar X_2)^2}
+= \frac{\widehat{\operatorname{Cov}}(X_2,\,Y)}{\widehat{\operatorname{Var}}(X_2)}
+$$
+still a reliable estimator of $\beta_2$?
+
+After all, we only left out $X_{i3}$ — and we don't even care about its effect. The predictor we do care about, $X_{i2},$ is still in the model. So, what could possibly go wrong?!
+
+**The sample decomposition.** The estimator $\widehat\gamma_2$ decomposes into the multiple-regression slope $\widehat\beta_2$ plus an empirical **bias term**:
+$$
+\widehat{\gamma}_2 = \widehat{\beta}_2 + \underbrace{\widehat{\beta}_3 \cdot \widehat\delta}_{\text{empirical bias}},
+$${#eq-OVB-sample}
+where:
+
+* $\widehat\beta_2$ and $\widehat\beta_3$ are the OLS estimators from the true multiple regression (@eq-true-model), and
+* $\widehat\delta$ is the OLS slope of the auxiliary regression $X_{i3} = \alpha + \delta X_{i2} + e_i,$ i.e. regressing the omitted predictor $X_{i3}$ on the included predictor $X_{i2}\colon$
+$$
+\widehat\delta
+= \frac{\displaystyle\frac{1}{n}\sum_{i=1}^{n}(X_{i2} - \bar X_2)(X_{i3} - \bar X_3)}
+       {\displaystyle\frac{1}{n}\sum_{i=1}^{n}(X_{i2} - \bar X_2)^2}
+= \frac{\widehat{\operatorname{Cov}}(X_2,\,X_3)}{\widehat{\operatorname{Var}}(X_2)}.
+$${#eq-OVB-delta}
+
+
+
+
+::: {.callout-tip collapse="true"}
+## Going Deeper: Derivation of the Sample Decomposition @eq-OVB-sample
+
+**Step 1: Start from the definition of $\widehat\gamma_2,$ and substitute
+$Y_i$.** 
+$$
+\widehat\gamma_2 = \frac{\widehat{\operatorname{Cov}}(X_2,\,Y)}{\widehat{\operatorname{Var}}(X_2)}.
+$$
+The fitted values of the multiple regression satisfy
+$$
+Y_i = \widehat\beta_1 + \widehat\beta_2 X_{i2} + \widehat\beta_3 X_{i3} + \widehat\varepsilon_i.
+$$
+**Step 2: Expand the covariance.** Plugging this in for $Y$ and using the linearity of the (sample) covariance,
+\begin{align*}
+\widehat\gamma_2
+&= \frac{\widehat{\operatorname{Cov}}\bigl(X_2,\,\widehat\beta_1 + \widehat\beta_2 X_2 + \widehat\beta_3 X_3 + \widehat\varepsilon\bigr)}{\widehat{\operatorname{Var}}(X_2)}\\[2ex]
+&\text{using the linearity of the sample covariance:}\\[2ex]
+&= \frac{
+  \widehat{\operatorname{Cov}}\bigl(X_2,\,\widehat\beta_1\bigr) + 
+  \widehat{\operatorname{Cov}}\bigl(X_2,\,\widehat\beta_2 X_2\bigr) + 
+  \widehat{\operatorname{Cov}}\bigl(X_2,\,\widehat\beta_3 X_3\bigr) +
+  \widehat{\operatorname{Cov}}\bigl(X_2,\,\widehat\varepsilon\bigr)}{\widehat{\operatorname{Var}}(X_2)}\\[2ex]
+&\text{factoring out factors that do not vary accross $i=1,\dots,n\colon$}\\[2ex]  
+&= \frac{
+  \widehat\beta_1 \,\widehat{\operatorname{Cov}}\bigl(X_2,\,1\bigr)+ 
+  \widehat\beta_2 \,\widehat{\operatorname{Cov}}\bigl(X_2,\,X_2\bigr) + 
+  \widehat\beta_3 \,\widehat{\operatorname{Cov}}\bigl(X_2,\,X_3\bigr) +
+  \widehat{\operatorname{Cov}}\bigl(X_2,\,\widehat\varepsilon\bigr)}{\widehat{\operatorname{Var}}(X_2)}\\[2ex]  
+&= \frac{0+\widehat\beta_2\,\widehat{\operatorname{Var}}(X_2) + \widehat\beta_3\,\widehat{\operatorname{Cov}}(X_2,\,X_3) + 0}{\widehat{\operatorname{Var}}(X_2)}
+\end{align*}
+using that:
+
+* $\widehat{\operatorname{Cov}}(X_2,\, 1) = 0$
+* $\widehat{\operatorname{Cov}}(X_2,X_2) = \widehat{\operatorname{Var}}(X_2)$.
+* $\widehat{\operatorname{Cov}}(X_2,\,\widehat\varepsilon)=0,$ since by the orthogonal projection property of OLS:
+\begin{align*}
+\widehat{\operatorname{Cov}}(X_2,\,\widehat\varepsilon)
+& = \frac{1}{n}\sum_{i=1}^n (X_{i2}-\bar X_2)\,\widehat\varepsilon_i\\[2ex]
+& = \frac{1}{n}\Bigl(\underbrace{\textstyle\sum_{i=1}^n X_{i2}\widehat\varepsilon_i}_{=0} - \bar X_2\underbrace{\textstyle\sum_{i=1}^n \widehat\varepsilon_i}_{=0}\Bigr)\\[2ex] 
+& = 0.
+\end{align*}
+
+**Step 3: Simplify.** 
+
+
+\begin{align*}
+\widehat\gamma_2
+&= \frac{0+\widehat\beta_2\,\widehat{\operatorname{Var}}(X_2) + \widehat\beta_3\,\widehat{\operatorname{Cov}}(X_2,\,X_3) + 0}{\widehat{\operatorname{Var}}(X_2)}\\[2ex]
+&= \widehat\beta_2 + \widehat\beta_3\, \underbrace{\frac{\widehat{\operatorname{Cov}}(X_2,\,X_3)}{\widehat{\operatorname{Var}}(X_2)}}_{=\widehat{\delta}}.
+\end{align*}
+
+
+That is, the estimator $\widehat{\gamma}_2$ equals the estimator $\widehat{\beta}_2$ plus a potential bias term $\widehat\beta_3\,\widehat{\delta}.$
+:::
+
+
+That is: $\widehat{\gamma}_2$ (misspecified model) and $\widehat{\beta}_2$ (true model) are connected — but with a potential empirical **bias term** $\widehat{\beta}_3\,\widehat{\delta}$ attached.
+
+
+In our `wage1` data, the sample decomposition @eq-OVB-sample is given by:
+$$
+\underbrace{`r sprintf("%.3f", coef(lm_simple)["educ"])`}_{\widehat\gamma_2}
+= \underbrace{`r sprintf("%.3f", coef(lm_educ_exper)["educ"])`}_{\widehat\beta_2}
++ \underbrace{`r sprintf("%.3f", coef(lm_educ_exper)["exper"])`}_{\widehat\beta_3}
+\cdot \underbrace{(`r sprintf("%.3f", cov(wage1$educ, wage1$exper) / var(wage1$educ))`)}_{\widehat\delta}.
+$$
+
+::: {.callout-note collapse="true"}
+## R Code to Reproduce the Omitted Variable Bias Decomposition
+```{r}
+## delta_hat = sample covariance / sample variance (formula above)
+delta_hat <- cov(wage1$educ, wage1$exper) / var(wage1$educ)
+
+beta3_hat <- coef(lm_educ_exper)["exper"]
+
+c(delta_hat    = unname(delta_hat),
+  beta3_hat    = unname(beta3_hat),
+  bias         = unname(beta3_hat * delta_hat),
+  educ_2_mult  = unname(coef(lm_educ_exper)["educ"]),
+  educ_2_mult_p_bias = unname(coef(lm_educ_exper)["educ"] + beta3_hat * delta_hat),
+  educ_2_simple = unname(coef(lm_simple)["educ"]))
+```
+:::
+
+
+However, a single realization of $\widehat{\gamma}_2$ cannot tell us whether it is a reliable estimator of $\beta_2.$
+
+We call $\widehat{\gamma}_2$ a reliable estimator of $\beta_2$ if it is **unbiased** — i.e., if its **expected value** equals $\beta_2$:
+\begin{align*}
+E(\widehat{\gamma}_2\mid X) & \neq \beta_2\quad \text{biased, unreliable estimator}\\[2ex]
+E(\widehat{\gamma}_2\mid X) & = \beta_2\quad \text{unbiased, reliable estimator}
+\end{align*}
+
+It turns out that, in general, the conditional mean of $\widehat{\gamma}_2$ given
+$X = (X_{12}, \dots, X_{n2},\; X_{13}, \dots, X_{n3})$
+is **generally not** equal to $\beta_2$:
+$$
+E(\widehat\gamma_2 \mid X) = \beta_2 + \underbrace{\beta_3 \cdot \widehat\delta}_{\text{bias}},
+$${#eq-OVB}
+
+::: {.callout-tip collapse="true"}
+## Going Deeper: Derivation of the OVB Formula @eq-OVB
+
+**Take the conditional expectation of the sample decomposition
+@eq-OVB-sample.** Since $\widehat\delta$ depends only on the predictor
+values $X_{i2}, X_{i3}$ (and is hence non-random given $X$),
+\begin{align*}
+E(\widehat\gamma_2 \mid X)
+&= E\bigl(\widehat\beta_2 + \widehat\beta_3\,\widehat\delta \mid X\bigr)\\[2ex]
+&= E(\widehat\beta_2\mid X) + E(\widehat\beta_3\mid X)\,\widehat\delta.
+\end{align*}
+
+Because the **true** model @eq-true-model satisfies strict exogeneity,
+$E(\varepsilon_i\mid X)=0$, the multiple-regression OLS estimators
+$\widehat\beta_2$ and $\widehat\beta_3$ are unbiased for the true
+$\beta_2$ and $\beta_3$ — exactly as in @sec-simpleLR-props, now with two
+predictors instead of one (proven in general in @sec-OLS-multiple):
+$$
+E(\widehat\beta_2\mid X) = \beta_2
+\qquad\text{and}\qquad
+E(\widehat\beta_3\mid X) = \beta_3.
+$$
+
+Plugging this in gives @eq-OVB:
+$$
+E(\widehat\gamma_2 \mid X) = \beta_2 + \beta_3\,\widehat\delta. \qquad \blacksquare
+$$
+:::
+
+The bias is non-zero whenever
+
+::: {.spaced-list}
+1. $\beta_3 \neq 0$: the omitted variable affects $Y$, and
+2. $\widehat\delta \neq 0$: the omitted variable is correlated with the included predictor $X_{i2}$ in the sample,
+$$
+\widehat{\operatorname{Cov}}(X_2,\,X_3) \neq 0.
+$$
+:::
+
+In the wages example, with 
+
+* $X_{i2} = \text{educ}_i$ 
+* $X_{i3} = \text{exper}_i$, 
+
+we have:
+
+::: {.spaced-list}
+1. Experience raises wages, thus $\beta_3 > 0.$ 
+2. Workers who spent more years in school have fewer years of work experience, so $\widehat{\operatorname{Cov}}(X_2,\,X_3)<0$ and thus $\widehat\delta < 0$. 
+:::
+
+Thus, we expect $\widehat\gamma_2$ to be negatively biased for $\beta_2$:
+$$
+E(\widehat\gamma_2 \mid X) = \beta_2 + \underbrace{\beta_3 \cdot \widehat\delta}_{<0}.
+$$
+The misspecified estimator $\widehat\gamma_2$ will systematically **understate** the true return to education, $\beta_2.$ Omitting the experience variable $X_{i3}=$`exper`$_i$ is therefore a fundamental problem for estimating $\beta_2.$
+
+
+
+::: {.callout-important appearance="simple"}
+## Business Takeaway: Which Variables Are in the Model Matters
+The estimated education coefficient moved from
+`r sprintf("%.2f", coef(lm_simple)["educ"])` to
+`r sprintf("%.2f", coef(lm_educ_exper)["educ"])` just by adding experience.
+Whenever someone presents a regression result (a consultant, a colleague, a dashboard, etc) ask: 
+
+"What else could drive both the predictor of interest (e.g. $X_{i2}$) and the outcome $Y_i$, and is it in the model?"
+:::
+
+::: {.callout-caution appearance="simple"}
+OVB is a **causal** problem, not a mechanical one. Including additional
+control variables reduces bias only if those variables are themselves
+exogenous. Adding a "bad control", i.e., a variable that is affected by $X_{i2},$ can introduce new bias. We return to this in @sec-whatdoesbeta.
+:::
+
+### The Multiple Linear Regression Model {#sec-multipleLR-model}
+
+The **multiple linear regression model** with $K$ parameters (an intercept and $K-1$ predictors) is
+
+$$
+Y_i = \beta_1 + \beta_2 X_{i2} + \dots + \beta_K X_{iK} + \varepsilon_i,
+  \quad i = 1, \dots, n.
+$${#eq-multipleLR}
+
+Setting $X_{i1} = 1$ for the intercept and stacking all $n$ observations,
+@eq-multipleLR can be written compactly in matrix form:
+$$
+\underset{(n\times 1)}{Y}
+= \underset{(n\times K)}{X}\;
+  \underset{(K\times 1)}{\beta}
++ \underset{(n\times 1)}{\varepsilon},
+$${#eq-multipleLR-matrix}
+$$
+Y = \begin{pmatrix}Y_1\\\vdots\\Y_n\end{pmatrix},\;
+X = \begin{pmatrix}
+  1 & X_{12} & \cdots & X_{1K}\\
+  \vdots & \vdots & \ddots & \vdots\\
+  1 & X_{n2} & \cdots & X_{nK}
+\end{pmatrix},\;
+\beta = \begin{pmatrix}\beta_1\\\vdots\\\beta_K\end{pmatrix}.
+$$
+
+For instance, the model with education, experience, and tenure has $K = 4$
+parameters:
+
+$$
+\text{wage}_i = \beta_1 + \beta_2\,\text{educ}_i + \beta_3\,\text{exper}_i
+              + \beta_4\,\text{tenure}_i + \varepsilon_i.
+$$
+
+The **multiple linear regression model** @eq-multipleLR specifies the
+conditional mean of $Y_i$ given $X_{i2} = x_2, \dots, X_{iK} = x_K$ as a
+linear function
+\begin{align*}
+&m(x_2, \dots, x_K)\\[2ex]
+& = E(Y_i \mid X_{i2} = x_2, \dots, X_{iK} = x_K) \\[2ex]
+& = E(\beta_1 + \beta_2 X_{i2} + \dots + \beta_K X_{iK} + \varepsilon_i \mid X_{i2} = x_2, \dots, X_{iK} = x_K) \\[2ex]
+& = \beta_1 + \beta_2 x_2 + \dots + \beta_K x_K
+    + \underbrace{E(\varepsilon_i \mid X_{i2} = x_2, \dots, X_{iK} = x_K)}_{=0} \\[2ex]
+& = \beta_1 + \beta_2 x_2 + \dots + \beta_K x_K,
+\end{align*}
+where the error term drops out by (strict) exogeneity; see the assumptions
+below.
+
+**Interpretation of $\beta_k$.** Each slope $\beta_k$, $k = 2, \dots, K$,
+equals the partial derivative of the conditional mean function
+$m(x_2, \dots, x_K)$ with respect to $x_k$:
+
+\begin{align*}
+&\frac{\partial}{\partial x_k} m(x_2, \dots, x_K)\\[2ex]
+& = \frac{\partial}{\partial x_k} E(Y_i \mid X_{i2} = x_2, \dots, X_{iK} = x_K) \\[2ex]
+& = \frac{\partial}{\partial x_k} \left(\beta_1 + \beta_2 x_2 + \dots + \beta_k x_k + \dots + \beta_K x_K\right) \\[2ex]
+& = \beta_k.
+\end{align*}
+
+In words: a one-unit increase in $X_{ik}$ changes the *expected* value of
+$Y_i$ by $\beta_k$ units, *holding all other predictors constant*. That is
+why $\beta_k$ is called a **partial effect**. In the wages example with
+education, experience, and tenure, $\beta_2$ measures the expected wage
+premium per additional year of schooling, in dollars per hour, for workers
+with the *same* experience and tenure. 
+
+The OLS estimator $\widehat\beta = (\widehat\beta_1, \dots, \widehat\beta_K)$
+has desirable statistical properties under four assumptions.
+
+#### **Assumption 1: Linear Model and Random Sampling** {-}
+
+The data 
+$$
+(Y_1, X_{12}, \dots, X_{1K}), \dots, (Y_n, X_{n2}, \dots, X_{nK})
+$$
+are a realization of an **(i.i.d.) random sample** from the multiple linear
+regression model @eq-multipleLR.
+
+#### **Assumption 2: Strict Exogeneity** {-}
+
+$$
+E(\varepsilon_i \mid X) = 0, \quad i = 1, \dots, n,
+$$
+where $X=(X_{12},\dots,X_{nK})$ contains all predictor values
+$X_{i2}, \dots, X_{iK}$ of all workers $i = 1, \dots, n$. Worker $i$'s
+error $\varepsilon_i$ has mean zero regardless of *everyone's* predictor
+values — not only worker $i$'s own.
+
+#### **Assumption 3: No Perfect Multicollinearity** {-}
+
+$$
+\operatorname{rank}(X) = K.
+$$
+
+No predictor may be an exact linear combination of the other predictors
+(including the intercept) — otherwise the columns of $X$ are linearly
+dependent, $\operatorname{rank}(X) < K$, and the estimator $\widehat\beta$ is
+not uniquely defined. For example, we cannot include both a dummy `female`
+and a dummy `male`$=1-$`female` together with an intercept — the data could not tell their effects apart.
+
+#### **Assumption 4: Homoskedasticity** {-}
+
+$$
+\operatorname{Var}(\varepsilon_i \mid X) = \sigma^2 \quad\text{for all}\quad i = 1, \dots, n.
+$$
+
+The variance of the error is constant across all predictor values.
+
+### OLS Estimation {#sec-OLS-multiple}
+
+The **OLS estimator** chooses
+$\widehat\beta_1, \dots, \widehat\beta_K$ to minimize the sum of squared deviations
+
+$$
+(\widehat\beta_1, \dots, \widehat\beta_K)
+= \arg\min_{b_1, \dots, b_K}
+  \sum_{i=1}^{n} \bigl(Y_i - b_1 - b_2 X_{i2} - \dots - b_K X_{iK}\bigr)^2.
+$${#eq-OLS-multiple}
+
+With several predictors, there is no longer a short formula like
+@eq-OLS-slope that one would compute by hand. `lm()` solves the
+minimization problem for us:
+
+```{r}
+lm_multiple <- lm(wage ~ educ + exper + tenure, data = wage1)
+round(coef(lm_multiple), 2)
+```
+
+**Interpretation:** Controlling for experience and tenure, each additional
+year of education is associated with approximately
+`r round(coef(lm_multiple)["educ"], 2)` dollars/hour higher wages.
+
+::: {.callout-important appearance="simple"}
+## Business Takeaway: Reading a Coefficient
+"Controlling for experience and tenure" means *comparing workers who are
+alike in these respects*. An HR analyst can report: "Among employees with
+the same experience and tenure, those with one more year of education earn
+on average \$`r sprintf("%.2f", coef(lm_multiple)["educ"])` more per hour."
+
+
+❗ The coefficient does *not* say that one more year of education *causes* this wage increase. The true causal driver may not be education at all, but a latent (unobserved) variable like ability or motivation: able, motivated workers tend to acquire more education **and** earn higher wages for reasons unrelated to education itself. Education then acts partly as a **proxy** for this unobserved ability — so $\widehat\beta_\text{educ}=`r round(coef(lm_multiple), 2)`$ partly reflects the return to ability/motivation, not to education (see also @sec-whatdoesbeta).
+:::
+
+::: {.callout-tip collapse="true"}
+## Going Deeper: OLS in Matrix Form
+
+This box requires matrix algebra; see @sec-matrixAlgebra for a refresher.
+
+Recall the model in matrix form, @eq-multipleLR-matrix. The sum of squares
+in @eq-OLS-multiple becomes
+$$
+\widehat\beta = \begin{pmatrix}
+\widehat\beta_1\\\vdots\\\widehat\beta_K
+\end{pmatrix}
+= \arg\min_{b\in\mathbb{R}^K}(Y - Xb)^\top(Y - Xb).
+$$ 
+
+Setting its
+gradient to zero gives the **normal equations** 
+$$
+X^\top X\,\widehat\beta = X^\top Y.
+$$
+No perfect multicollinearity means 
+$$
+\operatorname{rank}(X) = K,
+$$ 
+so the $(K\times K)$-matrix 
+$$
+X^\top X
+$$ 
+is invertible such that we can solve the normal equations
+$$
+X^\top X\,\widehat\beta = X^\top Y.
+$$
+$$
+\Leftrightarrow\widehat\beta = (X^\top X)^{-1} X^\top Y.
+$${#eq-OLS-matrix}
+
+The fitted values are 
+$$
+\widehat Y = X\widehat\beta = HY
+$$ 
+with the $(n \times n)$
+**projection matrix** (hat matrix) 
+$$
+H = X(X^\top X)^{-1}X^\top.
+$$ 
+Its diagonal elements $h_{ii}$ are **leverage statistics**: a large $h_{ii}$ means observation $i$ has unusual predictor values and thus a potentially large influence on $\widehat\beta.$
+
+We can verify @eq-OLS-matrix in R:
+
+```{r}
+X        <- model.matrix(lm_multiple)
+Y        <- wage1$wage
+beta_hat <- solve(t(X) %*% X) %*% t(X) %*% Y
+round(cbind(beta_by_hand = beta_hat, 
+            beta_by_R    = coef(lm_multiple)), 4)
+```
+
+Under Assumptions 1–4, 
+$$
+\operatorname{Var}(\widehat\beta \mid X) = \underbrace{\sigma^2 (X^\top X)^{-1}}_{(K\times K)}
+$$
+
+The standard errors reported by `summary()` are the square roots of the diagonal elements of 
+$$
+\widehat\sigma^2 (X^\top X)^{-1}.
+$$
+
+For instance, the standard error of $\widehat{\beta}_k$ is 
+$$
+\operatorname{SE}(\widehat\beta \mid X) = \sqrt{\left[\widehat\sigma^2 (X^\top X)^{-1}\right]_{kk}},
+$$
+where 
+$$
+\left[M\right]_{kk}
+$$
+denotes the $k$-th diagonal element of the square $(K\times K)$-dimensional matrix $M.$
+
+::: {.callout-note collapse="true"}
+## Proof: $\operatorname{Var}(\widehat\beta \mid X) = \sigma^2 (X^\top X)^{-1}$
+
+**Step 1: Write $\widehat\beta$ in terms of the errors.** By the rank
+condition, $X^\top X$ is invertible. Plugging the model
+$Y = X\beta + \varepsilon$ (Assumption 1) into @eq-OLS-matrix gives
+\begin{align*}
+\widehat\beta
+& = (X^\top X)^{-1} X^\top (X\beta + \varepsilon) \\[2ex]
+& = \underbrace{(X^\top X)^{-1} X^\top X}_{= I_K}\,\beta + (X^\top X)^{-1} X^\top \varepsilon \\[2ex]
+& = \beta + (X^\top X)^{-1} X^\top \varepsilon.
+\end{align*}
+
+**Step 2: The conditional mean.** Given $X$, the matrix
+$(X^\top X)^{-1} X^\top$ is fixed, so by strict exogeneity
+(Assumption 2), $E(\varepsilon \mid X) = 0$,
+$$
+E(\widehat\beta \mid X) = \beta + (X^\top X)^{-1} X^\top E(\varepsilon \mid X) = \beta.
+$$
+(This also proves that the OLS estimators are unbiased.)
+
+**Step 3: The conditional variance.** By definition and Steps 1–2,
+\begin{align*}
+\operatorname{Var}(\widehat\beta \mid X)
+& = E\bigl[(\widehat\beta - \beta)(\widehat\beta - \beta)^\top \mid X\bigr] \\[2ex]
+& = E\bigl[(X^\top X)^{-1} X^\top \varepsilon\,\varepsilon^\top X (X^\top X)^{-1} \mid X\bigr] \\[2ex]
+& = (X^\top X)^{-1} X^\top \, E(\varepsilon\,\varepsilon^\top \mid X) \, X (X^\top X)^{-1}.
+\end{align*}
+In the second line we used $\bigl((X^\top X)^{-1} X^\top \varepsilon\bigr)^\top = \varepsilon^\top X (X^\top X)^{-1}$, since $X^\top X$ is symmetric.
+
+**Step 4: The $(n \times n)$ matrix $E(\varepsilon\,\varepsilon^\top \mid X)$.**
+Its elements are $E(\varepsilon_i \varepsilon_j \mid X)$.
+
+* *Diagonal* ($i = j$): since $E(\varepsilon_i \mid X) = 0$,
+  $E(\varepsilon_i^2 \mid X) = \operatorname{Var}(\varepsilon_i \mid X) = \sigma^2$
+  by homoskedasticity (Assumption 4).
+* *Off-diagonal* ($i \neq j$): under random sampling (Assumption 1),
+  worker $i$'s data are independent of worker $j$'s data, so
+  $E(\varepsilon_i \varepsilon_j \mid X) = E(\varepsilon_i \mid X)\, E(\varepsilon_j \mid X) = 0 \cdot 0 = 0$.
+
+Hence 
+$$
+E(\varepsilon\,\varepsilon^\top \mid X) = \sigma^2 I_n.
+$$
+
+**Step 5: Put everything together.** Plugging Step 4 into Step 3,
+\begin{align*}
+\operatorname{Var}(\widehat\beta \mid X)
+& = (X^\top X)^{-1} X^\top \, \sigma^2 I_n \, X (X^\top X)^{-1} \\[2ex]
+& = \sigma^2 \, \underbrace{(X^\top X)^{-1} X^\top X}_{= I_K} \, (X^\top X)^{-1} \\[2ex]
+& = \sigma^2 (X^\top X)^{-1}. \qquad \blacksquare
+\end{align*}
+:::
+:::
+
+### Properties and Robust Standard Errors {#sec-robustSE}
+
+**Unbiasedness.** Under Assumptions 1–3, the OLS estimators are unbiased:
+$$
+E(\widehat\beta_k) = \beta_k \quad\text{for every } k = 1, \dots, K.
+$$
+
+**Standard errors.** Under Assumptions 1–4, the variance-covariance matrix
+of $\widehat\beta$ is
+$$
+\operatorname{Var}(\widehat\beta \mid X) = \sigma^2 (X^\top X)^{-1},
+$$
+with the error variance estimated by
+$$
+\widehat\sigma^2 = \frac{1}{n-K}\sum_{i=1}^n\widehat\varepsilon_i^2,
+$$
+giving the ***estimated* variance-covariance matrix**
+$$
+\widehat{\operatorname{Var}}(\widehat\beta \mid X) = \underbrace{\widehat\sigma^2 (X^\top X)^{-1}}_{(K\times K)}.
+$$
+
+The standard error of the $k$-th OLS estimator $\widehat\beta_k$ is
+$$
+\widehat{\operatorname{SE}}(\widehat\beta_k \mid X) = \sqrt{\left[\widehat\sigma^2 (X^\top X)^{-1}\right]_{kk}},
+$$
+where $[M]_{kk}$ denotes the $k$-th diagonal element of the square
+$(K\times K)$-dimensional matrix $M.$ These are exactly the standard errors
+reported by `summary()`. They crucially rely on Assumption 4
+(homoskedasticity). 
+
+
+However, the scatter plot in @fig-wage-educ suggests that this
+assumption is violated: the spread of wages increases with education.
+
+**Heteroskedasticity.** If the error variance differs across workers,
+$$
+\operatorname{Var}(\varepsilon_i \mid X) = \sigma_i^2,
+$$
+the homoskedastic formula $\sigma^2 (X^\top X)^{-1}$ no longer holds. The
+variance of $\widehat\beta$ then takes the more general **sandwich form**
+$$
+\operatorname{Var}(\widehat\beta \mid X)
+= (X^\top X)^{-1}
+  \Bigl(\sum_{i=1}^n \sigma_i^2\, X_i X_i^\top\Bigr)
+  (X^\top X)^{-1},
+$${#eq-sandwich}
+where $X_i = (1, X_{i2}, \dots, X_{iK})^\top$. Under homoskedasticity, all
+$\sigma_i^2 = \sigma^2$ and @eq-sandwich simplifies back to
+$\sigma^2 (X^\top X)^{-1}$.
+
+Using the homoskedastic standard errors although the errors are
+heteroskedastic leads to
+
+* **wrong standard errors**, and thus to
+* **wrong $t$-statistics**,
+* **wrong $p$-values**, and
+* **wrong confidence intervals**
+
+rendering inference unreliable.
+
+Using heteroskedasticity-robust standard errors although the errors are
+actually homoskedastic is harmless: it still leads to (at least
+approximately, for large $n$)
+
+* **valid standard errors**, and thus to
+* **valid $t$-statistics**,
+* **valid $p$-values**, and
+* **valid confidence intervals**.
+
+The price is a **loss of precision:** robust standard errors are estimated
+less precisely than the usual ones, which matters mainly in small samples
+(smallish $n$).
+
+#### **Heteroskedasticity-Robust Standard Errors** {-}
+
+@eq-sandwich is not directly computable, since the
+$\sigma_i^2$ are unknown. Replacing each $\sigma_i^2$ by the squared
+residual $\widehat\varepsilon_i^2$ gives the so-called **HC0**
+heteroskedasticity-robust variance estimator
+$$
+\widehat{\operatorname{Var}}_{\operatorname{HC0}}(\widehat\beta \mid X)
+= (X^\top X)^{-1}
+  \Bigl(\sum_{i=1}^n \widehat\varepsilon_i^2\, X_i X_i^\top\Bigr)
+  (X^\top X)^{-1}.
+$$
+
+The **HC0-robust standard error** of the $k$-th OLS estimator $\widehat\beta_k$ is
+$$
+\widehat{\operatorname{SE}}_{\operatorname{HC0}}(\widehat\beta_k \mid X) = \sqrt{\left[\widehat{\operatorname{Var}}_{\operatorname{HC0}}(\widehat\beta \mid X)\right]_{kk}},
+$$
+the square root of the $k$-th diagonal element of this matrix.
+
+There are several refinements of this idea; the most commonly used, **HC3**, slightly
+inflates the squared residuals to improve small-sample behavior.
+
+
+According to @Long_Ervin_2000, HC3 has the best finite-sample performance. The R packages `sandwich` and `lmtest` compute it for us:
+
+```{r}
+suppressPackageStartupMessages(library("sandwich"))
+suppressPackageStartupMessages(library("lmtest"))
+
+## HC3 heteroskedasticity-robust standard error
+coeftest(lm_multiple, 
+         vcov = vcovHC(lm_multiple, type = "HC3"))
+```
+
+::: {.callout-note appearance="simple"}
+In applied work, **always report HC3 robust standard errors**. The coefficient estimates $\widehat\beta_k$ are unchanged; only standard errors,
+$t$-statistics, and confidence intervals are affected.
+:::
+
+::: {.callout-tip collapse="true"}
+## Going Deeper: HC0 vs. HC3
+
+This box requires matrix algebra; see @sec-matrixAlgebra.
+
+@eq-sandwich gives the variance of $\widehat\beta$ under heteroskedasticity
+in matrix notation, with $X_i = (1, X_{i2}, \dots, X_{iK})^\top$. HC0 and
+HC3 differ in how they estimate the unknown $\sigma_i^2$ in that formula:
+
+* The **HC0** estimator replaces each unknown $\sigma_i^2$ by the squared
+  residual $\widehat\varepsilon_i^2$.
+* The **HC3** estimator instead replaces $\sigma_i^2$ by
+$\widehat{\varepsilon}_i^2/(1-h_{ii})^2$, where $h_{ii}$ is
+the leverage of observation $i$ — a small-sample correction that inflates
+the residuals of high-leverage observations.
+
+<!-- 
+High-leverage observations tend to have
+small residuals because they pull the fitted line toward themselves; the
+factor $1/(1-h_{ii})^2$ corrects for this. 
+-->
+:::
+
+### Statistical Inference {#sec-multipleLR-inference}
+
+#### **$t$-Tests for Individual Coefficients** {-}
+
+Each coefficient $\beta_k$, $k = 1, \dots, K$, can be tested individually.
+To test
+\begin{align*}
+&H_0\colon \beta_k = 0\\[2ex]
+\text{vs.}\quad &H_1\colon \beta_k \neq 0,
+\end{align*}
+we use the $t$-statistic
+$$
+T_k = \frac{\widehat\beta_k - 0}{\widehat{\operatorname{SE}}(\widehat\beta_k \mid X)}
+    \overset{H_0}{\sim} t_{n-K}
+$${#eq-t-multiple}
+under $H_0$, Assumptions 1–4, and normally distributed errors. The
+$t$-distribution has $n - K$ degrees of freedom: we lose one for each of
+the $K$ estimated parameters, including the intercept. Without normality,
+this distribution holds only approximately, for large $n$ (**Central
+Limit Theorem**).
+
+We reject $H_0$ at level $\alpha$ when $T_k$ is incompatible with the null
+hypothetical $t_{n-K}$-distribution, i.e., when $T_k$ falls outside the
+**critical values** $\pm t_{n-K,\,1-\alpha/2}$:
+$$
+|T_k| > t_{n-K,\,1-\alpha/2}.
+$$
+
+::: {.callout-note appearance="simple"}
+## $t$-Tests with Robust Standard Errors
+If we use the recommended heteroskedasticity-robust HC3 standard errors 
+$$
+T_k = \frac{\widehat\beta_k - 0}{\widehat{\operatorname{SE}}_{\operatorname{HC3}}(\widehat\beta_k \mid X)}
+$$
+the $t_{n-K}$-distribution is no longer
+exact, even under normal errors. It remains, however, a valid distributional approximation for large
+$n$, due to the Central Limit Theorem.
+:::
+
+**Example:** In the model with education, experience, and tenure $(K = 4)$,
+we test
+\begin{align*}
+&H_0\colon \beta_3 = 0\quad \text{(no partial effect of experience)}\\[2ex]
+\text{vs.}\quad &H_1\colon \beta_3 \neq 0
+\end{align*}
+using HC3 standard errors — the same four steps as in @sec-inference-simple
+(estimate, standard error, $t$-statistic, critical value), now read
+directly off `coeftest()`:
+
+```{r}
+coeftest(lm_multiple, vcov = vcovHC(lm_multiple, type = "HC3"))["exper", ]
+```
+
+$$
+T_{3,\operatorname{obs}} = `r sprintf("%.2f", coef(lm_multiple)["exper"] / sqrt(diag(vcovHC(lm_multiple, type = "HC3")))["exper"])`
+> t_{n-K,\,0.975} = `r sprintf("%.3f", qt(0.975, df = nobs(lm_multiple) - 4))`,
+$$
+so we reject $H_0\colon \beta_3 = 0$ at the $5\%$ level — consistent with the
+$p$-value, $p_{\operatorname{obs}} = `r sprintf("%.3f", coeftest(lm_multiple, vcov = vcovHC(lm_multiple, type = "HC3"))["exper", 4])` < 0.05.$
+
+::: {.callout-caution appearance="simple"}
+## The Choice of Standard Errors Can Change the Conclusion
+With the usual non-robust standard error from `summary()`,
+$$
+\widehat{\operatorname{SE}}(\widehat\beta_3 \mid X)_{\operatorname{obs}} = `r sprintf("%.4f", coef(summary(lm_multiple))["exper", "Std. Error"])`,
+$$
+we would get $T_{3,\operatorname{obs}} = `r sprintf("%.2f", coef(summary(lm_multiple))["exper", "t value"])`$
+($p_{\operatorname{obs}} = `r sprintf("%.3f", coef(summary(lm_multiple))["exper", "Pr(>|t|)"])`$) and would fail
+to reject $H_0.$ 
+
+Here, the HC3 standard error is *smaller* than the usual
+one: robust standard errors are not always larger. 
+
+Since the scatter plot
+in @fig-wage-educ points to heteroskedasticity, the HC3-based test is the
+one to report.
+:::
+
+
+#### **$F$-Test for Joint Significance** {-}
+
+To test whether a *group* of $q$ predictors jointly matters, we use the
+**$F$-test**.
+
+**Example: Does the region matter?** The `wage1` data contain three
+binary (dummy) variables for the region a worker lives in:
+
+* `northcen` $= 1$ if the worker lives in the north-central U.S., and $= 0$ otherwise,
+* `south` $= 1$ if the worker lives in the South, and $= 0$ otherwise, and
+* `west` $= 1$ if the worker lives in the West, and $= 0$ otherwise.
+
+For instance, $\text{northcen}_i = 1$ means that worker $i$ lives in the
+north-central region, and $\text{northcen}_i = 0$ means that worker $i$ does
+*not* live there. Workers in the fourth region, the Northeast, have all three
+dummies equal to zero. They serve as the **reference group**: a separate
+dummy for the Northeast is left out of the model to avoid perfect
+multicollinearity (see @sec-genderGap for more on binary predictors).
+
+We add the three region dummies to the model with education, experience,
+and tenure:
+$$
+\begin{aligned}
+Y_i = \beta_1 &+ \beta_2\,\text{educ}_i + \beta_3\,\text{exper}_i + \beta_4\,\text{tenure}_i \\
+              &+ \beta_5\,\text{northcen}_i + \beta_6\,\text{south}_i + \beta_7\,\text{west}_i + \varepsilon_i.
+\end{aligned}
+$$
+
+```{r}
+lm_region <- lm(wage ~ educ + exper + tenure + northcen + south + west,
+                data = wage1)
+## t-tests with HC3 standard errors
+coeftest(lm_region,
+         vcov = vcovHC(lm_region, type = "HC3"))[c("northcen", "south", "west"), ]
+```
+
+None of the three region coefficients is individually significant at the
+$5\%$ level: all $p$-values of the individual $t$-tests (with HC3 standard
+errors) exceed $0.05$.
+
+Does this mean that the region does not matter? Not necessarily! The question
+
+::: {style="text-align: center;"}
+"Does the region matter at all?"
+:::
+
+is a ***joint* hypothesis** about all three coefficients:
+\begin{align*}
+&H_0\colon \beta_5 = \beta_6 = \beta_7 = 0\quad\text{(the region does not matter)}\\[2ex]
+\text{vs.}\quad &H_1\colon \text{at least one of } \beta_5, \beta_6, \beta_7 \text{ is } \neq 0,
+\end{align*}
+with $q = 3$ restrictions (three coefficients set to zero).
+
+The idea of the $F$-test is to compare two models:
+
+* the **unrestricted model** with all $K$ parameters (here: $K = 7$), against 
+* the **restricted model**, in which the $q$ coefficients under $H_0$ are set to zero (here: the model without the region dummies).
+
+If $H_0$ is true, dropping the $q$ predictors should increase the sum of squared residuals only a little. The $F$-statistic measures this increase,
+relative to the unexplained variation of the unrestricted model:
+$$
+F = \frac{\frac{1}{q}\Bigl(\sum_{i=1}^{n}\widehat\varepsilon_{i,\text{restr}}^2 - \sum_{i=1}^{n}\widehat\varepsilon_{i}^2\Bigr)}
+         {\frac{1}{n-K}\sum_{i=1}^{n}\widehat\varepsilon_i^2}
+  \overset{H_0}{\sim} F_{q,\;n-K}
+$${#eq-F-stat}
+under $H_0$, Assumptions 1–4, and normally distributed errors, where 
+
+* $F_{q,\;n-K}$ denotes the $F$-distribution with $q$ numerator and $n-K$ denominator degrees of freedom (@sec-fdistrib),
+* $\widehat\varepsilon_{i,\text{restr}}$ are the residuals of the restricted model, and 
+* $\widehat\varepsilon_i$ are the residuals of the unrestricted model. 
+
+Large values of $F$ are incompatible with $H_0$: we reject $H_0$ if
+$$
+F_{\operatorname{obs}} > F_{q,\,n-K,\,1-\alpha},
+$$
+where $F_{q,\,n-K,\,1-\alpha}$ denotes the $(1-\alpha)$-quantile of the $F_{q,\,n-K}$-distribution. 
+
+Unlike the $t$-statistic $T$, the $F$-statistic cannot be
+negative, so only large values count against $H_0.$
+
+<!-- 
+**Robust $F$-test.** Like the usual standard errors, the $F$-statistic in @eq-F-stat assumes homoskedastic errors. Since the wage data are heteroskedastic, we use its heteroskedasticity-robust (HC3) version instead — consistent with the HC3-based $t$-tests above. The robust $F$-statistic
+measures the same thing (how strongly the data contradict the $q$
+restrictions under $H_0$), but is computed from the HC3 variance matrix of
+the estimated coefficients:
+$$
+F_{\operatorname{HC3}} = \frac{1}{q}\, \widehat\theta^\top \, \widehat V_{\operatorname{HC3}}^{-1} \, \widehat\theta,
+$${#eq-robust-F}
+where $\theta$ collects the $q$ coefficients under test (here
+$\theta = (\beta_5, \beta_6, \beta_7)^\top$, so $H_0\colon \theta = 0$),
+$\widehat\theta$ are their OLS estimates, and $\widehat V_{\operatorname{HC3}}$
+is the corresponding $(q \times q)$ block of the HC3 variance matrix of
+$\widehat\beta$.
+
+Under $H_0$, the robust version of the $F$-statistic is approximately $F_{q,\,n-K}$-distributed for large $n$, and the decision rule stays the same.
+
+::: {.callout-tip collapse=”true”}
+## Going Deeper: The Robust $F$-Statistic
+
+This box requires matrix algebra; see @sec-matrixAlgebra.
+
+For $q = 1$, @eq-robust-F reduces to the square of the robust $t$-statistic,
+$$
+F_{\operatorname{HC3}} = T_{\operatorname{HC3}}^2.
+$$
+
+```{r}
+theta_hat <- coef(lm_region)[c("northcen", "south", "west")]
+V_theta   <- vcovHC(lm_region, type = "HC3")[names(theta_hat), names(theta_hat)]
+F_by_hand <- drop(t(theta_hat) %*% solve(V_theta) %*% theta_hat) / 3
+c(F_by_hand = F_by_hand,
+  F_by_R    = waldtest(lm_multiple, lm_region,
+                       vcov = vcovHC(lm_region, type = "HC3"))$F[2])
+```
+:::
+-->
+
+In R, `waldtest()` from the `lmtest` package compares the restricted and
+the unrestricted model using HC3 standard errors:
+
+```{r}
+waldtest(lm_multiple, lm_region, 
+         vcov = vcovHC(lm_region, type = "HC3"))
+```
+
+**Interpretation:** 
+
+* $F_{\operatorname{obs}} = `r sprintf("%.2f", waldtest(lm_multiple, lm_region, vcov = vcovHC(lm_region, type = "HC3"))$F[2])` > F_{3,\,`r nobs(lm_region) - 7`,\,0.95} = `r sprintf("%.2f", qf(0.95, 3, nobs(lm_region) - 7))`$
+* $p$-value: $\;p_{\operatorname{obs}} = `r sprintf("%.3f", waldtest(lm_multiple, lm_region, vcov = vcovHC(lm_region, type = "HC3"))[["Pr(>F)"]][2])`$
+
+Thus, we reject $H_0$ at the $5\%$ level: the region matters for wages, even though none of the three region dummies is significant on its own. 
+
+Each individual $t$-test only asks whether *one* region differs from the reference region `northeast`; the $F$-test combines the evidence from all three. Testing predictors one by one can therefore miss what they explain together.
+
+#### **The Default Overall $F$-test** {-} 
+
+The standard $F$-test reported by `summary()` is the
+special case that tests ***all* slopes** at once:
+\begin{align*}
+&H_0\colon \beta_2 = \dots = \beta_K = 0\quad\text{(none of the predictors matters)}\\[2ex]
+\text{vs.}\quad &H_1\colon \text{at least one of } \beta_2,\dots,\beta_K \text{ is } \neq 0,
+\end{align*}
+with $q = K - 1$ restrictions. In this case, the $F$-statistic from
+@eq-F-stat simplifies to
+$$
+F = \frac{\displaystyle\frac{1}{K-1}\sum_{i=1}^{n}(\widehat Y_i - \bar Y)^2}
+         {\displaystyle\frac{1}{n-K}\sum_{i=1}^{n}\widehat\varepsilon_i^2}
+  \overset{H_0}{\sim} F_{K-1,\;n-K}.
+$$
+
+::: {.callout-tip collapse="true"}
+## Going Deeper: Derivation of the Overall $F$-Statistic
+
+1. **The restricted model.** Under $H_0$, all slopes are zero, so the
+   restricted model contains only the intercept:
+$$
+Y_i = \beta_1 + \varepsilon_i.
+$$
+2. **Its OLS estimate and residuals.** The OLS estimate of $\beta_1$ in this
+   model is the sample mean, $\widehat\beta_1 = \bar Y$, since $\bar Y$
+   minimizes $\sum_{i=1}^n (Y_i - b_1)^2$. The residuals of the restricted
+   model are therefore
+$$
+\widehat\varepsilon_{i,\text{restr}} = Y_i - \bar Y,
+\qquad\text{so}\qquad
+\sum_{i=1}^{n}\widehat\varepsilon_{i,\text{restr}}^2 = \sum_{i=1}^{n}(Y_i - \bar Y)^2,
+$$
+   which is the total variation of the outcome.
+3. **The numerator.** By the decomposition of the total variation into an
+   explained and an unexplained part (see @eq-SS-decomp),
+$$
+\sum_{i=1}^{n}(Y_i - \bar Y)^2 = \sum_{i=1}^{n}(\widehat Y_i - \bar Y)^2 + \sum_{i=1}^{n}\widehat\varepsilon_i^2,
+$$
+   the difference of the residual sums of squares in the numerator of
+   @eq-F-stat is exactly the variation explained by the unrestricted model:
+$$
+\sum_{i=1}^{n}\widehat\varepsilon_{i,\text{restr}}^2 - \sum_{i=1}^{n}\widehat\varepsilon_i^2
+= \sum_{i=1}^{n}(\widehat Y_i - \bar Y)^2.
+$$
+4. **The $F$-statistic.** Plugging this into @eq-F-stat with $q = K - 1$
+   gives the simplified $F$-statistic above.
+:::
+
+In words: the overall $F$-statistic compares the variation **explained** by
+the predictors (per restriction, i.e. only the intercept $\widehat{\beta}_1=\bar Y$) with the variation that remains
+**unexplained** in the unrestricted model. If $H_0$ is true and none of the predictors $(\beta_2=\dots=\beta_K=0)$ matters,
+both parts are of similar size and $F$ is close to $1$; large values of $F$
+indicate that the model explains much more than the intercept alone.
+
+`summary()` reports this homoskedasticity-based version. Consistent with the
+tests above, we use its robust (HC3) version, which is obtained by calling
+`waldtest()` with only one model; the restricted model is then the
+intercept-only model:
+
+```{r}
+waldtest(lm_region, vcov = vcovHC(lm_region, type = "HC3"))
+```
+
+For the region model, $F_{\operatorname{obs}} = `r sprintf("%.1f", waldtest(lm_region, vcov = vcovHC(lm_region, type = "HC3"))$F[2])`$
+with a $p$-value that is essentially zero: the predictors jointly matter —
+no surprise, given the strong effects of education and tenure.
+
+::: {.callout-note appearance="simple"}
+## For Comparison: The Classic $F$-Test
+Under homoskedasticity, the classic $F$-test from @eq-F-stat can be computed
+with `anova(lm_multiple, lm_region)`. For the region example, it gives
+$F_{\operatorname{obs}} = `r sprintf("%.2f", anova(lm_multiple, lm_region)$F[2])`$
+($p_{\operatorname{obs}} = `r sprintf("%.3f", anova(lm_multiple, lm_region)[["Pr(>F)"]][2])`$). So, here, the conclusion is the same as with the robust test.
+:::
+
+<!-- 
+#### **Size, Power, and Consistency** {-}
+
+Recall the two possible errors of a test from @tbl-test-decisions. The
+probability of a Type I error is called the **size** of the test; our
+decision rules are designed such that the size equals the significance
+level $\alpha$. The probability of correctly rejecting a false $H_0$ is
+called the **power** of the test:
+$$
+\text{power} = P(\text{reject $H_0$} \mid \text{$H_1$ is true}) = 1 - P(\text{Type II error}).
+$$
+Unlike the size, the power is not fixed by us: it depends on the unknown
+true value of $\beta_k$.
+
+For the $t$-test of $H_0\colon \beta_k = 0$, the power increases
+
+* with the distance $|\beta_k|$ of the true value from zero,
+* with the sample size $n$, and
+* with the variation in the predictor $X_{ik}$,
+
+because each of these makes $\widehat\beta_k$ more precise relative to the
+distance to be detected (compare @eq-var-beta2).
+
+The reason why larger samples help is **consistency**. Under Assumptions
+1–3, the OLS estimators are **consistent**: as $n \to \infty$, the
+standard deviation of $\widehat\beta_k$ shrinks to zero, and
+$\widehat\beta_k$ converges in probability to the true value,
+$\widehat\beta_k \xrightarrow{p} \beta_k$, i.e.,
+$P(|\widehat\beta_k - \beta_k| > c) \to 0$ for every $c > 0$. As a
+consequence, for any fixed $\beta_k \neq 0$, the power of the $t$-test
+tends to $1$ as $n \to \infty$. With small samples, by contrast, even
+economically important effects may not be statistically significant. 
+
+-->
+
+### A Binary Predictor: The Gender Wage Gap {#sec-genderGap}
+
+The variable `female` is a **binary (dummy) variable**:
+$$
+\text{female}_i =
+\begin{cases}
+1 & \text{if worker $i$ is female},\\
+0 & \text{if worker $i$ is male}.
+\end{cases}
+$$
+Adding it to the model with education, experience, and tenure gives
+
+$$
+\begin{aligned}
+Y_i = \beta_1 &+ \beta_2\,\text{educ}_i + \beta_3\,\text{exper}_i \\
+              &+ \beta_4\,\text{tenure}_i + \beta_5\,\text{female}_i + \varepsilon_i.
+\end{aligned}
+$${#eq-gender-model}
+
+Since $\text{female}_i$ takes only the values $0$ and $1$, the conditional
+mean of wages splits into two cases:
+
+* **Men** ($\text{female}_i = 0$):
+\begin{align*}
+&E(Y_i \mid \text{educ}_i, \text{exper}_i, \text{tenure}_i, \text{female}_i = 0) \\
+&\quad= \beta_1 + \beta_2\,\text{educ}_i + \beta_3\,\text{exper}_i + \beta_4\,\text{tenure}_i
+\end{align*}
+* **Women** ($\text{female}_i = 1$):
+\begin{align*}
+&E(Y_i \mid \text{educ}_i, \text{exper}_i, \text{tenure}_i, \text{female}_i = 1) \\
+&\quad= (\beta_1 + \beta_5) + \beta_2\,\text{educ}_i + \beta_3\,\text{exper}_i + \beta_4\,\text{tenure}_i
+\end{align*}
+
+The two conditional means differ only in their intercepts: for fixed
+experience and tenure, they are two **parallel lines** in education. Men
+are the **reference group** (all-zero dummy), and
+
+$$
+\beta_5 = E(Y_i \mid \ldots, \text{female}_i = 1) - E(Y_i \mid \ldots, \text{female}_i = 0)
+$$
+
+is the **adjusted wage gap**: the expected wage difference between women
+and men with identical education, experience, and tenure. 
+
+As in the region example, we must not add a second dummy `male` $= 1 - \text{female}$:
+together with the intercept, this would cause perfect multicollinearity.
+
+```{r}
+lm_gender <- lm(wage ~ educ + exper + tenure + female,
+                data = wage1)
+coeftest(lm_gender, vcov = vcovHC(lm_gender, type = "HC3"))
+```
+
+**Interpretation:** $\widehat\beta_5 = `r sprintf("%.2f", coef(lm_gender)["female"])`$: women earn on
+average \$`r sprintf("%.2f", -coef(lm_gender)["female"])` per hour less than men with the same education,
+experience, and tenure. With HC3 standard errors,
+$T_{5,\operatorname{obs}} = `r sprintf("%.2f", coeftest(lm_gender, vcov = vcovHC(lm_gender, type = "HC3"))["female", "t value"])`$ and the $p$-value is
+essentially zero, so we can reject the null hypothesis
+$$
+H_0\colon \beta_5 = 0\quad\text{(no adjusted wage gap)}.
+$$
+
+@fig-gender-lines shows the two fitted lines, evaluated at the sample means
+of experience and tenure:
+
+```{r}
+#| label: fig-gender-lines
+#| echo: false
+#| fig-cap: >
+#|   Fitted wage-education lines for men (blue) and women (red) from
+#|   the model in @eq-gender-model, evaluated at mean experience and tenure.
+#|   Parallel lines impose identical returns to education for both groups.
+beta       <- coef(lm_gender)
+exper_bar  <- mean(wage1$exper)
+tenure_bar <- mean(wage1$tenure)
+educ_seq   <- seq(0, 18, length.out = 200)
+
+wage_men   <- beta["(Intercept)"] +
+              beta["educ"]   * educ_seq   +
+              beta["exper"]  * exper_bar  +
+              beta["tenure"] * tenure_bar
+wage_women <- wage_men + beta["female"]
+
+pt_col <- ifelse(wage1$female == 1,
+                 adjustcolor("tomato",    alpha.f = 0.35),
+                 adjustcolor("steelblue", alpha.f = 0.35))
+plot(jitter(wage1$educ, factor = 0.6), wage1$wage,
+     col = pt_col, pch = 16,
+     xlab = "Education (years)", ylab = "Hourly Wage (USD)",
+     las  = 1)
+lines(educ_seq, wage_men,   col = "steelblue", lwd = 2)
+lines(educ_seq, wage_women, col = "tomato",    lwd = 2)
+legend("topleft",
+       legend = c("Men", "Women"),
+       col    = c("steelblue", "tomato"),
+       lwd    = 2, bty = "n")
+```
+
+::: {.callout-note collapse="true"}
+## R Code: Plotting the Fitted Wage Lines for Men and Women
+```{r}
+#| ref.label: fig-gender-lines
+#| eval: false
+```
+:::
+
+The model in @eq-gender-model *assumes* equal returns to education for men
+and women — the lines are parallel by construction. We relax this
+restriction in the next subsection.
+
+::: {.callout-important appearance="simple"}
+## Business Takeaway: Raw vs. Adjusted Pay Gap
+Pay-equity analyses distinguish two numbers:
+
+* The **raw gap** is the difference in average wages:
+  women in the sample earn \$`r sprintf("%.2f", -coef(lm(wage ~ female, data = wage1))["female"])`
+  per hour less than men.
+* The **adjusted gap** $\widehat\beta_5$ compares women and men with the same
+  education, experience, and tenure:
+  \$`r sprintf("%.2f", -coef(lm_gender)["female"])` per hour.
+
+About `r round(100 * coef(lm_gender)["female"] / coef(lm(wage ~ female, data = wage1))["female"])`%
+of the raw gap remains after accounting for these characteristics. Neither
+number settles the question of discrimination on its own: the adjusted gap
+may reflect omitted characteristics, and the "explained" part may itself
+reflect unequal opportunities — for example, if women were given fewer
+chances to build up tenure. Controlling for such variables is the "bad
+control" problem from @sec-OVB.
+:::
+
+
+### Interaction Effects: Do Returns to Education Differ by Gender? {#sec-interactions}
+
+To allow different returns to education for men and women, we add the
+**interaction term** $\text{educ}_i \times \text{female}_i$ — the product of
+the two predictors — to the model in @eq-gender-model:
+
+$$
+\begin{aligned}
+Y_i = \beta_1 &+ \beta_2\,\text{educ}_i + \beta_3\,\text{exper}_i
+               + \beta_4\,\text{tenure}_i \\
+              &+ \beta_5\,\text{female}_i
+               + \beta_6\,(\text{educ}_i \times \text{female}_i) + \varepsilon_i.
+\end{aligned}
+$${#eq-interact-model}
+
+The slope on education now differs by gender:
+
+* **Men** ($\text{female}_i = 0$): slope $\beta_2$
+* **Women** ($\text{female}_i = 1$): slope $\beta_2 + \beta_6$
+
+So $\beta_6$ is the **difference in the return to education** between women
+and men. 
+
+Note that $\beta_5$ alone now measures the gender gap at
+$\text{educ}_i = 0$, which is not a meaningful comparison. 
+
+The gap at education level $\text{educ}_i = x$ is given by 
+$$
+\beta_5 + \beta_6\, x.
+$$
+
+```{r}
+lm_interact <- lm(wage ~ educ + exper + tenure + female + educ:female,
+                  data = wage1)
+coeftest(lm_interact, vcov = vcovHC(lm_interact, type = "HC3"))
+```
+
+```{r}
+#| label: fig-interact-lines
+#| echo: false
+#| fig-cap: >
+#|   Fitted wage-education lines for men (blue) and women (red) from the
+#|   interaction model, evaluated at mean experience and tenure.
+#|   The lines are no longer forced to be parallel.
+b        <- coef(lm_interact)
+wage_men <- b["(Intercept)"] +
+            b["educ"]   * educ_seq   +
+            b["exper"]  * exper_bar  +
+            b["tenure"] * tenure_bar
+wage_women <- wage_men + b["female"] + b["educ:female"] * educ_seq
+
+plot(jitter(wage1$educ, factor = 0.6), wage1$wage,
+     col = pt_col, pch = 16,
+     xlab = "Education (years)", ylab = "Hourly Wage (USD)",
+     las  = 1)
+lines(educ_seq, wage_men,   col = "steelblue", lwd = 2)
+lines(educ_seq, wage_women, col = "tomato",    lwd = 2)
+legend("topleft",
+       legend = c("Men", "Women"),
+       col    = c("steelblue", "tomato"),
+       lwd    = 2, bty = "n")
+```
+
+::: {.callout-note collapse="true"}
+## R Code: Plotting the Fitted Lines of the Interaction Model
+```{r}
+#| ref.label: fig-interact-lines
+#| eval: false
+```
+:::
+
+**Interpretation:** The point estimate
+$\widehat\beta_6 = `r sprintf("%.2f", coef(lm_interact)["educ:female"])`$ says that each
+additional year of education raises women's hourly wages by about
+`r round(-100 * coef(lm_interact)["educ:female"])` cents less than men's. However, the
+estimate is imprecise ($p = `r sprintf("%.2f", coeftest(lm_interact, vcov = vcovHC(lm_interact, type = "HC3"))["educ:female", 4])`$
+with HC3 standard errors): the data are also consistent with equal returns
+to education, i.e., with the parallel lines of @fig-gender-lines.
+
+
+
+## References {-}

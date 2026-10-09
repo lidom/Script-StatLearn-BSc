@@ -15,7 +15,9 @@ book:
     - index.qmd
     - Ch_Intro2R.qmd      
     - Ch_ReviewProbStats.qmd
-    - Ch_LinearRegression.qmd 
+    - Ch_SimpleLinearRegression.qmd
+    - Ch_MultipleLinearRegression.qmd
+    - Ch_ExtendingLinearRegression.qmd
     - Ch_NonParamRegression.qmd #combine with Ch2_StatLearning.qmd
     - Ch5_Classification.qmd    # Comment in/out solutions of exercises
     - Ch6_Bootstrap.qmd # Comment in/out solutions of exercises

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.5.57">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>6&nbsp; The Bootstrap – Statistical Learning for Business and Economics (B.Sc.)</title>
+<title>8&nbsp; The Bootstrap – Statistical Learning for Business and Economics (B.Sc.)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -132,7 +132,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Ch6_Bootstrap.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The Bootstrap</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Ch6_Bootstrap.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The Bootstrap</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -143,7 +143,7 @@ window.Quarto = {
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="./index.html" class="sidebar-logo-link">
-      <img src="./images/KU_Logo_2.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
+      <img src="./images/KU_Logo_Blau_M.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none"></a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Statistical Learning for Business and Economics (B.Sc.)</a> 
         <div class="sidebar-tools-main">
@@ -178,26 +178,38 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Ch_LinearRegression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Linear Regression</span></span></a>
+  <a href="./Ch_SimpleLinearRegression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Simple Linear Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch_MultipleLinearRegression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Multiple Linear Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Ch_ExtendingLinearRegression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Extending and Evaluating the Linear Model</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Ch_NonParamRegression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Nonparametric Regression and Cross-Validation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Nonparametric Regression and Cross-Validation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Ch5_Classification.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Classification</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Ch6_Bootstrap.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The Bootstrap</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The Bootstrap</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -226,25 +238,25 @@ window.Quarto = {
    
   <ul>
 <li>
-<a href="#self-study-exercises" id="toc-self-study-exercises" class="nav-link active" data-scroll-target="#self-study-exercises"><span class="header-section-number">6.1</span> Self-Study: Exercises</a>
+<a href="#self-study-exercises" id="toc-self-study-exercises" class="nav-link active" data-scroll-target="#self-study-exercises"><span class="header-section-number">8.1</span> Self-Study: Exercises</a>
   <ul class="collapse">
-<li><a href="#solutions" id="toc-solutions" class="nav-link" data-scroll-target="#solutions"><span class="header-section-number">6.1.1</span> Solutions</a></li>
+<li><a href="#solutions" id="toc-solutions" class="nav-link" data-scroll-target="#solutions"><span class="header-section-number">8.1.1</span> Solutions</a></li>
   </ul>
 </li>
   <li>
-<a href="#self-study-r-lab-resampling-methods" id="toc-self-study-r-lab-resampling-methods" class="nav-link" data-scroll-target="#self-study-r-lab-resampling-methods"><span class="header-section-number">6.2</span> Self-Study: R Lab Resampling Methods</a>
+<a href="#self-study-r-lab-resampling-methods" id="toc-self-study-r-lab-resampling-methods" class="nav-link" data-scroll-target="#self-study-r-lab-resampling-methods"><span class="header-section-number">8.2</span> Self-Study: R Lab Resampling Methods</a>
   <ul class="collapse">
-<li><a href="#the-validation-set-approach" id="toc-the-validation-set-approach" class="nav-link" data-scroll-target="#the-validation-set-approach"><span class="header-section-number">6.2.1</span> The Validation Set Approach</a></li>
-  <li><a href="#sec-RLabLOOCV" id="toc-sec-RLabLOOCV" class="nav-link" data-scroll-target="#sec-RLabLOOCV"><span class="header-section-number">6.2.2</span> Leave-One-Out Cross-Validation</a></li>
-  <li><a href="#k-fold-cross-validation" id="toc-k-fold-cross-validation" class="nav-link" data-scroll-target="#k-fold-cross-validation"><span class="header-section-number">6.2.3</span> <span class="math inline">\(k\)</span>-Fold Cross-Validation</a></li>
-  <li><a href="#the-bootstrap" id="toc-the-bootstrap" class="nav-link" data-scroll-target="#the-bootstrap"><span class="header-section-number">6.2.4</span> The Bootstrap</a></li>
+<li><a href="#the-validation-set-approach" id="toc-the-validation-set-approach" class="nav-link" data-scroll-target="#the-validation-set-approach"><span class="header-section-number">8.2.1</span> The Validation Set Approach</a></li>
+  <li><a href="#sec-RLabLOOCV" id="toc-sec-RLabLOOCV" class="nav-link" data-scroll-target="#sec-RLabLOOCV"><span class="header-section-number">8.2.2</span> Leave-One-Out Cross-Validation</a></li>
+  <li><a href="#k-fold-cross-validation" id="toc-k-fold-cross-validation" class="nav-link" data-scroll-target="#k-fold-cross-validation"><span class="header-section-number">8.2.3</span> <span class="math inline">\(k\)</span>-Fold Cross-Validation</a></li>
+  <li><a href="#the-bootstrap" id="toc-the-bootstrap" class="nav-link" data-scroll-target="#the-bootstrap"><span class="header-section-number">8.2.4</span> The Bootstrap</a></li>
   </ul>
 </li>
   </ul></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title"><span id="sec-resamplingmethods" class="quarto-section-identifier"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The Bootstrap</span></span></h1>
+<h1 class="title"><span id="sec-resamplingmethods" class="quarto-section-identifier"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The Bootstrap</span></span></h1>
 </div>
 
 
@@ -271,11 +283,11 @@ window.Quarto = {
 Var\left(\alpha X + (1-\alpha)Y\right).
 \]</span> One can show that the value <span class="math inline">\(\alpha\)</span> that minimizes this variance is <span id="eq-alpha"><span class="math display">\[
 \alpha = \frac{\sigma^2_Y - \sigma_{XY}}{\sigma^2_X + \sigma^2_Y - 2\sigma_{XY}}.
-\qquad(6.1)\]</span></span> Using a data set that contains past measurements <span class="math display">\[
+\qquad(8.1)\]</span></span> Using a data set that contains past measurements <span class="math display">\[
 ((X_1,Y_1),\dots,(X_n,Y_n))
 \]</span> for <span class="math inline">\(X\)</span> and <span class="math inline">\(Y,\)</span> we can estimate the unknown <span class="math inline">\(\alpha\)</span> by plugging in estimates of the variances and covariances <span id="eq-alphahat"><span class="math display">\[
 \widehat\alpha = \frac{\widehat\sigma^2_Y - \widehat\sigma_{XY}}{\widehat\sigma^2_X + \widehat\sigma^2_Y - 2\widehat\sigma_{XY}}
-\qquad(6.2)\]</span></span> with <span class="math display">\[
+\qquad(8.2)\]</span></span> with <span class="math display">\[
 \begin{align*}
 \widehat{\sigma}^2_X&amp;=\frac{1}{n}\sum_{i=1}^n\left(X_i-\bar{X}\right)^2\\
 \widehat{\sigma}^2_Y&amp;=\frac{1}{n}\sum_{i=1}^n\left(Y_i-\bar{Y}\right)^2\\
@@ -284,15 +296,15 @@ Var\left(\alpha X + (1-\alpha)Y\right).
 \]</span> where <span class="math inline">\(\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i,\)</span> and likewise for <span class="math inline">\(\bar{Y}.\)</span></p>
 <p>It is natural to wish to quantify the accuracy of our estimate <span class="math inline">\(\widehat\alpha\approx \alpha.\)</span> I.e., we wish to know the standard error of the estimator <span class="math inline">\(\widehat\alpha\)</span>, <span class="math display">\[
 \sqrt{Var(\widehat\alpha)} = \operatorname{SE}(\widehat\alpha)=?
-\]</span> Computing <span class="math inline">\(\operatorname{SE}(\widehat\alpha)\)</span> is here difficult due to the definition of <span class="math inline">\(\widehat\alpha\)</span> in <a href="#eq-alphahat" class="quarto-xref">Equation&nbsp;<span>6.2</span></a> which contains variance estimates also in the denominator.</p>
+\]</span> Computing <span class="math inline">\(\operatorname{SE}(\widehat\alpha)\)</span> is here difficult due to the definition of <span class="math inline">\(\widehat\alpha\)</span> in <a href="#eq-alphahat" class="quarto-xref">Equation&nbsp;<span>8.2</span></a> which contains variance estimates also in the denominator.</p>
 </section><section id="the-infeasible-bootstrap-a-monte-carlo-simulation" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="the-infeasible-bootstrap-a-monte-carlo-simulation"><strong>The Infeasible Bootstrap: A Monte Carlo Simulation</strong></h4>
 <p>Let us, for a moment, assume that we know the distributions of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y.\)</span> And, for simplicity, let’s say <span class="math display">\[
 \left(\begin{matrix}X\\ Y\end{matrix}\right) \sim F_{(X,Y)},
 \]</span> where <span class="math inline">\(F_{(X,Y)}\)</span> is the distribution function of the bi-variate normal distribution <span id="eq-MCDistr"><span class="math display">\[
 \mathcal{N}\left(\left(\begin{matrix}0\\0\end{matrix}\right),\left[\begin{matrix}\sigma_X^2&amp;\sigma_{XY}\\\sigma_{XY}&amp;\sigma_{Y}^2\end{matrix}\right]\right).
-\qquad(6.3)\]</span></span></p>
+\qquad(8.3)\]</span></span></p>
 <p>If this were true, i.e., if we would know the true population distribution of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y,\)</span> we could simply generate a new dataset containing new observations for <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> that allows us to compute a new estimate <span class="math inline">\(\widehat\alpha.\)</span></p>
-<p>Repeatedly generating new datasets <span class="math inline">\(((X_1,Y_1),\dots,(X_n,Y_n))\)</span> by sampling new observations from the (here assumed) true population distribution <a href="#eq-MCDistr" class="quarto-xref">Equation&nbsp;<span>6.3</span></a>, for instance, <span class="math inline">\(B=1000\)</span> many times, would allow us to compute <span class="math inline">\(B=1000\)</span> estimates<br><span class="math display">\[
+<p>Repeatedly generating new datasets <span class="math inline">\(((X_1,Y_1),\dots,(X_n,Y_n))\)</span> by sampling new observations from the (here assumed) true population distribution <a href="#eq-MCDistr" class="quarto-xref">Equation&nbsp;<span>8.3</span></a>, for instance, <span class="math inline">\(B=1000\)</span> many times, would allow us to compute <span class="math inline">\(B=1000\)</span> estimates<br><span class="math display">\[
 \widehat\alpha_1,\;\widehat\alpha_2,\dots,\widehat\alpha_{B}.
 \]</span> The empirical standard deviation <span class="math display">\[
 \sqrt{\frac{1}{B}\sum_{b=1}^B\left(\widehat\alpha_b - \bar{\alpha}\right)^2},\quad\text{with}\quad \bar{\alpha} = \frac{1}{B}\sum_{b=1}^B\widehat\alpha_b,
@@ -405,8 +417,8 @@ The bootstrap estimate of the true standard error equals 0.2523776, i.e.&nbsp;
 <blockquote class="blockquote">
 <p>The bootstrap method is attributed to Bradley Efron, who received the <em><a href="https://statprize.org/pdfs/2019-Efron-Announcement.pdf">International Prize in Statistics</a></em> (the Nobel price of statistics) for his seminal works on the bootstrap method.</p>
 </blockquote>
-</section><section id="self-study-exercises" class="level2" data-number="6.1"><h2 data-number="6.1" class="anchored" data-anchor-id="self-study-exercises">
-<span class="header-section-number">6.1</span> Self-Study: Exercises</h2>
+</section><section id="self-study-exercises" class="level2" data-number="8.1"><h2 data-number="8.1" class="anchored" data-anchor-id="self-study-exercises">
+<span class="header-section-number">8.1</span> Self-Study: Exercises</h2>
 <p>Prepare the following exercises of Chapter 5 in our course textbook:</p>
 <ul>
 <li>Exercise 3 <!-- - Exercise 4 -->
@@ -415,8 +427,8 @@ The bootstrap estimate of the true standard error equals 0.2523776, i.e.&nbsp;
 </li>
 <li>Exercise 8</li>
 </ul>
-<section id="solutions" class="level3" data-number="6.1.1"><h3 data-number="6.1.1" class="anchored" data-anchor-id="solutions">
-<span class="header-section-number">6.1.1</span> Solutions</h3>
+<section id="solutions" class="level3" data-number="8.1.1"><h3 data-number="8.1.1" class="anchored" data-anchor-id="solutions">
+<span class="header-section-number">8.1.1</span> Solutions</h3>
 <section id="exercise-3" class="level4 unnumbered"><h4 class="unnumbered anchored" data-anchor-id="exercise-3"><strong>Exercise 3</strong></h4>
 <p>We now review k-fold cross-validation.</p>
 <p><strong>3 a)</strong> Explain how k-fold cross-validation is implemented.</p>
@@ -977,11 +989,11 @@ Number of Fisher Scoring iterations: 2</code></pre>
 </div>
 <p><strong>Answer:</strong></p>
 <p>The <span class="math inline">\(p\)</span>-values only show statistical significance of the linear and the quadratic predictor, which agrees with the CV-results.</p>
-</section></section></section><section id="self-study-r-lab-resampling-methods" class="level2" data-number="6.2"><h2 data-number="6.2" class="anchored" data-anchor-id="self-study-r-lab-resampling-methods">
-<span class="header-section-number">6.2</span> Self-Study: R Lab Resampling Methods</h2>
+</section></section></section><section id="self-study-r-lab-resampling-methods" class="level2" data-number="8.2"><h2 data-number="8.2" class="anchored" data-anchor-id="self-study-r-lab-resampling-methods">
+<span class="header-section-number">8.2</span> Self-Study: R Lab Resampling Methods</h2>
 <p>In this lab, we explore the resampling techniques covered in this chapter. Some of the commands in this lab may take a while to run on your computer.</p>
-<section id="the-validation-set-approach" class="level3" data-number="6.2.1"><h3 data-number="6.2.1" class="anchored" data-anchor-id="the-validation-set-approach">
-<span class="header-section-number">6.2.1</span> The Validation Set Approach</h3>
+<section id="the-validation-set-approach" class="level3" data-number="8.2.1"><h3 data-number="8.2.1" class="anchored" data-anchor-id="the-validation-set-approach">
+<span class="header-section-number">8.2.1</span> The Validation Set Approach</h3>
 <p>We explore the use of the validation set approach in order to estimate the test error rates that result from fitting various linear models on the <code>Auto</code> data set.</p>
 <p>Before we begin, we use the <code><a href="https://rdrr.io/r/base/Random.html">set.seed()</a></code> function in order to set a for R’s random number generator, so that the (pseudo) random data splits are reproducible.</p>
 <p>We begin by using the <code><a href="https://rdrr.io/r/base/sample.html">sample()</a></code> function to split the set of observations into two halves, by selecting a random subset of <span class="math inline">\(196\)</span> observations out of the original <span class="math inline">\(392\)</span> observations. We refer to these observations as the training set.</p>
@@ -1058,8 +1070,8 @@ Number of Fisher Scoring iterations: 2</code></pre>
 </div>
 <p>Using this split of the observations into a training set and a testing set, we find that the validation set error rates for the models with linear, quadratic, and cubic terms are <span class="math inline">\(25.73\)</span>, <span class="math inline">\(20.43\)</span>, and <span class="math inline">\(20.39\)</span>, respectively.</p>
 <p>These results are consistent with our previous findings: a model that predicts <code>mpg</code> using a quadratic function of <code>horsepower</code> performs better than a model that involves only a linear function of <code>horsepower</code>, and there is little evidence that a model that uses a cubic function of <code>horsepower</code> performance substantially better.</p>
-</section><section id="sec-RLabLOOCV" class="level3" data-number="6.2.2"><h3 data-number="6.2.2" class="anchored" data-anchor-id="sec-RLabLOOCV">
-<span class="header-section-number">6.2.2</span> Leave-One-Out Cross-Validation</h3>
+</section><section id="sec-RLabLOOCV" class="level3" data-number="8.2.2"><h3 data-number="8.2.2" class="anchored" data-anchor-id="sec-RLabLOOCV">
+<span class="header-section-number">8.2.2</span> Leave-One-Out Cross-Validation</h3>
 <p>The LOOCV estimate can be automatically computed for any generalized linear model using the <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> and <code><a href="https://rdrr.io/pkg/boot/man/cv.glm.html">cv.glm()</a></code> functions. In the lab for Chapter 4, we used the <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> function to perform logistic regression by passing in the <code>family = "binomial"</code> argument. But if we use <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> to fit a model without passing in the <code>family</code> argument, then it performs linear regression, just like the <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> function. So for instance,</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb65"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">glm_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">horsepower</span>, data <span class="op">=</span> <span class="va">Auto</span><span class="op">)</span></span>
@@ -1090,7 +1102,7 @@ Number of Fisher Scoring iterations: 2</code></pre>
 <pre><code>[1] 24.23151 24.23114</code></pre>
 </div>
 </div>
-<p>The <code><a href="https://rdrr.io/pkg/boot/man/cv.glm.html">cv.glm()</a></code> function produces a list with several components. The two numbers in the <code>delta</code> vector contain the cross-validation results. In this case the numbers are identical (up to two decimal places) and correspond to the LOOCV statistic given in <a href="Ch_NonParamRegression.html#eq-LOOCV" class="quarto-xref">Equation&nbsp;<span>4.4</span></a>. Below, we discuss a situation in which the two numbers differ. Our cross-validation estimate for the test error is approximately <span class="math inline">\(24.23\)</span>.</p>
+<p>The <code><a href="https://rdrr.io/pkg/boot/man/cv.glm.html">cv.glm()</a></code> function produces a list with several components. The two numbers in the <code>delta</code> vector contain the cross-validation results. In this case the numbers are identical (up to two decimal places) and correspond to the LOOCV statistic given in <a href="Ch_NonParamRegression.html#eq-LOOCV" class="quarto-xref">Equation&nbsp;<span>6.4</span></a>. Below, we discuss a situation in which the two numbers differ. Our cross-validation estimate for the test error is approximately <span class="math inline">\(24.23\)</span>.</p>
 <p>We can repeat this procedure for increasingly complex polynomial fits. To automate the process, we use the <code>for()</code> function to initiate a which iteratively fits polynomial regressions for polynomials of order <span class="math inline">\(i=1\)</span> to <span class="math inline">\(i=10\)</span>, computes the associated cross-validation error, and stores it in the <span class="math inline">\(i\)</span>th element of the vector <code>cv_error</code>. We begin by initializing the vector.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb71"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cv_error</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span><span class="op">)</span></span>
@@ -1109,8 +1121,8 @@ Number of Fisher Scoring iterations: 2</code></pre>
 </div>
 </div>
 <p>We see a sharp drop in the estimated test MSE between the linear and quadratic fits, but then no clear improvement from using higher-order polynomials.</p>
-</section><section id="k-fold-cross-validation" class="level3" data-number="6.2.3"><h3 data-number="6.2.3" class="anchored" data-anchor-id="k-fold-cross-validation">
-<span class="header-section-number">6.2.3</span> <span class="math inline">\(k\)</span>-Fold Cross-Validation</h3>
+</section><section id="k-fold-cross-validation" class="level3" data-number="8.2.3"><h3 data-number="8.2.3" class="anchored" data-anchor-id="k-fold-cross-validation">
+<span class="header-section-number">8.2.3</span> <span class="math inline">\(k\)</span>-Fold Cross-Validation</h3>
 <p>The <code><a href="https://rdrr.io/pkg/boot/man/cv.glm.html">cv.glm()</a></code> function can also be used to implement <span class="math inline">\(k\)</span>-fold CV. Below we use <span class="math inline">\(k=10\)</span>, a common choice for <span class="math inline">\(k\)</span>, on the <code>Auto</code> data set. We once again set a random seed and initialize a vector in which we will store the CV errors corresponding to the polynomial fits of orders one to ten.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb72"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">17</span><span class="op">)</span></span>
@@ -1132,13 +1144,13 @@ Number of Fisher Scoring iterations: 2</code></pre>
 </div>
 <p>We still see little evidence that using cubic or higher-order polynomial terms leads to lower test error than simply using a quadratic fit.</p>
 <p>Notice that the computation time is shorter than that of LOOCV.</p>
-<p>(In principle, the computation time for LOOCV for a least squares linear model should be faster than for <span class="math inline">\(k\)</span>-fold CV, due to the availability of the formula <a href="Ch_NonParamRegression.html#eq-CVfast" class="quarto-xref">Equation&nbsp;<span>4.5</span></a> for LOOCV; however, unfortunately the <code><a href="https://rdrr.io/pkg/boot/man/cv.glm.html">cv.glm()</a></code> function does not make use of this formula.)</p>
-<p>We saw in <a href="#sec-RLabLOOCV" class="quarto-xref"><span>Section 6.2.2</span></a> that the two numbers associated with <code>delta</code> are essentially the same when LOOCV is performed. When we instead perform <span class="math inline">\(k\)</span>-fold CV, then the two numbers associated with <code>delta</code> differ slightly. The first number is the standard <span class="math inline">\(k\)</span>-fold CV estimate, as in <a href="Ch_NonParamRegression.html#eq-kfoldCV" class="quarto-xref">Equation&nbsp;<span>4.6</span></a>. The second is a bias-corrected version. On this data set, however, the two estimates are very similar to each other.</p>
-</section><section id="the-bootstrap" class="level3" data-number="6.2.4"><h3 data-number="6.2.4" class="anchored" data-anchor-id="the-bootstrap">
-<span class="header-section-number">6.2.4</span> The Bootstrap</h3>
+<p>(In principle, the computation time for LOOCV for a least squares linear model should be faster than for <span class="math inline">\(k\)</span>-fold CV, due to the availability of the formula <a href="Ch_NonParamRegression.html#eq-CVfast" class="quarto-xref">Equation&nbsp;<span>6.5</span></a> for LOOCV; however, unfortunately the <code><a href="https://rdrr.io/pkg/boot/man/cv.glm.html">cv.glm()</a></code> function does not make use of this formula.)</p>
+<p>We saw in <a href="#sec-RLabLOOCV" class="quarto-xref"><span>Section 8.2.2</span></a> that the two numbers associated with <code>delta</code> are essentially the same when LOOCV is performed. When we instead perform <span class="math inline">\(k\)</span>-fold CV, then the two numbers associated with <code>delta</code> differ slightly. The first number is the standard <span class="math inline">\(k\)</span>-fold CV estimate, as in <a href="Ch_NonParamRegression.html#eq-kfoldCV" class="quarto-xref">Equation&nbsp;<span>6.6</span></a>. The second is a bias-corrected version. On this data set, however, the two estimates are very similar to each other.</p>
+</section><section id="the-bootstrap" class="level3" data-number="8.2.4"><h3 data-number="8.2.4" class="anchored" data-anchor-id="the-bootstrap">
+<span class="header-section-number">8.2.4</span> The Bootstrap</h3>
 <p>We illustrate the use of the bootstrap revisiting the portfolio choice example from above, as well as on an example involving estimating the accuracy of the linear regression model on the <code>Auto</code> data set.</p>
-<section id="estimating-the-accuracy-of-a-statistic-of-interest" class="level4" data-number="6.2.4.1"><h4 data-number="6.2.4.1" class="anchored" data-anchor-id="estimating-the-accuracy-of-a-statistic-of-interest">
-<span class="header-section-number">6.2.4.1</span> Estimating the Accuracy of a Statistic of Interest</h4>
+<section id="estimating-the-accuracy-of-a-statistic-of-interest" class="level4" data-number="8.2.4.1"><h4 data-number="8.2.4.1" class="anchored" data-anchor-id="estimating-the-accuracy-of-a-statistic-of-interest">
+<span class="header-section-number">8.2.4.1</span> Estimating the Accuracy of a Statistic of Interest</h4>
 <p>One of the great advantages of the bootstrap approach is that it can be applied in almost all situations. No complicated mathematical calculations are required. Performing a bootstrap analysis in R entails only two steps:</p>
 <ul>
 <li>First, we must create a function that computes the statistic of interest.</li>
@@ -1154,7 +1166,7 @@ Number of Fisher Scoring iterations: 2</code></pre>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">alpha_hat</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>This function returns an estimate for <span class="math inline">\(\alpha\)</span> based on applying <a href="#eq-alpha" class="quarto-xref">Equation&nbsp;<span>6.1</span></a> to the observations indexed by the argument <code>index</code>. For instance, the following command tells R to estimate <span class="math inline">\(\alpha\)</span> using all of the <span class="math inline">\(100\)</span> observations.</p>
+<p>This function returns an estimate for <span class="math inline">\(\alpha\)</span> based on applying <a href="#eq-alpha" class="quarto-xref">Equation&nbsp;<span>8.1</span></a> to the observations indexed by the argument <code>index</code>. For instance, the following command tells R to estimate <span class="math inline">\(\alpha\)</span> using all of the <span class="math inline">\(100\)</span> observations.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode" id="cb74"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">alpha_fn</span><span class="op">(</span>data  <span class="op">=</span> <span class="va">Portfolio</span>, </span>
 <span>         index <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">)</span> <span class="co"># complete original dataset</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1192,8 +1204,8 @@ t1* 0.5758321 0.0007959475  0.08969074</code></pre>
 </div>
 </div>
 <p>The final output shows that using the original data, <span class="math inline">\(\widehat{\alpha}=0.5758\)</span>, and that the bootstrap estimate for <span class="math inline">\(\operatorname{SE}(\widehat{\alpha})\)</span> is <span class="math inline">\(0.0897\)</span>.</p>
-</section><section id="estimating-the-accuracy-of-a-linear-regression-model" class="level4" data-number="6.2.4.2"><h4 data-number="6.2.4.2" class="anchored" data-anchor-id="estimating-the-accuracy-of-a-linear-regression-model">
-<span class="header-section-number">6.2.4.2</span> Estimating the Accuracy of a Linear Regression Model</h4>
+</section><section id="estimating-the-accuracy-of-a-linear-regression-model" class="level4" data-number="8.2.4.2"><h4 data-number="8.2.4.2" class="anchored" data-anchor-id="estimating-the-accuracy-of-a-linear-regression-model">
+<span class="header-section-number">8.2.4.2</span> Estimating the Accuracy of a Linear Regression Model</h4>
 <p>The bootstrap approach can be used to assess the variability of the coefficient estimates and predictions from a statistical learning method. Here we use the bootstrap approach in order to assess the variability of the estimates for <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span>, the intercept and slope terms for the linear regression model that uses <code>horsepower</code> to predict <code>mpg</code> in the <code>Auto</code> data set. We will compare the estimates obtained using the bootstrap to those obtained using the formulas for <span class="math inline">\({\rm SE}(\widehat{\beta}_0)\)</span> and <span class="math inline">\({\rm SE}(\widehat{\beta}_1)\)</span> described in Chapter 3.1.2.</p>
 <p>We first create a simple function, <code>boot_fn()</code>, which takes in the <code>Auto</code> data set as well as a set of indices for the observations, and returns the intercept and slope estimates for the linear regression model. We then apply this function to the full set of <span class="math inline">\(392\)</span> observations in order to compute the estimates of <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> on the entire data set using the usual linear regression coefficient estimate formulas from Chapter 3.</p>
 <div class="cell" data-layout-align="center">
@@ -1876,7 +1888,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
       <a href="./Ch5_Classification.html" class="pagination-link" aria-label="Classification">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Classification</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Classification</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

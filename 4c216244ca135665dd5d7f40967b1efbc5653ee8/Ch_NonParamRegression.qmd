@@ -4,11 +4,11 @@
 
 ## Nonparametric Regression 
 
-The linear regression model as considered in @sec-linearRegCh is an example of a **parametric** regression model because it parametrizes the general regression model 
+The linear regression model as considered in @sec-multipleLinRegCh is an example of a **parametric** regression model because it parametrizes the general regression model
 $$
-Y_i = f(X_i) + \epsilon_i 
+Y_i = f(X_i) + \epsilon_i
 $$
-using a linear model assumption (Assumption 1 in @sec-linearRegCh), such that
+using a linear model assumption (Assumption 1 in @sec-multipleLinRegCh), such that
 $$
 f(X_i)=\beta_0 + \beta_1 X_{i1} + \dots + \beta_p X_{ip}.
 $$
@@ -648,7 +648,7 @@ $$
 
 
 ::: {.callout-important}
-We do ***not* assume** (as done in Assumption 1 of @sec-linearRegCh) that the true regression function $f(x)$ is actually a polynomial function. We only assume that the true regression function $f$ is a sufficiently smooth function. Any smooth function $f$ can be **approximated** using a polynomial function (approximation theory).
+We do ***not* assume** (as done in Assumption 1 of @sec-multipleLinRegCh) that the true regression function $f(x)$ is actually a polynomial function. We only assume that the true regression function $f$ is a sufficiently smooth function. Any smooth function $f$ can be **approximated** using a polynomial function (approximation theory).
 
 Thus, the polynomial regression estimator $\widehat{f}_p(x)$ is here used as a **nonparametric** estimator, where the **polynomial degree** $p$ is treated as the **smoothing parameter**.  
 :::

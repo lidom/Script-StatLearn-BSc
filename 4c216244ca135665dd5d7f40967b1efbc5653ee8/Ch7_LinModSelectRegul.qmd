@@ -14,7 +14,7 @@ In this chapter, we revisit the linear regression model
 $$
 Y = \beta_0 + \beta_1 X_1 + \dots + \beta_p X_p + \epsilon.
 $$
-In Chapter @sec-linearRegCh, we focused on fitting a given linear regression model using least squares and completely ignored the model selection process. However, selecting a "good" model is itself a statistical problem which we need to solve using reliable statistical procedures. In this chapter, we consider fitting procedures that integrate the model selection process. 
+In Chapter @sec-multipleLinRegCh, we focused on fitting a given linear regression model using least squares and completely ignored the model selection process. However, selecting a "good" model is itself a statistical problem which we need to solve using reliable statistical procedures. In this chapter, we consider fitting procedures that integrate the model selection process. 
 
 
 We discuss three important classes of methods:
